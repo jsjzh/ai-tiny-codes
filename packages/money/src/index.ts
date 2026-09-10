@@ -200,26 +200,37 @@ function toConfig(data: MoneyInput): SavingConfig {
   };
 }
 
+const WAN = 10000; // 输入以「万元」为单位，内部与存储统一用「元」
+
+function wanToYuan(wan: number): number {
+  return Math.round(wan * WAN);
+}
+
+function yuanToWan(yuan: number): number {
+  return roundTo(yuan / WAN, 4);
+}
+
 async function promptForInput(): Promise<MoneyInput> {
   const last = loadLast();
 
   console.log("");
   console.log("=========== 攒钱计划计算器 ===========");
   console.log("回车/方向键选择，Ctrl+C 随时退出");
+  console.log("金额均以「万元」为单位，如 250 表示 250 万");
   if (last) console.log("已载入上次记录：直接回车沿用默认值，想改哪项输哪项");
   console.log("======================================");
 
   const initialDeposit = await number({
-    message: "当前已有存款 (元)",
+    message: "当前已有存款 (万元)",
     step: "any",
-    default: last?.initialDeposit ?? 0,
+    default: last ? yuanToWan(last.initialDeposit ?? 0) : 0,
     validate: (v) => (v !== null && v !== undefined && v >= 0 ? true : "请输入 ≥0 的数字"),
   });
 
   const yearlySaving = await number({
-    message: "每年攒多少 (元)",
+    message: "每年攒多少 (万元)",
     step: "any",
-    default: last?.yearlySaving ?? 100000,
+    default: last ? yuanToWan(last.yearlySaving ?? 100000) : 10,
     validate: (v) => (v !== null && v !== undefined && v >= 0 ? true : "请输入 ≥0 的数字"),
   });
 
@@ -231,9 +242,9 @@ async function promptForInput(): Promise<MoneyInput> {
   });
 
   const target = await number({
-    message: "目标金额 (元)",
+    message: "目标金额 (万元)",
     step: "any",
-    default: last?.target ?? 2500000,
+    default: last ? yuanToWan(last.target ?? 2500000) : 250,
     validate: (v) => (v !== null && v !== undefined && v > 0 ? true : "请输入 >0 的数字"),
   });
 
@@ -244,10 +255,10 @@ async function promptForInput(): Promise<MoneyInput> {
   });
 
   return {
-    initialDeposit: Number(initialDeposit),
-    yearlySaving: Number(yearlySaving),
+    initialDeposit: wanToYuan(Number(initialDeposit)),
+    yearlySaving: wanToYuan(Number(yearlySaving)),
     annualRatePercent: Number(annualRatePercent),
-    target: Number(target),
+    target: wanToYuan(Number(target)),
     startDate: startDateRaw.trim(),
   };
 }
