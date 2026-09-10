@@ -1,0 +1,25 @@
+{
+  "name": "ai-tiny-codes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "这里面存一些 AI 帮我写的小段代码，啥都可能有",
+  "scripts": {
+    "sport:calculate": "pnpm --filter sport calculate",
+    "sport:food": "pnpm --filter sport food"
+  },
+  "keywords": [
+    "ai-tiny-codes"
+  ],
+  "author": "kimimi_king@163.com",
+  "license": "ISC",
+  "dependencies": {
+    "@inquirer/prompts": "^8.7.1",
+    "cli-table3": "^0.6.5",
+    "dayjs": "^1.11.23"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}

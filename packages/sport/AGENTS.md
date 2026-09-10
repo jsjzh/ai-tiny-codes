@@ -1,0 +1,52 @@
+# 项目：运动饮食减脂工具（sports-diet）
+
+用 TypeScript 编写。仓库唯一业务说明文档是 README.md（减脂方法论来自视频总结），但架构与最新决策以本文件为准。
+
+## 运行方式（两个独立入口/域名）
+- `npm start` / `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期）
+- `npm run food`：饮食配比（输入碳/蛋/脂 → 固定食材 → 自由食材 → 每日分餐 + 一周采购清单）
+- 都支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
+- `npm run typecheck`：tsc --noEmit
+
+## 目录结构与架构约定
+```
+entry/calculate.ts  entry/food.ts        # 各自实例化 runner：xxx.use(input, output)
+src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort<T>{write(result)}
+                                        # createRunner(compute) —— 领域互相独立，端口可插拔
+src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
+src/food/           # 域名 food：types · builtin-foods(食材库) · registry(内置+自定义合并) · solver · input/cli · output/json|table
+src/utils/store.ts  # ~/.sports-diet/<name>.json 通用读写（last-calculate / last-food / custom-foods）
+```
+约定：
+- 输入输出方式都实现 `src/core/types.ts` 的端口接口；加新输入/输出（excel、markdown、skill、文件）时新建类即可，不改计算层。
+- 计算层保持纯函数，便于未来为 food 拆独立入口复用。
+- CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；列 `cli-table3` 显式传 `undefined` 的 colAligns 会崩（按需注入）。
+- 记忆上次输入：`src/utils/store.ts` 落到 `~/.sports-diet/`；自定义食材也存这里（`custom-foods.json`）。注意别把本地测试残留数据留在这（会影响默认值）。
+
+## calculate 领域口径（README 第一二模块）
+- BMR：男 `88.362+13.397·kg+4.799·cm-5.677·age`；女 `447.593+9.247·kg+3.098·cm-4.330·age`
+- 年龄由**出生年份 birthYear** 与开始日期年份相减得到（不再直接输入年龄）
+- 训练消耗 = 强度(5/8/10) × 分钟；初始热量 = BMR + 训练消耗（大卡）
+- 宏量：532=碳50/蛋30/脂20；442=碳40/蛋40/脂20；碳水/蛋白 4kcal/g，脂肪 9kcal/g
+- 减脂期仅碳水渐降（快30g/中22.5g/慢15g，速率 5%/4%/3%），蛋白脂肪不变，碳水降到 100g 止 → `macroStages` 数组
+- 周/月目标用**均匀线性模型**：1 月=30 天、1 周=7 天，日减=初始体重×速率÷30（用户选定的口径，勿改成自然日历）
+
+## food 领域口径（本次会话新增）
+- 输入只有三大营养素目标（**纯手输 g**，与 calculate 松耦合：用户会从某个档位抄数字）+ 餐次(3/4) + 固定食材 + 自由食材
+- 内置食材库 17 种（用户常吃清单：卷心菜/大米生/鸡胸/巴旦木/牛肉/鸡蛋/玉米油/蛋白粉/燕麦片/胡萝卜/土豆/红薯/鸡腿/彩椒/西蓝花/香菇/虾仁）；每 100g 记 `kcal/碳水/蛋白/脂肪/膳食纤维(+糖/钠)`。**分配只用碳蛋脂，纤维等仅统计展示**（用户已确认）
+- 数值为“常见参考近似值”，来源口径注释在 builtin-foods；用户可按包装背标新增自定义覆盖
+- 固定餐机制：用户声明的固定量（例：每天 500g 卷心菜、固定早餐 30g 燕麦+2 蛋≈100g）**先从全天目标扣除宏量**，剩余再交自由食材补齐 —— 这是用户亲自确认的“先扣再算剩余”语义，任意餐都可固定，未绑餐=全天配菜
+- 自由求解按「碳水→蛋白→脂肪」顺序**逐宏扣减交叉带入**（如大米带蛋白、鸡腿带脂）后按角色(carb/protein/fat)均分补齐 → 贴近目标、偏差>5g 时出 warnings 提示（如“实际脂肪高 x g，多来自带脂蛋白…”）
+- 蔬菜口径：低能蔬菜（每100g 碳水<10g，如彩椒/西蓝花/卷心菜）在自由池中**不参与碳水均分**（否则会解出几斤离谱克数），按**每餐约 100g 配额**（常量 VEGGIE_GRAMS_PER_MEAL，多选则平分）计入并统计；主食(米/薯/燕麦等)负责碳水，若主食不足会有 warnings。想要更多菜 → 走“固定食材”明确克数。曾踩坑：彩椒被均分碳水→单餐~1.5kg
+- 分餐模板：3餐=早30/午40/晚30；4餐=早25/午35/加15/晚25；已绑固定的餐不参与自由分配，自由权重在其余餐之间归一
+- 一周采购清单 = 7 天同一菜单按食材 ×7 汇总（用户周日统一备菜场景）；给易购换算提示（鸡蛋≈个、生米≈kg）
+- 蛋白粉建议提示按手中罐装背标覆盖；全蛋 ≈50g/个
+
+## 已确认的决策/边界
+- 两域名拆开是因为“碳水渐降时每个档位都要能重生成配比”，配比绑定某一档宏量而非初始热量
+- 入口结构选型 A：一体 + 预留拆分（food solver/渲染纯函数，可再开独立入口 B 跳过减脂直接配比）
+- 未做/以后再做：角色内自定义占比、训练日/休息日两套菜单、餐次比例可编辑、食材单位换算(个/片)、USDA/中国食物成分表严格溯源、excel/markdown/skill 输出
+
+## 注意
+- 仓库历史曾误提交 node_modules 已清理；改动后记得 typecheck 并验证 `calculate`/`food` 两条链路
+- 此项目是用户个人工具，会在另一台电脑继续开发（依赖 AGENTS.md 恢复上下文）

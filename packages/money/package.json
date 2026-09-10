@@ -1,0 +1,9 @@
+{
+  "name": "money",
+  "version": "1.0.0",
+  "description": "和钱相关的东东",
+  "type": "commonjs",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}
