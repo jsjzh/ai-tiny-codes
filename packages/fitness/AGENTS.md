@@ -22,6 +22,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-c
 - 计算层保持纯函数，便于未来为 food 拆独立入口复用。
 - CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；表格统一用 `@ai-tiny-codes/utils` 的 `newTable/printSection`（内部已按需注入 colAligns，避免显式传 undefined 崩溃）。
 - 记忆上次输入：`src/utils/store.ts` 落到 `~/.ai-tiny-codes/fitness/`；自定义食材也存这里（`custom-foods.json`）。注意别把本地测试残留数据留在这（会影响默认值）。
+- 公用能力来自 workspace 包 `@ai-tiny-codes/utils`（`createJsonStore` / `newTable` / `printSection` / `today` / `isValidDateString`），以 `workspace:*` 声明在本包；第三方依赖统一在仓库根 `package.json`，子包向上查找解析。
 
 ## calculate 领域口径（README 第一二模块）
 - BMR：男 `88.362+13.397·kg+4.799·cm-5.677·age`；女 `447.593+9.247·kg+3.098·cm-4.330·age`
