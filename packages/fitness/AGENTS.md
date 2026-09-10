@@ -1,4 +1,4 @@
-# 项目：运动饮食减脂工具（sports-diet）
+# 项目：运动饮食减脂工具（fitness）
 
 用 TypeScript 编写。仓库唯一业务说明文档是 README.md（减脂方法论来自视频总结），但架构与最新决策以本文件为准。
 
@@ -15,13 +15,13 @@ src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort
                                         # createRunner(compute) —— 领域互相独立，端口可插拔
 src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
 src/food/           # 域名 food：types · builtin-foods(食材库) · registry(内置+自定义合并) · solver · input/cli · output/json|table
-src/utils/store.ts  # ~/.sports-diet/<name>.json 通用读写（last-calculate / last-food / custom-foods）
+src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-calculate / last-food / custom-foods），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
 ```
 约定：
 - 输入输出方式都实现 `src/core/types.ts` 的端口接口；加新输入/输出（excel、markdown、skill、文件）时新建类即可，不改计算层。
 - 计算层保持纯函数，便于未来为 food 拆独立入口复用。
-- CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；列 `cli-table3` 显式传 `undefined` 的 colAligns 会崩（按需注入）。
-- 记忆上次输入：`src/utils/store.ts` 落到 `~/.sports-diet/`；自定义食材也存这里（`custom-foods.json`）。注意别把本地测试残留数据留在这（会影响默认值）。
+- CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；表格统一用 `@ai-tiny-codes/utils` 的 `newTable/printSection`（内部已按需注入 colAligns，避免显式传 undefined 崩溃）。
+- 记忆上次输入：`src/utils/store.ts` 落到 `~/.ai-tiny-codes/fitness/`；自定义食材也存这里（`custom-foods.json`）。注意别把本地测试残留数据留在这（会影响默认值）。
 
 ## calculate 领域口径（README 第一二模块）
 - BMR：男 `88.362+13.397·kg+4.799·cm-5.677·age`；女 `447.593+9.247·kg+3.098·cm-4.330·age`

@@ -4,8 +4,10 @@
   "private": true,
   "description": "这里面存一些 AI 帮我写的小段代码，啥都可能有",
   "scripts": {
-    "sport:calculate": "pnpm --filter sport calculate",
-    "sport:food": "pnpm --filter sport food"
+    "fitness:calculate": "pnpm --filter @ai-tiny-codes/fitness calculate",
+    "fitness:food": "pnpm --filter @ai-tiny-codes/fitness food",
+    "money:calculate": "pnpm --filter @ai-tiny-codes/money calculate",
+    "typecheck": "pnpm -r typecheck"
   },
   "keywords": [
     "ai-tiny-codes"

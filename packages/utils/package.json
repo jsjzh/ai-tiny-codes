@@ -1,0 +1,17 @@
+{
+  "name": "@ai-tiny-codes/utils",
+  "version": "1.0.0",
+  "description": "跨包公用的工具函数",
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "sport",
+  "name": "@ai-tiny-codes/fitness",
   "version": "1.0.0",
   "description": "减脂周期计算器，food 的计算不太行，还是自己在表格上做吧",
   "type": "commonjs",
@@ -7,5 +7,8 @@
     "calculate": "tsx entry/calculate.ts",
     "food": "tsx entry/food.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-tiny-codes/utils": "workspace:*"
   }
 }

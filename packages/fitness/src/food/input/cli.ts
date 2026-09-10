@@ -262,6 +262,6 @@ async function addCustomFoodFlow(): Promise<Food | null> {
     },
     note: "自定义",
   });
-  console.log(`✓ 已保存自定义食材：${created.name}（存在 ~/.sports-diet/custom-foods.json）`);
+  console.log(`✓ 已保存自定义食材：${created.name}（存在 ~/.ai-tiny-codes/fitness/custom-foods.json）`);
   return created;
 }

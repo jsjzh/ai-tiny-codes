@@ -1,4 +1,5 @@
 import { input, select, number } from "@inquirer/prompts";
+import { today } from "@ai-tiny-codes/utils";
 import {
   CalculateInput,
   DietPlan,
@@ -11,13 +12,6 @@ import {
 } from "../types";
 import { InputPort } from "../../core/types";
 import { loadJson, saveJson, removeJson } from "../../utils/store";
-
-const today = () => {
-  const d = new Date();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${m}-${day}`;
-};
 
 const currentYear = () => new Date().getFullYear();
 

@@ -28,7 +28,19 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
-  packages/sports: {}
+  packages/fitness:
+    dependencies:
+      '@ai-tiny-codes/utils':
+        specifier: workspace:*
+        version: link:../utils
+
+  packages/money:
+    dependencies:
+      '@ai-tiny-codes/utils':
+        specifier: workspace:*
+        version: link:../utils
+
+  packages/utils: {}
 
 packages:
 

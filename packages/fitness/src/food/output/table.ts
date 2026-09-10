@@ -1,15 +1,6 @@
-import Table from "cli-table3";
+import { newTable, printSection } from "@ai-tiny-codes/utils";
 import { FoodReport } from "../types";
 import { OutputPort } from "../../core/types";
-
-const STYLE: Table.TableConstructorOptions["style"] = { head: ["bold", "cyan"], border: ["gray"] };
-
-function newTable(head?: string[], colAligns?: string[]): Table.Table {
-  const o: Table.TableConstructorOptions = { style: STYLE };
-  if (head) o.head = head;
-  if (colAligns) o.colAligns = colAligns as Table.HorizontalAlignment[];
-  return new Table(o);
-}
 
 function g(n: number): string {
   return `${n.toFixed(1)}g`;
@@ -111,10 +102,4 @@ function renderSummary(result: FoodReport): void {
 
 function roleName(role: string): string {
   return role === "carb" ? "主食/碳水" : role === "protein" ? "蛋白" : "脂肪/油脂";
-}
-
-function printSection(title: string, table: Table.Table): void {
-  console.log("");
-  console.log(`■ ${title}`);
-  console.log(table.toString());
 }

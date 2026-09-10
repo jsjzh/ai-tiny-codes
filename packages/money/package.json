@@ -1,9 +1,13 @@
 {
-  "name": "money",
+  "name": "@ai-tiny-codes/money",
   "version": "1.0.0",
   "description": "和钱相关的东东",
   "type": "commonjs",
   "scripts": {
+    "calculate": "tsx src/index.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-tiny-codes/utils": "workspace:*"
   }
 }

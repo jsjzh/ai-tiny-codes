@@ -1,4 +1,4 @@
-import Table from "cli-table3";
+import { newTable, printSection } from "@ai-tiny-codes/utils";
 import { CalculateReport, MacroCombo, Pace, PACE_CONFIG } from "../types";
 import { OutputPort } from "../../core/types";
 
@@ -7,18 +7,6 @@ const PACE_LABEL: Record<Pace, string> = {
   medium: "中（每月 4%）",
   slow: "慢（每月 3%）",
 };
-
-const BORDER_STYLE: Table.TableConstructorOptions["style"] = {
-  head: ["bold", "cyan"],
-  border: ["gray"],
-};
-
-function newTable(head?: string[], colAligns?: string[]): Table.Table {
-  const options: Table.TableConstructorOptions = { style: BORDER_STYLE };
-  if (head) options.head = head;
-  if (colAligns) options.colAligns = colAligns as Table.HorizontalAlignment[];
-  return new Table(options);
-}
 
 export class CalculateTableOutput implements OutputPort<CalculateReport> {
   write(result: CalculateReport): void {
@@ -97,10 +85,4 @@ function renderTargets(
   const t = newTable([indexName, "日期", "目标体重 (kg)"], ["right", "left", "right"]);
   targets.forEach((r) => t.push([String(r.index), r.date, r.weightKg.toFixed(2)]));
   printSection(title, t);
-}
-
-function printSection(title: string, table: Table.Table): void {
-  console.log("");
-  console.log(`■ ${title}`);
-  console.log(table.toString());
 }
