@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { roundTo, isValidDateString } from "@ai-tiny-codes/utils";
 import { buildPlan } from "../calculate/plan";
+import { weightsByDate } from "../dataset/weights";
 import { PlanFile } from "../plan/types";
 import { DailyPoint, NodeActual, TrackContext, TrackStatus } from "./types";
 
@@ -29,12 +30,24 @@ export function daysBetween(later: string, earlier: string): number {
   return dayjs(later).diff(dayjs(earlier), "day", true);
 }
 
-/** 从计划里取出已填的每日体重，按日期升序，忽略 null / 非法 */
-export function getDailyEntries(plan: PlanFile): { date: string; weightKg: number }[] {
-  const dw = plan.dailyWeights ?? {};
-  return Object.entries(dw)
-    .filter(([d, v]) => isNum(v) && isValidDateString(d))
-    .map(([date, weightKg]) => ({ date, weightKg: weightKg as number }))
+/**
+ * 取每日体重：练练同步数据（datas/fitness/synced/weights.json）优先，
+ * 计划里的 dailyWeights 作兜底（兼容旧计划）；只取 >= 计划开始日。
+ */
+export function resolveDailyWeights(plan: PlanFile): { date: string; weightKg: number }[] {
+  const startDate = plan.input.startDate;
+  const merged: Record<string, number> = {};
+
+  for (const [date, value] of Object.entries(plan.dailyWeights ?? {})) {
+    if (isNum(value) && isValidDateString(date)) merged[date] = value;
+  }
+  for (const [date, value] of Object.entries(weightsByDate())) {
+    if (isNum(value) && isValidDateString(date)) merged[date] = value;
+  }
+
+  return Object.entries(merged)
+    .filter(([date]) => date >= startDate)
+    .map(([date, weightKg]) => ({ date, weightKg }))
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
@@ -97,7 +110,7 @@ export function regressionLossPerWeek(points: DailyPoint[]): number {
 
 export function buildContext(planName: string, plan: PlanFile): TrackContext {
   const model = buildPlan(plan.input);
-  const daily = computeMA(getDailyEntries(plan));
+  const daily = computeMA(resolveDailyWeights(plan));
   const latest = daily.length > 0 ? daily[daily.length - 1] : null;
 
   const startDate = plan.input.startDate;

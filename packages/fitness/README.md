@@ -1,35 +1,40 @@
 ## 使用
 
-两个命令（仓库根）：
+三个命令（仓库根）：
 
 | 命令 | 说明 |
 | --- | --- |
 | `pnpm fitness:calculate` | 输入身体数据/目标/节奏，算热量与宏量档位、周/月目标，并生成计划 JSON（`--no-save` 可跳过；`--json` 输出 JSON） |
-| `pnpm fitness:checkin` | 读取计划 JSON，校验你填的体重并输出减脂复盘（`--plan <名字>` 指定计划；`--json` 输出 JSON） |
-| `pnpm fitness:sync` | 从**练练健身**拉取逐日体重，写入计划 `dailyWeights`（`--plan <名字>` 指定；`--dry-run` 只预演不写；`--json` 输出 JSON） |
+| `pnpm fitness:sync` | 从**练练健身**拉取数据写入仓库内 `datas/fitness/synced/`（默认体重、近 1 年；`--days/--from/--to`、`--only weight`、`--dry-run`、`--json`） |
+| `pnpm fitness:checkin` | 读取**同步数据**（缺失时回退计划内的 `dailyWeights`），校验并输出减脂复盘（`--plan <名字>`、`--json`） |
 
 > 饮食配比（food）功能当前**已下线入口**，待后续优化，暂不提供命令。
 
-### 从练练健身同步体重（推荐）
+### 数据分层
 
-不用手填 `dailyWeights`，直接在练练健身里称重，然后：
+- `fitness:sync` **只负责获取数据**，统一写入仓库内 `datas/fitness/synced/<kind>.json`（如 `weights.json`，存接口返回原样 + 元信息），任何调用方都能读
+- `fitness:checkin` **只负责消费数据**：取体重时**同步数据优先**，缺失日期再回退到计划 JSON 里的 `dailyWeights`
+- 两者通过 `datas` 解耦，不再互相依赖
+
+### 同步体重（推荐）
+
+直接在练练健身里称重，然后：
 
 ```bash
-pnpm fitness:sync --plan plan-96.8-75-2026-08-01          # 拉取并写入
-pnpm fitness:sync --plan plan-96.8-75-2026-08-01 --dry-run # 只预演看会改什么
+pnpm fitness:sync                 # 拉最近 1 年（默认 --days 365）
+pnpm fitness:sync --dry-run       # 只预演不写
+pnpm fitness:sync --from 2026-08-01 --to 2026-09-23
 ```
 
 - 需要仓库根 `.env.local` 里有 `KEEPSTRONG_API_KEY`（见 `packages/keepstrong/README.md`）
-- 只**填充/更新**已有日期，并补上目标日之后的新日期，不删除你手动加的日期；重复运行幂等
-- 同步后再跑 `pnpm fitness:checkin` 出复盘
+- **按日期合并**：同一天用新值覆盖、新日期追加、范围外旧记录保留；重复运行幂等
+- 同步后跑 `pnpm fitness:checkin` 出复盘
 
 ### 打卡复盘（checkin）
 
-1. 先跑 `pnpm fitness:calculate`，会在**仓库内** `datas/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json` 生成计划：
-   - `checkpoints`：周节点 + 月节点（只有计划体重，实际值自动派生，无需手填）
-   - `dailyWeights`：已按 `开始日 → 目标日` **逐日铺好** `"YYYY-MM-DD": null`；可手填，或直接 `pnpm fitness:sync` 自动填
-   - 若某天没称，保持 `null` 即可；**超过目标日还想继续记录，就在 `dailyWeights` 里自己补日期行**（checkin 不会丢弃，会识别为「已超期」）
-2. 运行 `pnpm fitness:checkin`，选择计划后输出：数据校验、周/月节点对比、每日概览、减脂速率、进度与预测、BMI、趋势与平台期（含 7 日均走势图）、调整建议
+1. 先跑 `pnpm fitness:calculate`，在 `datas/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json` 生成计划（`checkpoints`：周/月节点，实际值自动派生）
+2. 用 `pnpm fitness:sync` 同步体重（或手填计划里的 `dailyWeights` 兜底）
+3. 运行 `pnpm fitness:checkin`，选择计划后输出：数据校验、周/月节点对比、每日概览、减脂速率、进度与预测、BMI、趋势与平台期（含 7 日均走势图）、调整建议
 
 **口径**
 - 7 日移动平均（MA7）抗水分波动；近况速率用最近 14 天线性回归；周/月节点的实际值由每日数据「就近（±3 天）」派生，环比用 MA7
@@ -38,7 +43,8 @@ pnpm fitness:sync --plan plan-96.8-75-2026-08-01 --dry-run # 只预演看会改�
 - 阈值常量：平台期 `<0.1kg/周`、偏快 `>计划×1.5`、偏慢 `<计划×0.5`、BMI 18.5~24.9、单日跳变 `>2kg` 提示
 
 **参数**
-- `calculate`：`--no-save` 不落盘；`--force` 覆盖已存在的同名计划（默认若该计划已填 `dailyWeights` 会拒绝覆盖，避免丢失记录）
+- `calculate`：`--no-save` 不落盘；`--json` 输出 JSON
+- `sync`：`--days`(默认 365) / `--from --to` / `--only weight` / `--dry-run` / `--json`
 - `checkin`：`--plan <名字>` 指定计划；`--json` 输出 JSON
 
 > 指标以「插槽」形式注册在 `src/checkin/sections/index.ts`，增删/调整只改注册表。

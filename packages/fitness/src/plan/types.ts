@@ -2,7 +2,7 @@ import { CalculateInput, CalculateReport } from "../calculate/types";
 
 export type CheckpointKind = "week" | "month";
 
-/** 计划里的一个周/月节点（实际体重由 dailyWeights 自动派生） */
+/** 计划里的一个周/月节点（实际体重由同步的每日体重自动派生） */
 export interface PlanCheckpoint {
   kind: CheckpointKind;
   index: number;
@@ -18,6 +18,9 @@ export interface PlanFile {
   input: CalculateInput;
   report: CalculateReport;
   checkpoints: PlanCheckpoint[];
-  /** 每日体重，"YYYY-MM-DD" -> 体重(kg)，null 表示待填 */
-  dailyWeights: Record<string, number | null>;
+  /**
+   * 每日体重兜底数据（老计划可能存在）。
+   * 新计划不再生成；体重数据统一由 `pnpm fitness:sync` 同步到 datas/fitness/synced/weights.json。
+   */
+  dailyWeights?: Record<string, number | null>;
 }

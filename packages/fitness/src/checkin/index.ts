@@ -18,7 +18,7 @@ export function buildTrackReport(planName: string): TrackReport {
       sections.push({
         key: "empty",
         title: "暂无每日数据",
-        lines: ["还没有填写任何 dailyWeights，请把计划 JSON 里对应日期的 null 改成体重数字"],
+        lines: ["还没有体重数据：先运行 pnpm fitness:sync 从练练健身同步（或手填计划里的 dailyWeights）"],
         level: "warn",
       });
     }
