@@ -26,7 +26,7 @@ export function weightSection(ctx: TrackContext): TrackSection | null {
     ["最新体重", `${latest.weightKg.toFixed(2)} kg（${latest.date}）`],
     ["7 日均", `${latest.ma7.toFixed(2)} kg`],
     ["计划应到", `${planAt.toFixed(2)} kg`],
-    ["偏差（实际−计划）", `${deviationValue(deviation)} kg`],
+    ["偏差（实际−计划）", deviationValue(deviation, ctx.startWeightKg)],
   ];
 
   if (prev) {

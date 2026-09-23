@@ -1,5 +1,6 @@
 import { newTable, printSection } from "@ai-tiny-codes/utils";
 import { OutputPort } from "../../core/types";
+import { dimText } from "../style";
 import { TrackReport, TrackSection } from "../types";
 
 export class TrackTableOutput implements OutputPort<TrackReport> {
@@ -27,5 +28,8 @@ function renderSection(s: TrackSection): void {
     console.log("");
     console.log(`■ ${prefix}${s.title}`);
     for (const l of s.lines) console.log(`  ${l}`);
+  }
+  if (s.notes) {
+    for (const n of s.notes) console.log(dimText(`  ${n}`));
   }
 }

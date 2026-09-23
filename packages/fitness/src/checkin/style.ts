@@ -17,12 +17,14 @@ export function dropValue(kg: number, startWeightKg: number): string {
   return chalk.dim(`→ ${text}`);
 }
 
-/** 偏差（实际−计划）：正=比计划重(红▲) / 负=比计划轻(绿▼) */
-export function deviationValue(dev: number): string {
-  const text = `${dev > 0 ? "+" : ""}${dev.toFixed(2)}`;
-  if (dev > EPS) return chalk.red(`▲ ${text}`);
-  if (dev < -EPS) return chalk.green(`▼ ${text}`);
-  return chalk.dim(`＝ ${text}`);
+/** 偏差（实际−计划）：正=比计划重(红▲) / 负=比计划轻(绿▼)，含占比与文字 */
+export function deviationValue(dev: number, startWeightKg = 0): string {
+  const pct = startWeightKg > 0 ? (dev / startWeightKg) * 100 : 0;
+  const sign = (n: number) => `${n > 0 ? "+" : ""}${n.toFixed(2)}`;
+  const text = `${sign(dev)} / ${sign(pct)}%`;
+  if (dev > EPS) return chalk.red(`▲ ${text} 偏重`);
+  if (dev < -EPS) return chalk.green(`▼ ${text} 偏轻`);
+  return chalk.dim(`＝ ${text} 持平`);
 }
 
 /** 体重变化（正=长胖）：红↑ / 绿↓ */
@@ -45,6 +47,9 @@ export function trendValue(dir: string): string {
   if (dir === "上升中") return chalk.red(dir);
   return chalk.yellow(dir);
 }
+
+/** 说明文字 */
+export const dimText = chalk.dim;
 
 const ANSI_RE = /\u001b\[[0-9;]*m/g;
 

@@ -44,6 +44,8 @@ export interface TrackSection {
   colAligns?: string[];
   rows?: string[][];
   lines?: string[];
+  /** 表格/文本下方的补充说明（图例等） */
+  notes?: string[];
   level?: "info" | "warn" | "error";
 }
 

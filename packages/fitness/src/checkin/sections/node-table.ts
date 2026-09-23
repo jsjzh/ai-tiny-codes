@@ -34,7 +34,7 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
     init.ma === null ? DASH : init.ma.toFixed(2),
     DASH,
     DASH,
-    init.raw === null ? DASH : deviationValue(init.raw - start),
+    init.raw === null ? DASH : deviationValue(init.raw - start, start),
     init.raw === null ? DASH : cumLossValue(start - init.raw),
   ]);
 
@@ -70,7 +70,7 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
       a.ma.toFixed(2),
       planValue(planDrop, start),
       dropValue(delta, start),
-      deviationValue(a.raw - n.planWeightKg),
+      deviationValue(a.raw - n.planWeightKg, start),
       cumLossValue(start - a.raw),
     ]);
   }
@@ -79,8 +79,12 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
   return {
     key: opts.key,
     title: `${opts.unitLabel}：计划 vs 实际（期望 ${pacePct.toFixed(2)}%/月 ≈ ${perLoss.toFixed(2)}kg/${unit}）`,
-    head: ["序号", "日期", "计划(kg)", "实际(kg)", "7日均(kg)", "期望降幅(kg/%)", "实际降幅(环比,kg/%)", "偏差(kg)", "累计减重(kg)"],
+    head: ["序号", "日期", "计划(kg)", "实际(kg)", "7日均(kg)", "期望降幅(kg/%)", "实际降幅(环比,kg/%)", "偏差(kg/%)", "累计减重(kg)"],
     colAligns: ["left", "left", "right", "right", "right", "right", "right", "right", "right"],
     rows,
+    notes: [
+      "偏差 = 实际 − 计划：▲ 偏重（比计划减得少 → 建议少吃一点或加有氧）；▼ 偏轻（比计划减得多 → 可适当多吃）",
+      "实际降幅：↓ 减重 / ↑ 增重；百分比均相对初始体重",
+    ],
   };
 }
