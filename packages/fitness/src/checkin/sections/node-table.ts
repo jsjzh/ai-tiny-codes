@@ -23,7 +23,7 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
 
   const rows: string[][] = [];
 
-  // 初始基线行
+  // 初始基线行（仅基准，不算偏差/累计）
   const init = nodeActual(ctx.daily, ctx.startDate);
   let prevMA: number = init.ma ?? start;
   rows.push([
@@ -34,8 +34,8 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
     init.ma === null ? DASH : init.ma.toFixed(2),
     DASH,
     DASH,
-    init.raw === null ? DASH : deviationValue(init.raw - start, start),
-    init.raw === null ? DASH : cumLossValue(start - init.raw),
+    DASH,
+    DASH,
   ]);
 
   let prevPlan = start;
