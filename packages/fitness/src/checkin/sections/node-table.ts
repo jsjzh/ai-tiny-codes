@@ -1,16 +1,7 @@
 import { PACE_CONFIG } from "../../calculate/types";
 import { nodeActual } from "../analyze";
+import { cumLossValue, deviationValue, dropValue, planValue } from "../style";
 import { CheckpointKind, TrackContext, TrackSection } from "../types";
-
-function signed(n: number): string {
-  return `${n > 0 ? "+" : ""}${n.toFixed(2)}`;
-}
-
-/** 降幅单元格：公斤 / 相对初始体重的百分比（正=减重，负=长胖） */
-function dropCell(kg: number, startWeightKg: number): string {
-  const pct = startWeightKg > 0 ? (kg / startWeightKg) * 100 : 0;
-  return `${kg.toFixed(2)} / ${pct.toFixed(2)}%`;
-}
 
 interface NodeSectionOptions {
   kind: CheckpointKind;
@@ -18,6 +9,8 @@ interface NodeSectionOptions {
   key: string;
   unitLabel: string;
 }
+
+const DASH = "—";
 
 /** 周/月节点表：含「初始」基线行；实际值由每日数据就近派生，环比用 7 日均 */
 export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): TrackSection | null {
@@ -37,12 +30,12 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
     "初始",
     ctx.startDate,
     start.toFixed(2),
-    "—",
-    init.raw === null ? "—" : init.raw.toFixed(2),
-    init.ma === null ? "—" : init.ma.toFixed(2),
-    "—",
-    init.raw === null ? "—" : signed(init.raw - start),
-    init.raw === null ? "—" : (start - init.raw).toFixed(2),
+    init.raw === null ? DASH : init.raw.toFixed(2),
+    init.ma === null ? DASH : init.ma.toFixed(2),
+    DASH,
+    DASH,
+    init.raw === null ? DASH : deviationValue(init.raw - start),
+    init.raw === null ? DASH : cumLossValue(start - init.raw),
   ]);
 
   let prevPlan = start;
@@ -56,12 +49,12 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
         String(n.index),
         n.date,
         n.planWeightKg.toFixed(2),
-        dropCell(planDrop, start),
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
+        DASH,
+        DASH,
+        planValue(planDrop, start),
+        DASH,
+        DASH,
+        DASH,
       ]);
       continue;
     }
@@ -73,12 +66,12 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
       String(n.index),
       n.date,
       n.planWeightKg.toFixed(2),
-      dropCell(planDrop, start),
       a.raw.toFixed(2),
       a.ma.toFixed(2),
-      dropCell(delta, start),
-      signed(a.raw - n.planWeightKg),
-      (start - a.raw).toFixed(2),
+      planValue(planDrop, start),
+      dropValue(delta, start),
+      deviationValue(a.raw - n.planWeightKg),
+      cumLossValue(start - a.raw),
     ]);
   }
 
@@ -86,7 +79,7 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
   return {
     key: opts.key,
     title: `${opts.unitLabel}：计划 vs 实际（期望 ${pacePct.toFixed(2)}%/月 ≈ ${perLoss.toFixed(2)}kg/${unit}）`,
-    head: ["序号", "日期", "计划(kg)", "计划降幅(kg/%)", "实际(kg)", "7日均(kg)", "实际降幅(环比,kg/%)", "偏差(kg)", "累计减重(kg)"],
+    head: ["序号", "日期", "计划(kg)", "实际(kg)", "7日均(kg)", "期望降幅(kg/%)", "实际降幅(环比,kg/%)", "偏差(kg)", "累计减重(kg)"],
     colAligns: ["left", "left", "right", "right", "right", "right", "right", "right", "right"],
     rows,
   };

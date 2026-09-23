@@ -43,7 +43,7 @@ pnpm --filter @ai-tiny-codes/money calculate
 
 - 第三方依赖统一在**根 `package.json`** 声明，子包按 Node 向上查找解析；只有 workspace 内部包才在子包 `package.json` 里用 `"workspace:*"` 声明。
 - 各子包源码用 `tsx` 直接运行，`main` / `types` 指向 `src/index.ts`，无需构建产物。
-- 交互统一用 `@inquirer/prompts`，表格统一用 `cli-table3`（封装在 `@ai-tiny-codes/utils`）。
+- 交互统一用 `@inquirer/prompts`，表格统一用 `cli-table3`（封装在 `@ai-tiny-codes/utils`），终端颜色用 `chalk`（各包自建 style 模块，如 fitness 的 `src/checkin/style.ts`）。
 - 用户记忆数据统一存在 `~/.ai-tiny-codes/<scope>/`，由 `@ai-tiny-codes/utils` 的 `createJsonStore(scope)` 管理。
 - 需要随项目上传/手改的数据放仓库内 `datas/<scope>/`，用 `createJsonStore(scope, { baseDir })` 覆盖基目录（如 fitness 的计划 JSON）。
 

@@ -1,4 +1,5 @@
 import { planWeightAt } from "../analyze";
+import { cumLossValue, deviationValue, weightChangeValue } from "../style";
 import { TrackContext, TrackSection } from "../types";
 
 function statusText(ctx: TrackContext): string {
@@ -25,16 +26,16 @@ export function weightSection(ctx: TrackContext): TrackSection | null {
     ["最新体重", `${latest.weightKg.toFixed(2)} kg（${latest.date}）`],
     ["7 日均", `${latest.ma7.toFixed(2)} kg`],
     ["计划应到", `${planAt.toFixed(2)} kg`],
-    ["偏差（实际−计划）", `${deviation > 0 ? "+" : ""}${deviation.toFixed(2)} kg`],
+    ["偏差（实际−计划）", `${deviationValue(deviation)} kg`],
   ];
 
   if (prev) {
     const dod = latest.weightKg - prev.weightKg;
-    rows.push(["日环比", `${dod > 0 ? "+" : ""}${dod.toFixed(2)} kg`]);
+    rows.push(["日环比", `${weightChangeValue(dod)} kg`]);
   }
 
   rows.push(
-    ["累计减重（按 7 日均）", `${cumLoss.toFixed(2)} kg`],
+    ["累计减重（按 7 日均）", `${cumLossValue(cumLoss)} kg`],
     ["完成率", `${completion.toFixed(1)}%`],
     ["记录覆盖", `${ctx.loggedInPlan} / ${ctx.planSpanDays} 天（${coverage.toFixed(0)}%）`],
     ["状态", statusText(ctx)]

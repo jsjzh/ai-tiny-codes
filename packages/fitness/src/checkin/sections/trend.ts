@@ -1,4 +1,5 @@
 import { recentPoints, regressionLossPerWeek, stddev, RECENT_DAYS } from "../analyze";
+import { trendValue } from "../style";
 import { TrackContext, TrackSection } from "../types";
 
 const PLATEAU_THRESHOLD = 0.1; // kg/周
@@ -29,7 +30,7 @@ export function trendSection(ctx: TrackContext): TrackSection | null {
   for (let i = 1; i < ctx.daily.length; i++) maDiffs.push(ctx.daily[i].ma7 - ctx.daily[i - 1].ma7);
 
   const lines = [
-    `趋势（近 ${RECENT_DAYS} 天回归）：${direction}（${recentRate.toFixed(2)} kg/周）`,
+    `趋势（近 ${RECENT_DAYS} 天回归）：${trendValue(direction)}（${recentRate.toFixed(2)} kg/周）`,
     `波动性：日间 σ=${stddev(dayDiffs.slice(-RECENT_DAYS)).toFixed(2)} kg，7日均 σ=${stddev(maDiffs.slice(-RECENT_DAYS)).toFixed(2)} kg`,
   ];
   if (direction === "平台期") lines.push("⚠ 近况速率接近 0，可能进入平台期");
