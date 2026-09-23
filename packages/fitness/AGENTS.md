@@ -2,31 +2,31 @@
 
 用 TypeScript 编写。仓库唯一业务说明文档是 README.md（减脂方法论来自视频总结），但架构与最新决策以本文件为准。
 
-## 运行方式（三个独立入口/域名）
-- `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON 到仓库内 `datas/fitness/plans/`**（`--no-save` 跳过）
-- `npm run food`：饮食配比（输入碳/蛋/脂 → 固定食材 → 自由食材 → 每日分餐 + 一周采购清单）
-- `npm run checkin`：读取计划 JSON → 校验你手填的体重 → 输出减脂复盘（`--plan <名字>` 指定；`--json` 输出 JSON）
-- calculate/food 支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
+## 运行方式（两个独立入口/域名）
+- `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON 到仓库内 `datas/fitness/plans/`**（`--no-save` 跳过；`--force` 覆盖已填 daily 的同名计划）
+- `npm run checkin`：读取计划 JSON → 校验每日体重 → 输出减脂复盘（`--plan <名字>` 指定；`--json` 输出 JSON）
+- calculate 支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
 - `npm run typecheck`：tsc --noEmit
+- 饮食配比（food）**已下线入口**，待后续优化（`src/food/` 源码暂保留，不接命令）
 
 ## 目录结构与架构约定
 ```
-entry/calculate.ts  entry/food.ts  entry/checkin.ts   # 各自实例化 runner：xxx.use(input, output)
+entry/calculate.ts  entry/checkin.ts   # 各自实例化 runner：xxx.use(input, output)
 src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort<T>{write(result)}
                                         # createRunner(compute) —— 领域互相独立，端口可插拔
 src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
-src/food/           # 域名 food：types · builtin-foods(食材库) · registry(内置+自定义合并) · solver · input/cli · output/json|table
 src/plan/           # 计划归档（calculate 写 / checkin 读）：types · store(datas/fitness/plans/<name>.json) · save-output(输出装饰器)
-src/checkin/        # 域名 checkin：types · analyze · validate · input/cli · output/json|table · sections/*(输出插槽注册表)
+src/checkin/        # 域名 checkin：types · analyze · validate · input/cli · output/json|table · style(颜色) · sections/*(输出插槽注册表)
+src/food/           # 域名 food：已下线入口，源码暂留待优化
 src/utils/project.ts # findProjectRoot() / datasDir()：从 cwd 上溯 pnpm-workspace.yaml 定位仓库根，计划存到仓库内
-src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-calculate / last-food / custom-foods），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
+src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 last-calculate），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
 ```
-> 计划文件在仓库内 `datas/fitness/plans/`（随项目上传/手改）；`last-calculate`/`last-food`/`custom-foods` 仍在 `~/.ai-tiny-codes/fitness/`。`createJsonStore(scope, { baseDir })` 支持覆盖基目录。
+> 计划文件在仓库内 `datas/fitness/plans/`（随项目上传/手改）；临时记忆（如 `last-calculate`）在 `~/.ai-tiny-codes/fitness/`。`createJsonStore(scope, { baseDir })` 支持覆盖基目录。
 约定：
 - 输入输出方式都实现 `src/core/types.ts` 的端口接口；加新输入/输出（excel、markdown、skill、文件）时新建类即可，不改计算层。
-- 计算层保持纯函数，便于未来为 food 拆独立入口复用。
-- CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；表格统一用 `@ai-tiny-codes/utils` 的 `newTable/printSection`（内部已按需注入 colAligns，避免显式传 undefined 崩溃）。
-- 记忆上次输入：`src/utils/store.ts` 落到 `~/.ai-tiny-codes/fitness/`；自定义食材也存这里（`custom-foods.json`）。注意别把本地测试残留数据留在这（会影响默认值）。
+- 计算层保持纯函数，便于复用到其他入口。
+- CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；表格统一用 `@ai-tiny-codes/utils` 的 `newTable/printSection`（内部已按需注入 colAligns，避免显式传 undefined 崩溃）；颜色用 `chalk`。
+- 记忆上次输入：`src/utils/store.ts` 落到 `~/.ai-tiny-codes/fitness/`。注意别把本地测试残留数据留在这（会影响默认值）。
 - **输出插槽**：checkin 的每类指标是一个 `SectionBuilder`，注册在 `src/checkin/sections/index.ts`；输出层只遍历 `TrackSection[]`，增删/调整指标只改注册表，不动分析与输出。
 - 公用能力来自 workspace 包 `@ai-tiny-codes/utils`（`createJsonStore` / `newTable` / `printSection` / `today` / `isValidDateString`），以 `workspace:*` 声明在本包；第三方依赖统一在仓库根 `package.json`，子包向上查找解析。
 
@@ -38,7 +38,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-c
 - 减脂期仅碳水渐降（快30g/中22.5g/慢15g，速率 5%/4%/3%），蛋白脂肪不变，碳水降到 100g 止 → `macroStages` 数组
 - 周/月目标用**均匀线性模型**：1 月=30 天、1 周=7 天，日减=初始体重×速率÷30（用户选定的口径，勿改成自然日历）
 
-## food 领域口径（本次会话新增）
+## food 领域口径（已下线入口，待优化；以下为历史确认口径，保留供后续参考）
 - 输入只有三大营养素目标（**纯手输 g**，与 calculate 松耦合：用户会从某个档位抄数字）+ 餐次(3/4) + 固定食材 + 自由食材
 - 内置食材库 17 种（用户常吃清单：卷心菜/大米生/鸡胸/巴旦木/牛肉/鸡蛋/玉米油/蛋白粉/燕麦片/胡萝卜/土豆/红薯/鸡腿/彩椒/西蓝花/香菇/虾仁）；每 100g 记 `kcal/碳水/蛋白/脂肪/膳食纤维(+糖/钠)`。**分配只用碳蛋脂，纤维等仅统计展示**（用户已确认）
 - 数值为“常见参考近似值”，来源口径注释在 builtin-foods；用户可按包装背标新增自定义覆盖
@@ -66,10 +66,9 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-c
 - 输出插槽见上「约定」；阈值常量：平台期 `<0.1kg/周`、偏快 `>计划×1.5`、偏慢 `<计划×0.5`、BMI 健康区间 18.5~24.9
 
 ## 已确认的决策/边界
-- 两域名拆开是因为“碳水渐降时每个档位都要能重生成配比”，配比绑定某一档宏量而非初始热量
-- 入口结构选型 A：一体 + 预留拆分（food solver/渲染纯函数，可再开独立入口 B 跳过减脂直接配比）
-- 未做/以后再做：角色内自定义占比、训练日/休息日两套菜单、餐次比例可编辑、食材单位换算(个/片)、USDA/中国食物成分表严格溯源、excel/markdown/skill 输出
+- 历史：food 与 calculate 拆开是因为“碳水渐降时每个档位都要能重生成配比”，配比绑定某一档宏量而非初始热量；入口结构选型 A（一体 + 预留拆分）。food 现已下线入口待优化
+- 未做/以后再做：food 配比优化、角色内自定义占比、训练日/休息日两套菜单、餐次比例可编辑、食材单位换算(个/片)、USDA/中国食物成分表严格溯源、excel/markdown/skill 输出
 
 ## 注意
-- 仓库历史曾误提交 node_modules 已清理；改动后记得 typecheck 并验证 `calculate`/`food` 两条链路
+- 仓库历史曾误提交 node_modules 已清理；改动后记得 typecheck 并验证 `calculate`/`checkin` 两条链路
 - 此项目是用户个人工具，会在另一台电脑继续开发（依赖 AGENTS.md 恢复上下文）

@@ -83,7 +83,7 @@ export function buildNodeSection(ctx: TrackContext, opts: NodeSectionOptions): T
     colAligns: ["left", "left", "right", "right", "right", "right", "right", "right", "right"],
     rows,
     notes: [
-      "偏差 = 实际 − 计划：▲ 偏重（比计划减得少 → 建议少吃一点或加有氧）；▼ 偏轻（比计划减得多 → 可适当多吃）",
+      "偏差 = 实际 − 计划：▲ 偏重（比计划减得少 → 减少碳水摄入）；▼ 偏轻（比计划减得多 → 增加碳水摄入）",
       "实际降幅：↓ 减重 / ↑ 增重；百分比均相对初始体重",
     ],
   };

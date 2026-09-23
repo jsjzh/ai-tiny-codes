@@ -17,13 +17,13 @@ export function dropValue(kg: number, startWeightKg: number): string {
   return chalk.dim(`→ ${text}`);
 }
 
-/** 偏差（实际−计划）：正=比计划重(红▲) / 负=比计划轻(绿▼)，含占比与文字 */
+/** 偏差（实际−计划）：正=比计划重(红▲) / 负=比计划轻(绿▼)，含占比与建议 */
 export function deviationValue(dev: number, startWeightKg = 0): string {
   const pct = startWeightKg > 0 ? (dev / startWeightKg) * 100 : 0;
   const sign = (n: number) => `${n > 0 ? "+" : ""}${n.toFixed(2)}`;
   const text = `${sign(dev)} / ${sign(pct)}%`;
-  if (dev > EPS) return chalk.red(`▲ ${text} 偏重`);
-  if (dev < -EPS) return chalk.green(`▼ ${text} 偏轻`);
+  if (dev > EPS) return chalk.red(`▲ ${text} 偏重，减少碳水摄入`);
+  if (dev < -EPS) return chalk.green(`▼ ${text} 偏轻，增加碳水摄入`);
   return chalk.dim(`＝ ${text} 持平`);
 }
 

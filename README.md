@@ -7,7 +7,7 @@
 ```
 packages/
   utils/    @ai-tiny-codes/utils   跨包公用工具（store / table / date / format）
-  fitness/  @ai-tiny-codes/fitness 运动饮食减脂工具（减脂周期计算 + 饮食配比 + 打卡复盘）
+  fitness/  @ai-tiny-codes/fitness 减脂工具（减脂周期计算 + 打卡复盘）
   money/    @ai-tiny-codes/money   攒钱计划计算器
 datas/      # 随项目保存的数据（如 fitness 的计划 JSON），方便上传与手改
 ```
@@ -28,7 +28,6 @@ pnpm install
 | 命令 | 说明 |
 | --- | --- |
 | `pnpm fitness:calculate` | 减脂周期计算 |
-| `pnpm fitness:food` | 每日饮食配比 + 一周采购清单 |
 | `pnpm fitness:checkin` | 读取计划 JSON，校验并输出减脂复盘 |
 | `pnpm money:calculate` | 攒钱计划计算器 |
 | `pnpm typecheck` | 对所有 workspace 包执行 `tsc --noEmit` |
