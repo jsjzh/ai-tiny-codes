@@ -1,69 +1,136 @@
 import dayjs from "dayjs";
-import { roundTo } from "@ai-tiny-codes/utils";
+import { roundTo, isValidDateString } from "@ai-tiny-codes/utils";
 import { buildPlan } from "../calculate/plan";
-import { PlanFile, PlanCheckpoint } from "../plan/types";
-import { FilledPoint, TrackContext } from "./types";
+import { PlanFile } from "../plan/types";
+import { DailyPoint, NodeActual, TrackContext, TrackStatus } from "./types";
 
-export function buildContext(planName: string, plan: PlanFile): TrackContext {
-  const model = buildPlan(plan.input);
+export const MA_WINDOW = 7; // 移动平均窗口（天）
+export const MA_MIN = 3; // 窗口内少于该条数则用原始值
+export const RECENT_DAYS = 14; // 近况回归窗口（天）
+export const NODE_TOLERANCE_DAYS = 3; // 节点就近取值的容差（天）
 
-  const filled: FilledPoint[] = plan.checkpoints
-    .filter((c: PlanCheckpoint) => c.actualWeightKg !== null && c.actualWeightKg !== undefined)
-    .map((c) => ({
-      kind: c.kind,
-      index: c.index,
-      date: c.date,
-      planWeightKg: c.planWeightKg,
-      actualWeightKg: c.actualWeightKg as number,
-      measuredDate: c.measuredDate ?? c.date,
-      note: c.note,
-    }))
-    .sort((a, b) => a.measuredDate.localeCompare(b.measuredDate));
-
-  return {
-    planName,
-    plan,
-    checkpoints: plan.checkpoints,
-    filled,
-    weekly: filled.filter((p) => p.kind === "week"),
-    monthly: filled.filter((p) => p.kind === "month"),
-    startWeightKg: plan.input.weightKg,
-    targetWeightKg: plan.input.targetWeightKg,
-    startDate: plan.input.startDate,
-    targetDate: plan.report.estimatedGoalDate,
-    dailyLossKg: model.dailyLossKg,
-  };
-}
-
-/** 两个日期之间的天数（带小数） */
-export function daysBetween(later: string, earlier: string): number {
-  return dayjs(later).diff(dayjs(earlier), "day", true);
-}
-
-/** 到某日期时，计划应到的体重（线性模型，夹到目标体重） */
-export function planWeightAt(ctx: TrackContext, date: string): number {
-  const days = daysBetween(date, ctx.startDate);
-  const w = ctx.startWeightKg - ctx.dailyLossKg * days;
-  return roundTo(Math.max(ctx.targetWeightKg, w), 2);
-}
-
-/** 减重速率（kg/周，正数表示在掉秤） */
-export function lossRatePerWeek(fromKg: number, toKg: number, days: number): number {
-  if (days <= 0) return 0;
-  return ((fromKg - toKg) / days) * 7;
-}
-
-/** 已填节点的减重速率序列（kg/周），长度 = filled.length - 1 */
-export function rateSeries(points: FilledPoint[]): { weeks: number; rate: number }[] {
-  const out: { weeks: number; rate: number }[] = [];
-  for (let i = 1; i < points.length; i++) {
-    const days = daysBetween(points[i].measuredDate, points[i - 1].measuredDate);
-    out.push({ weeks: days / 7, rate: lossRatePerWeek(points[i - 1].actualWeightKg, points[i].actualWeightKg, days) });
-  }
-  return out;
+function isNum(v: unknown): v is number {
+  return typeof v === "number" && Number.isFinite(v);
 }
 
 export function average(nums: number[]): number {
   if (nums.length === 0) return 0;
   return nums.reduce((a, b) => a + b, 0) / nums.length;
+}
+
+export function stddev(nums: number[]): number {
+  if (nums.length < 2) return 0;
+  const m = average(nums);
+  return Math.sqrt(average(nums.map((n) => (n - m) ** 2)));
+}
+
+/** 两个日期之间天数（带小数，later 晚于 earlier） */
+export function daysBetween(later: string, earlier: string): number {
+  return dayjs(later).diff(dayjs(earlier), "day", true);
+}
+
+/** 从计划里取出已填的每日体重，按日期升序，忽略 null / 非法 */
+export function getDailyEntries(plan: PlanFile): { date: string; weightKg: number }[] {
+  const dw = plan.dailyWeights ?? {};
+  return Object.entries(dw)
+    .filter(([d, v]) => isNum(v) && isValidDateString(d))
+    .map(([date, weightKg]) => ({ date, weightKg: weightKg as number }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+/** 计算每个点的 7 日移动平均（窗口内不足 MA_MIN 条则用原始值） */
+export function computeMA(entries: { date: string; weightKg: number }[]): DailyPoint[] {
+  return entries.map((e) => {
+    const from = dayjs(e.date).subtract(MA_WINDOW - 1, "day");
+    const win = entries.filter(
+      (x) => !dayjs(x.date).isBefore(from, "day") && !dayjs(x.date).isAfter(dayjs(e.date), "day")
+    );
+    const ma = win.length >= MA_MIN ? average(win.map((w) => w.weightKg)) : e.weightKg;
+    return { date: e.date, weightKg: e.weightKg, ma7: roundTo(ma, 2) };
+  });
+}
+
+/** 到某日期时计划应到的体重（线性模型，夹到目标体重） */
+export function planWeightAt(ctx: TrackContext, date: string): number {
+  const w = ctx.startWeightKg - ctx.dailyLossKg * daysBetween(date, ctx.startDate);
+  return roundTo(Math.max(ctx.targetWeightKg, w), 2);
+}
+
+/** 节点实际：距节点日期最近且 ≤NODE_TOLERANCE_DAYS 的每日数据 */
+export function nodeActual(daily: DailyPoint[], date: string): NodeActual {
+  if (daily.length === 0) return { raw: null, rawDate: null, ma: null };
+  let best: DailyPoint | null = null;
+  let bestDist = Infinity;
+  for (const p of daily) {
+    const dist = Math.abs(daysBetween(p.date, date));
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = p;
+    }
+  }
+  if (!best || bestDist > NODE_TOLERANCE_DAYS) return { raw: null, rawDate: null, ma: null };
+  return { raw: best.weightKg, rawDate: best.date, ma: best.ma7 };
+}
+
+/** 取最近 N 天的点（含端点） */
+export function recentPoints(daily: DailyPoint[], latestDate: string, days: number): DailyPoint[] {
+  const from = dayjs(latestDate).subtract(days - 1, "day");
+  return daily.filter((p) => !dayjs(p.date).isBefore(from, "day") && !dayjs(p.date).isAfter(dayjs(latestDate), "day"));
+}
+
+/** 线性回归得到减重速率（kg/周，正数=在掉秤），y 用 MA7 抗噪 */
+export function regressionLossPerWeek(points: DailyPoint[]): number {
+  if (points.length < 2) return 0;
+  const xs = points.map((p) => dayjs(p.date).diff(dayjs(points[0].date), "day", true));
+  const ys = points.map((p) => p.ma7);
+  const xm = average(xs);
+  const ym = average(ys);
+  let num = 0;
+  let den = 0;
+  for (let i = 0; i < points.length; i++) {
+    num += (xs[i] - xm) * (ys[i] - ym);
+    den += (xs[i] - xm) ** 2;
+  }
+  if (den === 0) return 0;
+  return -(num / den) * 7;
+}
+
+export function buildContext(planName: string, plan: PlanFile): TrackContext {
+  const model = buildPlan(plan.input);
+  const daily = computeMA(getDailyEntries(plan));
+  const latest = daily.length > 0 ? daily[daily.length - 1] : null;
+
+  const startDate = plan.input.startDate;
+  const targetDate = plan.report.estimatedGoalDate;
+  const planSpanDays = Math.max(1, Math.floor(daysBetween(targetDate, startDate)) + 1);
+  const loggedInPlan = daily.filter((p) => p.date >= startDate && p.date <= targetDate).length;
+  const extraDays = daily.filter((p) => p.date > targetDate).length;
+
+  let status: TrackStatus = "no-data";
+  if (latest) {
+    if (latest.ma7 <= plan.input.targetWeightKg) status = "reached";
+    else if (latest.date > targetDate) status = "overdue";
+    else status = "ongoing";
+  }
+  const overdueDays =
+    latest && latest.date > targetDate ? Math.floor(daysBetween(latest.date, targetDate)) : 0;
+
+  return {
+    planName,
+    plan,
+    checkpoints: plan.checkpoints,
+    daily,
+    startWeightKg: plan.input.weightKg,
+    targetWeightKg: plan.input.targetWeightKg,
+    startDate,
+    targetDate,
+    dailyLossKg: model.dailyLossKg,
+    latest,
+    status,
+    overdueDays,
+    loggedDays: daily.length,
+    loggedInPlan,
+    planSpanDays,
+    extraDays,
+  };
 }

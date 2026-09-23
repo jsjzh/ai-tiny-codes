@@ -15,15 +15,14 @@ function zone(b: number): string {
 }
 
 export function bmiSection(ctx: TrackContext): TrackSection | null {
-  if (ctx.filled.length === 0) return null;
+  if (!ctx.latest) return null;
 
   const heightCm = ctx.plan.input.heightCm;
-  const latest = ctx.filled[ctx.filled.length - 1];
-  const current = bmi(latest.actualWeightKg, heightCm);
+  const current = bmi(ctx.latest.ma7, heightCm);
   const target = bmi(ctx.targetWeightKg, heightCm);
 
   const lines = [
-    `当前 BMI：${current.toFixed(1)}（${zone(current)}）`,
+    `当前 BMI（按 7 日均）：${current.toFixed(1)}（${zone(current)}）`,
     `目标 BMI：${target.toFixed(1)}（${zone(target)}）`,
     `健康区间：${HEALTH_MIN} ~ ${HEALTH_MAX}`,
   ];

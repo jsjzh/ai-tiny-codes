@@ -3,7 +3,7 @@ export interface InputPort<T> {
 }
 
 export interface OutputPort<T> {
-  write(result: T): void;
+  write(result: T): void | Promise<void>;
 }
 
 export interface Runner<TIn, TOut> {

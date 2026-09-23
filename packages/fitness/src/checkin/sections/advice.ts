@@ -1,14 +1,13 @@
-import { average, planWeightAt, rateSeries } from "../analyze";
+import { planWeightAt, recentPoints, regressionLossPerWeek, RECENT_DAYS } from "../analyze";
 import { TrackContext, TrackSection } from "../types";
 
 const FAST_RATIO = 1.5;
 const SLOW_RATIO = 0.5;
 
 export function adviceSection(ctx: TrackContext): TrackSection | null {
-  if (ctx.filled.length < 2 || ctx.dailyLossKg <= 0) return null;
+  if (ctx.daily.length < 2 || !ctx.latest || ctx.dailyLossKg <= 0) return null;
 
-  const rates = rateSeries(ctx.filled).map((r) => r.rate);
-  const recent = average(rates.slice(-3));
+  const recent = regressionLossPerWeek(recentPoints(ctx.daily, ctx.latest.date, RECENT_DAYS));
   const planRate = ctx.dailyLossKg * 7;
   const ratio = recent / planRate;
 
@@ -27,11 +26,12 @@ export function adviceSection(ctx: TrackContext): TrackSection | null {
     lines.push(`近况速率约为计划的 ${ratio.toFixed(2)} 倍，节奏正常，保持当前方案`);
   }
 
-  // 偏差持续为正（实际高于计划）提醒
-  const recentFilled = ctx.filled.slice(-2);
-  const deviations = recentFilled.map((p) => p.actualWeightKg - planWeightAt(ctx, p.measuredDate));
-  if (deviations.every((d) => d > 0.3)) {
-    lines.push("⚠ 连续两次实际体重高于计划，建议复核饮食记录与执行情况");
+  // 连续偏高于计划（按 7 日均）
+  const prev = ctx.daily[ctx.daily.length - 2];
+  const devLast = ctx.latest.ma7 - planWeightAt(ctx, ctx.latest.date);
+  const devPrev = prev.ma7 - planWeightAt(ctx, prev.date);
+  if (devLast > 0.3 && devPrev > 0.3) {
+    lines.push("⚠ 连续偏高于计划，建议复核饮食记录与执行情况");
   }
 
   return { key: "advice", title: "调整建议", lines, level };

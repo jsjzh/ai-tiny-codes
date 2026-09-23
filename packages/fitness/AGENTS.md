@@ -49,15 +49,19 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-c
 - 一周采购清单 = 7 天同一菜单按食材 ×7 汇总（用户周日统一备菜场景）；给易购换算提示（鸡蛋≈个、生米≈kg）
 - 蛋白粉建议提示按手中罐装背标覆盖；全蛋 ≈50g/个
 
-## checkin 领域口径（本次会话新增）
-- **数据源是计划 JSON**，不是代码写的记录：`calculate` 生成仓库内 `datas/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json`，每个周/月节点都留 `actualWeightKg`(待填,null) 与 `measuredDate`(可空=节点日期)；用户在 JSON 里手填
-- **周、月节点不去重、各自独立填写**，便于分开分析（同日一般只有目标日重合）
-- `checkin` 只读：先 `validatePlanFile` 校验（version/结构、actual 30~300kg、measuredDate 合法且不早于开始日/不晚于目标日、同类 measuredDate 单调），有 error 则只出校验、不分析
-- 分析用 `buildContext`：`filled`=已填节点按 measuredDate 升序；`weekly`/`monthly` 再分序列
+## checkin 领域口径
+- **数据源是计划 JSON 的 `dailyWeights`**：`calculate` 生成仓库内 `datas/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json`，`dailyWeights` 已按 `开始日 → 目标日` 逐日铺 `null`（待填）；用户把某天的 `null` 改成体重数字。超过目标日的日期由用户**自己补 key**（checkin 不丢弃，识别为超期）
+- `checkpoints` 只剩 `{ kind, index, date, planWeightKg, note? }`，**不再有 actual 字段**；节点实际值由 daily 就近（`±3 天`）派生
+- `checkin` 只读：先 `validatePlanFile` 校验（version/结构、daily 日期合法、体重 30~300kg、单日跳变 >2kg 提示、早于开始日提示；晚于目标日视为超期不告警），有 error 则只出校验、不分析
+- 分析用 `buildContext`：`daily` = 已填数值按日期升序并算好 `ma7`；`latest`=最后一条；`status`= no-data/ongoing/overdue/reached
+- **MA7**：某日往前 7 自然日内已填值的均值，窗口 <`MA_MIN`(3) 条用原始值（抗水分噪音）
+- **近况速率**：最近 `RECENT_DAYS`(14) 天的 MA7 线性回归斜率 ×7 = kg/周（正数=掉秤）；全程速率同理
 - 计划是**线性模型**：`该日计划体重 = 初始体重 − dailyLossKg × 距开始天数`（夹到目标体重），用 `buildPlan(input).dailyLossKg`
-- 环比：`checkpoints` 表按**同类型**（周比周、月比月）计算，`overview` 按**上一已填节点**计算；符号约定「体重变化」（下降为负）
-- 偏差 = 实际 − 计划（负=低于计划=领先）；领先/落后折算天数 = 偏差 / dailyLossKg
-- 外推 ETA：用最近 3 段速率均值，`预计还需 = 距目标 / 速率`；对比 `estimatedGoalDate` 给提前/延后
+- 周/月节点分**两张表**：计划降幅=计划减重（首节点基线为初始体重）；实际降幅(环比)=同表上一**有数据**节点的 MA7 差；偏差=实际(raw)−计划；累计减重=初始−实际(raw)
+- 达标判定：最新 MA7 ≤ 目标体重 → reached；`latest.date > 目标日` 且未达标 → overdue（`progress` 出「超期 X 天」并按近况速率重算 ETA）
+- ETA：`预计还需 = 距目标 / 近况回归速率`；对比 `estimatedGoalDate` 给提前/延后；已达标则给提前/延后天数
+- 覆盖率分母 = 开始日~目标日天数；超期额外记录天数单列
+- **保存保护**：`SavePlanOutput` 在写入前若同名计划已存在且 `dailyWeights` 有已填数值，则默认不覆盖（非交互）或弹 `confirm`（默认否）；`--force` 强制覆盖。`OutputPort.write` 支持异步，`runner` 已 `await`
 - 输出插槽见上「约定」；阈值常量：平台期 `<0.1kg/周`、偏快 `>计划×1.5`、偏慢 `<计划×0.5`、BMI 健康区间 18.5~24.9
 
 ## 已确认的决策/边界

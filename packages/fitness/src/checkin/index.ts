@@ -14,18 +14,18 @@ export function buildTrackReport(planName: string): TrackReport {
 
   const ctx = buildContext(planName, plan);
   if (validation.errors.length === 0) {
-    if (ctx.filled.length === 0) {
+    if (ctx.daily.length === 0) {
       sections.push({
         key: "empty",
-        title: "暂无数据",
-        lines: ["还没有填写任何 actualWeightKg，请先在计划 JSON 里补上称重数据"],
+        title: "暂无每日数据",
+        lines: ["还没有填写任何 dailyWeights，请把计划 JSON 里对应日期的 null 改成体重数字"],
         level: "warn",
       });
-    } else {
-      for (const build of SECTION_BUILDERS) {
-        const s = build(ctx);
-        if (s) sections.push(s);
-      }
+    }
+
+    for (const build of SECTION_BUILDERS) {
+      const s = build(ctx);
+      if (s) sections.push(s);
     }
   }
 

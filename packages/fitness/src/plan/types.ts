@@ -2,14 +2,12 @@ import { CalculateInput, CalculateReport } from "../calculate/types";
 
 export type CheckpointKind = "week" | "month";
 
-/** 计划里的一个周/月节点，actualWeightKg 为待填值 */
+/** 计划里的一个周/月节点（实际体重由 dailyWeights 自动派生） */
 export interface PlanCheckpoint {
   kind: CheckpointKind;
   index: number;
   date: string; // 计划节点日期 YYYY-MM-DD
   planWeightKg: number; // 计划应到体重
-  actualWeightKg: number | null; // 待填：实际体重
-  measuredDate: string | null; // 实际称重日期（缺省视为 date）
   note?: string;
 }
 
@@ -20,4 +18,6 @@ export interface PlanFile {
   input: CalculateInput;
   report: CalculateReport;
   checkpoints: PlanCheckpoint[];
+  /** 每日体重，"YYYY-MM-DD" -> 体重(kg)，null 表示待填 */
+  dailyWeights: Record<string, number | null>;
 }
