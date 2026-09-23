@@ -1,5 +1,6 @@
 import { CalculateReport } from "../calculate/types";
 import { OutputPort } from "../core/types";
+import { datasRelative } from "../utils/project";
 import { savePlan } from "./store";
 
 /**
@@ -14,7 +15,7 @@ export class SavePlanOutput implements OutputPort<CalculateReport> {
     const name = savePlan(result);
     if (!process.argv.includes("--json")) {
       console.log("");
-      console.log(`✓ 计划已保存：~/.ai-tiny-codes/fitness/plans/${name}.json`);
+      console.log(`✓ 计划已保存：${datasRelative("fitness", "plans", `${name}.json`)}`);
     }
   }
 }

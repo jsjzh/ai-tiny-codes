@@ -3,7 +3,7 @@
 用 TypeScript 编写。仓库唯一业务说明文档是 README.md（减脂方法论来自视频总结），但架构与最新决策以本文件为准。
 
 ## 运行方式（三个独立入口/域名）
-- `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON**（`--no-save` 跳过）
+- `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON 到仓库内 `datas/fitness/plans/`**（`--no-save` 跳过）
 - `npm run food`：饮食配比（输入碳/蛋/脂 → 固定食材 → 自由食材 → 每日分餐 + 一周采购清单）
 - `npm run checkin`：读取计划 JSON → 校验你手填的体重 → 输出减脂复盘（`--plan <名字>` 指定；`--json` 输出 JSON）
 - calculate/food 支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
@@ -16,10 +16,12 @@ src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort
                                         # createRunner(compute) —— 领域互相独立，端口可插拔
 src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
 src/food/           # 域名 food：types · builtin-foods(食材库) · registry(内置+自定义合并) · solver · input/cli · output/json|table
-src/plan/           # 计划归档（calculate 写 / checkin 读）：types · store(plans/<name>.json) · save-output(输出装饰器)
+src/plan/           # 计划归档（calculate 写 / checkin 读）：types · store(datas/fitness/plans/<name>.json) · save-output(输出装饰器)
 src/checkin/        # 域名 checkin：types · analyze · validate · input/cli · output/json|table · sections/*(输出插槽注册表)
-src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-calculate / last-food / custom-foods / plans/*），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
+src/utils/project.ts # findProjectRoot() / datasDir()：从 cwd 上溯 pnpm-workspace.yaml 定位仓库根，计划存到仓库内
+src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-calculate / last-food / custom-foods），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
 ```
+> 计划文件在仓库内 `datas/fitness/plans/`（随项目上传/手改）；`last-calculate`/`last-food`/`custom-foods` 仍在 `~/.ai-tiny-codes/fitness/`。`createJsonStore(scope, { baseDir })` 支持覆盖基目录。
 约定：
 - 输入输出方式都实现 `src/core/types.ts` 的端口接口；加新输入/输出（excel、markdown、skill、文件）时新建类即可，不改计算层。
 - 计算层保持纯函数，便于未来为 food 拆独立入口复用。
@@ -48,7 +50,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（last-c
 - 蛋白粉建议提示按手中罐装背标覆盖；全蛋 ≈50g/个
 
 ## checkin 领域口径（本次会话新增）
-- **数据源是计划 JSON**，不是代码写的记录：`calculate` 生成 `plans/plan-<初始体重>-<目标体重>-<开始日期>.json`，每个周/月节点都留 `actualWeightKg`(待填,null) 与 `measuredDate`(可空=节点日期)；用户在 JSON 里手填
+- **数据源是计划 JSON**，不是代码写的记录：`calculate` 生成仓库内 `datas/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json`，每个周/月节点都留 `actualWeightKg`(待填,null) 与 `measuredDate`(可空=节点日期)；用户在 JSON 里手填
 - **周、月节点不去重、各自独立填写**，便于分开分析（同日一般只有目标日重合）
 - `checkin` 只读：先 `validatePlanFile` 校验（version/结构、actual 30~300kg、measuredDate 合法且不早于开始日/不晚于目标日、同类 measuredDate 单调），有 error 则只出校验、不分析
 - 分析用 `buildContext`：`filled`=已填节点按 measuredDate 升序；`weekly`/`monthly` 再分序列

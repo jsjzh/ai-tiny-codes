@@ -10,7 +10,7 @@
 
 ### 打卡复盘（checkin）
 
-1. 先跑 `pnpm fitness:calculate`，会在 `~/.ai-tiny-codes/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json` 生成计划；里面每个**周节点和月节点**都留了待填字段：
+1. 先跑 `pnpm fitness:calculate`，会在**仓库内** `datas/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json` 生成计划；里面每个**周节点和月节点**都留了待填字段：
    - `actualWeightKg`：实际体重（待填用 `null`）
    - `measuredDate`：实际称重日期（`YYYY-MM-DD`，不填则视为节点日期）
    - `note`：可选备注

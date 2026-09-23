@@ -1,6 +1,10 @@
+import { createJsonStore } from "@ai-tiny-codes/utils";
 import { CalculateReport } from "../calculate/types";
-import { loadJson, saveJson, listJson } from "../utils/store";
+import { datasDir } from "../utils/project";
 import { PlanCheckpoint, PlanFile } from "./types";
+
+// 计划保存在仓库内 datas/fitness/plans/，方便随项目上传和手改
+const planStore = createJsonStore("fitness/plans", { baseDir: datasDir() });
 
 const NOTE =
   "给每个 checkpoint 填 actualWeightKg(kg) 与 measuredDate(YYYY-MM-DD，不填则视为节点日期)，保存后运行 pnpm fitness:checkin 查看分析。周、月节点各自独立填写。";
@@ -49,14 +53,14 @@ export function savePlan(report: CalculateReport): string {
     report,
     checkpoints: buildCheckpoints(report),
   };
-  saveJson(`plans/${name}`, file);
+  planStore.save(name, file);
   return name;
 }
 
 export function listPlans(): string[] {
-  return listJson("plans");
+  return planStore.list();
 }
 
 export function loadPlan(name: string): PlanFile | null {
-  return loadJson<PlanFile>(`plans/${name}`);
+  return planStore.load<PlanFile>(name);
 }

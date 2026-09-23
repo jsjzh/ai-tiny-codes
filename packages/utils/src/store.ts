@@ -15,6 +15,11 @@ export interface JsonStore {
   list(subdir?: string): string[];
 }
 
+export interface JsonStoreOptions {
+  /** 基目录，默认 ~/.ai-tiny-codes；可传项目内目录（如 <repo>/datas） */
+  baseDir?: string;
+}
+
 function assertName(name: string, kind: string): void {
   const segments = name.split("/");
   const ok =
@@ -24,13 +29,13 @@ function assertName(name: string, kind: string): void {
 }
 
 /**
- * 在 ~/.ai-tiny-codes/<scope>/ 下读写 JSON。
+ * 在 <baseDir>/<scope>/ 下读写 JSON（baseDir 默认 ~/.ai-tiny-codes）。
  * name 支持 `子目录/名字`，如 `plans/plan-96.8-75-2026-08-01`。
  * 读写失败都不影响主流程。
  */
-export function createJsonStore(scope: string): JsonStore {
+export function createJsonStore(scope: string, options: JsonStoreOptions = {}): JsonStore {
   assertName(scope, "命名空间");
-  const dir = path.join(BASE_DIR, scope);
+  const dir = path.join(options.baseDir ?? BASE_DIR, scope);
 
   const fileOf = (name: string): string => {
     assertName(name, "文件名");
