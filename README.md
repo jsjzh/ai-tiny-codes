@@ -30,6 +30,7 @@ pnpm install
 | --- | --- |
 | `pnpm fitness:calculate` | 减脂周期计算 |
 | `pnpm fitness:checkin` | 读取计划 JSON，校验并输出减脂复盘 |
+| `pnpm fitness:sync` | 从练练健身拉取体重日志写入计划 `dailyWeights`（`--dry-run` 预演） |
 | `pnpm money:calculate` | 攒钱计划计算器 |
 | `pnpm keepstrong:probe` | 练练健身 API 连通性探测（读取根 `.env.local`） |
 | `pnpm typecheck` | 对所有 workspace 包执行 `tsc --noEmit` |

@@ -1,21 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import * as api from "./api";
+import { loadEnvFile } from "./env";
 
-/** 从仓库根的 .env.local 读取环境变量（本地开发用，无需依赖 dotenv） */
+/** 从仓库根的 .env.local 读取环境变量（本地开发用） */
 function loadRootEnv(): void {
   let dir = process.cwd();
   for (;;) {
     if (fs.existsSync(path.join(dir, "pnpm-workspace.yaml"))) {
-      const envPath = path.join(dir, ".env.local");
-      if (fs.existsSync(envPath)) {
-        for (const line of fs.readFileSync(envPath, "utf-8").split("\n")) {
-          const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
-          if (m && process.env[m[1]] === undefined) {
-            process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
-          }
-        }
-      }
+      loadEnvFile(path.join(dir, ".env.local"));
       return;
     }
     const parent = path.dirname(dir);

@@ -27,6 +27,8 @@ import { createKeepStrong, setKeepStrongClient } from "@ai-tiny-codes/keepstrong
 setKeepStrongClient(createKeepStrong({ apiKey: "...", baseUrl: "..." }));
 ```
 
+Node 侧可用导出的 `loadEnvFile(path)` 读取 `.env.local` 到 `process.env`（已存在的变量不覆盖），例如 `loadEnvFile(path.join(repoRoot, ".env.local"))`。
+
 **每个请求自动带**：`Authorization: Bearer`、`X-KeepStrong-Skill-Version: 1.25.0`、`X-KeepStrong-Agent-Name: opencode`、`X-Timezone-Offset`（= `-getTimezoneOffset()`，中国 480）。
 **写请求额外**：`Content-Type: application/json`、`Idempotency-Key`（随机）、body 自动合并 `userConfirmed: true`。
 

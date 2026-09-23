@@ -2,21 +2,23 @@
 
 用 TypeScript 编写。仓库唯一业务说明文档是 README.md（减脂方法论来自视频总结），但架构与最新决策以本文件为准。
 
-## 运行方式（两个独立入口/域名）
+## 运行方式（三个独立入口/域名）
 - `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON 到仓库内 `datas/fitness/plans/`**（`--no-save` 跳过；`--force` 覆盖已填 daily 的同名计划）
 - `npm run checkin`：读取计划 JSON → 校验每日体重 → 输出减脂复盘（`--plan <名字>` 指定；`--json` 输出 JSON）
+- `npm run sync`：从练练健身（KeepStrong）拉取逐日体重，合并进计划 `dailyWeights`（`--plan <名字>`、`--dry-run`、`--json`）
 - calculate 支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
 - `npm run typecheck`：tsc --noEmit
 - 饮食配比（food）**已下线入口**，待后续优化（`src/food/` 源码暂保留，不接命令）
 
 ## 目录结构与架构约定
 ```
-entry/calculate.ts  entry/checkin.ts   # 各自实例化 runner：xxx.use(input, output)
+entry/calculate.ts  entry/checkin.ts  entry/sync.ts   # 各自实例化 runner / 直接跑命令
 src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort<T>{write(result)}
                                         # createRunner(compute) —— 领域互相独立，端口可插拔
 src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
-src/plan/           # 计划归档（calculate 写 / checkin 读）：types · store(datas/fitness/plans/<name>.json) · save-output(输出装饰器)
+src/plan/           # 计划归档（calculate 写 / checkin·sync 读写）：types · store(datas/fitness/plans/<name>.json) · save-output(输出装饰器)
 src/checkin/        # 域名 checkin：types · analyze · validate · input/cli · output/json|table · style(颜色) · sections/*(输出插槽注册表)
+src/sync/           # 域名 sync：从 @ai-tiny-codes/keepstrong 拉体重 → 合并 dailyWeights
 src/food/           # 域名 food：已下线入口，源码暂留待优化
 src/utils/project.ts # findProjectRoot() / datasDir()：从 cwd 上溯 pnpm-workspace.yaml 定位仓库根，计划存到仓库内
 src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 last-calculate），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
@@ -28,7 +30,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - CLI 用 `@inquirer/prompts`（select/checkbox/number/input/confirm）；数字必须 `step: "any"`（否则整数限制，曾踩坑 96.8）；表格统一用 `@ai-tiny-codes/utils` 的 `newTable/printSection`（内部已按需注入 colAligns，避免显式传 undefined 崩溃）；颜色用 `chalk`。
 - 记忆上次输入：`src/utils/store.ts` 落到 `~/.ai-tiny-codes/fitness/`。注意别把本地测试残留数据留在这（会影响默认值）。
 - **输出插槽**：checkin 的每类指标是一个 `SectionBuilder`，注册在 `src/checkin/sections/index.ts`；输出层只遍历 `TrackSection[]`，增删/调整指标只改注册表，不动分析与输出。
-- 公用能力来自 workspace 包 `@ai-tiny-codes/utils`（`createJsonStore` / `newTable` / `printSection` / `today` / `isValidDateString`），以 `workspace:*` 声明在本包；第三方依赖统一在仓库根 `package.json`，子包向上查找解析。
+- 公用能力来自 workspace 包 `@ai-tiny-codes/utils`（`createJsonStore` / `newTable` / `printSection` / `today` / `isValidDateString`）；练练健身接口来自 `@ai-tiny-codes/keepstrong`（`getKeepStrongBodyLogs` 等），均以 `workspace:*` 声明在本包；第三方依赖统一在仓库根 `package.json`，子包向上查找解析。
 
 ## calculate 领域口径（README 第一二模块）
 - BMR：男 `88.362+13.397·kg+4.799·cm-5.677·age`；女 `447.593+9.247·kg+3.098·cm-4.330·age`
@@ -64,6 +66,14 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - 覆盖率分母 = 开始日~目标日天数；超期额外记录天数单列
 - **保存保护**：`SavePlanOutput` 在写入前若同名计划已存在且 `dailyWeights` 有已填数值，则默认不覆盖（非交互）或弹 `confirm`（默认否）；`--force` 强制覆盖。`OutputPort.write` 支持异步，`runner` 已 `await`
 - 输出插槽见上「约定」；阈值常量：平台期 `<0.1kg/周`、偏快 `>计划×1.5`、偏慢 `<计划×0.5`、BMI 健康区间 18.5~24.9
+
+## sync 领域口径
+- 数据源：`@ai-tiny-codes/keepstrong` 的 `getKeepStrongBodyLogs({ metric:"weight", startDate, endDate, page, pageSize:100 })`，返回 `{ list:[{ dayStr: "20260923", value, unit }], hasMore }`
+- 日期口径：计划 `dailyWeights` 用 `YYYY-MM-DD`，练练 API 用 `yyyyMMdd`，双向转换（`toDashed`）
+- 合并策略：只**填/更新**，不删除已有日期；目标日之后的新日期会新增 key；重复运行幂等
+- `--dry-run` 只统计不写；写入用 `writePlan(name, plan)` 覆盖计划文件
+- API key：`entry/sync.ts` 启动时 `loadEnvFile(findProjectRoot()/.env.local)`（keepstrong 导出的 `loadEnvFile`）读 `KEEPSTRONG_API_KEY`
+- 返回值只做编辑/新增计数（added/filled/updated/unchanged）与首末日期，供 CLI 展示
 
 ## 已确认的决策/边界
 - 历史：food 与 calculate 拆开是因为“碳水渐降时每个档位都要能重生成配比”，配比绑定某一档宏量而非初始热量；入口结构选型 A（一体 + 预留拆分）。food 现已下线入口待优化

@@ -72,3 +72,8 @@ export function listPlans(): string[] {
 export function loadPlan(name: string): PlanFile | null {
   return planStore.load<PlanFile>(name);
 }
+
+/** 覆盖写入已有计划文件（用于 sync 等原地更新） */
+export function writePlan(name: string, plan: PlanFile): void {
+  planStore.save(name, plan);
+}

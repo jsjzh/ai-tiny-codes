@@ -6,9 +6,11 @@
   "scripts": {
     "calculate": "tsx entry/calculate.ts",
     "checkin": "tsx entry/checkin.ts",
+    "sync": "tsx entry/sync.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-tiny-codes/keepstrong": "workspace:*",
     "@ai-tiny-codes/utils": "workspace:*"
   }
 }

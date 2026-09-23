@@ -6,6 +6,7 @@
   "scripts": {
     "fitness:calculate": "pnpm --filter @ai-tiny-codes/fitness calculate",
     "fitness:checkin": "pnpm --filter @ai-tiny-codes/fitness checkin",
+    "fitness:sync": "pnpm --filter @ai-tiny-codes/fitness sync",
     "money:calculate": "pnpm --filter @ai-tiny-codes/money calculate",
     "keepstrong:probe": "pnpm --filter @ai-tiny-codes/keepstrong probe",
     "typecheck": "pnpm -r typecheck"

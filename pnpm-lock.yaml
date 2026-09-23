@@ -33,6 +33,9 @@ importers:
 
   packages/fitness:
     dependencies:
+      '@ai-tiny-codes/keepstrong':
+        specifier: workspace:*
+        version: link:../keepstrong
       '@ai-tiny-codes/utils':
         specifier: workspace:*
         version: link:../utils
