@@ -1,0 +1,18 @@
+{
+  "name": "@ai-tiny-codes/keepstrong",
+  "version": "1.0.0",
+  "description": "练练健身（KeepStrong）AI API 轻量客户端",
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "probe": "tsx src/probe.ts"
+  }
+}

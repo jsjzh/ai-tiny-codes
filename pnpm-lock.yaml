@@ -37,6 +37,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
 
+  packages/keepstrong: {}
+
   packages/money:
     dependencies:
       '@ai-tiny-codes/utils':

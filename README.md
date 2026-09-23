@@ -6,9 +6,10 @@
 
 ```
 packages/
-  utils/    @ai-tiny-codes/utils   跨包公用工具（store / table / date / format）
-  fitness/  @ai-tiny-codes/fitness 减脂工具（减脂周期计算 + 打卡复盘）
-  money/    @ai-tiny-codes/money   攒钱计划计算器
+  utils/      @ai-tiny-codes/utils      跨包公用工具（store / table / date / format）
+  fitness/    @ai-tiny-codes/fitness    减脂工具（减脂周期计算 + 打卡复盘）
+  money/      @ai-tiny-codes/money      攒钱计划计算器
+  keepstrong/ @ai-tiny-codes/keepstrong 练练健身（KeepStrong）AI API 轻量客户端
 datas/      # 随项目保存的数据（如 fitness 的计划 JSON），方便上传与手改
 ```
 
@@ -30,6 +31,7 @@ pnpm install
 | `pnpm fitness:calculate` | 减脂周期计算 |
 | `pnpm fitness:checkin` | 读取计划 JSON，校验并输出减脂复盘 |
 | `pnpm money:calculate` | 攒钱计划计算器 |
+| `pnpm keepstrong:probe` | 练练健身 API 连通性探测（读取根 `.env.local`） |
 | `pnpm typecheck` | 对所有 workspace 包执行 `tsc --noEmit` |
 
 也可以进入某个包直接跑，例如：
@@ -50,3 +52,4 @@ pnpm --filter @ai-tiny-codes/money calculate
 
 - 减脂工具：[`packages/fitness/README.md`](packages/fitness/README.md)、[`packages/fitness/AGENTS.md`](packages/fitness/AGENTS.md)
 - 攒钱计算器：[`packages/money/README.md`](packages/money/README.md)
+- 练练健身 API 客户端：[`packages/keepstrong/README.md`](packages/keepstrong/README.md)
