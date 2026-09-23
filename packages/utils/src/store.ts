@@ -3,7 +3,7 @@ import os from "os";
 import path from "path";
 
 const BASE_DIR = path.join(os.homedir(), ".ai-tiny-codes");
-const NAME_RE = /^[a-zA-Z0-9-]+$/;
+const SEGMENT_RE = /^[a-zA-Z0-9._-]+$/;
 
 export interface JsonStore {
   /** 数据目录，供提示文案使用 */
@@ -11,14 +11,21 @@ export interface JsonStore {
   load<T>(name: string): T | null;
   save(name: string, data: unknown): void;
   remove(name: string): void;
+  /** 列出某个子目录下所有 json 的 base 名（不含扩展名），按字典序排序 */
+  list(subdir?: string): string[];
 }
 
 function assertName(name: string, kind: string): void {
-  if (!NAME_RE.test(name)) throw new Error(`非法的存储${kind}：${name}`);
+  const segments = name.split("/");
+  const ok =
+    segments.length > 0 &&
+    segments.every((s) => SEGMENT_RE.test(s) && s !== "." && s !== "..");
+  if (!ok) throw new Error(`非法的存储${kind}：${name}`);
 }
 
 /**
  * 在 ~/.ai-tiny-codes/<scope>/ 下读写 JSON。
+ * name 支持 `子目录/名字`，如 `plans/plan-96.8-75-2026-08-01`。
  * 读写失败都不影响主流程。
  */
 export function createJsonStore(scope: string): JsonStore {
@@ -44,7 +51,8 @@ export function createJsonStore(scope: string): JsonStore {
     save(name: string, data: unknown): void {
       try {
         const file = fileOf(name);
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        const parent = path.dirname(file);
+        if (!fs.existsSync(parent)) fs.mkdirSync(parent, { recursive: true });
         fs.writeFileSync(file, JSON.stringify(data, null, 2), "utf-8");
       } catch {
         // 存储失败不影响主流程
@@ -56,6 +64,20 @@ export function createJsonStore(scope: string): JsonStore {
         if (fs.existsSync(file)) fs.rmSync(file);
       } catch {
         // 忽略删除失败
+      }
+    },
+    list(subdir = ""): string[] {
+      try {
+        if (subdir) assertName(subdir, "子目录");
+        const target = subdir ? path.join(dir, subdir) : dir;
+        if (!fs.existsSync(target)) return [];
+        return fs
+          .readdirSync(target)
+          .filter((f) => f.endsWith(".json"))
+          .map((f) => f.slice(0, -".json".length))
+          .sort();
+      } catch {
+        return [];
       }
     },
   };

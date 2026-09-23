@@ -1,3 +1,24 @@
+## 使用
+
+三个命令（仓库根）：
+
+| 命令 | 说明 |
+| --- | --- |
+| `pnpm fitness:calculate` | 输入身体数据/目标/节奏，算热量与宏量档位、周/月目标，并生成计划 JSON（`--no-save` 可跳过；`--json` 输出 JSON） |
+| `pnpm fitness:food` | 按三大营养素目标生成每日配餐与一周采购清单 |
+| `pnpm fitness:checkin` | 读取计划 JSON，校验你填的体重并输出减脂复盘（`--plan <名字>` 指定计划；`--json` 输出 JSON） |
+
+### 打卡复盘（checkin）
+
+1. 先跑 `pnpm fitness:calculate`，会在 `~/.ai-tiny-codes/fitness/plans/plan-<初始体重>-<目标体重>-<开始日期>.json` 生成计划；里面每个**周节点和月节点**都留了待填字段：
+   - `actualWeightKg`：实际体重（待填用 `null`）
+   - `measuredDate`：实际称重日期（`YYYY-MM-DD`，不填则视为节点日期）
+   - `note`：可选备注
+2. 按日期在 JSON 里填上实际体重（周、月节点各自独立填写，可分开分析）
+3. 运行 `pnpm fitness:checkin`，选择计划后输出：数据校验、计划 vs 实际、最近一次打卡、减脂速率、进度与预测、BMI、趋势与平台期、调整建议
+
+> 阈值常量：平台期 `<0.1kg/周`、偏快 `>计划×1.5`、偏慢 `<计划×0.5`。指标以「插槽」形式注册在 `src/checkin/sections/index.ts`，增删/调整只改注册表。
+
 ## 视频总结
 
 ### 第一模块
