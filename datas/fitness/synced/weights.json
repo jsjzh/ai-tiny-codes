@@ -1,10 +1,10 @@
 {
   "kind": "weight",
   "source": "keepstrong",
-  "syncedAt": "2026-09-23T07:50:08.911Z",
+  "syncedAt": "2026-09-24T01:17:05.002Z",
   "range": {
     "from": "20250924",
-    "to": "20260923"
+    "to": "20260924"
   },
   "logs": [
     {
@@ -1736,6 +1736,16 @@
       "value": 88.15,
       "unit": "kg",
       "time": 1790121713
+    },
+    {
+      "id": "weight-5600927-20260924",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20260924",
+      "dayTs": 1790179200,
+      "value": 88.2,
+      "unit": "kg",
+      "time": 1790207055
     }
   ]
 }
