@@ -29,7 +29,7 @@ setKeepStrongClient(createKeepStrong({ apiKey: "...", baseUrl: "..." }));
 
 Node 侧可用导出的 `loadEnvFile(path)` 读取 `.env.local` 到 `process.env`（已存在的变量不覆盖），例如 `loadEnvFile(path.join(repoRoot, ".env.local"))`。
 
-**每个请求自动带**：`Authorization: Bearer`、`X-KeepStrong-Skill-Version: 1.25.0`、`X-KeepStrong-Agent-Name: opencode`、`X-Timezone-Offset`（= `-getTimezoneOffset()`，中国 480）。
+**每个请求自动带**：`Authorization: Bearer`、`X-KeepStrong-Skill-Version: 1.27.0`、`X-KeepStrong-Agent-Name: opencode`、`X-Timezone-Offset`（= `-getTimezoneOffset()`，中国 480）。
 **写请求额外**：`Content-Type: application/json`、`Idempotency-Key`（随机）、body 自动合并 `userConfirmed: true`。
 
 ## 用法
@@ -56,8 +56,8 @@ await postKeepStrongBodyLog({ metric: "weight", value: 88.1, unit: "kg", dayStr:
 **读（11）**
 `getKeepStrongTrainingRecords` / `getKeepStrongRunningPlans` / `getKeepStrongActions` / `getKeepStrongActionHistory` / `getKeepStrongTrainingTemplates` / `getKeepStrongFoodLogs` / `getKeepStrongFoodSearch` / `getKeepStrongFoodFavorites` / `getKeepStrongFoodMyFoods` / `getKeepStrongBodyProfile` / `getKeepStrongBodyLogs`
 
-**写（8）**
-`postKeepStrongScheduledWorkout` / `postKeepStrongTemplate` / `postKeepStrongTemplateActions` / `postKeepStrongCustomPlan` / `postKeepStrongRunningWorkout` / `postKeepStrongRunningCommand` / `postKeepStrongFoodLog` / `postKeepStrongBodyLog`
+**写（9）**
+`postKeepStrongScheduledWorkout` / `postKeepStrongTemplate` / `postKeepStrongTemplateActions` / `postKeepStrongActionWeight` / `postKeepStrongCustomPlan` / `postKeepStrongRunningWorkout` / `postKeepStrongRunningCommand` / `postKeepStrongFoodLog` / `postKeepStrongBodyLog`
 
 动作 payload 三种形态见 `src/types.ts`：普通 / `dropSets`（递变组，挂在组上）/ `supersetActions`（超级组，2~4 个动作）。**未指定重量传 `weight: ""`，不要传 0**。
 

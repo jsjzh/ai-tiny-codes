@@ -29,6 +29,10 @@ export interface KeepStrongSet {
   rightWeight?: number | string;
   /** 递变组：本组结束后依次递减的小组 */
   dropSets?: KeepStrongDropSet[];
+  /** 热身组标记；普通工作组省略 */
+  flag?: "hot";
+  /** 计时类动作的时长（秒） */
+  durationSeconds?: number;
 }
 
 export interface KeepStrongDropSet {
@@ -73,4 +77,11 @@ export interface KeepStrongExerciseInput {
   name: string;
   minutes: number;
   calories: number;
+}
+
+/** 模板/跑计划写入的 before/after actions 开关：只传要改的键，false 关闭，{} 不变 */
+export interface KeepStrongBeforeAfterEnabled {
+  before?: boolean;
+  after?: boolean;
+  independentWeight?: boolean;
 }

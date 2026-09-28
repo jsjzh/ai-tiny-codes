@@ -78,6 +78,7 @@ declare namespace KeepStrongAPI {
     flag?: string;
     isNewRM1Record?: boolean;
     rm1Weight?: number;
+    durationSeconds?: number;
     dropSets?: TrainingDropSet[];
     combGroups: unknown[];
   }
@@ -92,6 +93,13 @@ declare namespace KeepStrongAPI {
     weightTag?: { tag: string };
     tip?: string;
     capacity?: number;
+    durationSeconds?: number;
+  }
+
+  interface BeforeAfterEnabled {
+    before?: boolean;
+    after?: boolean;
+    independentWeight?: boolean;
   }
 
   interface Template {
@@ -101,6 +109,9 @@ declare namespace KeepStrongAPI {
     count: number;
     createTs: number;
     actions: TrainingAction[];
+    beforeActions?: TrainingAction[];
+    afterActions?: TrainingAction[];
+    beforeAfterEnabled?: BeforeAfterEnabled;
   }
 
   interface GetTrainingTemplates extends PageResult<Template> {
@@ -163,6 +174,12 @@ declare namespace KeepStrongAPI {
     startDate?: string;
     schedules?: unknown[];
     todayWorkout?: unknown;
+    beforeActionsDict?: Record<string, TrainingAction[]>;
+    afterActionsDict?: Record<string, TrainingAction[]>;
+    beforeAfterEnabledDict?: Record<string, BeforeAfterEnabled>;
+    beforeActions?: TrainingAction[];
+    afterActions?: TrainingAction[];
+    beforeAfterEnabled?: BeforeAfterEnabled;
   }
 
   interface GetRunningPlans {

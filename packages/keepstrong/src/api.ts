@@ -3,6 +3,7 @@ import { API_PREFIX } from "./config";
 import { KeepStrongClient, createKeepStrong } from "./client";
 import {
   KeepStrongAction,
+  KeepStrongBeforeAfterEnabled,
   KeepStrongExerciseInput,
   KeepStrongFoodInput,
   KeepStrongMealKey,
@@ -142,6 +143,9 @@ export function postKeepStrongTemplate(data: {
   name: string;
   actions: KeepStrongAction[];
   templateId?: string;
+  beforeActions?: KeepStrongAction[];
+  afterActions?: KeepStrongAction[];
+  beforeAfterEnabled?: KeepStrongBeforeAfterEnabled;
 }): Promise<unknown> {
   return client().postJson<unknown>(`${P}/training/templates`, data);
 }
@@ -151,12 +155,30 @@ export function postKeepStrongTemplateActions(data: {
   templateId: string;
   name?: string;
   actions: KeepStrongAction[];
+  beforeActions?: KeepStrongAction[];
+  afterActions?: KeepStrongAction[];
+  beforeAfterEnabled?: KeepStrongBeforeAfterEnabled;
 }): Promise<unknown> {
   const { templateId, ...body } = data;
   return client().postJson<unknown>(
     `${P}/training/templates/${encodeURIComponent(templateId)}/actions`,
     body
   );
+}
+
+/**
+ * 设置某动作的历史重量（用于未来训练，不改已完成记录）。
+ * 传 templateId 则只改该模板及其跑计划副本；省略则改共享历史。
+ */
+export function postKeepStrongActionWeight(data: {
+  actionId: string;
+  weight: number;
+  rightWeight?: number;
+  weightUnit?: string;
+  templateId?: string;
+}): Promise<unknown> {
+  const { actionId, ...body } = data;
+  return client().postJson<unknown>(`${P}/training/actions/${encodeURIComponent(actionId)}/weight`, body);
 }
 
 /**
@@ -178,6 +200,9 @@ export function postKeepStrongRunningWorkout(data: {
   dayStr?: string;
   templateId?: string;
   name?: string;
+  beforeActions?: KeepStrongAction[];
+  afterActions?: KeepStrongAction[];
+  beforeAfterEnabled?: KeepStrongBeforeAfterEnabled;
 }): Promise<unknown> {
   const { runningPlanId, ...body } = data;
   return client().postJson<unknown>(
