@@ -1,6 +1,6 @@
 export const DEFAULT_BASE_URL = "https://lianlian.gzyunke.cn";
 export const API_PREFIX = "/api/v1/ai";
-export const SKILL_VERSION = "1.27.0";
+export const SKILL_VERSION = "1.28.0";
 export const AGENT_NAME = "opencode";
 
 export interface KeepStrongOptions {

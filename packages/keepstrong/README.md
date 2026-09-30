@@ -29,7 +29,7 @@ setKeepStrongClient(createKeepStrong({ apiKey: "...", baseUrl: "..." }));
 
 Node 侧可用导出的 `loadEnvFile(path)` 读取 `.env.local` 到 `process.env`（已存在的变量不覆盖），例如 `loadEnvFile(path.join(repoRoot, ".env.local"))`。
 
-**每个请求自动带**：`Authorization: Bearer`、`X-KeepStrong-Skill-Version: 1.27.0`、`X-KeepStrong-Agent-Name: opencode`、`X-Timezone-Offset`（= `-getTimezoneOffset()`，中国 480）。
+**每个请求自动带**：`Authorization: Bearer`、`X-KeepStrong-Skill-Version: 1.28.0`、`X-KeepStrong-Agent-Name: opencode`、`X-Timezone-Offset`（= `-getTimezoneOffset()`，中国 480）。
 **写请求额外**：`Content-Type: application/json`、`Idempotency-Key`（随机）、body 自动合并 `userConfirmed: true`。
 
 ## 用法
@@ -68,7 +68,7 @@ await postKeepStrongBodyLog({ metric: "weight", value: 88.1, unit: "kg", dayStr:
 - 返回**无 `{code,data,msg}` 包裹**，直接是数据
 - 写操作前需用户确认；本客户端只负责带上 `userConfirmed=true`，是否确认由调用方负责
 - 食物日志一次一天、仅近 60 天；食物搜索每页 ≤30、每日限 100 次；身体记录近 3 年、每页 ≤100
-- `401 apiKeyExpired` 会抛出「请去 App 重新生成 key」；`429` 按 `Retry-After` 有界重试；`426` 提示 skill 需更新
+- `401 apiKeyExpired` 会抛出「请去 App 重新生成 key」；`429` 按 `Retry-After` 有界重试；`426 skillUpdateRequired` 会**自动拉最新 skill 文档取版本号并重试一次**（失败才抛错）
 - 中文里应用名统一叫「练练健身」
 
 ## 本地探测

@@ -41,9 +41,12 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export class KeepStrongClient {
   readonly options: ResolvedOptions;
+  /** 当前使用的 skill 版本，遇到 426 会自动更新 */
+  skillVersion: string;
 
   constructor(options: KeepStrongOptions = {}) {
     this.options = resolveOptions(options);
+    this.skillVersion = this.options.skillVersion;
   }
 
   /** GET，query 会自动拼到 URL 上 */
@@ -66,7 +69,7 @@ export class KeepStrongClient {
     const url = `${this.options.baseUrl}${path}${buildQuery(opts.query)}`;
     const headers: Record<string, string> = {
       Authorization: `Bearer ${this.options.apiKey}`,
-      "X-KeepStrong-Skill-Version": this.options.skillVersion,
+      "X-KeepStrong-Skill-Version": this.skillVersion,
       "X-KeepStrong-Agent-Name": this.options.agentName,
       "X-Timezone-Offset": String(this.options.timezoneOffset),
     };
@@ -95,10 +98,39 @@ export class KeepStrongClient {
       payload = text;
     }
 
-    if (!response.ok) throw this.toError(response.status, payload);
+    if (!response.ok) {
+      // 426：拉最新 skill 文档取版本号，更新后重试一次
+      const obj = (payload && typeof payload === "object" ? payload : {}) as Record<string, unknown>;
+      if (response.status === 426 && obj.skillUpdateRequired === true && attempt < 1) {
+        const skillUrl = typeof obj.skillUrl === "string" ? obj.skillUrl : undefined;
+        if (await this.refreshSkillVersion(skillUrl)) {
+          return this.request<T>(method, path, opts, attempt + 1);
+        }
+      }
+      throw this.toError(response.status, payload);
+    }
 
     // 该 API 直接返回数据，没有 { code, data, msg } 包裹
     return payload as T;
+  }
+
+  /** 拉取 skill 文档并更新本地版本号（用于 426 自动恢复） */
+  private async refreshSkillVersion(skillUrl?: string): Promise<boolean> {
+    try {
+      const url = skillUrl || `${this.options.baseUrl}/api/v1/ai/skill`;
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${this.options.apiKey}` },
+      });
+      if (!res.ok) return false;
+      const doc = (await res.json()) as { version?: unknown };
+      if (typeof doc.version === "string" && doc.version) {
+        this.skillVersion = doc.version;
+        return true;
+      }
+    } catch {
+      // 忽略，走原错误
+    }
+    return false;
   }
 
   private toError(status: number, payload: unknown): KeepStrongApiError {
