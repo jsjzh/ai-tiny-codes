@@ -1,10 +1,10 @@
 {
   "kind": "weight",
   "source": "keepstrong",
-  "syncedAt": "2026-09-30T03:24:48.763Z",
+  "syncedAt": "2026-10-13T02:45:37.426Z",
   "range": {
     "from": "20250924",
-    "to": "20260930"
+    "to": "20261013"
   },
   "logs": [
     {
@@ -1806,6 +1806,136 @@
       "value": 87.3,
       "unit": "kg",
       "time": 1790726819
+    },
+    {
+      "id": "weight-5600927-20261001",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261001",
+      "dayTs": 1790784000,
+      "value": 87.45,
+      "unit": "kg",
+      "time": 1790809631
+    },
+    {
+      "id": "weight-5600927-20261002",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261002",
+      "dayTs": 1790870400,
+      "value": 87.2,
+      "unit": "kg",
+      "time": 1790906069
+    },
+    {
+      "id": "weight-5600927-20261003",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261003",
+      "dayTs": 1790956800,
+      "value": 86.95,
+      "unit": "kg",
+      "time": 1790993051
+    },
+    {
+      "id": "weight-5600927-20261004",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261004",
+      "dayTs": 1791043200,
+      "value": 87.6,
+      "unit": "kg",
+      "time": 1791076985
+    },
+    {
+      "id": "weight-5600927-20261005",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261005",
+      "dayTs": 1791129600,
+      "value": 87.1,
+      "unit": "kg",
+      "time": 1791170758
+    },
+    {
+      "id": "weight-5600927-20261006",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261006",
+      "dayTs": 1791216000,
+      "value": 87,
+      "unit": "kg",
+      "time": 1791259113
+    },
+    {
+      "id": "weight-5600927-20261007",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261007",
+      "dayTs": 1791302400,
+      "value": 86.8,
+      "unit": "kg",
+      "time": 1791349690
+    },
+    {
+      "id": "weight-5600927-20261008",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261008",
+      "dayTs": 1791388800,
+      "value": 87.05,
+      "unit": "kg",
+      "time": 1791418168
+    },
+    {
+      "id": "weight-5600927-20261009",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261009",
+      "dayTs": 1791475200,
+      "value": 86.15,
+      "unit": "kg",
+      "time": 1791503893
+    },
+    {
+      "id": "weight-5600927-20261010",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261010",
+      "dayTs": 1791561600,
+      "value": 85,
+      "unit": "kg",
+      "time": 1791590411
+    },
+    {
+      "id": "weight-5600927-20261011",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261011",
+      "dayTs": 1791648000,
+      "value": 85.25,
+      "unit": "kg",
+      "time": 1791673724
+    },
+    {
+      "id": "weight-5600927-20261012",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261012",
+      "dayTs": 1791734400,
+      "value": 84.95,
+      "unit": "kg",
+      "time": 1791763643
+    },
+    {
+      "id": "weight-5600927-20261013",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261013",
+      "dayTs": 1791820800,
+      "value": 84.75,
+      "unit": "kg",
+      "time": 1791850120
     }
   ]
 }
