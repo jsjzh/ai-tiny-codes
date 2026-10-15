@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { DashboardPayload, DashboardWeight, buildDashboardHtml } from "../src/dashboard/build";
+import { buildCheckinViewModel } from "../src/checkin/view-model";
 import { loadWeightFile } from "../src/dataset/weights";
 import { toDashed } from "../src/dataset/types";
 import { listPlans, loadPlan } from "../src/plan/store";
@@ -74,6 +75,7 @@ function main(): void {
           heightCm: plan.input.heightCm,
         }
       : null,
+    checkin: plan && planName ? buildCheckinViewModel(planName, plan) : null,
   };
 
   const outDir = datasDir("fitness", "dashboard");

@@ -24,7 +24,7 @@ export function weightsByDate(): Record<string, number> {
 }
 
 /**
- * 按 dayStr 对比合并：同一天用新值覆盖、新日期追加、不在本次范围内的旧记录保留。
+ * 按范围对齐源端：窗口 `[from,to]` 内以接口返回为准（新增/更新/删除），窗口外保留本地。
  * 返回合并后的文件内容（不落盘）。
  */
 export function mergeWeightLogs(
@@ -32,11 +32,13 @@ export function mergeWeightLogs(
   incoming: SyncedWeightLog[],
   range: { from: string; to: string }
 ): SyncedWeightFile {
+  const inRange = (dayStr: string) => dayStr >= range.from && dayStr <= range.to;
+
+  const outside = (prev?.logs ?? []).filter((l) => !inRange(l.dayStr));
   const byDay = new Map<string, SyncedWeightLog>();
-  for (const log of prev?.logs ?? []) byDay.set(log.dayStr, log);
   for (const log of incoming) byDay.set(log.dayStr, log);
 
-  const logs = [...byDay.values()].sort((a, b) => a.dayStr.localeCompare(b.dayStr));
+  const logs = [...outside, ...byDay.values()].sort((a, b) => a.dayStr.localeCompare(b.dayStr));
   const days = logs.map((l) => l.dayStr);
   const candidatesFrom = [...(prev?.range.from ? [prev.range.from] : []), range.from, ...(days[0] ? [days[0]] : [])];
   const candidatesTo = [...(prev?.range.to ? [prev.range.to] : []), range.to, ...(days[days.length - 1] ? [days[days.length - 1]] : [])];
@@ -51,4 +53,15 @@ export function mergeWeightLogs(
     },
     logs,
   };
+}
+
+/** 统计窗口内被源端删除的记录（本地有、本次未返回） */
+export function countRemovedInRange(
+  prev: SyncedWeightFile | null,
+  incoming: SyncedWeightLog[],
+  range: { from: string; to: string }
+): number {
+  const inRange = (dayStr: string) => dayStr >= range.from && dayStr <= range.to;
+  const incomingDays = new Set(incoming.map((l) => l.dayStr));
+  return (prev?.logs ?? []).filter((l) => inRange(l.dayStr) && !incomingDays.has(l.dayStr)).length;
 }

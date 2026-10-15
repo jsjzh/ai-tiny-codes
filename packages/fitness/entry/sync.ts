@@ -25,6 +25,7 @@ function render(report: SyncWeightsReport, json: boolean): void {
     ["本次拉到", `${report.fetched} 天`],
     ["新增", String(report.added)],
     ["覆盖更新", String(report.updated)],
+    ["删除", String(report.removed)],
     ["无变化", String(report.unchanged)],
     ["合并后总计", `${report.total} 天（${report.first ?? "—"} ~ ${report.last ?? "—"}）`],
     ["文件", datasRelative("fitness", "synced", "weights.json")],

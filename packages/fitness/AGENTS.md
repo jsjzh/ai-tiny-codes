@@ -19,9 +19,9 @@ src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort
 src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
 src/plan/           # 计划归档（calculate 写 / checkin 读）：types · store(datas/fitness/plans/<name>.json) · save-output(输出装饰器)。计划不再承载体重（dailyWeights 仅供旧计划兜底，可选）
 src/dataset/        # 数据层：读写 datas/fitness/synced/<kind>.json（store / weights：加载、按日期合并、weightsByDate）
-src/checkin/        # 域名 checkin：types · analyze · validate · input/cli · output/json|table · style(颜色) · sections/*(输出插槽注册表)
+src/checkin/        # 域名 checkin：types · analyze · validate · view-model(网页 VM) · input/cli · output/json|table · style(颜色) · sections/*(输出插槽注册表)
 src/sync/           # 域名 sync：从 @ai-tiny-codes/keepstrong 拉数据 → 写 datas/fitness/synced（不碰计划）
-src/dashboard/      # 域名 dashboard：build.ts 生成自包含 HTML（数据内嵌 + ECharts CDN，浏览器端算指标）
+src/dashboard/      # 域名 dashboard：ui.ts(共享样式/helper) · build.ts(单页两 Tab 拼装：大盘 + 复盘，ECharts CDN)
 src/food/           # 域名 food：已下线入口，源码暂留待优化
 src/utils/project.ts # findProjectRoot() / datasDir()：从 cwd 上溯 pnpm-workspace.yaml 定位仓库根，计划存到仓库内
 src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 last-calculate），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
@@ -75,17 +75,18 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - 数据文件结构（`SyncedWeightFile`）：`{ kind, source, syncedAt, range:{from,to}, logs }`；`logs` 就是练练接口返回的 `list` **原样**
 - 数据源：`@ai-tiny-codes/keepstrong` 的 `getKeepStrongBodyLogs({ metric:"weight", startDate, endDate, page, pageSize:100 })`，分页拉全
 - 日期口径：文件/接口用 `yyyyMMdd`；对外/计划用 `YYYY-MM-DD`（`toDashed`/`toCompact`）；`weightsByDate()` 输出 `YYYY-MM-DD -> kg`
-- **合并策略**：按 `dayStr` 对比——同日新值覆盖、新日期追加、范围外旧记录保留；重复运行幂等
+- **合并策略（按范围对齐源端）**：拉取窗口 `[from,to]` 内以接口为准（新增/更新/**删除**都跟随），窗口外保留本地；重复运行幂等。`SyncWeightsReport` 含 `removed`；默认只拉近 1 年，更早的删除需 `--all`（近 3 年）覆盖到才会清理
 - 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
 - API key：`entry/sync.ts` 启动时 `loadEnvFile(findProjectRoot()/.env.local)`（keepstrong 导出的 `loadEnvFile`）读 `KEEPSTRONG_API_KEY`
 - 计划**不再生成** `dailyWeights`（类型可选，仅老计划兜底）；`calculate` 直接覆盖计划，无覆盖保护
 
 ## dashboard 领域口径
-- 入口 `entry/dashboard.ts` + `src/dashboard/build.ts`；产出 `datas/fitness/dashboard/index.html`（自包含：数据内嵌 + ECharts CDN + Google Fonts）
-- 数据源：`datas/fitness/synced/weights.json`；计划叠加取 `--plan`，否则取 `createdAt` 最新的计划，`--no-plan` 关闭
-- 面板：KPI、趋势（原始+MA7+MA30+计划线，范围切换）、累积减重、月度净变化、速率、周变化、星期效应、分布直方、**多年度打卡热力图**（按年堆叠、动态高度）、计划 vs 实际、极值里程碑
-- 指标在**浏览器端**计算（`build.ts` 模板里的 JS），TS 侧只负责读数据、剔除异常、拼 HTML
-- **异常剔除**：与相邻 5 点中位数相差 >8kg 的记录从图表剔除，计入 `removedOutliers` 并在页脚标注（例：`2024-07-07 42.7kg` 属录入错误）
+- 入口 `entry/dashboard.ts` + `src/dashboard/build.ts`（页面拼装）+ `src/dashboard/ui.ts`（共享 CSS/JS helper）；产出 `datas/fitness/dashboard/index.html`（**单页两 Tab**，数据内嵌 + ECharts CDN + Google Fonts）
+- 数据源：`datas/fitness/synced/weights.json`；计划取 `--plan`，否则取 `createdAt` 最新的计划，`--no-plan` 关闭
+- **Tab1 体重大盘**：KPI、趋势（原始+MA7/30 + 计划 + 乐观/中性/悲观预测，范围切换）、累积、月度、速率、周变化、周内模式、同比 YoY、分段瀑布、平台期、波动性、BMI、日变化分布、打卡热力图（按年堆叠）、日变化热力图、分布、记录质量、极值、可搜索数据表
+- **Tab2 打卡复盘**：由 `src/checkin/view-model.ts` 的 `buildCheckinViewModel(planName, plan)` 预计算成可序列化 VM（KPI/节点/偏差/速率/ETA/BMI/建议/校验/里程碑/计划-实际序列），页面只渲染
+- 交互：Tab 切换（懒初始化 checkin 图表 + resize）、深色/浅色（改 `data-theme` 后 `C=getC()` 重渲染）、CSV 导出；指标多在浏览器端算（MA/回归在 TS 侧只用于 checkin VM）
+- **异常剔除**：与相邻 5 点中位数相差 >8kg 的记录从图表剔除，计入 `removedOutliers` 并在页脚标注（对账源端删除后应不再出现）
 - 视觉遵循 `frontend-design` skill（`.opencode/skills/frontend-design`）；本地预览用静态服务（部分工具禁 `file://`）
 
 ## 已确认的决策/边界

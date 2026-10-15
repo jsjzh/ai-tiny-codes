@@ -1,5 +1,5 @@
 import { getKeepStrongBodyLogs } from "@ai-tiny-codes/keepstrong";
-import { loadWeightFile, mergeWeightLogs, saveWeightFile } from "../dataset/weights";
+import { countRemovedInRange, loadWeightFile, mergeWeightLogs, saveWeightFile } from "../dataset/weights";
 import { SyncedWeightLog, toCompact } from "../dataset/types";
 
 export interface SyncWeightsOptions {
@@ -19,6 +19,7 @@ export interface SyncWeightsReport {
   added: number;
   updated: number;
   unchanged: number;
+  removed: number; // 窗口内被源端删除
   first: string | null; // yyyyMMdd
   last: string | null;
   dryRun: boolean;
@@ -62,6 +63,7 @@ export async function syncWeights(options: SyncWeightsOptions): Promise<SyncWeig
 
   const merged = mergeWeightLogs(prev, incoming, { from: fromCompact, to: toCompactStr });
   if (!options.dryRun) saveWeightFile(merged);
+  const removed = countRemovedInRange(prev, incoming, { from: fromCompact, to: toCompactStr });
 
   return {
     kind: "weight",
@@ -72,6 +74,7 @@ export async function syncWeights(options: SyncWeightsOptions): Promise<SyncWeig
     added,
     updated,
     unchanged,
+    removed,
     first: merged.logs[0]?.dayStr ?? null,
     last: merged.logs[merged.logs.length - 1]?.dayStr ?? null,
     dryRun: Boolean(options.dryRun),
