@@ -31,6 +31,12 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  packages/commute:
+    dependencies:
+      '@ai-tiny-codes/utils':
+        specifier: workspace:*
+        version: link:../utils
+
   packages/fitness:
     dependencies:
       '@ai-tiny-codes/keepstrong':

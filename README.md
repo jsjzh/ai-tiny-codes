@@ -7,10 +7,12 @@
 ```
 packages/
   utils/      @ai-tiny-codes/utils      跨包公用工具（store / table / date / format）
-  fitness/    @ai-tiny-codes/fitness    减脂工具（减脂周期计算 + 打卡复盘）
+  fitness/    @ai-tiny-codes/fitness    减脂工具（减脂周期计算 + 打卡复盘 + 体重大盘）
   money/      @ai-tiny-codes/money      攒钱计划计算器
   keepstrong/ @ai-tiny-codes/keepstrong 练练健身（KeepStrong）AI API 轻量客户端
-datas/      # 随项目保存的数据（如 fitness 的计划 JSON），方便上传与手改
+  commute/    @ai-tiny-codes/commute    通勤方式（地铁/开车/摩托）年花费对比
+datas/      # 随项目保存的数据（fitness 计划/同步数据、生成的大盘），方便上传与手改
+.opencode/  # opencode 项目配置（skills：frontend-design 等）
 ```
 
 ## 环境
@@ -30,8 +32,10 @@ pnpm install
 | --- | --- |
 | `pnpm fitness:calculate` | 减脂周期计算 |
 | `pnpm fitness:checkin` | 读取计划 JSON，校验并输出减脂复盘 |
-| `pnpm fitness:sync` | 从练练健身拉取数据写入 `datas/fitness/synced`（默认体重、近 1 年；`--days`/`--from`/`--to`/`--dry-run`） |
+| `pnpm fitness:sync` | 从练练健身拉取数据写入 `datas/fitness/synced`（默认体重、近 1 年；`--days`/`--all`/`--from`/`--to`/`--dry-run`） |
+| `pnpm fitness:dashboard` | 根据同步的体重生成网页大盘 `datas/fitness/dashboard/index.html`（可叠加计划） |
 | `pnpm money:calculate` | 攒钱计划计算器 |
+| `pnpm commute:compare` | 通勤方式年花费对比（改 `packages/commute/entry/commute.ts` 顶部配置） |
 | `pnpm keepstrong:probe` | 练练健身 API 连通性探测（读取根 `.env.local`） |
 | `pnpm typecheck` | 对所有 workspace 包执行 `tsc --noEmit` |
 
@@ -54,3 +58,4 @@ pnpm --filter @ai-tiny-codes/money calculate
 - 减脂工具：[`packages/fitness/README.md`](packages/fitness/README.md)、[`packages/fitness/AGENTS.md`](packages/fitness/AGENTS.md)
 - 攒钱计算器：[`packages/money/README.md`](packages/money/README.md)
 - 练练健身 API 客户端：[`packages/keepstrong/README.md`](packages/keepstrong/README.md)
+- 通勤花费对比：[`packages/commute/README.md`](packages/commute/README.md)

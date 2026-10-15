@@ -7,6 +7,7 @@
 | `pnpm fitness:calculate` | 输入身体数据/目标/节奏，算热量与宏量档位、周/月目标，并生成计划 JSON（`--no-save` 可跳过；`--json` 输出 JSON） |
 | `pnpm fitness:sync` | 从**练练健身**拉取数据写入仓库内 `datas/fitness/synced/`（默认体重、近 1 年；`--days/--from/--to`、`--only weight`、`--dry-run`、`--json`） |
 | `pnpm fitness:checkin` | 读取**同步数据**（缺失时回退计划内的 `dailyWeights`），校验并输出减脂复盘（`--plan <名字>`、`--json`） |
+| `pnpm fitness:dashboard` | 生成网页**体重大盘** `datas/fitness/dashboard/index.html`（`--plan <名字>` / `--no-plan`） |
 
 > 饮食配比（food）功能当前**已下线入口**，待后续优化，暂不提供命令。
 
@@ -30,6 +31,15 @@ pnpm fitness:sync --from 2026-08-01 --to 2026-09-23
 - 需要仓库根 `.env.local` 里有 `KEEPSTRONG_API_KEY`（见 `packages/keepstrong/README.md`）
 - **按日期合并**：同一天用新值覆盖、新日期追加、范围外旧记录保留；重复运行幂等
 - 同步后跑 `pnpm fitness:checkin` 出复盘
+
+### 体重大盘（dashboard）
+
+```bash
+pnpm fitness:dashboard            # 读取 datas/fitness/synced/weights.json，默认叠加最新计划
+pnpm fitness:dashboard --no-plan  # 不叠加计划
+```
+
+生成 `datas/fitness/dashboard/index.html`（自包含页面，ECharts 走 CDN，浏览器打开即可）。面板：概览 KPI、体重趋势（原始 + 7/30 日均，可切范围）、累积减重、月度净变化、速率、周变化、星期效应、分布、多年度打卡热力图、计划 vs 实际、极值与里程碑。会**自动剔除**与相邻中位数相差 >8kg 的疑似录入异常（页脚标注）。
 
 ### 打卡复盘（checkin）
 

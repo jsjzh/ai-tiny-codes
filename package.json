@@ -7,7 +7,9 @@
     "fitness:calculate": "pnpm --filter @ai-tiny-codes/fitness calculate",
     "fitness:checkin": "pnpm --filter @ai-tiny-codes/fitness checkin",
     "fitness:sync": "pnpm --filter @ai-tiny-codes/fitness sync",
+    "fitness:dashboard": "pnpm --filter @ai-tiny-codes/fitness dashboard",
     "money:calculate": "pnpm --filter @ai-tiny-codes/money calculate",
+    "commute:compare": "pnpm --filter @ai-tiny-codes/commute compare",
     "keepstrong:probe": "pnpm --filter @ai-tiny-codes/keepstrong probe",
     "typecheck": "pnpm -r typecheck"
   },

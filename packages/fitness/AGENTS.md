@@ -5,6 +5,7 @@
 ## 运行方式（三个独立入口/域名）
 - `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON 到仓库内 `datas/fitness/plans/`**（`--no-save` 跳过；`--force` 覆盖已填 daily 的同名计划）
 - `npm run checkin`：读取计划 JSON → 校验每日体重 → 输出减脂复盘（`--plan <名字>` 指定；`--json` 输出 JSON）
+- `npm run dashboard`：读取 `datas/fitness/synced/weights.json`（+ 可选计划）生成网页大盘 `datas/fitness/dashboard/index.html`（含 ECharts，自包含页面）
 - `npm run sync`：从练练健身（KeepStrong）拉取数据写入仓库内 `datas/fitness/synced/<kind>.json`（默认体重、近 1 年；`--days/--from/--to/--only/--dry-run/--json`），与计划**解耦**
 - calculate 支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
 - `npm run typecheck`：tsc --noEmit
@@ -12,7 +13,7 @@
 
 ## 目录结构与架构约定
 ```
-entry/calculate.ts  entry/checkin.ts  entry/sync.ts   # 各自实例化 runner / 直接跑命令
+entry/calculate.ts  entry/checkin.ts  entry/sync.ts  entry/dashboard.ts   # 各自实例化 runner / 直接跑命令
 src/core/types.ts   src/core/runner.ts   # InputPort<T>{read(argv)} / OutputPort<T>{write(result)}
                                         # createRunner(compute) —— 领域互相独立，端口可插拔
 src/calculate/      # 域名 calculate：types/input/cli · output/json|table · 纯计算逻辑
@@ -20,6 +21,7 @@ src/plan/           # 计划归档（calculate 写 / checkin 读）：types · s
 src/dataset/        # 数据层：读写 datas/fitness/synced/<kind>.json（store / weights：加载、按日期合并、weightsByDate）
 src/checkin/        # 域名 checkin：types · analyze · validate · input/cli · output/json|table · style(颜色) · sections/*(输出插槽注册表)
 src/sync/           # 域名 sync：从 @ai-tiny-codes/keepstrong 拉数据 → 写 datas/fitness/synced（不碰计划）
+src/dashboard/      # 域名 dashboard：build.ts 生成自包含 HTML（数据内嵌 + ECharts CDN，浏览器端算指标）
 src/food/           # 域名 food：已下线入口，源码暂留待优化
 src/utils/project.ts # findProjectRoot() / datasDir()：从 cwd 上溯 pnpm-workspace.yaml 定位仓库根，计划存到仓库内
 src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 last-calculate），薄封装自 @ai-tiny-codes/utils 的 createJsonStore("fitness")
@@ -77,6 +79,14 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
 - API key：`entry/sync.ts` 启动时 `loadEnvFile(findProjectRoot()/.env.local)`（keepstrong 导出的 `loadEnvFile`）读 `KEEPSTRONG_API_KEY`
 - 计划**不再生成** `dailyWeights`（类型可选，仅老计划兜底）；`calculate` 直接覆盖计划，无覆盖保护
+
+## dashboard 领域口径
+- 入口 `entry/dashboard.ts` + `src/dashboard/build.ts`；产出 `datas/fitness/dashboard/index.html`（自包含：数据内嵌 + ECharts CDN + Google Fonts）
+- 数据源：`datas/fitness/synced/weights.json`；计划叠加取 `--plan`，否则取 `createdAt` 最新的计划，`--no-plan` 关闭
+- 面板：KPI、趋势（原始+MA7+MA30+计划线，范围切换）、累积减重、月度净变化、速率、周变化、星期效应、分布直方、**多年度打卡热力图**（按年堆叠、动态高度）、计划 vs 实际、极值里程碑
+- 指标在**浏览器端**计算（`build.ts` 模板里的 JS），TS 侧只负责读数据、剔除异常、拼 HTML
+- **异常剔除**：与相邻 5 点中位数相差 >8kg 的记录从图表剔除，计入 `removedOutliers` 并在页脚标注（例：`2024-07-07 42.7kg` 属录入错误）
+- 视觉遵循 `frontend-design` skill（`.opencode/skills/frontend-design`）；本地预览用静态服务（部分工具禁 `file://`）
 
 ## 已确认的决策/边界
 - 历史：food 与 calculate 拆开是因为“碳水渐降时每个档位都要能重生成配比”，配比绑定某一档宏量而非初始热量；入口结构选型 A（一体 + 预留拆分）。food 现已下线入口待优化

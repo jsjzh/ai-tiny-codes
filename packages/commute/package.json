@@ -1,0 +1,21 @@
+{
+  "name": "@ai-tiny-codes/commute",
+  "version": "1.0.0",
+  "description": "通勤方式（地铁/开车/摩托）年花费对比",
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "compare": "tsx entry/commute.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-tiny-codes/utils": "workspace:*"
+  }
+}
