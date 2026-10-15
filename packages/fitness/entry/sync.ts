@@ -43,12 +43,28 @@ async function main(): Promise<void> {
   }
 
   const to = argOf(argv, "--to") ?? dayjs().format("YYYY-MM-DD");
+  const all = argv.includes("--all");
   const days = Number(argOf(argv, "--days") ?? 365);
-  const from = argOf(argv, "--from") ?? dayjs(to).subtract(days - 1, "day").format("YYYY-MM-DD");
+  const from =
+    argOf(argv, "--from") ??
+    (all
+      ? dayjs(to).subtract(3, "year").format("YYYY-MM-DD") // 接口上限：近 3 年
+      : dayjs(to).subtract(days - 1, "day").format("YYYY-MM-DD"));
 
   loadEnvFile(path.join(findProjectRoot(), ".env.local"));
 
-  const report = await syncWeights({ from, to, dryRun: argv.includes("--dry-run") });
+  const dryRun = argv.includes("--dry-run");
+  let report: SyncWeightsReport;
+  try {
+    report = await syncWeights({ from, to, dryRun });
+  } catch (err) {
+    // 接口可能限制不早于某天（earliest allowed date (yyyyMMdd)），自动夹到该日期重试
+    const matched = err instanceof Error ? err.message.match(/earliest allowed date \((\d{8})\)/) : null;
+    if (!matched) throw err;
+    const earliest = `${matched[1].slice(0, 4)}-${matched[1].slice(4, 6)}-${matched[1].slice(6, 8)}`;
+    if (earliest <= from) throw err;
+    report = await syncWeights({ from: earliest, to, dryRun });
+  }
   render(report, argv.includes("--json"));
 }
 

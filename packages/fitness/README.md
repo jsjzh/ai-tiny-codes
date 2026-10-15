@@ -22,6 +22,7 @@
 
 ```bash
 pnpm fitness:sync                 # 拉最近 1 年（默认 --days 365）
+pnpm fitness:sync --all           # 拉满（接口上限：近 3 年）
 pnpm fitness:sync --dry-run       # 只预演不写
 pnpm fitness:sync --from 2026-08-01 --to 2026-09-23
 ```
@@ -44,7 +45,7 @@ pnpm fitness:sync --from 2026-08-01 --to 2026-09-23
 
 **参数**
 - `calculate`：`--no-save` 不落盘；`--json` 输出 JSON
-- `sync`：`--days`(默认 365) / `--from --to` / `--only weight` / `--dry-run` / `--json`
+- `sync`：`--days`(默认 365) / `--all`(近 3 年) / `--from --to` / `--only weight` / `--dry-run` / `--json`
 - `checkin`：`--plan <名字>` 指定计划；`--json` 输出 JSON
 
 > 指标以「插槽」形式注册在 `src/checkin/sections/index.ts`，增删/调整只改注册表。

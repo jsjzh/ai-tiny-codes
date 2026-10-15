@@ -74,7 +74,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - 数据源：`@ai-tiny-codes/keepstrong` 的 `getKeepStrongBodyLogs({ metric:"weight", startDate, endDate, page, pageSize:100 })`，分页拉全
 - 日期口径：文件/接口用 `yyyyMMdd`；对外/计划用 `YYYY-MM-DD`（`toDashed`/`toCompact`）；`weightsByDate()` 输出 `YYYY-MM-DD -> kg`
 - **合并策略**：按 `dayStr` 对比——同日新值覆盖、新日期追加、范围外旧记录保留；重复运行幂等
-- 默认范围近 1 年（`--days 365`），可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
+- 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
 - API key：`entry/sync.ts` 启动时 `loadEnvFile(findProjectRoot()/.env.local)`（keepstrong 导出的 `loadEnvFile`）读 `KEEPSTRONG_API_KEY`
 - 计划**不再生成** `dailyWeights`（类型可选，仅老计划兜底）；`calculate` 直接覆盖计划，无覆盖保护
 
