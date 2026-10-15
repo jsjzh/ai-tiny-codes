@@ -46,14 +46,14 @@ function kpi(label, value, sub, cls){
 function lineOpt(x, series, yName){
   return { color:series.map(function(s){return s.color;}), grid:gridOpt(), tooltip:{trigger:"axis"}, legend:{top:0,left:0,textStyle:{color:C.muted},itemGap:14},
     xAxis:{ type:"category", data:x, axisLine:axLine(), axisLabel:{color:C.muted, hideOverlap:true} },
-    yAxis:{ type:"value", name:yName, scale:true, axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
+    yAxis:{ type:"value", scale:true, axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
     series: series.map(function(s){ return Object.assign({ type:s.type||"line", smooth:true, showSymbol:s.type==="scatter", symbolSize:3, data:s.data, name:s.name, itemStyle:{color:s.color}, lineStyle:{color:s.color,width:s.width||1.8,type:s.dash?"dashed":"solid"}, areaStyle:s.area?{color:s.area}:null }, s.extra||{}); })
   };
 }
 function barOpt(x, data, colors, yName){
   return { grid:gridOpt(), tooltip:{trigger:"axis"},
     xAxis:{ type:"category", data:x, axisLine:axLine(), axisLabel:{color:C.muted, hideOverlap:true} },
-    yAxis:{ type:"value", name:yName, axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
+    yAxis:{ type:"value", axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
     series:[{ type:"bar", data: data.map(function(v,i){ return { value:v, itemStyle:{ color: typeof colors==="function"? colors(v):colors } }; }) }]
   };
 }
