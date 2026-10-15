@@ -1,6 +1,6 @@
 import { newTable, printSection } from "@ai-tiny-codes/utils";
-import { CommuteConfig } from "../src/types";
 import { compareCommute } from "../src/compare";
+import { CommuteConfig } from "../src/types";
 
 // ==================== 你只需要改这里 ====================
 const CONFIG: CommuteConfig = {
