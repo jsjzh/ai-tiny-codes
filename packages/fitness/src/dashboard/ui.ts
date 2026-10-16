@@ -104,7 +104,8 @@ function getC(){ var s=getComputedStyle(document.body); return {
   bad:s.getPropertyValue("--bad").trim(), warn:s.getPropertyValue("--warn").trim(),
   panel:s.getPropertyValue("--panel").trim(), chip:s.getPropertyValue("--chip").trim()
 }; }
-function gridOpt(){ return { left:46, right:16, top:28, bottom:32 }; }
+function gridOpt(top){ return { left:46, right:16, top:(top||30), bottom:32 }; }
 function axLine(){ return { lineStyle:{ color: C.line } }; }
 function money(n){ return n.toLocaleString("zh-CN", { maximumFractionDigits:2 }); }
+function fmtNum(v){ return (typeof v==="number" && isFinite(v)) ? (Math.round(v*100)/100) : v; }
 `;

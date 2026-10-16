@@ -44,16 +44,16 @@ function kpi(label, value, sub, cls){
   return '<div class="kpi"><div class="label">'+label+'</div><div class="value">'+value+'</div><div class="sub '+(cls||"")+'">'+(sub||"")+'</div></div>';
 }
 function lineOpt(x, series, yName){
-  return { color:series.map(function(s){return s.color;}), grid:gridOpt(), tooltip:{trigger:"axis"}, legend:{top:0,left:0,textStyle:{color:C.muted},itemGap:14},
+  return { color:series.map(function(s){return s.color;}), grid:gridOpt(48), tooltip:{trigger:"axis", valueFormatter:fmtNum}, legend:{top:0,left:0,textStyle:{color:C.muted},itemGap:14},
     xAxis:{ type:"category", data:x, axisLine:axLine(), axisLabel:{color:C.muted, hideOverlap:true} },
-    yAxis:{ type:"value", scale:true, axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
+    yAxis:{ type:"value", scale:true, axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted, formatter:fmtNum} },
     series: series.map(function(s){ return Object.assign({ type:s.type||"line", smooth:true, showSymbol:s.type==="scatter", symbolSize:3, data:s.data, name:s.name, itemStyle:{color:s.color}, lineStyle:{color:s.color,width:s.width||1.8,type:s.dash?"dashed":"solid"}, areaStyle:s.area?{color:s.area}:null }, s.extra||{}); })
   };
 }
 function barOpt(x, data, colors, yName){
-  return { grid:gridOpt(), tooltip:{trigger:"axis"},
+  return { grid:gridOpt(30), tooltip:{trigger:"axis", valueFormatter:fmtNum},
     xAxis:{ type:"category", data:x, axisLine:axLine(), axisLabel:{color:C.muted, hideOverlap:true} },
-    yAxis:{ type:"value", axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
+    yAxis:{ type:"value", axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted, formatter:fmtNum} },
     series:[{ type:"bar", data: data.map(function(v,i){ return { value:v, itemStyle:{ color: typeof colors==="function"? colors(v):colors } }; }) }]
   };
 }
@@ -340,9 +340,9 @@ function renderNodeCompare(id, nodes){
   var x=nodes.map(function(n){return "#"+n.index;});
   var plan=nodes.map(function(n){return n.planDrop;});
   var actual=nodes.map(function(n){return n.delta;});
-  setChart(id, { color:[C.muted,C.accent], grid:gridOpt(), tooltip:{trigger:"axis"}, legend:{top:0,textStyle:{color:C.muted}},
+  setChart(id, { color:[C.muted,C.accent], grid:gridOpt(48), tooltip:{trigger:"axis", valueFormatter:fmtNum}, legend:{top:0,textStyle:{color:C.muted}},
     xAxis:{ type:"category", data:x, axisLine:axLine(), axisLabel:{color:C.muted} },
-    yAxis:{ type:"value", axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted} },
+    yAxis:{ type:"value", axisLine:{show:false}, splitLine:{lineStyle:{color:C.line}}, axisLabel:{color:C.muted, formatter:fmtNum} },
     series:[ { name:"计划降幅", type:"bar", data:plan, itemStyle:{color:C.muted} }, { name:"实际降幅", type:"bar", data:actual, itemStyle:{color:function(p){ return p.value!=null && p.value>=0 ? C.accent : C.bad; }} } ] });
 }
 
@@ -353,7 +353,7 @@ function switchTab(name){
   document.getElementById("tab-checkin").classList.toggle("hidden", name!=="checkin");
   document.querySelector("h1").textContent = name==="weight" ? "体重大盘" : "打卡复盘";
   if(name==="checkin" && !checkinRendered) renderCheckin();
-  if(name==="checkin") resizeAll();
+  resizeAll();
   history.replaceState(null, "", "#"+name);
 }
 document.querySelectorAll(".tab").forEach(function(b){ b.onclick=function(){ switchTab(b.dataset.tab); }; });
@@ -368,7 +368,7 @@ document.getElementById("csvBtn").onclick=function(){
   var blob=new Blob([lines.join("\n")], {type:"text/csv;charset=utf-8"});
   var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="weights.csv"; a.click();
 };
-function resizeAll(){ document.querySelectorAll(".chart").forEach(function(el){ var inst=echarts.getInstanceByDom(el); if(inst) inst.resize(); }); }
+function resizeAll(){ document.querySelectorAll(".chart").forEach(function(el){ if(el.offsetWidth===0) return; var inst=echarts.getInstanceByDom(el); if(inst) inst.resize(); }); }
 window.addEventListener("resize", resizeAll);
 
 renderWeight();
