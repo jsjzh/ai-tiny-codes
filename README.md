@@ -34,6 +34,7 @@ pnpm install
 | `pnpm fitness:checkin` | 读取计划 JSON，校验并输出减脂复盘 |
 | `pnpm fitness:sync` | 从练练健身拉取数据写入 `datas/fitness/synced`（默认体重、近 1 年；`--days`/`--all`/`--from`/`--to`/`--dry-run`） |
 | `pnpm fitness:dashboard` | 生成网页大盘 `datas/fitness/dashboard/index.html`（单页两 Tab：体重大盘 / 打卡复盘；深色切换、CSV 导出） |
+| `pnpm fitness:update` | 一键刷新：`fitness:sync` + `fitness:dashboard` |
 | `pnpm money:calculate` | 攒钱计划计算器 |
 | `pnpm commute:compare` | 通勤方式年花费对比（改 `packages/commute/entry/commute.ts` 顶部配置） |
 | `pnpm keepstrong:probe` | 练练健身 API 连通性探测（读取根 `.env.local`） |
