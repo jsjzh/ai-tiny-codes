@@ -1,10 +1,10 @@
 {
   "kind": "weight",
   "source": "keepstrong",
-  "syncedAt": "2026-10-16T02:19:13.369Z",
+  "syncedAt": "2026-10-19T01:44:22.482Z",
   "range": {
     "from": "20231016",
-    "to": "20261016"
+    "to": "20261019"
   },
   "logs": [
     {
@@ -3796,6 +3796,36 @@
       "value": 84.5,
       "unit": "kg",
       "time": 1792108902
+    },
+    {
+      "id": "weight-5600927-20261017",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261017",
+      "dayTs": 1792166400,
+      "value": 82.95,
+      "unit": "kg",
+      "time": 1792202218
+    },
+    {
+      "id": "weight-5600927-20261018",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261018",
+      "dayTs": 1792252800,
+      "value": 84.3,
+      "unit": "kg",
+      "time": 1792283564
+    },
+    {
+      "id": "weight-5600927-20261019",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261019",
+      "dayTs": 1792339200,
+      "value": 84.85,
+      "unit": "kg",
+      "time": 1792368562
     }
   ]
 }
