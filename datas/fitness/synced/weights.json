@@ -1,10 +1,10 @@
 {
   "kind": "weight",
   "source": "keepstrong",
-  "syncedAt": "2026-10-21T02:45:58.525Z",
+  "syncedAt": "2026-10-26T03:08:12.731Z",
   "range": {
     "from": "20231016",
-    "to": "20261021"
+    "to": "20261026"
   },
   "logs": [
     {
@@ -3846,6 +3846,56 @@
       "value": 84.25,
       "unit": "kg",
       "time": 1792540702
+    },
+    {
+      "id": "weight-5600927-20261022",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261022",
+      "dayTs": 1792598400,
+      "value": 83.8,
+      "unit": "kg",
+      "time": 1792626091
+    },
+    {
+      "id": "weight-5600927-20261023",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261023",
+      "dayTs": 1792684800,
+      "value": 83.35,
+      "unit": "kg",
+      "time": 1792713338
+    },
+    {
+      "id": "weight-5600927-20261024",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261024",
+      "dayTs": 1792771200,
+      "value": 82.25,
+      "unit": "kg",
+      "time": 1792807093
+    },
+    {
+      "id": "weight-5600927-20261025",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261025",
+      "dayTs": 1792857600,
+      "value": 83.95,
+      "unit": "kg",
+      "time": 1792884513
+    },
+    {
+      "id": "weight-5600927-20261026",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261026",
+      "dayTs": 1792944000,
+      "value": 83.65,
+      "unit": "kg",
+      "time": 1792972656
     }
   ]
 }
