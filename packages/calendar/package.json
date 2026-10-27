@@ -1,0 +1,14 @@
+{
+  "name": "@ai-tiny-codes/calendar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "满屏月历与事项记录（阶段 1：日历框架）",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  }
+}
