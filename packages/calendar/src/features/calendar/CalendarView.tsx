@@ -37,13 +37,43 @@ export function CalendarView() {
     handlePointerDown,
     handlePointerEnter,
     handleClick,
-    handleContextMenuSelect,
+    ensureDateSelected,
   } = useCalendarSelection();
   const [dialog, setDialog] = useState<CalendarDialog>(null);
 
   useEffect(() => {
     clearSelection();
   }, [year, month, clearSelection]);
+
+  useEffect(() => {
+    function handleDocumentPointerDown(event: PointerEvent) {
+      if (event.button !== 0) {
+        return;
+      }
+
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      if (
+        target.closest(
+          '[role="grid"], [role="menu"], [role="dialog"], [data-slot="dialog-overlay"]',
+        )
+      ) {
+        return;
+      }
+
+      clearSelection();
+    }
+
+    document.addEventListener("pointerdown", handleDocumentPointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleDocumentPointerDown);
+    };
+  }, [clearSelection]);
 
   function openDialog(type: "edit" | "clear") {
     setDialog({
@@ -67,10 +97,11 @@ export function CalendarView() {
       return;
     }
 
-    handleContextMenuSelect(date);
+    ensureDateSelected(date);
   }
 
   function handleDayDoubleClick(date: string) {
+    ensureDateSelected(date);
     setDialog({ type: "edit", dates: [date] });
   }
 

@@ -20,6 +20,9 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 2：日历框架
 - 网格固定 5–6 行：始终保留上下相邻月份各一周；月初周日再前加一周，月末周六再后加一周。
 - 日期单元格是 `<button role="gridcell">`，支持 Tab / Enter / Space；不要改回只读 div。
 - 选择状态集中在 `useCalendarSelection`；Shift 区间、Ctrl/⌘ 加选、拖拽、右键锚点都在这里，避免散落到组件。
+- 普通点击：唯一选中项再点一次取消；多选时点某个已选日期收敛为只选该日期。
+- 点击日历以外区域清空选择：`CalendarView` 监听 document `pointerdown`，并排除 `[role="grid"]`、`[role="menu"]`、`[role="dialog"]`、`[data-slot="dialog-overlay"]`。
+- 双击和右键前调用 `ensureDateSelected`，保证目标日期最终处于选中态；否则双击的两次 pointerdown 会互相抵消。
 - 修饰键用 `lib/platform.ts`：macOS 用 ⌘，Windows/Linux 用 Ctrl；不要直接用 `metaKey || ctrlKey`，否则 macOS 的 Ctrl+click（右键）会误加选。
 - 右键菜单用 Radix ContextMenu，编辑/清空弹窗用 Radix Dialog；清空必须二次确认。
 - 切换年月会清空选择，这个行为在 `CalendarView` 的 effect 里。
@@ -27,7 +30,7 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 2：日历框架
 ## 阶段规划
 
 1. **日历框架（已完成）**：满屏网格、年月选择、上下月、今天、非本月淡化、相邻周上下文。
-2. **选择与操作（已完成）**：单击、Shift 区间、Ctrl/⌘ 点选、拖拽、右键菜单、清空二次确认、双击编辑占位。
+2. **选择与操作（已完成）**：单击 / 再次点击取消、Shift 区间、Ctrl/⌘ 点选、拖拽、点击外部清空、右键菜单、清空二次确认、双击编辑占位。
 3. 编辑与持久化：事项模型、编辑弹窗、CRUD、`datas/calendar/calendar.json`。
 4. 模板：事项模板管理、一键套用。
 5. 图表：按时间 / 模板聚合展示。

@@ -85,6 +85,12 @@ export function useCalendarSelection() {
         return;
       }
 
+      if (selectedRef.current.size === 1 && selectedRef.current.has(date)) {
+        anchorRef.current = null;
+        commit(new Set());
+        return;
+      }
+
       anchorRef.current = date;
       commit(new Set([date]));
     },
@@ -145,7 +151,7 @@ export function useCalendarSelection() {
     [applySelection],
   );
 
-  const handleContextMenuSelect = useCallback(
+  const ensureDateSelected = useCallback(
     (date: string) => {
       if (selectedRef.current.has(date)) {
         return;
@@ -164,6 +170,6 @@ export function useCalendarSelection() {
     handlePointerDown,
     handlePointerEnter,
     handleClick,
-    handleContextMenuSelect,
+    ensureDateSelected,
   };
 }
