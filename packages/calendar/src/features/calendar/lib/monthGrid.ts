@@ -5,8 +5,10 @@ import type { CalendarDay, CalendarWeek } from "../types";
 export function buildMonthMatrix(year: number, month: number): CalendarWeek[] {
   const firstDay = dayjs(new Date(year, month, 1));
   const lastDay = firstDay.endOf("month");
-  const gridStart = firstDay.subtract(firstDay.day(), "day");
-  const gridEnd = lastDay.add(6 - lastDay.day(), "day");
+  const leadingDays = firstDay.day() === 0 ? 7 : firstDay.day();
+  const trailingDays = lastDay.day() === 6 ? 7 : 6 - lastDay.day();
+  const gridStart = firstDay.subtract(leadingDays, "day");
+  const gridEnd = lastDay.add(trailingDays, "day");
   const today = dayjs().startOf("day");
 
   const weeks: CalendarWeek[] = [];

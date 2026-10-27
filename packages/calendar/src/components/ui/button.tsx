@@ -12,6 +12,7 @@ const buttonVariants = cva(
         default: "bg-blueprint text-white hover:bg-blueprint/90",
         outline: "border border-rule bg-sheet text-ink hover:bg-blueprint-soft",
         ghost: "text-ink hover:bg-blueprint-soft",
+        destructive: "bg-destructive text-white hover:bg-destructive/90",
       },
       size: {
         default: "h-9 px-4",

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import type { MouseEvent, PointerEvent } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -7,20 +8,45 @@ import type { CalendarDay } from "../types";
 
 type DayCellProps = {
   day: CalendarDay;
+  isSelected: boolean;
+  onPointerDown: (date: string, event: PointerEvent<HTMLElement>) => void;
+  onPointerEnter: (date: string, event: PointerEvent<HTMLElement>) => void;
+  onClick: (date: string, event: MouseEvent<HTMLElement>) => void;
+  onDoubleClick: (date: string) => void;
 };
 
-export function DayCell({ day }: DayCellProps) {
+export function DayCell({
+  day,
+  isSelected,
+  onPointerDown,
+  onPointerEnter,
+  onClick,
+  onDoubleClick,
+}: DayCellProps) {
   const dateLabel = `${dayjs(day.date).format("YYYY年M月D日")}，${WEEKDAY_LABELS[day.weekday]}${day.isToday ? "，今天" : ""}`;
 
   return (
-    <div
+    <button
+      type="button"
       role="gridcell"
       aria-label={dateLabel}
       aria-current={day.isToday ? "date" : undefined}
+      aria-selected={isSelected}
       data-date={day.date}
+      data-selected={isSelected ? "true" : undefined}
+      onPointerDown={(event) => onPointerDown(day.date, event)}
+      onPointerEnter={(event) => onPointerEnter(day.date, event)}
+      onClick={(event) => onClick(day.date, event)}
+      onDoubleClick={() => onDoubleClick(day.date)}
       className={cn(
-        "relative min-h-0 bg-sheet p-2 transition-colors sm:p-3",
-        day.isToday ? "bg-blueprint" : "hover:bg-blueprint-soft/40",
+        "relative min-h-0 w-full cursor-pointer select-none bg-sheet p-2 text-left transition-colors sm:p-3",
+        "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-blueprint",
+        isSelected && "outline-1 outline-offset-[-1px] outline-signal",
+        day.isToday
+          ? "bg-blueprint"
+          : isSelected
+            ? "bg-signal-soft hover:bg-signal-soft-strong"
+            : "hover:bg-blueprint-soft/40",
       )}
     >
       <span
@@ -41,6 +67,6 @@ export function DayCell({ day }: DayCellProps) {
           今天
         </span>
       ) : null}
-    </div>
+    </button>
   );
 }
