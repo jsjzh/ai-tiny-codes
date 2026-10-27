@@ -39,10 +39,24 @@ export function CalendarHeader({
   const isCurrentMonth = year === now.year() && month === now.month();
 
   return (
-    <header className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b border-rule bg-paper px-2 py-3 max-[359px]:px-2 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
+    <header className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b border-rule bg-paper px-2 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
       <div aria-hidden="true" />
 
-      <div className="flex flex-wrap items-baseline justify-center gap-x-1 gap-y-2 max-[359px]:gap-x-0.5 sm:flex-nowrap sm:items-end sm:gap-x-3">
+      <div className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2 max-[359px]:gap-x-0.5 sm:flex-nowrap sm:gap-x-2">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          aria-label="上个月"
+          className="size-8 max-[359px]:size-7 sm:size-9"
+          onClick={onPrev}
+        >
+          <ChevronLeft
+            aria-hidden="true"
+            className="size-4 max-[359px]:size-3.5 sm:size-[18px]"
+          />
+        </Button>
+
         <Select
           value={String(year)}
           onValueChange={(value) => onYearChange(Number(value))}
@@ -68,7 +82,7 @@ export function CalendarHeader({
         >
           <SelectTrigger
             aria-label="选择月份"
-            className="pb-0.5 text-lg font-medium leading-none transition-colors hover:text-blueprint data-[state=open]:text-blueprint max-[359px]:text-base sm:pb-1 sm:text-2xl"
+            className="text-lg font-medium leading-none transition-colors hover:text-blueprint data-[state=open]:text-blueprint max-[359px]:text-base sm:text-2xl"
           >
             <SelectValue />
           </SelectTrigger>
@@ -81,44 +95,32 @@ export function CalendarHeader({
           </SelectContent>
         </Select>
 
-        <div className="flex items-center gap-0.5 sm:gap-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label="上个月"
-            className="size-8 max-[359px]:size-7 sm:size-9"
-            onClick={onPrev}
-          >
-            <ChevronLeft
-              aria-hidden="true"
-              className="size-4 max-[359px]:size-3.5 sm:size-[18px]"
-            />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label="下个月"
-            className="size-8 max-[359px]:size-7 sm:size-9"
-            onClick={onNext}
-          >
-            <ChevronRight
-              aria-hidden="true"
-              className="size-4 max-[359px]:size-3.5 sm:size-[18px]"
-            />
-          </Button>
-          <Button
-            type="button"
-            variant={isCurrentMonth ? "ghost" : "default"}
-            className="ml-1 h-8 px-2.5 text-xs font-medium max-[359px]:ml-0.5 max-[359px]:h-7 max-[359px]:px-2 max-[359px]:text-[11px] sm:ml-2 sm:h-9 sm:px-4 sm:text-sm"
-            aria-label="回到今天"
-            disabled={isCurrentMonth}
-            onClick={onToday}
-          >
-            今天
-          </Button>
-        </div>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          aria-label="下个月"
+          className="size-8 max-[359px]:size-7 sm:size-9"
+          onClick={onNext}
+        >
+          <ChevronRight
+            aria-hidden="true"
+            className="size-4 max-[359px]:size-3.5 sm:size-[18px]"
+          />
+        </Button>
+
+        <div aria-hidden="true" className="hidden h-6 w-px bg-rule sm:block" />
+
+        <Button
+          type="button"
+          variant={isCurrentMonth ? "ghost" : "default"}
+          className="whitespace-nowrap h-8 px-2 text-xs font-medium max-[359px]:h-7 max-[359px]:px-1.5 max-[359px]:text-[10px] sm:h-9 sm:px-3 sm:text-sm"
+          aria-label="回到今日"
+          disabled={isCurrentMonth}
+          onClick={onToday}
+        >
+          回到今日
+        </Button>
       </div>
 
       <div className="justify-self-end">

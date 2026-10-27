@@ -27,24 +27,31 @@ export function TemplateForm({
 }: TemplateFormProps) {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const typeLocked = usage > 0;
+  const titleError = errors.find((message) => message.includes("标题")) ?? null;
+  const codeError = errors.find((message) => message.includes("code")) ?? null;
 
   return (
     <div className="flex flex-col gap-5">
-      {errors.length > 0 ? (
-        <div className="border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-          {errors.join("；")}
-        </div>
-      ) : null}
-
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-medium text-muted-foreground">标题</span>
           <input
             value={template.title}
             onChange={(event) => onUpdate({ title: event.target.value })}
-            className={inputClass}
+            className={cn(
+              inputClass,
+              titleError && "border-destructive focus-visible:outline-destructive",
+            )}
+            aria-invalid={Boolean(titleError)}
             placeholder="例如：体重"
           />
+          <span className="min-h-4 text-[11px] leading-4">
+            {titleError ? (
+              <span className="text-destructive">{titleError}</span>
+            ) : (
+              <span className="text-muted-foreground">必填</span>
+            )}
+          </span>
         </label>
 
         <label className="flex flex-col gap-1.5">
@@ -55,10 +62,16 @@ export function TemplateForm({
             className={cn(
               inputClass,
               "bg-paper font-mono text-xs text-muted-foreground",
+              codeError && "border-destructive",
             )}
+            aria-invalid={Boolean(codeError)}
           />
-          <span className="text-[11px] leading-4 text-muted-foreground">
-            自动生成，创建后不可修改
+          <span className="min-h-4 text-[11px] leading-4">
+            {codeError ? (
+              <span className="text-destructive">{codeError}</span>
+            ) : (
+              <span className="text-muted-foreground">自动生成，创建后不可修改</span>
+            )}
           </span>
         </label>
       </div>

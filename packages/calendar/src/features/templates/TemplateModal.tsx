@@ -246,29 +246,38 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
         onInteractOutside={(event) => event.preventDefault()}
       >
         <div className="flex max-h-[calc(100dvh-2rem)] flex-col">
-          <header className="flex shrink-0 flex-wrap items-start justify-between gap-3 border-b border-rule px-6 py-4 pr-14">
+          <header className="shrink-0 border-b border-rule px-6 py-4 pr-14">
             <DialogHeader className="mb-0 pr-0">
               <DialogTitle className="text-xl">事项模板</DialogTitle>
               <DialogDescription>
                 模板决定日历上显示什么，以及图表如何统计。
               </DialogDescription>
             </DialogHeader>
-            <Button type="button" size="sm" onClick={handleAdd}>
-              <Plus aria-hidden="true" className="size-3.5" />
-              新建模板
-            </Button>
           </header>
 
           <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto md:grid-cols-[280px_1fr] md:overflow-hidden">
-            <aside className="border-b border-rule md:min-h-0 md:overflow-y-auto md:border-b-0 md:border-r">
-              <TemplateList
-                templates={sortedTemplates}
-                selectedCode={selectedCode}
-                errors={validationErrors}
-                usageByCode={usageByCode}
-                onSelect={setSelectedCode}
-                onReorder={handleReorder}
-              />
+            <aside className="border-b border-rule md:flex md:min-h-0 md:flex-col md:border-b-0 md:border-r">
+              <div className="max-h-64 overflow-y-auto md:max-h-none md:min-h-0 md:flex-1">
+                <TemplateList
+                  templates={sortedTemplates}
+                  selectedCode={selectedCode}
+                  errors={validationErrors}
+                  usageByCode={usageByCode}
+                  onSelect={setSelectedCode}
+                  onReorder={handleReorder}
+                />
+              </div>
+              <div className="shrink-0 border-t border-rule p-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="h-9 w-full justify-start px-2 text-sm"
+                  onClick={handleAdd}
+                >
+                  <Plus aria-hidden="true" className="size-4" />
+                  新建模板
+                </Button>
+              </div>
             </aside>
 
             <section className="p-6 md:min-h-0 md:overflow-y-auto">
@@ -282,14 +291,11 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
                   onDelete={handleDelete}
                 />
               ) : (
-                <div className="flex h-full min-h-48 flex-col items-center justify-center gap-3 text-center">
+                <div className="flex h-full min-h-48 flex-col items-center justify-center text-center">
                   <p className="max-w-xs text-sm leading-6 text-muted-foreground">
-                    还没有模板。先建一个，比如「体重 · kg」，之后在日历里就能快速记录。
+                    还没有模板。点“新建模板”开始，比如「体重 ·
+                    kg」，之后在日历里就能快速记录。
                   </p>
-                  <Button type="button" onClick={handleAdd}>
-                    <Plus aria-hidden="true" className="size-4" />
-                    新建模板
-                  </Button>
                 </div>
               )}
             </section>
@@ -313,21 +319,21 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0 text-xs">
                   {saveError ? (
-                    <span className="text-destructive">{saveError}</span>
+                    <span className="block truncate text-destructive">{saveError}</span>
                   ) : validationErrors.size > 0 ? (
-                    <span className="text-destructive">有模板信息未完善</span>
+                    <span className="block truncate text-destructive">
+                      有模板信息未完善
+                    </span>
                   ) : (
-                    <span className="text-muted-foreground">
-                      {dirty
-                        ? "有未提交修改，点“完成”保存"
-                        : "所有修改在点“完成”后保存"}
+                    <span className="block truncate text-muted-foreground">
+                      {dirty ? "有未提交修改" : "点“完成”保存"}
                     </span>
                   )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex shrink-0 gap-2">
                   <Button
                     type="button"
                     variant="outline"
