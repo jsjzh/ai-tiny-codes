@@ -24,15 +24,19 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  scrollable = true,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  scrollable?: boolean;
+}) {
   return (
     <DialogPrimitive.Portal>
       <DialogOverlay />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto border border-rule bg-sheet p-6 outline-none",
+          "fixed left-1/2 top-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 border border-rule bg-sheet p-6 outline-none",
+          scrollable ? "overflow-y-auto" : "overflow-hidden",
           className,
         )}
         {...props}
@@ -61,10 +65,7 @@ function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-footer"
-      className={cn(
-        "mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end",
-        className,
-      )}
+      className={cn("mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end", className)}
       {...props}
     />
   );

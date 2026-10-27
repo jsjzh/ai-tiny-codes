@@ -1,6 +1,8 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
+import { TemplateModal } from "@/features/templates/TemplateModal";
+
 import { Button } from "@/components/ui/button";
 import {
   ContextMenu,
@@ -40,6 +42,7 @@ export function CalendarView() {
     ensureDateSelected,
   } = useCalendarSelection();
   const [dialog, setDialog] = useState<CalendarDialog>(null);
+  const [templateModalOpen, setTemplateModalOpen] = useState(false);
 
   useEffect(() => {
     clearSelection();
@@ -123,6 +126,7 @@ export function CalendarView() {
         onPrev={goPrev}
         onNext={goNext}
         onToday={goToday}
+        onOpenTemplates={() => setTemplateModalOpen(true)}
       />
       <WeekdayHeader />
       <ContextMenu>
@@ -175,8 +179,8 @@ export function CalendarView() {
             <DialogTitle>{isClearDialog ? "清空选中日期？" : "编辑事项"}</DialogTitle>
             <DialogDescription>
               {isClearDialog
-                ? `将清空这 ${dialogDates.length} 天的所有事项，此操作不可撤销。事项数据将在阶段 3 接入。`
-                : `编辑弹窗将在阶段 3 实现。当前已选 ${dialogDates.length} 天。`}
+                ? `将清空这 ${dialogDates.length} 天的所有事项，此操作不可撤销。事项数据将在阶段 4 接入。`
+                : `编辑弹窗将在阶段 4 实现。当前已选 ${dialogDates.length} 天。`}
             </DialogDescription>
           </DialogHeader>
           <div className="flex max-h-40 flex-wrap gap-1.5 overflow-y-auto border border-rule bg-paper p-3">
@@ -211,6 +215,8 @@ export function CalendarView() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <TemplateModal open={templateModalOpen} onOpenChange={setTemplateModalOpen} />
     </main>
   );
 }
