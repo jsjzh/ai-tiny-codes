@@ -8,7 +8,9 @@ export function buildMonthMatrix(year: number, month: number): CalendarWeek[] {
   const leadingDays = firstDay.day() === 0 ? 7 : firstDay.day();
   const trailingDays = lastDay.day() === 6 ? 7 : 6 - lastDay.day();
   const gridStart = firstDay.subtract(leadingDays, "day");
-  const gridEnd = lastDay.add(trailingDays, "day");
+  const naturalGridEnd = lastDay.add(trailingDays, "day");
+  const naturalGridDays = naturalGridEnd.diff(gridStart, "day") + 1;
+  const gridEnd = naturalGridEnd.add(Math.max(0, 42 - naturalGridDays), "day");
   const today = dayjs().startOf("day");
 
   const weeks: CalendarWeek[] = [];

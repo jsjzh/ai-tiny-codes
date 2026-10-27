@@ -7,7 +7,7 @@ afterEach(() => {
 });
 
 describe("buildMonthMatrix", () => {
-  it("前后各保留一周，从周日起始、到周六结束", () => {
+  it("固定 6 行，从周日起始、到周六结束", () => {
     const weeks = buildMonthMatrix(2026, 9);
 
     expect(weeks).toHaveLength(6);
@@ -26,14 +26,14 @@ describe("buildMonthMatrix", () => {
     expect(weeks.at(-1)?.[6].date).toBe("2026-03-07");
   });
 
-  it("闰年 2 月补齐 5 行", () => {
+  it("闰年 2 月也保持 6 行", () => {
     const weeks = buildMonthMatrix(2028, 1);
     const dates = weeks.flat().map((day) => day.date);
 
-    expect(weeks).toHaveLength(5);
+    expect(weeks).toHaveLength(6);
     expect(dates).toContain("2028-02-29");
     expect(weeks[0][0].date).toBe("2028-01-30");
-    expect(weeks.at(-1)?.[6].date).toBe("2028-03-04");
+    expect(weeks.at(-1)?.[6].date).toBe("2028-03-11");
   });
 
   it("月初是周六时保留上个月最后一周", () => {
@@ -45,12 +45,32 @@ describe("buildMonthMatrix", () => {
     expect(weeks.at(-1)?.[6].date).toBe("2026-09-05");
   });
 
-  it("两头都已有相邻月日期时保持 5 行", () => {
+  it("自然只有 5 行的月份向后补到 6 行", () => {
     const weeks = buildMonthMatrix(2026, 8);
 
-    expect(weeks).toHaveLength(5);
+    expect(weeks).toHaveLength(6);
     expect(weeks[0][0].date).toBe("2026-08-30");
-    expect(weeks.at(-1)?.[6].date).toBe("2026-10-03");
+    expect(weeks.at(-1)?.[6].date).toBe("2026-10-10");
+  });
+
+  it("2025 年 10 月与 11 月都固定 6 行", () => {
+    const october = buildMonthMatrix(2025, 9);
+    const november = buildMonthMatrix(2025, 10);
+
+    expect(october).toHaveLength(6);
+    expect(november).toHaveLength(6);
+    expect(october[0][0].date).toBe("2025-09-28");
+    expect(october.at(-1)?.[6].date).toBe("2025-11-08");
+    expect(november[0][0].date).toBe("2025-10-26");
+    expect(november.at(-1)?.[6].date).toBe("2025-12-06");
+  });
+
+  it("每个月都固定 6 行", () => {
+    for (const year of [2025, 2026, 2028]) {
+      for (let month = 0; month < 12; month += 1) {
+        expect(buildMonthMatrix(year, month)).toHaveLength(6);
+      }
+    }
   });
 
   it("正确标记本月与今天", () => {
