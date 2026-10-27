@@ -56,7 +56,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 
 ## checkin 领域口径
 - **数据源**：每日体重优先取 `datas/fitness/synced/weights.json`（由 `fitness:sync` 产出），缺失的日期回退到计划 JSON 的 `dailyWeights`（旧计划兜底）；只取 `>= plan.startDate`。见 `analyze.resolveDailyWeights`
-- `checkpoints` 只剩 `{ kind, index, date, planWeightKg, note? }`，**不再有 actual 字段**；节点实际值由每日数据就近（`±3 天`）派生
+- `checkpoints` 只剩 `{ kind, index, date, planWeightKg, note? }`，**不再有 actual 字段**；节点实际值由每日数据就近（`±3 天`）派生；节点日期晚于最新数据日视为未到达，返回空（表格/网页显示 `—`）
 - `checkin` 只读：先 `validatePlanFile` 校验（version/结构、daily 日期合法、体重 30~300kg、单日跳变 >2kg 提示、早于开始日提示；晚于目标日视为超期不告警），有 error 则只出校验、不分析
 - 分析用 `buildContext`：`daily` = 已填数值按日期升序并算好 `ma7`；`latest`=最后一条；`status`= no-data/ongoing/overdue/reached
 - **MA7**：某日往前 7 自然日内已填值的均值，窗口 <`MA_MIN`(3) 条用原始值（抗水分噪音）

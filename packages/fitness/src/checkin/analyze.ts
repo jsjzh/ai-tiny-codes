@@ -69,9 +69,11 @@ export function planWeightAt(ctx: TrackContext, date: string): number {
   return roundTo(Math.max(ctx.targetWeightKg, w), 2);
 }
 
-/** 节点实际：距节点日期最近且 ≤NODE_TOLERANCE_DAYS 的每日数据 */
+/** 节点实际：距节点日期最近且 ≤NODE_TOLERANCE_DAYS 的每日数据；节点日期晚于最新数据日视为未到达 */
 export function nodeActual(daily: DailyPoint[], date: string): NodeActual {
   if (daily.length === 0) return { raw: null, rawDate: null, ma: null };
+  const latestDate = daily[daily.length - 1].date;
+  if (date > latestDate) return { raw: null, rawDate: null, ma: null };
   let best: DailyPoint | null = null;
   let bestDist = Infinity;
   for (const p of daily) {
