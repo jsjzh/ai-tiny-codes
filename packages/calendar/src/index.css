@@ -95,3 +95,15 @@
     scroll-behavior: auto !important;
   }
 }
+
+.chart-slot-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(var(--slot-count, 1), minmax(0, 1fr));
+}
+
+@media (max-width: 639px) {
+  .chart-slot-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

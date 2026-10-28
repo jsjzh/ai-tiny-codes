@@ -140,7 +140,11 @@ export function CalendarView() {
   }
 
   return (
-    <main className="flex h-dvh flex-col overflow-hidden bg-paper">
+    <section
+      id="calendar"
+      aria-label="月历"
+      className="flex h-dvh flex-col overflow-hidden bg-paper"
+    >
       <CalendarHeader
         year={year}
         month={month}
@@ -262,6 +266,6 @@ export function CalendarView() {
       />
 
       <TemplateModal open={templateModalOpen} onOpenChange={setTemplateModalOpen} />
-    </main>
+    </section>
   );
 }

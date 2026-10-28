@@ -1,6 +1,6 @@
 # @ai-tiny-codes/calendar
 
-满屏月历与事项记录。当前完成**阶段 4：编辑 + 日历事项展示 + 事件 CRUD**；图表框架待实现。
+满屏月历与事项记录。当前完成**阶段 5a：图表框架**；具体图表渲染待 5b 实现。
 
 ## 使用
 
@@ -10,6 +10,18 @@ pnpm calendar:build
 pnpm calendar:preview
 pnpm calendar:test
 ```
+
+## 阶段 5a 范围
+
+- 图表 section 接在日历下方，全宽，页面纵向滚动进入；header 不放图表按钮。
+- 图表数据独立存 `datas/charts/charts.json`，通过 `/api/charts` 读写；只读取日历事项和事件。
+- 图表模板独立管理：绑定单个事项，数值事项支持折线/柱状/面积，文本事项支持对照表/分布；数值指标支持每日、7 日均、30 日均、变化率。
+- 案例保存查询条件、事项筛选和布局：案例名称、起止日期、事项、1–4 个槽位的行。
+- 槽位可放图表或块，也可留空；块高度 1–2，图表高度 1–4；行高取最大值，卡片顶部对齐。
+- 块在案例内创建/编辑，支持固定值、最新值、最大值、最小值、累计减重、区间变化、BMI、距离目标；范围支持案例、全部历史、近 N 天。
+- 原生 HTML5 拖拽移动内容或从模板面板复制图表；移动端槽位单列。
+- 删除图表模板按案例数去重提示，并清空案例中的对应图表；删除事项模板后块/图表软失效。
+- 图表卡片目前显示元信息和占位，5b 完成具体渲染。
 
 ## 阶段 4 范围
 
@@ -67,9 +79,27 @@ src/
       TemplateForm.tsx            # 模板字段、使用次数、删除
       TemplateColorPicker.tsx     # 预设色 + 自定义取色
     lib/colors.ts
+  features/charts/
+    ChartsSection.tsx             # 图表区、案例查看/编辑、模板入口
+    CaseEditor.tsx                # 案例元数据、组件面板、槽位画布
+    ChartTemplateModal.tsx        # 独立图表模板管理
+    BlockEditorDialog.tsx         # 块规则、范围、预览
+    components/
+      CaseCanvas.tsx              # 行/槽位、原生拖拽、高度
+      BlockCard.tsx               # 块取值展示
+      ChartCard.tsx               # 图表占位与元信息
+    data/
+      types.ts                    # 图表模板/案例/块、规范化、使用计数
+      storage.ts                  # API + localStorage
+      ChartsDataProvider.tsx      # 图表数据、加载、commitData
+      *.test.ts
+    lib/
+      blockRules.ts               # 块取值规则
+      widgetLayout.ts             # 高度与拖拽 MIME
 server/
-  calendarDataPlugin.ts           # GET/PUT /api/calendar
-datas/calendar/calendar.json      # 仓库内持久化数据
+  dataPlugins.ts                  # GET/PUT /api/calendar + /api/charts
+datas/calendar/calendar.json      # 日历持久化数据
+datas/charts/charts.json          # 图表持久化数据
 ```
 
 ## 数据模型
@@ -101,8 +131,57 @@ datas/calendar/calendar.json      # 仓库内持久化数据
 - 每天每个模板最多一条记录，`events[date][code]` 天然唯一。
 - 事件全局顺序由模板 `sortOrder` 决定，不在每日事件里单独存 order。
 - 模板 `code` 自动生成、创建后只读；改标题不会影响事件。
-- 删除模板会级联删除该模板的所有事件。
-- `chartTemplates` 为阶段 5 预留。
+- 删除模板会级联删除该模板的所有事件；图表中的引用会显示为软失效。
+- 日历数据里的 `chartTemplates` 是早期兼容字段，当前不使用；图表模板全部在独立文件中。
+- 图表数据独立存储，结构如下：
+
+```json
+{
+  "version": 1,
+  "templates": [
+    {
+      "code": "weight-overview",
+      "title": "体重概览",
+      "eventCode": "weight",
+      "kind": "numeric",
+      "chartType": "line",
+      "metrics": ["daily", "avg7", "avg30"],
+      "desc": "每日体重与均线",
+      "sortOrder": 0
+    }
+  ],
+  "cases": [
+    {
+      "id": "case_demo",
+      "name": "减脂 8.1–10.28",
+      "startDate": "2026-08-01",
+      "endDate": "2026-10-28",
+      "eventCodes": ["weight"],
+      "rows": [
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "height": 1,
+              "block": {
+                "id": "b_latest",
+                "title": "最新体重",
+                "info": "",
+                "eventCode": "weight",
+                "rule": { "type": "latest", "range": { "type": "case" } }
+              }
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "updatedAt": "2026-10-28T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+- 图表模板只通过 `eventCode` 关联事项，不写入日历数据；案例通过 `eventCodes` 筛选可拖拽模板。
 
 ## 日期与网格口径
 
@@ -132,6 +211,17 @@ datas/calendar/calendar.json      # 仓库内持久化数据
 - 编辑弹窗内不做拖动排序；全局顺序只在模板弹窗里通过拖拽调整。
 - 所有编辑弹窗使用 session draft；完成才提交，X 放弃，遮罩不关闭。
 
+## 图表口径
+
+- 案例是查看单位：保存日期区间、事项筛选和槽位布局；切换案例不修改原始事件。
+- 案例编辑使用草稿，保存后统一刷新；另存为生成副本；取消丢弃草稿。
+- 槽位高度：块 1–2、图表 1–4；行高取本行最大值，空槽在查看态保留占位。
+- 块取值实时计算，不存计算结果。`lastDays` 以案例结束日前最后一条记录为终点，允许回看案例开始前；图表指标也允许回看，但坐标轴按案例区间展示。
+- 固定值块不绑定事项；文本事项支持最新值和固定值，不支持数值统计规则。
+- 删除图表模板时按去重后的案例数提示，并从所有案例槽位移除；删除事项模板后图表/块保留但显示失效。
+- 图表模板可在案例编辑中打开管理；创建后草稿保留，删除模板会同步清掉草稿里失效的图表。
+- 5b 之前图表卡片只显示标题、事项、类型、指标和说明占位。
+
 ## 设计
 
 制图台 / Blueprint：
@@ -145,8 +235,8 @@ datas/calendar/calendar.json      # 仓库内持久化数据
 
 ## 数据持久化
 
-- 开发/预览：Vite 中间件 `GET/PUT /api/calendar` 读写 `datas/calendar/calendar.json`。
+- 开发/预览：Vite 中间件 `GET/PUT /api/calendar` 读写 `datas/calendar/calendar.json`，`GET/PUT /api/charts` 读写 `datas/charts/charts.json`。
 - `configureServer` + `configurePreviewServer` 都支持。
-- 静态部署：接口不可用或返回 404/405 时写 localStorage。
-- 提交前 `normalizeCalendarData` 会修正排序、剔除无效模板和事件。
+- 静态部署：接口不可用或返回 404/405 时分别写 localStorage。
+- 提交前 `normalizeCalendarData` / 图表规范化会修正排序、剔除无效模板和事件。
 - 多机同时编辑同一 JSON 可能产生 git 冲突，建议一次只在一台机器写。

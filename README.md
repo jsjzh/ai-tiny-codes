@@ -11,8 +11,8 @@ packages/
   money/      @ai-tiny-codes/money      攒钱计划计算器
   keepstrong/ @ai-tiny-codes/keepstrong 练练健身（KeepStrong）AI API 轻量客户端
   commute/    @ai-tiny-codes/commute    通勤方式（地铁/开车/摩托）年花费对比
-  calendar/   @ai-tiny-codes/calendar   满屏月历与事项记录（Vite + React，阶段 1–4：框架 + 选择 + 模板/数据 + 编辑）
-datas/      # 随项目保存的数据（fitness 计划/同步数据、生成的大盘、日历数据），方便上传与手改
+  calendar/   @ai-tiny-codes/calendar   满屏月历与事项记录（Vite + React，阶段 1–5a：框架 + 选择 + 模板/数据 + 编辑 + 图表框架）
+datas/      # 随项目保存的数据（fitness 计划/同步数据、生成的大盘、日历/图表数据），方便上传与手改
 .opencode/  # opencode 项目配置（skills：frontend-design 等）
 ```
 
@@ -42,7 +42,7 @@ pnpm install
 | `pnpm calendar:dev` | 启动日历开发服务器（http://localhost:5174） |
 | `pnpm calendar:build` | 构建日历静态产物 |
 | `pnpm calendar:preview` | 预览日历构建产物 |
-| `pnpm calendar:test` | 运行日历日期逻辑单测 |
+| `pnpm calendar:test` | 运行日历、事件、图表数据与块规则单测 |
 | `pnpm typecheck` | 对所有 workspace 包执行类型检查 |
 
 也可以进入某个包直接跑，例如：

@@ -1,12 +1,12 @@
 # 项目：日历（calendar）
 
-Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 4：编辑 + 日历事项展示 + 事件 CRUD**。
+Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5a：图表框架**；具体图表渲染在 5b。
 
 ## 运行
 
-- `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar`。
+- `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar` 和 `/api/charts`。
 - `pnpm calendar:build`：`tsc --noEmit` + Vite 构建。
-- `pnpm calendar:test`：Vitest，跑日期网格、日期区间、事件 CRUD、布局计算、数据规范化。
+- `pnpm calendar:test`：Vitest，跑日期网格、日期区间、事件 CRUD、布局计算、数据规范化、块规则、图表数据工具。
 - 根 `pnpm typecheck` 会递归执行本包 `tsc --noEmit`。
 
 ## 约束
@@ -28,11 +28,13 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 4：编辑 + 日
 
 ## 数据层
 
-- 数据文件：`datas/calendar/calendar.json`，结构由 `src/features/calendar/data/types.ts` 定义。
-- `CalendarDataProvider` 在 App 最外层挂载，负责加载、错误状态和 `commitData`。
-- `storage.ts`：优先 `GET/PUT /api/calendar`；静态环境或 404/405 降级 localStorage。
-- `server/calendarDataPlugin.ts`：Vite dev/preview 中间件，原子写临时文件后 rename。
+- 日历数据：`datas/calendar/calendar.json`，结构由 `src/features/calendar/data/types.ts` 定义。
+- 图表数据：`datas/charts/charts.json`，结构由 `src/features/charts/data/types.ts` 定义；与日历数据解耦。
+- `CalendarDataProvider` / `ChartsDataProvider` 在 App 外层挂载，负责加载、错误状态和 `commitData`。
+- `storage.ts`：优先 `GET/PUT /api/calendar`、`/api/charts`；静态环境或 404/405 降级各自 localStorage。
+- `server/dataPlugins.ts`：通用 Vite dev/preview JSON 中间件，两个路由共用，原子写临时文件后 rename。
 - `normalizeCalendarData`：排序 `sortOrder`、去重 code、剔除无效模板和事件；提交前会跑一遍。
+- 图表数据同样在提交前规范化；图表模块只读取日历数据，不向 `calendar.json` 写入。
 - 每天每模板一条：`events[date][code] = value`；全局顺序由模板 `sortOrder` 决定，不存每日 order。
 - 模板 `code` 当前自动生成、创建后只读；改标题不会影响事件。
 - 删除模板必须级联删除该模板的事件，并二次确认。
@@ -76,6 +78,32 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 4：编辑 + 日
 - 事项文字不单独点击；整个日期格仍是选择/编辑入口。
 - 清空选中日期会真正删除事件；日历和图表在弹窗完成后统一刷新。
 
+## 图表框架（阶段 5a）
+
+- 图表 section 在日历下方，`#charts`，全宽；页面整体纵向滚动，首屏日历仍为 `100dvh`。
+- 图表 header：标题、说明、回到月历、案例选择、新建案例、编辑案例、图表模板；图表模板入口只在图表区，不放进日历 header。
+- 无案例时显示空状态和 `新建案例` CTA；无图表模板时，新建案例里提示到上方「图表模板」创建。
+- 案例编辑器是图表区内联视图，不是弹窗；取消直接丢弃草稿，保存/另存为/删除才写盘。
+- 案例字段：`name`、`startDate`、`endDate`、`eventCodes`、`rows`、`createdAt`、`updatedAt`。
+- 行：1–4 个槽位；槽位可以是空、块或图表。空槽在查看态保留空白，在编辑态显示虚线提示。
+- 高度：块 1–2，图表 1–4；行高取本行最大高度，卡片顶部对齐。移动端 `chart-slot-grid` 强制单列。
+- 拖拽使用原生 HTML5 DnD：`WIDGET_DRAG_TYPE` 移动内容，`CHART_DRAG_TYPE` 从模板面板复制；不要改成依赖库。
+- 块：
+  - 案例内联创建/编辑，没有全局块模板库。
+  - 字段：`title`、`info`、`eventCode`（固定值可为 `null`）、`rule`。
+  - 规则：`fixed`、`latest`、`max`、`min`、`loss`、`change`、`bmi`、`distanceToTarget`。
+  - 范围：`case`、`all`、`lastDays`；`lastDays` 以案例结束日前最后一条记录为终点，允许回看到案例开始前，不能超过案例结束日。
+  - `case` 是默认展示范围；`all` 明确读取全部历史；非 `case` 范围在卡片上显示范围 badge。
+  - 块规则计算在 `lib/blockRules.ts`，保持纯函数并配测试。
+- 图表模板：
+  - 与事项模板分开管理，通过 `eventCode` 关联；每个模板只绑定一个事项。
+  - 数值事项支持 `line|bar|area`，文本事项支持 `table|distribution`。
+  - 数值指标：`daily|avg7|avg30|changeRate`；同单位指标可合并，`changeRate` 必须单独使用。
+  - 图表模板删除时按**案例数去重**提示，并清空所有案例中的对应图表；草稿中的对应图表也要清理。
+  - 事项模板删除时图表模板/块不删除，显示“引用的事项已删除”软失效。
+- 案例编辑器打开时可以继续打开「图表模板」弹窗；创建模板后草稿保留，删除模板会同步清理草稿中失效的图表。
+- 5a 只输出图表卡片占位和元信息，具体折线/柱状/面积/对照表渲染在 5b。
+
 ## Header
 
 - 三列 grid：`‹ 年 月 ›` 和「回到今日」居中；左右切换分列年月两侧；模板按钮最右；图表不放 header。
@@ -88,12 +116,13 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 4：编辑 + 日
 2. **选择与操作（已完成）**：单击 / 再次点击取消、Shift 区间、Ctrl/⌘ 点选、拖拽、点击外部清空、右键菜单、清空确认。
 3. **模板 + 数据层 + 持久化（已完成）**：模板弹窗、全局拖拽排序、颜色选择、`calendar.json`、Vite API、session draft。
 4. **编辑 + 日历事项展示 + 事件 CRUD（已完成）**：单条/多条、逐日输入、非连续日期、勾选删除、动态两列、今天浅色、清空事件。
-5. **图表框架（下一阶段）**：日历下方 section + 空状态 + 独立图表模板入口；具体图表后续。
+5a. **图表框架（已完成）**：独立图表数据/API、图表模板、案例、槽位布局、块规则、原生拖拽、软失效。
+5b. **图表渲染（下一阶段）**：折线/柱状/面积、文本对照表/分布、坐标轴与案例区间、空数据状态。
 
 ## 当前占位
 
-- 图表 section 和图表模板管理尚未开始。
-- 图表模板与事项模板分开管理，通过 eventCodes 关联；具体指标/筛选后续再定。
+- 图表卡片目前只显示模板元信息和“图表渲染将在 5b 完成”占位。
+- 图表模板与事项模板分开管理，通过 `eventCode` 关联；案例通过 `eventCodes` 过滤可用模板。
 
 ## 视觉
 

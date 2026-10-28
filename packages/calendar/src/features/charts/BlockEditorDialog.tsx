@@ -1,0 +1,542 @@
+import { useEffect, useMemo, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type {
+  CalendarData,
+  CalendarTemplate,
+} from "@/features/calendar/data/types";
+
+import {
+  blockRangeDescription,
+  resolveBlockResult,
+} from "./lib/blockRules";
+import {
+  generateBlockId,
+  type BlockRange,
+  type BlockRule,
+  type BlockRuleType,
+  type CalendarBlock,
+} from "./data/types";
+
+type BlockEditorDialogProps = {
+  open: boolean;
+  initialBlock: CalendarBlock | null;
+  caseRange: { startDate: string; endDate: string };
+  calendarData: CalendarData;
+  onOpenChange: (open: boolean) => void;
+  onSave: (block: CalendarBlock) => void;
+};
+
+const inputClass =
+  "h-9 w-full border border-rule bg-sheet px-2.5 text-sm text-ink outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal disabled:cursor-not-allowed disabled:bg-paper disabled:text-muted-foreground";
+
+const RULE_LABELS: Record<BlockRuleType, string> = {
+  fixed: "固定值",
+  latest: "最新值",
+  max: "最大值",
+  min: "最小值",
+  loss: "累计减重",
+  change: "区间变化",
+  bmi: "BMI",
+  distanceToTarget: "距离目标",
+};
+
+const NUMERIC_RULES: BlockRuleType[] = [
+  "max",
+  "min",
+  "loss",
+  "change",
+  "bmi",
+  "distanceToTarget",
+];
+
+function findEvent(
+  templates: CalendarTemplate[],
+  code: string | null,
+): CalendarTemplate | null {
+  return code
+    ? (templates.find((template) => template.code === code) ?? null)
+    : null;
+}
+
+export function BlockEditorDialog({
+  open,
+  initialBlock,
+  caseRange,
+  calendarData,
+  onOpenChange,
+  onSave,
+}: BlockEditorDialogProps) {
+  const templates = calendarData.templates;
+  const initialEventCode =
+    initialBlock?.eventCode ?? templates[0]?.code ?? "";
+  const [title, setTitle] = useState(initialBlock?.title ?? "新块");
+  const [info, setInfo] = useState(initialBlock?.info ?? "");
+  const [ruleType, setRuleType] = useState<BlockRuleType>(
+    initialBlock?.rule.type ?? "latest",
+  );
+  const [eventCode, setEventCode] = useState(initialEventCode);
+  const [rangeType, setRangeType] = useState<
+    BlockRange["type"]
+  >(initialBlock?.rule.range?.type ?? "case");
+  const [days, setDays] = useState(
+    initialBlock?.rule.range?.type === "lastDays"
+      ? String(initialBlock.rule.range.days)
+      : "30",
+  );
+  const [heightCm, setHeightCm] = useState(
+    initialBlock?.rule.heightCm ? String(initialBlock.rule.heightCm) : "175",
+  );
+  const [target, setTarget] = useState(
+    initialBlock?.rule.target !== undefined
+      ? String(initialBlock.rule.target)
+      : "70",
+  );
+  const [fixedValue, setFixedValue] = useState(
+    initialBlock?.rule.type === "fixed"
+      ? initialBlock.rule.value ?? ""
+      : "",
+  );
+  const [fixedUnit, setFixedUnit] = useState(
+    initialBlock?.rule.type === "fixed"
+      ? initialBlock.rule.unit ?? ""
+      : "",
+  );
+  const [formError, setFormError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    setTitle(initialBlock?.title ?? "新块");
+    setInfo(initialBlock?.info ?? "");
+    setRuleType(initialBlock?.rule.type ?? "latest");
+    setEventCode(initialBlock?.eventCode ?? templates[0]?.code ?? "");
+    setRangeType(initialBlock?.rule.range?.type ?? "case");
+    setDays(
+      initialBlock?.rule.range?.type === "lastDays"
+        ? String(initialBlock.rule.range.days)
+        : "30",
+    );
+    setHeightCm(
+      initialBlock?.rule.heightCm
+        ? String(initialBlock.rule.heightCm)
+        : "175",
+    );
+    setTarget(
+      initialBlock?.rule.target !== undefined
+        ? String(initialBlock.rule.target)
+        : "70",
+    );
+    setFixedValue(
+      initialBlock?.rule.type === "fixed"
+        ? initialBlock.rule.value ?? ""
+        : "",
+    );
+    setFixedUnit(
+      initialBlock?.rule.type === "fixed"
+        ? initialBlock.rule.unit ?? ""
+        : "",
+    );
+    setFormError(null);
+  }, [open, initialBlock, templates]);
+
+  const selectedEvent = findEvent(templates, eventCode);
+  const availableRules: BlockRuleType[] = useMemo(() => {
+    if (!selectedEvent || selectedEvent.kind === "text") {
+      return ["fixed", "latest"];
+    }
+
+    return ["fixed", "latest", ...NUMERIC_RULES];
+  }, [selectedEvent]);
+
+  useEffect(() => {
+    if (!availableRules.includes(ruleType)) {
+      setRuleType(availableRules[0] ?? "fixed");
+    }
+  }, [availableRules, ruleType]);
+
+  function buildRule(): BlockRule | null {
+    if (ruleType === "fixed") {
+      return {
+        type: "fixed",
+        value: fixedValue,
+        unit: fixedUnit,
+      };
+    }
+
+    if (!eventCode) {
+      return null;
+    }
+
+    const range: BlockRange =
+      rangeType === "lastDays"
+        ? {
+            type: "lastDays",
+            days: Math.max(1, Number(days) || 30),
+          }
+        : { type: rangeType };
+
+    if (ruleType === "bmi") {
+      return {
+        type: "bmi",
+        range,
+        heightCm: Number(heightCm) || undefined,
+      };
+    }
+
+    if (ruleType === "distanceToTarget") {
+      return {
+        type: "distanceToTarget",
+        range,
+        target: target.trim() === "" ? undefined : Number(target),
+      };
+    }
+
+    return {
+      type: ruleType,
+      range,
+    };
+  }
+
+  function buildBlock(): CalendarBlock | null {
+    const rule = buildRule();
+
+    if (!rule) {
+      return null;
+    }
+
+    return {
+      id: initialBlock?.id ?? generateBlockId(),
+      title: title.trim() || "未命名块",
+      info: info.trim(),
+      eventCode: ruleType === "fixed" ? null : eventCode || null,
+      rule,
+    };
+  }
+
+  const previewBlock = buildBlock();
+  const previewResult = previewBlock
+    ? resolveBlockResult(previewBlock, calendarData, caseRange)
+    : null;
+  const rangeDescription = previewBlock
+    ? blockRangeDescription(previewBlock, caseRange, calendarData)
+    : "未配置";
+
+  function handleSave() {
+    if (!title.trim()) {
+      setFormError("标题不能为空");
+      return;
+    }
+
+    if (ruleType === "fixed" && !fixedValue.trim()) {
+      setFormError("固定值不能为空");
+      return;
+    }
+
+    if (ruleType !== "fixed" && !eventCode) {
+      setFormError("请选择绑定事项");
+      return;
+    }
+
+    if (ruleType === "bmi" && (!Number(heightCm) || Number(heightCm) <= 0)) {
+      setFormError("请填写有效身高");
+      return;
+    }
+
+    if (
+      ruleType === "distanceToTarget" &&
+      (target.trim() === "" || !Number.isFinite(Number(target)))
+    ) {
+      setFormError("请填写有效目标值");
+      return;
+    }
+
+    const block = buildBlock();
+
+    if (!block) {
+      setFormError("块配置不完整");
+      return;
+    }
+
+    onSave(block);
+    onOpenChange(false);
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        if (!next) {
+          onOpenChange(false);
+        }
+      }}
+    >
+      <DialogContent
+        scrollable={false}
+        className="max-w-2xl p-0"
+        onInteractOutside={(event) => event.preventDefault()}
+      >
+        <div className="flex max-h-[calc(100dvh-2rem)] flex-col">
+          <header className="shrink-0 border-b border-rule px-6 py-4 pr-14">
+            <DialogHeader className="mb-0 pr-0">
+              <DialogTitle className="text-xl">
+                {initialBlock ? "编辑块" : "新建块"}
+              </DialogTitle>
+              <DialogDescription>
+                块只保存标题、说明和取值规则，数值实时从日历事件计算。
+              </DialogDescription>
+            </DialogHeader>
+          </header>
+
+          <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-medium text-muted-foreground">
+                  标题
+                </span>
+                <input
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                  className={inputClass}
+                  placeholder="例如：最新体重"
+                />
+              </label>
+
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-medium text-muted-foreground">
+                  说明
+                </span>
+                <input
+                  value={info}
+                  onChange={(event) => setInfo(event.target.value)}
+                  className={inputClass}
+                  placeholder="留空则自动生成"
+                />
+              </label>
+            </div>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-medium text-muted-foreground">
+                  规则
+                </span>
+                <Select
+                  value={ruleType}
+                  onValueChange={(value) =>
+                    setRuleType(value as BlockRuleType)
+                  }
+                >
+                  <SelectTrigger
+                    aria-label="选择块规则"
+                    className="h-9 w-full border border-rule bg-sheet px-2.5 text-sm"
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableRules.map((rule) => (
+                      <SelectItem key={rule} value={rule}>
+                        {RULE_LABELS[rule]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-medium text-muted-foreground">
+                  绑定事项
+                </span>
+                <Select
+                  value={eventCode}
+                  onValueChange={setEventCode}
+                  disabled={ruleType === "fixed"}
+                >
+                  <SelectTrigger
+                    aria-label="选择块绑定事项"
+                    className="h-9 w-full border border-rule bg-sheet px-2.5 text-sm disabled:bg-paper disabled:text-muted-foreground"
+                  >
+                    <SelectValue placeholder="选择事项" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {templates.map((template) => (
+                      <SelectItem
+                        key={template.code}
+                        value={template.code}
+                      >
+                        {template.title}
+                        {template.kind === "number" && template.unit
+                          ? ` · ${template.unit}`
+                          : template.kind === "text"
+                            ? " · 文本"
+                            : ""}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+            </div>
+
+            {ruleType === "fixed" ? (
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    固定值
+                  </span>
+                  <input
+                    value={fixedValue}
+                    onChange={(event) => setFixedValue(event.target.value)}
+                    className={inputClass}
+                    placeholder="例如：100"
+                  />
+                </label>
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    单位
+                  </span>
+                  <input
+                    value={fixedUnit}
+                    onChange={(event) => setFixedUnit(event.target.value)}
+                    className={inputClass}
+                    placeholder="可选，例如：kcal"
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    数据范围
+                  </span>
+                  <Select
+                    value={rangeType}
+                    onValueChange={(value) =>
+                      setRangeType(value as BlockRange["type"])
+                    }
+                  >
+                    <SelectTrigger
+                      aria-label="选择块数据范围"
+                      className="h-9 w-full border border-rule bg-sheet px-2.5 text-sm"
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="case">跟随案例</SelectItem>
+                      <SelectItem value="lastDays">最近 N 天</SelectItem>
+                      <SelectItem value="all">全部历史</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </label>
+
+                {rangeType === "lastDays" ? (
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      最近天数
+                    </span>
+                    <input
+                      type="number"
+                      min={1}
+                      value={days}
+                      onChange={(event) => setDays(event.target.value)}
+                      className={inputClass}
+                    />
+                  </label>
+                ) : null}
+
+                {ruleType === "bmi" ? (
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      身高 cm
+                    </span>
+                    <input
+                      type="number"
+                      step="any"
+                      value={heightCm}
+                      onChange={(event) => setHeightCm(event.target.value)}
+                      className={inputClass}
+                    />
+                  </label>
+                ) : null}
+
+                {ruleType === "distanceToTarget" ? (
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      目标值
+                    </span>
+                    <input
+                      type="number"
+                      step="any"
+                      value={target}
+                      onChange={(event) => setTarget(event.target.value)}
+                      className={inputClass}
+                    />
+                  </label>
+                ) : null}
+              </div>
+            )}
+
+            <div className="mt-4 border border-rule bg-paper p-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-medium text-muted-foreground">
+                  预览
+                </span>
+                <span className="truncate text-[11px] text-muted-foreground">
+                  {rangeDescription}
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="font-mono text-2xl font-semibold tabular-nums">
+                  {previewResult?.value ?? "--"}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  {previewResult?.unit ?? ""}
+                </span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {previewResult?.info ||
+                  (ruleType === "fixed"
+                    ? fixedValue.trim()
+                      ? "固定值"
+                      : "输入固定值"
+                    : "暂无数据")}
+              </p>
+            </div>
+
+            {formError ? (
+              <p className="mt-3 text-xs text-destructive">{formError}</p>
+            ) : null}
+          </div>
+
+          <DialogFooter className="shrink-0 border-t border-rule px-6 py-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              取消
+            </Button>
+            <Button type="button" onClick={handleSave}>
+              保存块
+            </Button>
+          </DialogFooter>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
