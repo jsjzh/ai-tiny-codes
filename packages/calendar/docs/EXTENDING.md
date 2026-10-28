@@ -88,7 +88,7 @@ type ChartTemplate = {
 3. `features/charts/lib/widgetLayout.ts`
    - `CHART_TYPE_LABELS` / `METRIC_LABELS`
 4. `features/charts/components/ChartCard.tsx`
-   - 当前只显示元信息；5b 在这里接真实图表。
+   - 现在承载真实图表渲染；数据构建在 `lib/chartData.ts`。
 5. `features/charts/data/types.test.ts`
    - 如果改了使用计数、规范化或删除逻辑，补测试。
 
@@ -156,36 +156,50 @@ type BlockRule = {
 - 范围 `lastDays`：以案例结束日前最后一条记录为终点，向前 N 天；允许回看到案例开始前，不能超过案例结束日。
 - 所有计算实时读取日历数据，不把结果写进图表数据。
 
-## 5. 图表渲染（5b）
+## 5. 图表渲染（5b 已完成）
 
-当前 `ChartCard` 是占位。5b 渲染时建议：
+入口：
 
-- 新建 `features/charts/components/charts/`，按图表类型拆分：
-  - `LineChart.tsx`
-  - `BarChart.tsx`
-  - `AreaChart.tsx`
-  - `TextTable.tsx`
-  - `DistributionChart.tsx`
-- 共享 `useChartSeries` / `buildChartData`：
-  - 输入：`ChartTemplate`、`CalendarData`、`ChartCase` 的日期范围。
-  - 数值：按日期取当天值；`daily` 画原始点；`avg7` / `avg30` 在案例开始前回看，但坐标轴仍从案例开始画到案例结束。
-  - 文本：表格按日期 × 事项；分布按值计数。
-  - 空值不要补 0；折线断点或跳过。
-- 轴与颜色：
-  - 颜色用事项模板 `color`。
-  - 同单位多指标可共用 y 轴；`changeRate` 单独使用。
-  - 横轴按案例区间，未来日期不画数据点但保留轴范围。
-- 可访问性：
-  - SVG 加 `role="img"` / `aria-label`。
-  - 不只靠颜色区分指标；图例带文字。
-  - 移动端横向滚动或自适应宽度，避免挤压。
-- 测试：
-  - 数据构建放纯函数，配 Vitest。
-  - 不依赖浏览器尺寸测 SVG；只测数据、范围、空值、回看。
+```
+ChartCard
+  -> ChartRenderer
+    -> NumericChart（line / bar / area）
+    -> TextTable（table）
+    -> TextDistribution（distribution）
+```
+
+文件：
+
+- `components/ChartCard.tsx`：标题、事项、类型、图例、渲染容器。
+- `components/charts/ChartRenderer.tsx`：按 `kind` / `chartType` 分发。
+- `components/charts/NumericChart.tsx`：SVG 折线、柱状、面积、坐标轴、网格、零线、图例。
+- `components/charts/TextTable.tsx`：日期 × 值表格，内部滚动。
+- `components/charts/TextDistribution.tsx`：文本值计数横向条。
+- `lib/chartData.ts`：纯数据构建。
+- `lib/useElementSize.ts`：`ResizeObserver` 跟随卡片尺寸。
+
+数据口径：
+
+- `daily`：只取当天值，空值不补 0。
+- `avg7` / `avg30`：每个案例日取向前 N 天平均，允许回看案例开始前；x 轴仍按案例区间。
+- `changeRate`：只在有记录的日期计算，使用上一条记录，单位 `%`。
+- 文本：只取案例区间内的字符串；表格按日期，分布按出现次数排序。
+- 空区间 / 无数据：显示「区间内暂无数据」。
+- 多指标共用事项颜色，用实线/虚线/透明度区分；图例带文字。
+- 柱状图以 0 为基线；折线/面积按数据范围缩放。
+- 横轴范围固定为案例起止日期；未来日期没有数据点但保留轴范围。
+
+新增一种数值图表类型时：
+
+1. `ChartType` / `NUMERIC_CHART_TYPES` / `validateChartTemplateDraft`。
+2. `ChartTemplateModal` 的类型选项。
+3. `CHART_TYPE_LABELS`。
+4. `ChartRenderer` 分发分支和实际渲染组件。
+5. `chartData.test.ts` 至少覆盖数据构建，不测 SVG 尺寸。
 
 ## 6. 新增主题 / 动画
 
-见 `TODO.md`。主题和动画都排在 5b 之后，不要现在改现有 Blueprint 视觉。
+见 `TODO.md`。主题和动画排在图表渲染之后，不要现在改现有 Blueprint 视觉。
 
 ## 7. 提交前检查
 

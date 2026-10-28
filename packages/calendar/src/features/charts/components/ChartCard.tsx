@@ -1,22 +1,25 @@
-import { cn } from "@/lib/utils";
 import type { CalendarData } from "@/features/calendar/data/types";
 
 import type { ChartTemplate } from "../data/types";
+import type { ChartRange } from "../lib/chartData";
 import {
   CHART_TYPE_LABELS,
   METRIC_LABELS,
 } from "../lib/widgetLayout";
+import { ChartRenderer } from "./charts/ChartRenderer";
 
 type ChartCardProps = {
   chartTemplateCode: string;
   chartTemplates: ChartTemplate[];
   calendarData: CalendarData;
+  caseRange: ChartRange;
 };
 
 export function ChartCard({
   chartTemplateCode,
   chartTemplates,
   calendarData,
+  caseRange,
 }: ChartCardProps) {
   const template = chartTemplates.find(
     (item) => item.code === chartTemplateCode,
@@ -46,7 +49,7 @@ export function ChartCard({
 
   return (
     <div className="flex h-full min-h-0 flex-col p-3">
-      <div className="flex min-w-0 items-center gap-2">
+      <div className="flex min-w-0 shrink-0 items-center gap-2">
         <span
           className="size-2 shrink-0 border border-black/10"
           style={{ backgroundColor: event.color }}
@@ -60,24 +63,24 @@ export function ChartCard({
         </span>
       </div>
 
-      <div className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-[10px] text-muted-foreground">
+      <div className="mt-1 flex shrink-0 flex-wrap gap-x-2 gap-y-1 text-[10px] text-muted-foreground">
         <span>{CHART_TYPE_LABELS[template.chartType]}</span>
-        {template.metrics.map((metric) => (
-          <span key={metric}>{METRIC_LABELS[metric]}</span>
-        ))}
+        {template.metrics.length === 1 ? (
+          <span>{METRIC_LABELS[template.metrics[0]]}</span>
+        ) : null}
       </div>
 
-      <div
-        className={cn(
-          "mt-3 flex min-h-0 flex-1 items-center justify-center border border-dashed border-rule bg-paper",
-          "text-center text-xs leading-5 text-muted-foreground",
-        )}
-      >
-        图表渲染将在 5b 完成
+      <div className="mt-3 flex min-h-0 flex-1 flex-col">
+        <ChartRenderer
+          template={template}
+          calendarData={calendarData}
+          caseRange={caseRange}
+          color={event.color}
+        />
       </div>
 
       {template.desc ? (
-        <p className="mt-2 line-clamp-1 text-[10px] text-muted-foreground">
+        <p className="mt-2 line-clamp-1 shrink-0 text-[10px] text-muted-foreground">
           {template.desc}
         </p>
       ) : null}

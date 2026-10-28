@@ -130,6 +130,7 @@ function WidgetFrame({
             chartTemplateCode={widget.chartTemplateCode}
             chartTemplates={chartTemplates}
             calendarData={calendarData}
+            caseRange={caseData}
           />
         )}
       </div>

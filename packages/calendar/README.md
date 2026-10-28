@@ -1,9 +1,9 @@
 # @ai-tiny-codes/calendar
 
-满屏月历与事项记录。当前完成**阶段 5a：图表框架**；具体图表渲染待 5b 实现。
+满屏月历与事项记录。当前完成**阶段 5b：图表渲染**；下一步主题与动画。
 
 - 扩展手册：[`docs/EXTENDING.md`](docs/EXTENDING.md)
-- 主题 / 动画 / 5b 待办：[`TODO.md`](TODO.md)
+- 主题 / 动画待办：[`TODO.md`](TODO.md)
 ## 使用
 
 ```bash
@@ -13,7 +13,7 @@ pnpm calendar:preview
 pnpm calendar:test
 ```
 
-## 阶段 5a 范围
+## 阶段 5a / 5b 范围
 
 - 图表 section 接在日历下方，全宽，页面纵向滚动进入；header 不放图表按钮。
 - 图表数据独立存 `datas/charts/charts.json`，通过 `/api/charts` 读写；只读取日历事项和事件。
@@ -23,7 +23,9 @@ pnpm calendar:test
 - 块在案例内创建/编辑，支持固定值、最新值、最大值、最小值、累计减重、区间变化、BMI、距离目标；范围支持案例、全部历史、近 N 天。
 - 原生 HTML5 拖拽移动内容或从模板面板复制图表；移动端槽位单列。
 - 删除图表模板按案例数去重提示，并清空案例中的对应图表；删除事项模板后块/图表软失效。
-- 图表卡片目前显示元信息和占位，5b 完成具体渲染。
+- 图表卡片显示元信息和渲染结果。
+- 图表可用折线 / 柱状 / 面积 / 对照表 / 分布；数值指标支持每日、7 日均、30 日均、变化率。
+- 图表使用原生 SVG，无额外图表依赖；跟着卡片高度自适应，移动端仍可读。
 
 ## 事项数据导入
 
@@ -99,7 +101,12 @@ src/
     components/
       CaseCanvas.tsx              # 行/槽位、原生拖拽、高度
       BlockCard.tsx               # 块取值展示
-      ChartCard.tsx               # 图表占位与元信息
+      ChartCard.tsx               # 图表元信息与渲染容器
+      charts/
+        ChartRenderer.tsx         # 按模板类型分发
+        NumericChart.tsx          # 折线/柱状/面积 SVG
+        TextTable.tsx             # 文本对照表
+        TextDistribution.tsx      # 文本分布
     data/
       types.ts                    # 图表模板/案例/块、规范化、使用计数
       storage.ts                  # API + localStorage
@@ -107,6 +114,8 @@ src/
       *.test.ts
     lib/
       blockRules.ts               # 块取值规则
+      chartData.ts                # 图表数据构建（纯函数）
+      useElementSize.ts           # 图表容器尺寸
       widgetLayout.ts             # 高度与拖拽 MIME
 server/
   dataPlugins.ts                  # GET/PUT /api/calendar + /api/charts
@@ -232,7 +241,13 @@ datas/charts/charts.json          # 图表持久化数据
 - 固定值块不绑定事项；文本事项支持最新值和固定值，不支持数值统计规则。
 - 删除图表模板时按去重后的案例数提示，并从所有案例槽位移除；删除事项模板后图表/块保留但显示失效。
 - 图表模板可在案例编辑中打开管理；创建后草稿保留，删除模板会同步清掉草稿里失效的图表。
-- 5b 之前图表卡片只显示标题、事项、类型、指标和说明占位。
+- 图表渲染：
+  - 数值：折线 / 柱状 / 面积；`daily` 只画当天值，缺数据不补 0。
+  - `avg7` / `avg30` 允许回看案例开始前，但 x 轴按案例区间。
+  - `changeRate` 只在有记录的日期计算，使用上一条记录，单位为 `%`。
+  - 文本：日期对照表 / 值分布。
+  - 柱状图以 0 为基线；多指标用实线/虚线/透明度区分，并带图例。
+  - 空区间、缺失模板、事项失效都有明确空/错误状态。
 
 ## 设计
 
