@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useCalendarData } from "@/features/calendar/data/CalendarDataProvider";
+import { upsertEvents } from "@/features/calendar/data/events";
 import {
   cloneCalendarData,
   countTemplateUsage,
@@ -21,12 +22,14 @@ import {
   sortTemplates,
   validateTemplateDraft,
   type CalendarData,
+  type CalendarEventValue,
   type CalendarTemplate,
 } from "@/features/calendar/data/types";
 
 import { TemplateForm } from "./components/TemplateForm";
 import { TemplateList } from "./components/TemplateList";
 import { nextNewTemplateTitle, randomPresetColor } from "./lib/defaults";
+import type { EventImportRow } from "./lib/importEvents";
 
 type TemplateModalProps = {
   open: boolean;
@@ -81,6 +84,22 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
     return map;
   }, [draft]);
 
+  const selectedValues = useMemo(() => {
+    const values: Record<string, CalendarEventValue> = {};
+
+    if (!draft || !selectedCode) {
+      return values;
+    }
+
+    for (const [date, day] of Object.entries(draft.events)) {
+      if (Object.prototype.hasOwnProperty.call(day, selectedCode)) {
+        values[date] = day[selectedCode];
+      }
+    }
+
+    return values;
+  }, [draft, selectedCode]);
+
   const canComplete = Boolean(draft) && !isSaving && validationErrors.size === 0;
 
   function handleAdd() {
@@ -121,6 +140,25 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
     });
     setDirty(true);
     setSaveError(null);
+  }
+
+  function handleImport(rows: EventImportRow[]) {
+    if (!draft || !selectedCode || rows.length === 0) {
+      return;
+    }
+
+    try {
+      const next = upsertEvents(
+        draft,
+        rows.map((row) => ({ ...row, code: selectedCode })),
+      );
+      setDraft(next);
+      setDirty(true);
+      setConfirmDiscard(false);
+      setSaveError(null);
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : "导入失败");
+    }
   }
 
   function handleDelete() {
@@ -287,7 +325,9 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
                   template={selectedTemplate}
                   usage={usageByCode.get(selectedTemplate.code) ?? 0}
                   errors={validationErrors.get(selectedTemplate.code) ?? []}
+                  existingValues={selectedValues}
                   onUpdate={handleUpdate}
+                  onImport={handleImport}
                   onDelete={handleDelete}
                 />
               ) : (

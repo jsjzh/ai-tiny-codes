@@ -2,6 +2,8 @@
 
 Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5a：图表框架**；具体图表渲染在 5b。
 
+扩展手册：`docs/EXTENDING.md`（新增事项/图表模板、块规则、图表渲染、导入格式）。
+待办：`TODO.md`（5b 图表渲染、主题、动画）。
 ## 运行
 
 - `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar` 和 `/api/charts`。
@@ -54,6 +56,8 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5a：图表框�
 - 使用次数从草稿 `events` 计算；有记录的模板禁止改 kind。
 - session draft：打开时 clone 数据，内部所有修改只改 draft；“完成”才 `commitData` 并关闭；X 放弃（有改动先确认）；点遮罩不关闭；Escape 等同 X。
 - 模板弹窗的 `DialogContent` 使用 `scrollable={false}`，内部列各自滚动。
+- 模板表单底部「导入数据」支持 JSON / CSV；导入按日期覆盖当前模板，不删除其他事项，只改草稿，点「完成」才写盘。
+- 导入解析在 `features/templates/lib/importEvents.ts`，JSON 支持 `logs`、数组、日期映射；CSV 支持 `date,value` / `日期,值`。
 
 ## 编辑弹窗（阶段 4）
 

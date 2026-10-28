@@ -66,4 +66,4 @@ pnpm --filter @ai-tiny-codes/money calculate
 - 攒钱计算器：[`packages/money/README.md`](packages/money/README.md)
 - 练练健身 API 客户端：[`packages/keepstrong/README.md`](packages/keepstrong/README.md)
 - 通勤花费对比：[`packages/commute/README.md`](packages/commute/README.md)
-- 日历：[`packages/calendar/README.md`](packages/calendar/README.md)、[`packages/calendar/AGENTS.md`](packages/calendar/AGENTS.md)
+- 日历：[`packages/calendar/README.md`](packages/calendar/README.md)、[`packages/calendar/AGENTS.md`](packages/calendar/AGENTS.md)、[`扩展手册`](packages/calendar/docs/EXTENDING.md)、[`待办`](packages/calendar/TODO.md)

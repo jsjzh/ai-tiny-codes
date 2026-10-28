@@ -2,6 +2,8 @@
 
 满屏月历与事项记录。当前完成**阶段 5a：图表框架**；具体图表渲染待 5b 实现。
 
+- 扩展手册：[`docs/EXTENDING.md`](docs/EXTENDING.md)
+- 主题 / 动画 / 5b 待办：[`TODO.md`](TODO.md)
 ## 使用
 
 ```bash
@@ -22,6 +24,14 @@ pnpm calendar:test
 - 原生 HTML5 拖拽移动内容或从模板面板复制图表；移动端槽位单列。
 - 删除图表模板按案例数去重提示，并清空案例中的对应图表；删除事项模板后块/图表软失效。
 - 图表卡片目前显示元信息和占位，5b 完成具体渲染。
+
+## 事项数据导入
+
+- 模板弹窗选中模板后，表单底部「导入数据」。
+- 支持 JSON / CSV；JSON 可导入 `logs`、对象数组、日期→值，CSV 支持 `date,value` 或 `日期,值`。
+- 按日期覆盖当前模板，保留同日其他事项；无效日期/值、空值跳过，重复日期保留最后一条。
+- 导入只改模板弹窗草稿，点「完成」才写盘；已有记录时类型会锁定。
+- 文件带单位而模板单位为空时，导入弹窗会提示补单位。
 
 ## 阶段 4 范围
 
@@ -76,9 +86,11 @@ src/
     TemplateModal.tsx             # 模板弹窗、草稿、完成/X、全局排序
     components/
       TemplateList.tsx            # dnd-kit 可拖动列表
-      TemplateForm.tsx            # 模板字段、使用次数、删除
+      TemplateForm.tsx            # 模板字段、使用次数、导入、删除
       TemplateColorPicker.tsx     # 预设色 + 自定义取色
+      ImportEventsDialog.tsx      # JSON / CSV 导入预览与确认
     lib/colors.ts
+    lib/importEvents.ts           # 事项导入解析、日期/值规范化
   features/charts/
     ChartsSection.tsx             # 图表区、案例查看/编辑、模板入口
     CaseEditor.tsx                # 案例元数据、组件面板、槽位画布

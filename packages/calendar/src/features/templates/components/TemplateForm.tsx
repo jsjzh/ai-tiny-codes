@@ -1,17 +1,24 @@
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { FileUp, Trash2 } from "lucide-react";
 
-import type { CalendarTemplate } from "@/features/calendar/data/types";
+import type {
+  CalendarEventValue,
+  CalendarTemplate,
+} from "@/features/calendar/data/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+import type { EventImportRow } from "../lib/importEvents";
+import { ImportEventsDialog } from "./ImportEventsDialog";
 import { TemplateColorPicker } from "./TemplateColorPicker";
 
 type TemplateFormProps = {
   template: CalendarTemplate;
   usage: number;
   errors: string[];
+  existingValues: Record<string, CalendarEventValue>;
   onUpdate: (patch: Partial<CalendarTemplate>) => void;
+  onImport: (rows: EventImportRow[]) => void;
   onDelete: () => void;
 };
 
@@ -22,10 +29,13 @@ export function TemplateForm({
   template,
   usage,
   errors,
+  existingValues,
   onUpdate,
+  onImport,
   onDelete,
 }: TemplateFormProps) {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const typeLocked = usage > 0;
   const titleError = errors.find((message) => message.includes("标题")) ?? null;
   const codeError = errors.find((message) => message.includes("code")) ?? null;
@@ -165,6 +175,28 @@ export function TemplateForm({
         </div>
       </div>
 
+      <div className="border border-rule bg-paper p-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="text-[11px] font-medium text-muted-foreground">
+              事项数据
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              已有 {usage} 条记录；支持 JSON / CSV，按日期覆盖当前模板。
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setImportOpen(true)}
+          >
+            <FileUp aria-hidden="true" className="size-3.5" />
+            导入数据
+          </Button>
+        </div>
+      </div>
+
       <div className="border-t border-rule pt-4">
         {deleteConfirm ? (
           <div className="border border-destructive/30 bg-destructive/5 p-3">
@@ -198,6 +230,14 @@ export function TemplateForm({
           </Button>
         )}
       </div>
+
+      <ImportEventsDialog
+        open={importOpen}
+        template={template}
+        existingValues={existingValues}
+        onOpenChange={setImportOpen}
+        onImport={onImport}
+      />
     </div>
   );
 }
