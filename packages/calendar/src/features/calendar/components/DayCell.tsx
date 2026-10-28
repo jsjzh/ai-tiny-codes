@@ -77,7 +77,7 @@ export function DayCell({
       onClick={(event) => onClick(day.date, event)}
       onDoubleClick={() => onDoubleClick(day.date)}
       className={cn(
-        "relative min-h-0 w-full cursor-pointer select-none p-1 text-left transition-colors sm:p-2",
+        "relative flex min-h-0 w-full cursor-pointer select-none flex-col overflow-hidden p-1 text-left transition-colors sm:p-2",
         "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-blueprint",
         isSelected && "outline-1 outline-offset-[-1px] outline-signal",
         isSelected
@@ -87,7 +87,7 @@ export function DayCell({
             : "bg-sheet hover:bg-blueprint-soft/40",
       )}
     >
-      <span className="flex h-5 items-center justify-between sm:h-6">
+      <span className="mb-1 flex h-5 shrink-0 items-center justify-between sm:mb-2 sm:h-6">
         <span
           className={cn(
             "font-mono text-[10px] tabular-nums sm:text-[11px]",
@@ -115,7 +115,7 @@ export function DayCell({
         )}
       </span>
 
-      <span className="mt-0 flex min-h-0 flex-1 gap-x-2">
+      <span className="flex min-h-0 flex-1 gap-x-2">
         <span className="flex min-w-0 flex-1 flex-col">
           {leftEvents.map((event) => (
             <EventLine key={event.code} event={event} />

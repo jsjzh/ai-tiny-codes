@@ -16,7 +16,8 @@ export function getDayCellLayout(
   const lineHeight = isDesktop ? 20 : 16;
   const dateRowHeight = isDesktop ? 24 : 20;
   const padding = isDesktop ? 16 : 8;
-  const available = Math.max(0, cellHeight - dateRowHeight - padding);
+  const gap = isDesktop ? 8 : 4;
+  const available = Math.max(0, cellHeight - dateRowHeight - padding - gap);
   const rows = Math.max(1, Math.min(5, Math.floor(available / lineHeight)));
 
   return {

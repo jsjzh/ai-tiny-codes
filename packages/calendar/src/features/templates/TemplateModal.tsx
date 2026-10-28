@@ -26,7 +26,7 @@ import {
 
 import { TemplateForm } from "./components/TemplateForm";
 import { TemplateList } from "./components/TemplateList";
-import { DEFAULT_NEW_TEMPLATE_COLOR } from "./lib/colors";
+import { nextNewTemplateTitle, randomPresetColor } from "./lib/defaults";
 
 type TemplateModalProps = {
   open: boolean;
@@ -90,10 +90,10 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
 
     const template: CalendarTemplate = {
       code: generateTemplateCode(draft.templates),
-      title: "新事项",
+      title: nextNewTemplateTitle(draft.templates),
       kind: "number",
       unit: "",
-      color: DEFAULT_NEW_TEMPLATE_COLOR,
+      color: randomPresetColor(),
       desc: "",
       sortOrder: nextTemplateSortOrder(draft.templates),
     };

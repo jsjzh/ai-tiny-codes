@@ -35,11 +35,11 @@ describe("getDayCellLayout", () => {
     });
   });
 
-  it("320x700 移动端按高度降到 4 条", () => {
+  it("320x700 移动端按高度降到 3 条", () => {
     expect(getDayCellLayout(45, 92, false)).toMatchObject({
       columns: 1,
-      rows: 4,
-      maxVisible: 4,
+      rows: 3,
+      maxVisible: 3,
     });
   });
 });

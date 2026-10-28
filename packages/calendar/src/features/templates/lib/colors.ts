@@ -1,5 +1,3 @@
-export const DEFAULT_NEW_TEMPLATE_COLOR = "#2563eb";
-
 export const PRESET_COLORS = [
   "#2563eb",
   "#3b82f6",
