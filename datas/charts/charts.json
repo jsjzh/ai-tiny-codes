@@ -3,7 +3,7 @@
   "templates": [
     {
       "code": "chart_1oc5b6",
-      "title": "图表模板 1",
+      "title": "体重变化",
       "eventCode": "tpl_j2eudg",
       "kind": "numeric",
       "chartType": "line",
@@ -16,5 +16,227 @@
       "sortOrder": 0
     }
   ],
-  "cases": []
+  "cases": [
+    {
+      "id": "case_s7d31u",
+      "name": "全局体重变化",
+      "startDate": "2020-01-01",
+      "endDate": "2030-12-31",
+      "eventCodes": [
+        "tpl_j2eudg"
+      ],
+      "rows": [
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_4id5pn",
+                "title": "当前体重",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "latest",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_a7mr88",
+                "title": "当前 BMI",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "bmi",
+                  "range": {
+                    "type": "case"
+                  },
+                  "heightCm": 179
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_dncb0n",
+                "title": "最大体重",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "max",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_91rwam",
+                "title": "最低体重",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "min",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_1oc5b6",
+              "height": 4
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-10-28T09:19:10.563Z",
+      "updatedAt": "2026-10-28T09:29:07.520Z"
+    },
+    {
+      "id": "case_j5yfzb",
+      "name": "2026.08.01 减脂周期",
+      "startDate": "2026-08-01",
+      "endDate": "2027-01-01",
+      "eventCodes": [
+        "tpl_j2eudg"
+      ],
+      "rows": [
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_4w6dfn",
+                "title": "当前体重",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "latest",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_f3bnnh",
+                "title": "当前 BMI",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "bmi",
+                  "range": {
+                    "type": "case"
+                  },
+                  "heightCm": 179
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_4dv7t1",
+                "title": "累积减重",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "loss",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_omon8y",
+                "title": "距离目标",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "distanceToTarget",
+                  "range": {
+                    "type": "case"
+                  },
+                  "target": 75
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_bmmuud",
+                "title": "最近 7 天",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "change",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 7
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_1qchs7",
+                "title": "最近 30 天",
+                "info": "",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "change",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_1oc5b6",
+              "height": 2
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-10-28T09:29:54.634Z",
+      "updatedAt": "2026-10-28T09:34:34.486Z"
+    }
+  ]
 }
