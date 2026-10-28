@@ -1,5 +1,20 @@
 {
   "version": 1,
-  "templates": [],
+  "templates": [
+    {
+      "code": "chart_1oc5b6",
+      "title": "图表模板 1",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "line",
+      "metrics": [
+        "daily",
+        "avg7",
+        "avg30"
+      ],
+      "desc": "",
+      "sortOrder": 0
+    }
+  ],
   "cases": []
 }

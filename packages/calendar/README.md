@@ -25,7 +25,7 @@ pnpm calendar:test
 - 删除图表模板按案例数去重提示，并清空案例中的对应图表；删除事项模板后块/图表软失效。
 - 图表卡片显示元信息和渲染结果。
 - 图表可用折线 / 柱状 / 面积 / 对照表 / 分布；数值指标支持每日、7 日均、30 日均、变化率。
-- 图表使用原生 SVG，无额外图表依赖；跟着卡片高度自适应，移动端仍可读。
+- 数值图表使用 ECharts 6，按需注册并动态加载；支持滚轮缩放、拖拽平移、缩放条、重置和临时切换折线/柱状/面积。
 
 ## 事项数据导入
 
@@ -101,10 +101,10 @@ src/
     components/
       CaseCanvas.tsx              # 行/槽位、原生拖拽、高度
       BlockCard.tsx               # 块取值展示
-      ChartCard.tsx               # 图表元信息与渲染容器
+      ChartCard.tsx               # 图表元信息、类型切换、重置
       charts/
         ChartRenderer.tsx         # 按模板类型分发
-        NumericChart.tsx          # 折线/柱状/面积 SVG
+        EChart.tsx                # ECharts init/dispose/resize
         TextTable.tsx             # 文本对照表
         TextDistribution.tsx      # 文本分布
     data/
@@ -115,7 +115,7 @@ src/
     lib/
       blockRules.ts               # 块取值规则
       chartData.ts                # 图表数据构建（纯函数）
-      useElementSize.ts           # 图表容器尺寸
+      echartsOption.ts            # ECharts option、缩放、tooltip
       widgetLayout.ts             # 高度与拖拽 MIME
 server/
   dataPlugins.ts                  # GET/PUT /api/calendar + /api/charts
@@ -242,10 +242,11 @@ datas/charts/charts.json          # 图表持久化数据
 - 删除图表模板时按去重后的案例数提示，并从所有案例槽位移除；删除事项模板后图表/块保留但显示失效。
 - 图表模板可在案例编辑中打开管理；创建后草稿保留，删除模板会同步清掉草稿里失效的图表。
 - 图表渲染：
-  - 数值：折线 / 柱状 / 面积；`daily` 只画当天值，缺数据不补 0。
+  - 数值：ECharts 折线 / 柱状 / 面积；`daily` 只画当天值，缺数据不补 0。
   - `avg7` / `avg30` 允许回看案例开始前，但 x 轴按案例区间。
   - `changeRate` 只在有记录的日期计算，使用上一条记录，单位为 `%`。
   - 文本：日期对照表 / 值分布。
+  - 图表卡片支持滚轮缩放、拖拽平移、底部缩放条、重置缩放；折线/柱状/面积切换只临时生效。
   - 柱状图以 0 为基线；多指标用实线/虚线/透明度区分，并带图例。
   - 空区间、缺失模板、事项失效都有明确空/错误状态。
 
@@ -264,6 +265,6 @@ datas/charts/charts.json          # 图表持久化数据
 
 - 开发/预览：Vite 中间件 `GET/PUT /api/calendar` 读写 `datas/calendar/calendar.json`，`GET/PUT /api/charts` 读写 `datas/charts/charts.json`。
 - `configureServer` + `configurePreviewServer` 都支持。
-- 静态部署：接口不可用或返回 404/405 时分别写 localStorage。
+- 静态部署：接口不可用或返回 404/405 时分别写 localStorage；静态页面不能直接写仓库 `datas` 文件，数据只存在当前浏览器。
 - 提交前 `normalizeCalendarData` / 图表规范化会修正排序、剔除无效模板和事件。
 - 多机同时编辑同一 JSON 可能产生 git 冲突，建议一次只在一台机器写。

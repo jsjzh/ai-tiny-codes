@@ -163,20 +163,21 @@ type BlockRule = {
 ```
 ChartCard
   -> ChartRenderer
-    -> NumericChart（line / bar / area）
+    -> EChart（line / bar / area，ECharts）
     -> TextTable（table）
     -> TextDistribution（distribution）
 ```
 
 文件：
 
-- `components/ChartCard.tsx`：标题、事项、类型、图例、渲染容器。
-- `components/charts/ChartRenderer.tsx`：按 `kind` / `chartType` 分发。
-- `components/charts/NumericChart.tsx`：SVG 折线、柱状、面积、坐标轴、网格、零线、图例。
+- `components/ChartCard.tsx`：标题、事项、类型切换、重置按钮、渲染容器。
+- `components/charts/ChartRenderer.tsx`：按 `kind` / `chartType` 分发；数值图表用 `React.lazy` 加载 ECharts。
+- `components/charts/EChart.tsx`：ECharts init / setOption / ResizeObserver / dispose；按需注册组件。
 - `components/charts/TextTable.tsx`：日期 × 值表格，内部滚动。
 - `components/charts/TextDistribution.tsx`：文本值计数横向条。
 - `lib/chartData.ts`：纯数据构建。
-- `lib/useElementSize.ts`：`ResizeObserver` 跟随卡片尺寸。
+- `lib/echartsOption.ts`：ECharts option、dataZoom、tooltip、坐标轴、柱状零基线。
+- 根依赖 `echarts`；不要引入 `echarts-for-react`。
 
 数据口径：
 
@@ -188,6 +189,8 @@ ChartCard
 - 多指标共用事项颜色，用实线/虚线/透明度区分；图例带文字。
 - 柱状图以 0 为基线；折线/面积按数据范围缩放。
 - 横轴范围固定为案例起止日期；未来日期没有数据点但保留轴范围。
+- 交互：滚轮缩放、拖拽平移、底部 slider、重置缩放；折线/柱状/面积切换只临时生效。
+- ECharts 动画先关闭；主题阶段再统一定义图表主题和 token。
 
 新增一种数值图表类型时：
 
@@ -195,7 +198,7 @@ ChartCard
 2. `ChartTemplateModal` 的类型选项。
 3. `CHART_TYPE_LABELS`。
 4. `ChartRenderer` 分发分支和实际渲染组件。
-5. `chartData.test.ts` 至少覆盖数据构建，不测 SVG 尺寸。
+5. `chartData.test.ts` 覆盖数据构建；`echartsOption.test.ts` 覆盖 series 类型、缩放、零基线。
 
 ## 6. 新增主题 / 动画
 

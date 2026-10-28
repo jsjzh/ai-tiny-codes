@@ -106,14 +106,17 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b：图表渲�
   - 图表模板删除时按**案例数去重**提示，并清空所有案例中的对应图表；草稿中的对应图表也要清理。
   - 事项模板删除时图表模板/块不删除，显示“引用的事项已删除”软失效。
 - 案例编辑器打开时可以继续打开「图表模板」弹窗；创建模板后草稿保留，删除模板会同步清理草稿中失效的图表。
-- 数值图表用原生 SVG，不引入图表库：`components/charts/NumericChart.tsx` 负责折线/柱状/面积、轴、网格、图例和零线。
-- 文本图表：`TextTable.tsx` 按日期列表；`TextDistribution.tsx` 按值计数横向条。
-- 数据构建在 `lib/chartData.ts`，保持纯函数并配 `chartData.test.ts`：
+- 数值图表用 **ECharts 6**，不引入 `echarts-for-react`；`components/charts/EChart.tsx` 负责 init/dispose/resize，`lib/echartsOption.ts` 负责 option。
+- ECharts 按需注册 `LineChart` / `BarChart` / `Grid` / `Tooltip` / `Legend` / `DataZoom` / `CanvasRenderer`；组件通过 `React.lazy` 动态加载，避免压首屏。
+- 图表交互：滚轮缩放、拖拽平移、底部 slider、重置缩放、折线/柱状/面积临时切换；切换只改当前视图，不写模板/案例。
+- 动画先关闭 `animation: false`，等主题/动画阶段统一设计。
+- 文本图表不走 ECharts：`TextTable.tsx` 按日期列表；`TextDistribution.tsx` 按值计数横向条。
+- 数据构建在 `lib/chartData.ts`，保持纯函数并配 `chartData.test.ts`；option 构建配 `echartsOption.test.ts`：
   - `daily` 只取当天值；空值不补 0。
   - `avg7` / `avg30` 在案例开始前回看，但 x 轴仍从案例开始画到案例结束。
   - `changeRate` 只在有记录的日期计算，使用上一条记录；单位显示 `%`。
   - 文本只读案例区间内的值；分布按出现次数排序。
-- 图表尺寸用 `lib/useElementSize.ts` + `ResizeObserver` 跟随卡片；移动端单列时仍可读。
+- 图表尺寸由 ECharts wrapper 内的 `ResizeObserver` 调 `chart.resize()`；移动端单列时仍可读。
 - 柱状图以 0 为基线；折线/面积按数据范围缩放。多指标共用事项颜色，用实线/虚线/透明度区分，并显示图例。
 - `ChartCard` 只负责标题、事项、类型、图例和渲染容器；不要在这里写死数据计算。
 
