@@ -34,7 +34,7 @@ type SlotAddress = { rowIndex: number; slotIndex: number };
 type WidgetFrameProps = {
   widget: CaseWidget;
   address: SlotAddress;
-  caseData: ChartCase;
+  caseRange: { startDate: string; endDate: string };
   calendarData: CalendarData;
   chartTemplates: ChartTemplate[];
   editing: boolean;
@@ -49,7 +49,7 @@ type WidgetFrameProps = {
 function WidgetFrame({
   widget,
   address,
-  caseData,
+  caseRange,
   calendarData,
   chartTemplates,
   editing,
@@ -135,14 +135,14 @@ function WidgetFrame({
           <BlockCard
             block={widget.block}
             calendarData={calendarData}
-            caseRange={caseData}
+            caseRange={caseRange}
           />
         ) : (
           <ChartCard
             chartTemplateCode={widget.chartTemplateCode}
             chartTemplates={chartTemplates}
             calendarData={calendarData}
-            caseRange={caseData}
+            caseRange={caseRange}
           />
         )}
       </div>
@@ -154,6 +154,7 @@ type CaseCanvasProps = {
   caseData: ChartCase;
   calendarData: CalendarData;
   chartTemplates: ChartTemplate[];
+  caseRange: { startDate: string; endDate: string };
   editing: boolean;
   onChange: (next: ChartCase) => void;
   onEditBlock: (
@@ -177,6 +178,7 @@ export function CaseCanvas({
   caseData,
   calendarData,
   chartTemplates,
+  caseRange,
   editing,
   onChange,
   onEditBlock,
@@ -501,7 +503,7 @@ export function CaseCanvas({
                     <WidgetFrame
                       widget={widget}
                       address={{ rowIndex, slotIndex }}
-                      caseData={caseData}
+                      caseRange={caseRange}
                       calendarData={calendarData}
                       chartTemplates={chartTemplates}
                       editing={editing}

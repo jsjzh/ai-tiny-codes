@@ -25,6 +25,7 @@ type ChartRendererProps = {
   color: string;
   chartTheme: ChartTheme;
   chartType: NumericViewType;
+  stacked: boolean;
   resetKey: number;
 };
 
@@ -35,6 +36,7 @@ export function ChartRenderer({
   color,
   chartTheme,
   chartType,
+  stacked,
   resetKey,
 }: ChartRendererProps) {
   const reducedMotion = useReducedMotion();
@@ -61,9 +63,10 @@ export function ChartRenderer({
             color,
             theme: chartTheme,
             animate: !reducedMotion,
+            stacked,
           })
         : null,
-    [numericData, chartType, color, chartTheme, reducedMotion],
+    [numericData, chartType, color, chartTheme, reducedMotion, stacked],
   );
 
   if (template.kind === "text" && textData) {

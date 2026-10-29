@@ -105,6 +105,34 @@ describe("parseEventImport", () => {
     ]);
   });
 
+  it("导入多字段对象", () => {
+    const diet = {
+      code: "diet",
+      title: "饮食",
+      kind: "number" as const,
+      unit: "kcal",
+      fields: [
+        { code: "carbs", label: "碳水", unit: "g", color: "#0f766e", kind: "input" as const, showInCalendar: true },
+        { code: "protein", label: "蛋白质", unit: "g", color: "#b45309", kind: "input" as const, showInCalendar: true },
+        { code: "fat", label: "脂肪", unit: "g", color: "#7c3aed", kind: "input" as const, showInCalendar: true },
+        { code: "calories", label: "热量", unit: "kcal", color: "#c2410c", kind: "formula" as const, formula: "carbs*4+protein*4+fat*9", showInCalendar: true },
+      ],
+    };
+    const result = parseEventImport(
+      JSON.stringify([
+        { date: "2026-10-29", carbs: 180, protein: 120, fat: 60 },
+      ]),
+      diet,
+    );
+
+    expect(result.rows).toEqual([
+      {
+        date: "2026-10-29",
+        value: { carbs: 180, protein: 120, fat: 60 },
+      },
+    ]);
+  });
+
   it("文本模板保留文本值", () => {
     const result = parseEventImport(
       JSON.stringify([

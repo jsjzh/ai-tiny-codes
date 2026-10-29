@@ -3,14 +3,19 @@ import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   deleteEventKeys,
-  formatEventInputValue,
   formatEventValue,
   getEventsForDates,
   parseEventInput,
   upsertEvents,
   type CalendarEventDisplay,
 } from "@/features/calendar/data/events";
-import { sortTemplates, type CalendarData } from "@/features/calendar/data/types";
+import {
+  getInputFieldValues,
+  getInputNumericFields,
+  sortTemplates,
+  type CalendarData,
+  type CalendarEventValue,
+} from "@/features/calendar/data/types";
 import { formatDateChip, sortUniqueDates } from "@/features/calendar/lib/dateRange";
 import { TemplateSelect } from "@/features/events/components/TemplateSelect";
 import { cn } from "@/lib/utils";
@@ -43,6 +48,7 @@ export function MultiDateEditor({
   const [batchValuesByCode, setBatchValuesByCode] = useState<
     Record<string, Record<string, string>>
   >({});
+  const [activeFieldCode, setActiveFieldCode] = useState("");
   const [fillValue, setFillValue] = useState("");
   const [batchError, setBatchError] = useState<string | null>(null);
   const [batchStatus, setBatchStatus] = useState<string | null>(null);
@@ -51,28 +57,67 @@ export function MultiDateEditor({
 
   const selectedTemplate =
     templates.find((template) => template.code === selectedCode) ?? null;
-  const currentValues = selectedCode ? (batchValuesByCode[selectedCode] ?? {}) : {};
+  const inputFields =
+    selectedTemplate?.kind === "number"
+      ? getInputNumericFields(selectedTemplate)
+      : [];
+  const activeField =
+    selectedTemplate?.kind === "number"
+      ? (inputFields.find((field) => field.code === activeFieldCode) ??
+        inputFields[0] ??
+        null)
+      : null;
+  const valueKey =
+    selectedCode && selectedTemplate
+      ? `${selectedCode}::${
+          selectedTemplate.kind === "number"
+            ? (activeField?.code ?? "")
+            : "value"
+        }`
+      : "";
+  const currentValues = valueKey ? (batchValuesByCode[valueKey] ?? {}) : {};
+  const activeUnit =
+    selectedTemplate?.kind === "number"
+      ? (activeField?.unit ?? "")
+      : selectedTemplate?.unit ?? "";
 
   useEffect(() => {
-    if (!selectedCode) {
+    if (!selectedCode || !selectedTemplate || !valueKey) {
       return;
     }
 
     setBatchValuesByCode((previous) => {
-      if (previous[selectedCode]) {
+      if (previous[valueKey]) {
         return previous;
       }
 
       const values: Record<string, string> = {};
 
       for (const date of sortedDates) {
-        const value = draft.events[date]?.[selectedCode];
-        values[date] = value !== undefined ? formatEventInputValue(value) : "";
+        const eventValue = draft.events[date]?.[selectedCode];
+
+        if (selectedTemplate.kind === "text") {
+          values[date] =
+            typeof eventValue === "string" ? eventValue : "";
+        } else {
+          const fields = getInputFieldValues(selectedTemplate, eventValue);
+          values[date] =
+            activeField && fields[activeField.code] !== undefined
+              ? String(fields[activeField.code])
+              : "";
+        }
       }
 
-      return { ...previous, [selectedCode]: values };
+      return { ...previous, [valueKey]: values };
     });
-  }, [selectedCode, draft.events, sortedDates]);
+  }, [
+    selectedCode,
+    selectedTemplate,
+    valueKey,
+    activeField,
+    draft.events,
+    sortedDates,
+  ]);
 
   const rows = useMemo(
     () => getEventsForDates(draft, sortedDates),
@@ -80,13 +125,31 @@ export function MultiDateEditor({
   );
   const selectedRows = rows.filter((row) => selectedKeys.has(eventKey(row)));
   const allSelected = rows.length > 0 && selectedRows.length === rows.length;
-  const existingCount = selectedCode
-    ? sortedDates.filter((date) => draft.events[date]?.[selectedCode] !== undefined)
-        .length
+  const existingCount = selectedTemplate
+    ? sortedDates.filter((date) => {
+        const eventValue = draft.events[date]?.[selectedTemplate.code];
+
+        if (selectedTemplate.kind === "text") {
+          return typeof eventValue === "string";
+        }
+
+        return (
+          activeField &&
+          getInputFieldValues(selectedTemplate, eventValue)[activeField.code] !==
+            undefined
+        );
+      }).length
     : 0;
 
   function handleTemplateChange(code: string) {
+    const template = templates.find((item) => item.code === code);
+    const field =
+      template?.kind === "number"
+        ? getInputNumericFields(template)[0]
+        : null;
+
     setSelectedCode(code);
+    setActiveFieldCode(field?.code ?? "");
     setFillValue("");
     setBatchError(null);
     setBatchStatus(null);
@@ -99,8 +162,8 @@ export function MultiDateEditor({
 
     setBatchValuesByCode((previous) => ({
       ...previous,
-      [selectedCode]: {
-        ...(previous[selectedCode] ?? {}),
+      [valueKey]: {
+        ...(previous[valueKey] ?? {}),
         [date]: value,
       },
     }));
@@ -115,7 +178,9 @@ export function MultiDateEditor({
 
     setBatchValuesByCode((previous) => ({
       ...previous,
-      [selectedCode]: Object.fromEntries(sortedDates.map((date) => [date, fillValue])),
+      [valueKey]: Object.fromEntries(
+        sortedDates.map((date) => [date, fillValue]),
+      ),
     }));
     setBatchError(null);
     setBatchStatus(`已填入 ${sortedDates.length} 行`);
@@ -129,7 +194,7 @@ export function MultiDateEditor({
     const updates: Array<{
       date: string;
       code: string;
-      value: number | string;
+      value: CalendarEventValue;
     }> = [];
 
     for (const date of sortedDates) {
@@ -139,14 +204,39 @@ export function MultiDateEditor({
         continue;
       }
 
-      const value = parseEventInput(selectedTemplate, raw);
+      if (selectedTemplate.kind === "text") {
+        const value = parseEventInput(selectedTemplate, raw);
 
-      if (value === null) {
+        if (value === null) {
+          setBatchError(`${formatDateChip(date)} 的值无效，请检查后再保存`);
+          return;
+        }
+
+        updates.push({ date, code: selectedCode, value });
+        continue;
+      }
+
+      if (!activeField) {
+        setBatchError("请选择数值字段");
+        return;
+      }
+
+      const numericValue = Number(raw);
+
+      if (!Number.isFinite(numericValue)) {
         setBatchError(`${formatDateChip(date)} 的值无效，请检查后再保存`);
         return;
       }
 
-      updates.push({ date, code: selectedCode, value });
+      const existing = getInputFieldValues(
+        selectedTemplate,
+        draft.events[date]?.[selectedCode],
+      );
+      updates.push({
+        date,
+        code: selectedCode,
+        value: { ...existing, [activeField.code]: numericValue },
+      });
     }
 
     if (updates.length === 0) {
@@ -201,17 +291,16 @@ export function MultiDateEditor({
 
     onDraftChange(next);
     setBatchValuesByCode((previous) => {
-      const nextValues = { ...previous };
+      const nextValues: Record<string, Record<string, string>> = {};
 
-      for (const row of selectedRows) {
-        if (!row.date || !nextValues[row.code]) {
+      for (const [key, values] of Object.entries(previous)) {
+        const code = key.split("::")[0];
+
+        if (selectedRows.some((row) => row.code === code)) {
           continue;
         }
 
-        nextValues[row.code] = {
-          ...nextValues[row.code],
-          [row.date]: "",
-        };
+        nextValues[key] = values;
       }
 
       return nextValues;
@@ -251,6 +340,33 @@ export function MultiDateEditor({
           </div>
         </div>
 
+        {selectedTemplate?.kind === "number" && inputFields.length > 1 ? (
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-muted-foreground">字段</span>
+            <select
+              value={activeField?.code ?? ""}
+              aria-label="选择批量填写的数值字段"
+              onChange={(event) => {
+                setActiveFieldCode(event.target.value);
+                setFillValue("");
+                setBatchError(null);
+                setBatchStatus(null);
+              }}
+              className="h-8 border border-rule bg-sheet px-2 text-xs text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+            >
+              {inputFields.map((field) => (
+                <option key={field.code} value={field.code}>
+                  {field.label}
+                  {field.unit ? ` · ${field.unit}` : ""}
+                </option>
+              ))}
+            </select>
+            {activeUnit ? (
+              <span className="text-muted-foreground">{activeUnit}</span>
+            ) : null}
+          </div>
+        ) : null}
+
         {selectedTemplate ? (
           <>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
@@ -264,8 +380,8 @@ export function MultiDateEditor({
                 className={cn(inputClass, "w-32 font-mono tabular-nums")}
                 placeholder="输入一个值"
               />
-              {selectedTemplate.kind === "number" && selectedTemplate.unit ? (
-                <span className="text-muted-foreground">{selectedTemplate.unit}</span>
+              {selectedTemplate.kind === "number" && activeUnit ? (
+                <span className="text-muted-foreground">{activeUnit}</span>
               ) : null}
               <Button
                 type="button"
@@ -298,7 +414,11 @@ export function MultiDateEditor({
                     inputMode={
                       selectedTemplate.kind === "number" ? "decimal" : undefined
                     }
-                    aria-label={`${formatDateChip(date)} ${selectedTemplate.title}`}
+                    aria-label={`${formatDateChip(date)} ${
+                      selectedTemplate.kind === "number"
+                        ? activeField?.label ?? selectedTemplate.title
+                        : selectedTemplate.title
+                    }`}
                     value={currentValues[date] ?? ""}
                     onChange={(event) => handleValueChange(date, event.target.value)}
                     className={cn(
@@ -307,9 +427,9 @@ export function MultiDateEditor({
                     )}
                     placeholder="留空则不修改"
                   />
-                  {selectedTemplate.kind === "number" && selectedTemplate.unit ? (
+                  {selectedTemplate.kind === "number" && activeUnit ? (
                     <span className="w-10 shrink-0 text-xs text-muted-foreground">
-                      {selectedTemplate.unit}
+                      {activeUnit}
                     </span>
                   ) : null}
                 </label>

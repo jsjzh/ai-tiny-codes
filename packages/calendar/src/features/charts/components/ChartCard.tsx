@@ -3,10 +3,14 @@ import {
   ChartArea,
   ChartColumn,
   ChartLine,
+  Layers,
   RotateCcw,
 } from "lucide-react";
 
-import type { CalendarData } from "@/features/calendar/data/types";
+import {
+  getNumericFields,
+  type CalendarData,
+} from "@/features/calendar/data/types";
 import {
   getChartTheme,
   resolveChartColor,
@@ -14,13 +18,10 @@ import {
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { cn } from "@/lib/utils";
 
-import type { ChartTemplate } from "../data/types";
+import { getChartSeries, type ChartTemplate } from "../data/types";
 import type { ChartRange } from "../lib/chartData";
 import type { NumericViewType } from "../lib/echartsOption";
-import {
-  CHART_TYPE_LABELS,
-  METRIC_LABELS,
-} from "../lib/widgetLayout";
+import { CHART_TYPE_LABELS } from "../lib/widgetLayout";
 import { ChartRenderer } from "./charts/ChartRenderer";
 
 type ChartCardProps = {
@@ -60,12 +61,16 @@ export function ChartCard({
   );
   const [viewTypeOverride, setViewTypeOverride] =
     useState<NumericViewType | null>(null);
+  const [stackedOverride, setStackedOverride] = useState<boolean | null>(null);
   const [resetKey, setResetKey] = useState(0);
   const defaultViewType = template ? templateViewType(template) : "line";
   const viewType = viewTypeOverride ?? defaultViewType;
+  const series = template ? getChartSeries(template) : [];
+  const stacked = stackedOverride ?? template?.stacked ?? false;
 
   useEffect(() => {
     setViewTypeOverride(null);
+    setStackedOverride(null);
     setResetKey(0);
   }, [template?.code]);
 
@@ -92,6 +97,28 @@ export function ChartCard({
   }
 
   const eventColor = resolveChartColor(theme, event.color);
+  const eventFieldUnits = (() => {
+    if (event.kind !== "number") {
+      return [];
+    }
+
+    const fields = getNumericFields(event);
+    const fieldByCode = new Map(fields.map((field) => [field.code, field]));
+    const fallback = fields.find((field) => field.kind === "input") ?? fields[0];
+
+    return Array.from(
+      new Set(
+        series
+          .map(
+            (spec) =>
+              fieldByCode.get(spec.fieldCode || "") ?? fallback,
+          )
+          .filter(Boolean)
+          .map((field) => field!.unit),
+      ),
+    );
+  })();
+  const eventUnit = eventFieldUnits.length === 1 ? eventFieldUnits[0] : "";
 
   return (
     <div className="flex h-full min-h-0 flex-col p-3">
@@ -105,7 +132,7 @@ export function ChartCard({
         </span>
         <span className="truncate text-[11px] text-muted-foreground">
           {event.title}
-          {event.unit ? ` · ${event.unit}` : ""}
+          {eventUnit ? ` · ${eventUnit}` : ""}
         </span>
 
         {template.kind === "numeric" ? (
@@ -150,6 +177,22 @@ export function ChartCard({
             >
               <RotateCcw aria-hidden="true" className="size-3.5" />
             </button>
+            {series.length > 1 &&
+            (viewType === "bar" || viewType === "area") ? (
+              <button
+                type="button"
+                aria-label={stacked ? "取消堆叠" : "堆叠系列"}
+                aria-pressed={stacked}
+                title={stacked ? "取消堆叠" : "堆叠系列"}
+                onClick={() => setStackedOverride(!stacked)}
+                className={cn(
+                  "flex size-7 items-center justify-center border border-rule bg-sheet text-muted-foreground transition-colors hover:bg-blueprint-soft hover:text-ink",
+                  stacked && "bg-blueprint text-white hover:bg-blueprint hover:text-white",
+                )}
+              >
+                <Layers aria-hidden="true" className="size-3.5" />
+              </button>
+            ) : null}
           </div>
         ) : null}
       </div>
@@ -160,8 +203,8 @@ export function ChartCard({
             template.kind === "numeric" ? viewType : template.chartType
           ]}
         </span>
-        {template.metrics.length === 1 ? (
-          <span>{METRIC_LABELS[template.metrics[0]]}</span>
+        {template.kind === "numeric" && series.length > 0 ? (
+          <span>{series.length} 个系列</span>
         ) : null}
       </div>
 
@@ -173,6 +216,7 @@ export function ChartCard({
           color={eventColor}
           chartTheme={chartTheme}
           chartType={viewType}
+          stacked={stacked}
           resetKey={resetKey}
         />
       </div>

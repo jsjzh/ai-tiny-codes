@@ -30,7 +30,7 @@ function EventLine({ event }: { event: CalendarEventDisplay }) {
       />
       <span className="hidden shrink-0 font-medium sm:inline">{event.title}</span>
       <span className="min-w-0 truncate font-mono text-[10px] tabular-nums text-ink/80 sm:hidden">
-        {String(event.value)}
+        {value}
       </span>
       <span
         className={cn(
@@ -54,12 +54,22 @@ export function DayCell({
   onClick,
   onDoubleClick,
 }: DayCellProps) {
-  const visibleEvents = eventItems.slice(0, layout.maxVisible);
+  const hasMultiFieldEvent = eventItems.some(
+    (event) =>
+      event.fields.filter((field) => field.showInCalendar).length > 1,
+  );
+  const maxVisible = hasMultiFieldEvent ? layout.rows : layout.maxVisible;
+  const visibleEvents = eventItems.slice(0, maxVisible);
   const hiddenCount = eventItems.length - visibleEvents.length;
-  const leftEvents =
-    layout.columns === 2 ? visibleEvents.slice(0, layout.rows) : visibleEvents;
+  const leftEvents = hasMultiFieldEvent
+    ? visibleEvents
+    : layout.columns === 2
+      ? visibleEvents.slice(0, layout.rows)
+      : visibleEvents;
   const rightEvents =
-    layout.columns === 2 ? visibleEvents.slice(layout.rows, layout.rows * 2) : [];
+    hasMultiFieldEvent || layout.columns !== 2
+      ? []
+      : visibleEvents.slice(layout.rows, layout.rows * 2);
 
   const dateLabel = `${dayjs(day.date).format("YYYY年M月D日")}，${WEEKDAY_LABELS[day.weekday]}${day.isToday ? "，今天" : ""}${eventItems.length > 0 ? `，${eventItems.length} 个事项` : ""}`;
 
@@ -121,7 +131,7 @@ export function DayCell({
             <EventLine key={event.code} event={event} />
           ))}
         </span>
-        {layout.columns === 2 ? (
+        {rightEvents.length > 0 ? (
           <span className="flex min-w-0 flex-1 flex-col">
             {rightEvents.map((event) => (
               <EventLine key={event.code} event={event} />

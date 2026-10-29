@@ -78,6 +78,44 @@ describe("calendar data", () => {
     expect(data.templates.map((template) => template.code)).toEqual(["a", "b"]);
   });
 
+  it("normalizes multi-field values and computed fields", () => {
+    const data = normalizeCalendarData({
+      version: 1,
+      templates: [
+        {
+          code: "diet",
+          title: "饮食",
+          kind: "number",
+          unit: "kcal",
+          fields: [
+            { code: "carbs", label: "碳水", unit: "g", kind: "input" },
+            { code: "protein", label: "蛋白质", unit: "g", kind: "input" },
+            { code: "fat", label: "脂肪", unit: "g", kind: "input" },
+            {
+              code: "calories",
+              label: "热量",
+              unit: "kcal",
+              kind: "formula",
+              formula: "carbs * 4 + protein * 4 + fat * 9",
+            },
+          ],
+        },
+      ],
+      events: {
+        "2026-10-28": {
+          diet: { carbs: 180, protein: 120, fat: 60 },
+        },
+      },
+    });
+
+    expect(data.events["2026-10-28"].diet).toEqual({
+      carbs: 180,
+      protein: 120,
+      fat: 60,
+    });
+    expect(data.templates[0].fields).toHaveLength(4);
+  });
+
   it("generates a unique template code", () => {
     const templates = [{ code: "tpl_abc123" }, { code: "custom" }];
     const code = generateTemplateCode(templates);

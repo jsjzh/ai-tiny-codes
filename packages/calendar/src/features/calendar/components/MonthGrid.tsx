@@ -3,7 +3,7 @@ import type { MouseEvent, PointerEvent } from "react";
 
 import type { CalendarEventDisplay } from "../data/events";
 import type { CalendarEventValue, CalendarTemplate } from "../data/types";
-import { sortTemplates } from "../data/types";
+import { getNumericFields, sortTemplates } from "../data/types";
 import { getDayCellLayout, type DayCellLayout } from "../lib/eventLayout";
 import type { CalendarWeek } from "../types";
 import { DayCell } from "./DayCell";
@@ -102,6 +102,7 @@ export function MonthGrid({
                 unit: template.unit,
                 color: template.color,
                 sortOrder: template.sortOrder,
+                fields: getNumericFields(template),
                 value: dayEvents[template.code],
               }));
 

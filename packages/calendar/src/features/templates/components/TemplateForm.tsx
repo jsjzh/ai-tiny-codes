@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Download, FileUp, Trash2 } from "lucide-react";
 
-import type {
-  CalendarEventValue,
-  CalendarTemplate,
+import {
+  getNumericFields,
+  type CalendarEventValue,
+  type CalendarTemplate,
 } from "@/features/calendar/data/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -11,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { downloadTemplateEvents } from "../lib/exportEvents";
 import type { EventImportRow } from "../lib/importEvents";
 import { ImportEventsDialog } from "./ImportEventsDialog";
+import { NumericFieldsEditor } from "./NumericFieldsEditor";
 import { TemplateColorPicker } from "./TemplateColorPicker";
 
 type TemplateFormProps = {
@@ -40,6 +42,13 @@ export function TemplateForm({
   const typeLocked = usage > 0;
   const titleError = errors.find((message) => message.includes("标题")) ?? null;
   const codeError = errors.find((message) => message.includes("code")) ?? null;
+  const fieldErrors = errors.filter(
+    (message) =>
+      message.includes("字段") ||
+      message.includes("公式") ||
+      message.includes("输入"),
+  );
+  const fields = template.kind === "number" ? getNumericFields(template) : [];
 
   return (
     <div className="flex flex-col gap-5">
@@ -140,6 +149,16 @@ export function TemplateForm({
         )}
       </div>
 
+      {template.kind === "number" ? (
+        <NumericFieldsEditor
+          fields={fields}
+          errors={fieldErrors}
+          unit={template.unit}
+          color={template.color}
+          onChange={(nextFields) => onUpdate({ fields: nextFields })}
+        />
+      ) : null}
+
       <div className="flex flex-col gap-2">
         <span className="text-xs font-medium text-muted-foreground">颜色</span>
         <TemplateColorPicker
@@ -170,7 +189,30 @@ export function TemplateForm({
           </span>
           <span className="truncate font-mono text-xs text-ink/80">
             {template.kind === "number"
-              ? `75.2${template.unit ? ` ${template.unit}` : ""}`
+              ? (() => {
+                  const visibleFields = fields.filter(
+                    (field) => field.showInCalendar,
+                  );
+                  const previewFields =
+                    visibleFields.length > 0 ? visibleFields : fields;
+
+                  if (previewFields.length <= 1) {
+                    return `${previewFields[0]?.label ?? "数值"} 75.2${
+                      previewFields[0]?.unit
+                        ? ` ${previewFields[0].unit}`
+                        : ""
+                    }`;
+                  }
+
+                  return previewFields
+                    .map(
+                      (field) =>
+                        `${field.label} --${
+                          field.unit ? ` ${field.unit}` : ""
+                        }`,
+                    )
+                    .join(" · ");
+                })()
               : "平静"}
           </span>
         </div>

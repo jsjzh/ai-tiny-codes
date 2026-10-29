@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   countChartTemplateUsage,
+  normalizeChartsData,
   removeChartTemplateFromData,
   type ChartCase,
   type ChartsData,
@@ -24,6 +25,7 @@ function chartCase(
     name: id,
     startDate: "2026-08-01",
     endDate: "2026-08-31",
+    rangeMode: "custom",
     eventCodes: ["weight"],
     rows,
     createdAt: "2026-08-01T00:00:00.000Z",
@@ -55,6 +57,40 @@ function data(): ChartsData {
     ],
   };
 }
+
+describe("normalizeChartsData", () => {
+  it("把旧 metrics 迁移成通用 series，并保留案例", () => {
+    const data = normalizeChartsData({
+      version: 1,
+      templates: [
+        {
+          code: "weight",
+          title: "体重",
+          eventCode: "weight",
+          kind: "numeric",
+          chartType: "line",
+          metrics: ["daily", "avg7"],
+        },
+      ],
+      cases: [
+        {
+          id: "c1",
+          name: "案例",
+          startDate: "2026-08-01",
+          endDate: "2026-08-31",
+          eventCodes: ["weight"],
+          rows: [{ slots: [null] }],
+        },
+      ],
+    });
+
+    expect(data.templates[0].series).toEqual([
+      { fieldCode: "", operation: "raw", window: undefined },
+      { fieldCode: "", operation: "rolling", window: 7 },
+    ]);
+    expect(data.cases[0].rangeMode).toBe("custom");
+  });
+});
 
 describe("countChartTemplateUsage", () => {
   it("按案例去重，不按图表实例计数", () => {

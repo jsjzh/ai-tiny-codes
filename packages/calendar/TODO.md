@@ -49,7 +49,7 @@
 - [x] 5 套主题 token：Blueprint / Warm / Night / Botanical / Swiss
 - [x] header 主题切换器、localStorage、首屏防闪烁
 - [x] 标题字体、控件圆角、浮层阴影 token
-- [x] ECharts 图表主题同步、Night 事件色提亮
+- [x] ECharts 图表主题同步、Night 字段色提亮
 - [x] 移动端 320px 与 390px 验证
 
 ## 动画（已完成）
@@ -74,6 +74,25 @@
 - [x] 导入备份并覆盖当前数据
 - [x] 单个事项数据导出 JSON
 - [x] 图表模板拖拽排序并写回 sortOrder
+
+## 通用化（已完成）
+
+- [x] 数值模板多字段 + 公式字段
+- [x] 单值/多值事件兼容与紧凑日历显示
+- [x] 案例 `rangeMode: all` 自动范围
+- [x] 通用图表系列（raw / rolling / cumulative / deltaFromStart / percentChange）
+- [x] 通用块聚合（latest/first/sum/average/max/min/count/streak/delta）
+- [x] BMI / 距离目标迁移为公式字段 + latest
+
+## 基础分析预设（下一批）
+
+- [ ] 累计变化预设
+- [ ] 月度净变化
+- [ ] 周净变化
+- [ ] 周内平均
+- [ ] 数值分布
+- [ ] 记录日历热力图
+- [ ] 每月记录天数
 
 ## 暂不计划
 

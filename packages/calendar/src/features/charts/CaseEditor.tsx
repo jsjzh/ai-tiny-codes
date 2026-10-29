@@ -8,18 +8,19 @@ import {
 } from "@/features/calendar/data/types";
 import { cn } from "@/lib/utils";
 
-import type {
-  CalendarBlock,
-  ChartCase,
-  ChartCaseRow,
-  ChartTemplate,
+import {
+  getChartSeries,
+  type CalendarBlock,
+  type ChartCase,
+  type ChartCaseRow,
+  type ChartTemplate,
 } from "./data/types";
 import { BlockEditorDialog } from "./BlockEditorDialog";
+import { resolveCaseRange } from "./lib/caseRange";
 import { CaseCanvas } from "./components/CaseCanvas";
 import {
   CHART_DRAG_TYPE,
   CHART_TYPE_LABELS,
-  METRIC_LABELS,
 } from "./lib/widgetLayout";
 
 type BlockTarget = {
@@ -113,11 +114,13 @@ export function CaseEditor({
   const selectedChartTemplates = chartTemplates.filter((template) =>
     caseData.eventCodes.includes(template.eventCode),
   );
+  const effectiveRange = resolveCaseRange(caseData, calendarData);
   const canSave =
     Boolean(caseData.name.trim()) &&
-    Boolean(caseData.startDate) &&
-    Boolean(caseData.endDate) &&
-    caseData.startDate <= caseData.endDate;
+    (caseData.rangeMode === "all" ||
+      (Boolean(caseData.startDate) &&
+        Boolean(caseData.endDate) &&
+        caseData.startDate <= caseData.endDate));
 
   function updateCase(patch: Partial<ChartCase>) {
     onChange({ ...caseData, ...patch });
@@ -306,39 +309,76 @@ export function CaseEditor({
               />
             </label>
 
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-medium text-muted-foreground">
-                  开始
-                </span>
-                <input
-                  type="date"
-                  value={caseData.startDate}
-                  onChange={(event) =>
-                    updateCase({ startDate: event.target.value })
-                  }
-                  className={inputClass}
-                />
-              </label>
-              <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-medium text-muted-foreground">
-                  结束
-                </span>
-                <input
-                  type="date"
-                  value={caseData.endDate}
-                  onChange={(event) =>
-                    updateCase({ endDate: event.target.value })
-                  }
-                  className={inputClass}
-                />
-              </label>
+            <div className="mt-3 flex border border-rule bg-paper p-0.5">
+              {([
+                ["custom", "自定义区间"],
+                ["all", "全部历史"],
+              ] as const).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  aria-pressed={caseData.rangeMode === mode}
+                  onClick={() => updateCase({ rangeMode: mode })}
+                  className={cn(
+                    "flex-1 px-2 py-1.5 text-xs transition-colors",
+                    caseData.rangeMode === mode
+                      ? "bg-blueprint text-white"
+                      : "text-muted-foreground hover:bg-blueprint-soft hover:text-ink",
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
-            {caseData.startDate > caseData.endDate ? (
-              <p className="mt-2 text-xs text-destructive">
-                开始日期不能晚于结束日期
-              </p>
-            ) : null}
+
+            {caseData.rangeMode === "all" ? (
+              <div className="mt-3 border border-rule bg-paper px-2.5 py-2">
+                <p className="text-[11px] text-muted-foreground">
+                  自动跟随所选事项的数据范围
+                </p>
+                <p className="mt-1 font-mono text-xs text-ink">
+                  {effectiveRange.hasData
+                    ? `${effectiveRange.startDate} ~ ${effectiveRange.endDate}`
+                    : "暂无数据"}
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      开始
+                    </span>
+                    <input
+                      type="date"
+                      value={caseData.startDate}
+                      onChange={(event) =>
+                        updateCase({ startDate: event.target.value })
+                      }
+                      className={inputClass}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      结束
+                    </span>
+                    <input
+                      type="date"
+                      value={caseData.endDate}
+                      onChange={(event) =>
+                        updateCase({ endDate: event.target.value })
+                      }
+                      className={inputClass}
+                    />
+                  </label>
+                </div>
+                {caseData.startDate > caseData.endDate ? (
+                  <p className="mt-2 text-xs text-destructive">
+                    开始日期不能晚于结束日期
+                  </p>
+                ) : null}
+              </>
+            )}
 
             <div className="mt-4">
               <p className="text-xs font-medium text-muted-foreground">
@@ -446,8 +486,8 @@ export function CaseEditor({
                         <p className="truncate text-[10px] text-muted-foreground">
                           {event?.title ?? "未知事项"} ·{" "}
                           {CHART_TYPE_LABELS[template.chartType]}
-                          {template.metrics.length > 0
-                            ? ` · ${template.metrics.map((metric) => METRIC_LABELS[metric]).join(" / ")}`
+                          {getChartSeries(template).length > 0
+                            ? ` · ${getChartSeries(template).length} 个系列`
                             : ""}
                         </p>
                       </div>
@@ -475,6 +515,10 @@ export function CaseEditor({
             caseData={caseData}
             calendarData={calendarData}
             chartTemplates={chartTemplates}
+            caseRange={{
+              startDate: effectiveRange.startDate,
+              endDate: effectiveRange.endDate,
+            }}
             editing
             onChange={(next) => {
               onChange(next);
@@ -534,7 +578,10 @@ export function CaseEditor({
       <BlockEditorDialog
         open={blockDialogOpen}
         initialBlock={editingBlock}
-        caseRange={caseData}
+        caseRange={{
+          startDate: effectiveRange.startDate,
+          endDate: effectiveRange.endDate,
+        }}
         calendarData={calendarData}
         onOpenChange={(open) => {
           setBlockDialogOpen(open);

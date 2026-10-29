@@ -18,22 +18,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCalendarData } from "@/features/calendar/data/CalendarDataProvider";
-import { sortTemplates } from "@/features/calendar/data/types";
+import {
+  getNumericFields,
+  sortTemplates,
+  type CalendarTemplate,
+} from "@/features/calendar/data/types";
 import { useChartsData } from "@/features/charts/data/ChartsDataProvider";
 import {
   cloneChartsData,
   countChartTemplateUsage,
   generateChartTemplateCode,
+  getChartSeries,
   NUMERIC_CHART_TYPES,
-  NUMERIC_METRICS,
+  NUMERIC_SERIES_OPERATIONS,
+  NUMERIC_SERIES_OPERATION_LABELS,
   removeChartTemplateFromData,
   sortChartTemplates,
   TEXT_CHART_TYPES,
   validateChartTemplateDraft,
+  type ChartSeriesSpec,
   type ChartTemplate,
   type ChartsData,
   type ChartType,
-  type NumericMetricCode,
+  type NumericSeriesOperation,
 } from "@/features/charts/data/types";
 import { cn } from "@/lib/utils";
 
@@ -47,13 +54,6 @@ type ChartTemplateModalProps = {
 const inputClass =
   "h-9 w-full border border-rule bg-sheet px-2.5 text-sm text-ink outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal disabled:cursor-not-allowed disabled:bg-paper disabled:text-muted-foreground";
 
-const METRIC_LABELS: Record<NumericMetricCode, string> = {
-  daily: "每日",
-  avg7: "7 日均",
-  avg30: "30 日均",
-  changeRate: "变化率",
-};
-
 const CHART_TYPE_LABELS: Record<ChartType, string> = {
   line: "折线",
   bar: "柱状",
@@ -62,8 +62,16 @@ const CHART_TYPE_LABELS: Record<ChartType, string> = {
   distribution: "分布",
 };
 
-function defaultMetrics(kind: "numeric" | "text"): NumericMetricCode[] {
-  return kind === "numeric" ? ["daily"] : [];
+function defaultSeries(
+  event: CalendarTemplate | undefined,
+): ChartSeriesSpec[] {
+  if (!event || event.kind === "text") {
+    return [];
+  }
+
+  const field = getNumericFields(event)[0];
+
+  return field ? [{ fieldCode: field.code, operation: "raw" }] : [];
 }
 
 function defaultChartType(kind: "numeric" | "text"): ChartType {
@@ -99,6 +107,68 @@ export function ChartTemplateModal({
   const selectedTemplate =
     draft?.templates.find((template) => template.code === selectedCode) ??
     null;
+  const selectedEvent = selectedTemplate
+    ? calendarTemplates.find(
+        (template) => template.code === selectedTemplate.eventCode,
+      )
+    : null;
+  const selectedEventFields =
+    selectedEvent?.kind === "number" ? getNumericFields(selectedEvent) : [];
+  const seriesErrors = useMemo(() => {
+    if (!selectedTemplate || selectedTemplate.kind !== "numeric") {
+      return [];
+    }
+
+    const series = getChartSeries(selectedTemplate);
+    const messages: string[] = [];
+
+    if (series.length === 0) {
+      messages.push("至少需要一个图表系列");
+    }
+
+    const fields = selectedEvent
+      ? getNumericFields(selectedEvent)
+      : [];
+    const fieldByCode = new Map(fields.map((field) => [field.code, field]));
+
+    for (const spec of series) {
+      const field =
+        fieldByCode.get(spec.fieldCode || "") ??
+        fields.find((item) => item.kind === "input") ??
+        fields[0];
+
+      if (!field) {
+        messages.push("绑定事项没有数值字段");
+      }
+
+      if (spec.operation === "rolling" && (!spec.window || spec.window < 2)) {
+        messages.push("滚动平均窗口至少为 2");
+      }
+    }
+
+    const units = new Set(
+      series
+        .map(
+          (spec) =>
+            fieldByCode.get(spec.fieldCode || "") ??
+            fields.find((item) => item.kind === "input") ??
+            fields[0],
+        )
+        .filter(Boolean)
+        .map((field) => field!.unit),
+    );
+    const hasPercent = series.some(
+      (spec) => spec.operation === "percentChange",
+    );
+
+    if (hasPercent && series.length > 1) {
+      messages.push("百分比变化不能和其他系列混在同一张图");
+    } else if (units.size > 1) {
+      messages.push("同一张图只能使用同单位字段");
+    }
+
+    return Array.from(new Set(messages));
+  }, [selectedEvent, selectedTemplate]);
   const validationErrors = useMemo(
     () =>
       draft
@@ -118,7 +188,10 @@ export function ChartTemplateModal({
     return map;
   }, [draft]);
   const canComplete =
-    Boolean(draft) && !isSaving && validationErrors.size === 0;
+    Boolean(draft) &&
+    !isSaving &&
+    validationErrors.size === 0 &&
+    seriesErrors.length === 0;
 
   useEffect(() => {
     if (!open || isLoading) {
@@ -166,7 +239,8 @@ export function ChartTemplateModal({
       eventCode: event?.code ?? "",
       kind,
       chartType: defaultChartType(kind),
-      metrics: defaultMetrics(kind),
+      series: defaultSeries(event),
+      stacked: false,
       desc: "",
       sortOrder: draft.templates.length,
     };
@@ -218,33 +292,57 @@ export function ChartTemplateModal({
         eventCode,
         kind,
         chartType: defaultChartType(kind),
-        metrics: defaultMetrics(kind),
+        series: defaultSeries(event),
+        stacked: false,
       },
       true,
     );
   }
 
-  function handleMetricToggle(metric: NumericMetricCode) {
+  function updateSeries(index: number, patch: Partial<ChartSeriesSpec>) {
     if (!selectedTemplate) {
       return;
     }
 
-    if (metric === "changeRate") {
-      handleUpdate({
-        metrics: selectedTemplate.metrics.includes("changeRate")
-          ? []
-          : ["changeRate"],
-      });
+    const series = getChartSeries(selectedTemplate).map((item, itemIndex) =>
+      itemIndex === index ? { ...item, ...patch } : item,
+    );
+    handleUpdate({ series });
+  }
+
+  function addSeries() {
+    if (!selectedTemplate) {
       return;
     }
 
-    const current = selectedTemplate.metrics.filter(
-      (item) => item !== "changeRate",
+    const series = getChartSeries(selectedTemplate);
+    const field =
+      selectedEventFields.find(
+        (item) =>
+          item.kind === "input" &&
+          !series.some((spec) => spec.fieldCode === item.code),
+      ) ??
+      selectedEventFields.find((item) => item.kind === "input") ??
+      selectedEventFields[0];
+
+    if (!field) {
+      return;
+    }
+
+    handleUpdate({
+      series: [...series, { fieldCode: field.code, operation: "raw" }],
+    });
+  }
+
+  function removeSeries(index: number) {
+    if (!selectedTemplate) {
+      return;
+    }
+
+    const series = getChartSeries(selectedTemplate).filter(
+      (_, itemIndex) => itemIndex !== index,
     );
-    const next = current.includes(metric)
-      ? current.filter((item) => item !== metric)
-      : [...current, metric];
-    handleUpdate({ metrics: next });
+    handleUpdate({ series });
   }
 
   function handleReorder(activeCode: string, overCode: string) {
@@ -335,11 +433,6 @@ export function ChartTemplateModal({
     );
   }
 
-  const selectedEvent = selectedTemplate
-    ? calendarTemplates.find(
-        (template) => template.code === selectedTemplate.eventCode,
-      )
-    : null;
   const selectedErrors = selectedTemplate
     ? validationErrors.get(selectedTemplate.code) ?? []
     : [];
@@ -511,35 +604,162 @@ export function ChartTemplateModal({
                   </div>
 
                   {selectedTemplate.kind === "numeric" ? (
-                    <div className="flex flex-col gap-2">
-                      <span className="text-xs font-medium text-muted-foreground">
-                        指标
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {NUMERIC_METRICS.map((metric) => {
-                          const active =
-                            selectedTemplate.metrics.includes(metric);
-
-                          return (
-                            <button
-                              key={metric}
-                              type="button"
-                              onClick={() => handleMetricToggle(metric)}
-                              className={cn(
-                                "border px-2.5 py-1.5 text-xs font-medium transition-colors",
-                                active
-                                  ? "border-blueprint bg-blueprint text-white"
-                                  : "border-rule bg-sheet text-ink hover:bg-blueprint-soft",
-                              )}
-                            >
-                              {METRIC_LABELS[metric]}
-                            </button>
-                          );
-                        })}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-medium text-muted-foreground">
+                          系列
+                        </span>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={addSeries}
+                          disabled={selectedEventFields.length === 0}
+                        >
+                          <Plus aria-hidden="true" className="size-3.5" />
+                          添加系列
+                        </Button>
                       </div>
-                      <span className="text-[11px] leading-4 text-muted-foreground">
-                        同单位指标可以合并；变化率是百分比，只能单独使用。
-                      </span>
+
+                      <div className="flex flex-col gap-2">
+                        {getChartSeries(selectedTemplate).map(
+                          (spec, index) => (
+                            <div
+                              key={index}
+                              className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_72px_auto] items-center gap-2 border border-rule bg-paper p-2"
+                            >
+                              <Select
+                                value={
+                                  spec.fieldCode ||
+                                  selectedEventFields[0]?.code ||
+                                  ""
+                                }
+                                onValueChange={(value) =>
+                                  updateSeries(index, { fieldCode: value })
+                                }
+                              >
+                                <SelectTrigger
+                                  aria-label="选择图表字段"
+                                  className="h-8 w-full border border-rule bg-sheet px-2 text-xs"
+                                >
+                                  <SelectValue placeholder="字段" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {selectedEventFields.map((field) => (
+                                    <SelectItem
+                                      key={field.code}
+                                      value={field.code}
+                                    >
+                                      {field.label}
+                                      {field.unit ? ` · ${field.unit}` : ""}
+                                      {field.kind === "formula"
+                                        ? " · 公式"
+                                        : ""}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+
+                              <Select
+                                value={spec.operation}
+                                onValueChange={(value) =>
+                                  updateSeries(index, {
+                                    operation: value as NumericSeriesOperation,
+                                    window:
+                                      value === "rolling"
+                                        ? (spec.window ?? 7)
+                                        : undefined,
+                                  })
+                                }
+                              >
+                                <SelectTrigger
+                                  aria-label="选择统计方式"
+                                  className="h-8 w-full border border-rule bg-sheet px-2 text-xs"
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {NUMERIC_SERIES_OPERATIONS.map(
+                                    (operation) => (
+                                      <SelectItem
+                                        key={operation}
+                                        value={operation}
+                                      >
+                                        {
+                                          NUMERIC_SERIES_OPERATION_LABELS[
+                                            operation
+                                          ]
+                                        }
+                                      </SelectItem>
+                                    ),
+                                  )}
+                                </SelectContent>
+                              </Select>
+
+                              {spec.operation === "rolling" ? (
+                                <input
+                                  type="number"
+                                  min={2}
+                                  value={spec.window ?? 7}
+                                  aria-label="滚动窗口"
+                                  onChange={(event) =>
+                                    updateSeries(index, {
+                                      window: Math.max(
+                                        2,
+                                        Number(event.target.value) || 7,
+                                      ),
+                                    })
+                                  }
+                                  className="h-8 w-full border border-rule bg-sheet px-2 text-xs"
+                                />
+                              ) : (
+                                <span className="text-center text-[10px] text-muted-foreground">
+                                  —
+                                </span>
+                              )}
+
+                              <button
+                                type="button"
+                                aria-label="移除系列"
+                                disabled={
+                                  getChartSeries(selectedTemplate).length <= 1
+                                }
+                                onClick={() => removeSeries(index)}
+                                className="flex size-8 items-center justify-center text-muted-foreground hover:bg-destructive/10 hover:text-destructive disabled:opacity-30"
+                              >
+                                <Trash2 aria-hidden="true" className="size-3.5" />
+                              </button>
+                            </div>
+                          ),
+                        )}
+                      </div>
+
+                      {selectedTemplate.chartType === "bar" ||
+                      selectedTemplate.chartType === "area" ? (
+                        <label className="flex items-center gap-2 text-xs text-ink">
+                          <input
+                            type="checkbox"
+                            checked={selectedTemplate.stacked === true}
+                            onChange={(event) =>
+                              handleUpdate({ stacked: event.target.checked })
+                            }
+                            className="size-3.5 accent-[var(--color-blueprint)]"
+                          />
+                          堆叠系列
+                        </label>
+                      ) : null}
+
+                      {seriesErrors.length > 0 ? (
+                        <div className="text-[11px] leading-4 text-destructive">
+                          {seriesErrors.map((error) => (
+                            <p key={error}>{error}</p>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-[11px] leading-4 text-muted-foreground">
+                          同一张图只能使用同单位字段；百分比变化单独使用。
+                        </span>
+                      )}
                     </div>
                   ) : (
                     <div className="border border-rule bg-paper px-3 py-2 text-xs text-muted-foreground">

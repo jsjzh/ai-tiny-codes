@@ -10,7 +10,11 @@ function data(): NumericChartData {
     dates: ["2026-10-01", "2026-10-02", "2026-10-03"],
     series: [
       {
-        metric: "daily",
+        key: "value:raw:0",
+        label: "体重 · 原始值",
+        fieldCode: "value",
+        operation: "raw",
+        color: "#1d4ed8",
         points: [
           { date: "2026-10-01", value: 80 },
           { date: "2026-10-02", value: null },
@@ -18,7 +22,11 @@ function data(): NumericChartData {
         ],
       },
       {
-        metric: "avg7",
+        key: "value:rolling:1",
+        label: "体重 · 滚动平均",
+        fieldCode: "value",
+        operation: "rolling",
+        color: "#0f766e",
         points: [
           { date: "2026-10-01", value: 79 },
           { date: "2026-10-02", value: 78.5 },

@@ -1,6 +1,18 @@
 export type NumericMetricCode = "daily" | "avg7" | "avg30" | "changeRate";
+export type NumericSeriesOperation =
+  | "raw"
+  | "rolling"
+  | "cumulative"
+  | "deltaFromStart"
+  | "percentChange";
 export type ChartTemplateKind = "numeric" | "text";
 export type ChartType = "line" | "bar" | "area" | "table" | "distribution";
+
+export type ChartSeriesSpec = {
+  fieldCode: string;
+  operation: NumericSeriesOperation;
+  window?: number;
+};
 
 export type ChartTemplate = {
   code: string;
@@ -8,7 +20,9 @@ export type ChartTemplate = {
   eventCode: string;
   kind: ChartTemplateKind;
   chartType: ChartType;
-  metrics: NumericMetricCode[];
+  metrics?: NumericMetricCode[];
+  series?: ChartSeriesSpec[];
+  stacked?: boolean;
   desc: string;
   sortOrder: number;
 };
@@ -21,8 +35,14 @@ export type BlockRange =
 export type BlockRuleType =
   | "fixed"
   | "latest"
+  | "first"
+  | "sum"
+  | "average"
   | "max"
   | "min"
+  | "count"
+  | "streak"
+  | "delta"
   | "loss"
   | "change"
   | "bmi"
@@ -30,6 +50,8 @@ export type BlockRuleType =
 
 export type BlockRule = {
   type: BlockRuleType;
+  fieldCode?: string;
+  direction?: "last-first" | "first-last";
   value?: string;
   unit?: string;
   range?: BlockRange;
@@ -63,11 +85,14 @@ export type ChartCaseRow = {
   slots: Array<CaseWidget | null>;
 };
 
+export type ChartCaseRangeMode = "custom" | "all";
+
 export type ChartCase = {
   id: string;
   name: string;
   startDate: string;
   endDate: string;
+  rangeMode: ChartCaseRangeMode;
   eventCodes: string[];
   rows: ChartCaseRow[];
   createdAt: string;
@@ -86,6 +111,50 @@ export const NUMERIC_METRICS: NumericMetricCode[] = [
   "avg30",
   "changeRate",
 ];
+
+export const NUMERIC_SERIES_OPERATIONS: NumericSeriesOperation[] = [
+  "raw",
+  "rolling",
+  "cumulative",
+  "deltaFromStart",
+  "percentChange",
+];
+
+export const NUMERIC_SERIES_OPERATION_LABELS: Record<
+  NumericSeriesOperation,
+  string
+> = {
+  raw: "原始值",
+  rolling: "滚动平均",
+  cumulative: "累计合计",
+  deltaFromStart: "累计变化",
+  percentChange: "百分比变化",
+};
+
+export function getChartSeries(template: ChartTemplate): ChartSeriesSpec[] {
+  if (template.kind === "text") {
+    return [];
+  }
+
+  if (template.series && template.series.length > 0) {
+    return template.series;
+  }
+
+  const metrics = template.metrics ?? ["daily"];
+
+  return metrics.map((metric) => ({
+    fieldCode: "",
+    operation:
+      metric === "avg7"
+        ? "rolling"
+        : metric === "avg30"
+          ? "rolling"
+          : metric === "changeRate"
+            ? "percentChange"
+            : "raw",
+    window: metric === "avg7" ? 7 : metric === "avg30" ? 30 : undefined,
+  }));
+}
 
 export const NUMERIC_CHART_TYPES: ChartType[] = ["line", "bar", "area"];
 export const TEXT_CHART_TYPES: ChartType[] = ["table", "distribution"];
@@ -123,6 +192,40 @@ function normalizeMetrics(
   return metrics.length > 0 ? metrics : ["daily"];
 }
 
+function normalizeSeries(value: unknown): ChartSeriesSpec[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const series: ChartSeriesSpec[] = [];
+
+  for (const item of value) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+      continue;
+    }
+
+    const raw = item as Record<string, unknown>;
+    const operation = NUMERIC_SERIES_OPERATIONS.includes(
+      raw.operation as NumericSeriesOperation,
+    )
+      ? (raw.operation as NumericSeriesOperation)
+      : "raw";
+    const window =
+      typeof raw.window === "number" && Number.isFinite(raw.window)
+        ? Math.max(2, Math.round(raw.window))
+        : undefined;
+
+    series.push({
+      fieldCode:
+        typeof raw.fieldCode === "string" ? raw.fieldCode.trim() : "",
+      operation,
+      window: operation === "rolling" ? (window ?? 7) : undefined,
+    });
+  }
+
+  return series;
+}
+
 function normalizeChartTemplate(
   value: unknown,
   index: number,
@@ -156,6 +259,22 @@ function normalizeChartTemplate(
     kind,
     chartType,
     metrics: normalizeMetrics(raw.metrics, kind),
+    series:
+      kind === "numeric"
+        ? normalizeSeries(raw.series).length > 0
+          ? normalizeSeries(raw.series)
+          : getChartSeries({
+              code,
+              title,
+              eventCode,
+              kind,
+              chartType,
+              metrics: normalizeMetrics(raw.metrics, kind),
+              desc: "",
+              sortOrder: index,
+            })
+        : [],
+    stacked: kind === "numeric" && raw.stacked === true,
     desc: typeof raw.desc === "string" ? raw.desc : "",
     sortOrder:
       typeof raw.sortOrder === "number" && Number.isFinite(raw.sortOrder)
@@ -187,8 +306,14 @@ function normalizeRange(value: unknown): BlockRange {
 const BLOCK_RULE_TYPES: BlockRuleType[] = [
   "fixed",
   "latest",
+  "first",
+  "sum",
+  "average",
   "max",
   "min",
+  "count",
+  "streak",
+  "delta",
   "loss",
   "change",
   "bmi",
@@ -223,6 +348,12 @@ function normalizeRule(value: unknown): BlockRule | null {
 
   return {
     type,
+    fieldCode:
+      typeof raw.fieldCode === "string" && raw.fieldCode.trim()
+        ? raw.fieldCode.trim()
+        : undefined,
+    direction:
+      raw.direction === "first-last" ? "first-last" : "last-first",
     range: normalizeRange(raw.range),
     heightCm:
       typeof raw.heightCm === "number" && Number.isFinite(raw.heightCm)
@@ -364,6 +495,7 @@ function normalizeCase(value: unknown): ChartCase | null {
     name,
     startDate,
     endDate,
+    rangeMode: raw.rangeMode === "all" ? "all" : "custom",
     eventCodes: Array.isArray(raw.eventCodes)
       ? Array.from(
           new Set(
@@ -518,15 +650,8 @@ export function validateChartTemplateDraft(
     }
 
     if (template.kind === "numeric") {
-      if (template.metrics.length === 0) {
-        messages.push("至少选择一个指标");
-      }
-
-      if (
-        template.metrics.includes("changeRate") &&
-        template.metrics.length > 1
-      ) {
-        messages.push("变化率不能和其他指标混在同一张图");
+      if (getChartSeries(template).length === 0) {
+        messages.push("至少需要一个图表系列");
       }
     }
 

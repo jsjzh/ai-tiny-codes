@@ -130,6 +130,63 @@ describe("buildNumericChartData", () => {
     expect(data.series[0].points[3].value).toBeCloseTo(1.3158, 3);
   });
 
+  it("支持多字段和公式字段", () => {
+    const calendarData = calendar();
+    calendarData.templates.push({
+      code: "diet",
+      title: "饮食",
+      kind: "number",
+      unit: "kcal",
+      color: "#f97316",
+      desc: "",
+      sortOrder: 2,
+      fields: [
+        { code: "carbs", label: "碳水", unit: "g", color: "#0f766e", kind: "input", showInCalendar: true },
+        { code: "protein", label: "蛋白质", unit: "g", color: "#b45309", kind: "input", showInCalendar: true },
+        { code: "fat", label: "脂肪", unit: "g", color: "#7c3aed", kind: "input", showInCalendar: true },
+        {
+          code: "calories",
+          label: "热量",
+          unit: "kcal",
+          color: "#c2410c",
+          kind: "formula",
+          formula: "carbs * 4 + protein * 4 + fat * 9",
+          showInCalendar: true,
+        },
+      ],
+    });
+    calendarData.events["2026-08-01"] = { diet: { carbs: 180, protein: 120, fat: 60 } };
+
+    const data = buildNumericChartData(
+      {
+        code: "diet-chart",
+        title: "饮食",
+        eventCode: "diet",
+        kind: "numeric",
+        chartType: "bar",
+        series: [
+          { fieldCode: "carbs", operation: "raw" },
+          { fieldCode: "protein", operation: "raw" },
+          { fieldCode: "calories", operation: "raw" },
+        ],
+        stacked: true,
+        desc: "",
+        sortOrder: 0,
+      },
+      calendarData,
+      range,
+    );
+
+    expect(data.series.map((series) => series.fieldCode)).toEqual([
+      "carbs",
+      "protein",
+      "calories",
+    ]);
+    expect(data.series[0].points[0].value).toBe(180);
+    expect(data.series[2].points[0].value).toBe(1740);
+    expect(data.series[0].color).toBe("#0f766e");
+  });
+
   it("空区间返回空值", () => {
     const data = buildNumericChartData(
       numericTemplate(["daily"]),

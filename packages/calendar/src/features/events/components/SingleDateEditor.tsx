@@ -11,7 +11,14 @@ import {
   upsertEvents,
   type CalendarEventDisplay,
 } from "@/features/calendar/data/events";
-import { sortTemplates, type CalendarData } from "@/features/calendar/data/types";
+import {
+  getInputFieldValues,
+  getInputNumericFields,
+  getNumericFields,
+  resolveNumericFieldValues,
+  sortTemplates,
+  type CalendarData,
+} from "@/features/calendar/data/types";
 import { TemplateSelect } from "@/features/events/components/TemplateSelect";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +40,7 @@ export function SingleDateEditor({
 }: SingleDateEditorProps) {
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
   const [valueInput, setValueInput] = useState("");
+  const [numericInputs, setNumericInputs] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [formStatus, setFormStatus] = useState<string | null>(null);
   const [deleteConfirmCode, setDeleteConfirmCode] = useState<string | null>(null);
@@ -41,10 +49,42 @@ export function SingleDateEditor({
   const events = getEventsForDate(draft, date);
   const selectedTemplate =
     templates.find((template) => template.code === selectedCode) ?? null;
+  const numericFields =
+    selectedTemplate?.kind === "number"
+      ? getNumericFields(selectedTemplate)
+      : [];
+  const inputFields = getInputNumericFields(selectedTemplate ?? {
+    kind: "text",
+    title: "",
+    unit: "",
+    color: "",
+  });
+  const formulaFields = numericFields.filter(
+    (field) => field.kind === "formula",
+  );
+  const previewValues = selectedTemplate
+    ? resolveNumericFieldValues(
+        selectedTemplate,
+        Object.fromEntries(
+          inputFields.flatMap((field) => {
+            const raw = numericInputs[field.code];
+            const value = Number(raw);
+
+            return raw?.trim() && Number.isFinite(value)
+              ? [[field.code, value] as const]
+              : [];
+          }),
+        ),
+      )
+    : {};
+  const hasNumericInput = inputFields.some((field) =>
+    numericInputs[field.code]?.trim(),
+  );
 
   function resetForm() {
     setSelectedCode(null);
     setValueInput("");
+    setNumericInputs({});
     setFormError(null);
   }
 
@@ -53,15 +93,41 @@ export function SingleDateEditor({
     const existing = draft.events[date]?.[code];
 
     setSelectedCode(code);
-    setValueInput(existing !== undefined ? formatEventInputValue(existing) : "");
+    setValueInput(
+      existing !== undefined && template?.kind === "text"
+        ? formatEventInputValue(existing)
+        : "",
+    );
+    setNumericInputs(
+      template?.kind === "number"
+        ? Object.fromEntries(
+            Object.entries(
+              getInputFieldValues(template, existing),
+            ).map(([key, value]) => [key, String(value)]),
+          )
+        : {},
+    );
     setFormError(null);
     setFormStatus(template ? `已选择「${template.title}」` : null);
     setDeleteConfirmCode(null);
   }
 
   function handleSelectEvent(event: CalendarEventDisplay) {
+    const template = templates.find((item) => item.code === event.code);
+
     setSelectedCode(event.code);
-    setValueInput(formatEventInputValue(event.value));
+    setValueInput(
+      event.kind === "text" ? formatEventInputValue(event.value) : "",
+    );
+    setNumericInputs(
+      template?.kind === "number"
+        ? Object.fromEntries(
+            Object.entries(getInputFieldValues(template, event.value)).map(
+              ([key, value]) => [key, String(value)],
+            ),
+          )
+        : {},
+    );
     setFormError(null);
     setFormStatus(`正在编辑「${event.title}」`);
     setDeleteConfirmCode(null);
@@ -73,16 +139,48 @@ export function SingleDateEditor({
       return;
     }
 
-    const value = parseEventInput(selectedTemplate, valueInput);
+    if (selectedTemplate.kind === "text") {
+      const value = parseEventInput(selectedTemplate, valueInput);
 
-    if (value === null) {
-      setFormError(
-        selectedTemplate.kind === "number" ? "请输入有效的数值" : "内容不能为空",
-      );
+      if (value === null) {
+        setFormError("内容不能为空");
+        return;
+      }
+
+      onDraftChange(upsertEvents(draft, [{ date, code: selectedCode, value }]));
+      setFormError(null);
+      resetForm();
+      setFormStatus(`已保存「${selectedTemplate.title}」`);
       return;
     }
 
-    onDraftChange(upsertEvents(draft, [{ date, code: selectedCode, value }]));
+    const values: Record<string, number> = {};
+
+    for (const field of inputFields) {
+      const raw = numericInputs[field.code] ?? "";
+
+      if (!raw.trim()) {
+        continue;
+      }
+
+      const value = Number(raw);
+
+      if (!Number.isFinite(value)) {
+        setFormError(`「${field.label}」请输入有效数值`);
+        return;
+      }
+
+      values[field.code] = value;
+    }
+
+    if (Object.keys(values).length === 0) {
+      setFormError("至少输入一个数值");
+      return;
+    }
+
+    onDraftChange(
+      upsertEvents(draft, [{ date, code: selectedCode, value: values }]),
+    );
     setFormError(null);
     resetForm();
     setFormStatus(`已保存「${selectedTemplate.title}」`);
@@ -207,32 +305,63 @@ export function SingleDateEditor({
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
             <div className="min-w-0 flex-1">
               {selectedTemplate?.kind === "number" ? (
-                <div className="relative">
-                  <input
-                    type="number"
-                    step="any"
-                    inputMode="decimal"
-                    value={valueInput}
-                    onChange={(event) => {
-                      setValueInput(event.target.value);
-                      setFormError(null);
-                      setFormStatus(null);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") {
-                        event.preventDefault();
-                        handleSave();
-                      }
-                    }}
-                    className={cn(inputClass, "pr-14 font-mono tabular-nums")}
-                    placeholder="输入数值"
-                    disabled={!selectedTemplate}
-                  />
-                  {selectedTemplate.unit ? (
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                      {selectedTemplate.unit}
-                    </span>
-                  ) : null}
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {inputFields.map((field) => (
+                    <label
+                      key={field.code}
+                      className="flex flex-col gap-1"
+                    >
+                      <span className="text-[10px] text-muted-foreground">
+                        {field.label}
+                        {field.unit ? ` · ${field.unit}` : ""}
+                      </span>
+                      <input
+                        type="number"
+                        step="any"
+                        inputMode="decimal"
+                        value={numericInputs[field.code] ?? ""}
+                        onChange={(event) => {
+                          setNumericInputs((previous) => ({
+                            ...previous,
+                            [field.code]: event.target.value,
+                          }));
+                          setFormError(null);
+                          setFormStatus(null);
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") {
+                            event.preventDefault();
+                            handleSave();
+                          }
+                        }}
+                        aria-label={field.label}
+                        className={cn(
+                          inputClass,
+                          "font-mono tabular-nums",
+                        )}
+                        placeholder="输入数值"
+                        disabled={!selectedTemplate}
+                      />
+                    </label>
+                  ))}
+                  {formulaFields.map((field) => (
+                    <div
+                      key={field.code}
+                      className="flex flex-col gap-1"
+                    >
+                      <span className="text-[10px] text-muted-foreground">
+                        {field.label}
+                        {field.unit ? ` · ${field.unit}` : ""} · 自动
+                      </span>
+                      <div className="flex h-9 items-center border border-rule bg-paper px-2.5 font-mono text-sm text-muted-foreground">
+                        {typeof previewValues[field.code] === "number"
+                          ? Number(
+                              previewValues[field.code]!.toFixed(2),
+                            )
+                          : "--"}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <textarea
@@ -258,7 +387,12 @@ export function SingleDateEditor({
             <Button
               type="button"
               className="h-9 shrink-0"
-              disabled={!selectedCode || !valueInput.trim()}
+              disabled={
+                !selectedCode ||
+                (selectedTemplate?.kind === "number"
+                  ? !hasNumericInput
+                  : !valueInput.trim())
+              }
               onClick={handleSave}
             >
               保存

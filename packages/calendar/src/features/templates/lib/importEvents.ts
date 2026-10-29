@@ -1,6 +1,9 @@
-import type {
-  CalendarEventValue,
-  CalendarTemplate,
+import {
+  getInputNumericFields,
+  toStoredNumericValue,
+  type CalendarEventValue,
+  type CalendarTemplate,
+  type NumericField,
 } from "@/features/calendar/data/types";
 
 export type EventImportRow = {
@@ -21,6 +24,12 @@ export type EventImportParseResult = {
 const DATE_KEYS = ["date", "day", "dayStr", "dateStr", "日期"];
 const VALUE_KEYS = ["value", "val", "amount", "weight", "值", "数值", "体重"];
 const COLLECTION_KEYS = ["logs", "data", "records", "items", "events"];
+
+type ImportTemplate = Pick<CalendarTemplate, "kind" | "code" | "title"> & {
+  unit?: string;
+  color?: string;
+  fields?: NumericField[];
+};
 
 function pad2(value: number): string {
   return String(value).padStart(2, "0");
@@ -104,42 +113,102 @@ function normalizeDate(value: unknown): string | null {
   return null;
 }
 
-function normalizeValue(
-  template: Pick<CalendarTemplate, "kind" | "code" | "title">,
-  value: unknown,
-): CalendarEventValue | null {
-  if (value && typeof value === "object" && !Array.isArray(value)) {
-    const raw = value as Record<string, unknown>;
-
-    if (Object.prototype.hasOwnProperty.call(raw, template.code)) {
-      return normalizeValue(template, raw[template.code]);
-    }
-
-    if (Object.prototype.hasOwnProperty.call(raw, template.title)) {
-      return normalizeValue(template, raw[template.title]);
-    }
+function parseNumericInput(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
   }
 
-  if (template.kind === "number") {
-    if (typeof value === "number" && Number.isFinite(value)) {
-      return value;
+  if (typeof value === "string" && value.trim()) {
+    const numeric = Number(value.replace(/,/g, "").trim());
+    return Number.isFinite(numeric) ? numeric : null;
+  }
+
+  return null;
+}
+
+function normalizeValue(
+  template: ImportTemplate,
+  value: unknown,
+): CalendarEventValue | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    if (template.kind === "number") {
+      return parseNumericInput(value);
     }
 
-    if (typeof value === "string" && value.trim()) {
-      const numeric = Number(value.replace(/,/g, "").trim());
-      return Number.isFinite(numeric) ? numeric : null;
+    if (typeof value === "string") {
+      const text = value.trim();
+      return text ? text : null;
+    }
+
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return String(value);
     }
 
     return null;
   }
 
-  if (typeof value === "string") {
-    const text = value.trim();
-    return text ? text : null;
+  const raw = value as Record<string, unknown>;
+
+  if (Object.prototype.hasOwnProperty.call(raw, template.code)) {
+    return normalizeValue(template, raw[template.code]);
   }
 
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return String(value);
+  if (Object.prototype.hasOwnProperty.call(raw, template.title)) {
+    return normalizeValue(template, raw[template.title]);
+  }
+
+  if (raw.values && typeof raw.values === "object" && !Array.isArray(raw.values)) {
+    return normalizeValue(template, raw.values);
+  }
+
+  if (template.kind === "text") {
+    for (const key of VALUE_KEYS) {
+      if (Object.prototype.hasOwnProperty.call(raw, key)) {
+        return normalizeValue(template, raw[key]);
+      }
+    }
+
+    return null;
+  }
+
+  if (template.kind === "number") {
+    const fields = getInputNumericFields({
+      kind: "number",
+      title: template.title,
+      unit: template.unit ?? "",
+      color: template.color ?? "",
+      fields: template.fields,
+    });
+    const values: Record<string, number> = {};
+
+    for (const field of fields) {
+      const fieldValue = parseNumericInput(raw[field.code]);
+
+      if (fieldValue !== null) {
+        values[field.code] = fieldValue;
+      }
+    }
+
+    if (Object.keys(values).length > 0) {
+      return toStoredNumericValue(
+        {
+          kind: "number",
+          title: template.title,
+          unit: template.unit ?? "",
+          color: template.color ?? "",
+          fields: template.fields,
+        },
+        values,
+      );
+    }
+
+    for (const key of VALUE_KEYS) {
+      if (Object.prototype.hasOwnProperty.call(raw, key)) {
+        return normalizeValue(template, raw[key]);
+      }
+    }
+
+    return null;
   }
 
   return null;
@@ -147,7 +216,7 @@ function normalizeValue(
 
 function pickRawValue(
   item: Record<string, unknown>,
-  template: Pick<CalendarTemplate, "code" | "title">,
+  template: ImportTemplate,
 ): unknown {
   if (Object.prototype.hasOwnProperty.call(item, template.code)) {
     return item[template.code];
@@ -157,13 +226,7 @@ function pickRawValue(
     return item[template.title];
   }
 
-  for (const key of VALUE_KEYS) {
-    if (Object.prototype.hasOwnProperty.call(item, key)) {
-      return item[key];
-    }
-  }
-
-  return undefined;
+  return item;
 }
 
 function pickRawDate(item: Record<string, unknown>): unknown {
@@ -204,7 +267,7 @@ function collectionFrom(raw: unknown): unknown[] | Record<string, unknown> | nul
 
 function rowsFromJson(
   raw: unknown,
-  template: Pick<CalendarTemplate, "kind" | "code" | "title">,
+  template: ImportTemplate,
 ): {
   rows: EventImportRow[];
   rawCount: number;
@@ -356,7 +419,7 @@ function findColumn(
 
 function rowsFromCsv(
   text: string,
-  template: Pick<CalendarTemplate, "kind" | "code" | "title">,
+  template: ImportTemplate,
 ): {
   rows: EventImportRow[];
   rawCount: number;
@@ -400,15 +463,45 @@ function rowsFromCsv(
   const valueIndex = looksLikeHeader
     ? findColumn(header, ["value", "val", "amount", "weight", "值", "数值", "体重"])
     : 1;
+  const fieldColumns = looksLikeHeader
+    ? getInputNumericFields({
+        kind: template.kind,
+        title: template.title,
+        unit: template.unit ?? "",
+        color: template.color ?? "",
+        fields: template.fields,
+      }).flatMap((field) => {
+        const index = header.findIndex((cell) => {
+          const normalized = cell.toLowerCase();
+          return (
+            normalized === field.code.toLowerCase() ||
+            normalized === field.label.toLowerCase() ||
+            normalized.includes(field.label.toLowerCase())
+          );
+        });
+
+        return index >= 0 ? [{ code: field.code, index }] : [];
+      })
+    : [];
   const start = looksLikeHeader ? 1 : 0;
 
   for (let index = start; index < lines.length; index += 1) {
     rawCount += 1;
     const cells = parseDelimitedLine(lines[index], delimiter);
     const dateValue = cells[dateIndex];
-    const value = cells[valueIndex >= 0 ? valueIndex : 1];
+    const fieldValue = fieldColumns.length > 0
+      ? Object.fromEntries(
+          fieldColumns.flatMap((field) => {
+            const raw = cells[field.index]?.trim();
+
+            return raw
+              ? [[field.code, parseNumericInput(raw)] as const]
+              : [];
+          }),
+        )
+      : cells[valueIndex >= 0 ? valueIndex : 1];
     const date = normalizeDate(dateValue);
-    const normalized = normalizeValue(template, value);
+    const normalized = normalizeValue(template, fieldValue);
 
     if (!date || normalized === null) {
       invalidCount += 1;
@@ -473,7 +566,7 @@ function findSourceUnit(raw: unknown): string {
 
 export function parseEventImport(
   text: string,
-  template: Pick<CalendarTemplate, "kind" | "code" | "title">,
+  template: ImportTemplate,
   fileName = "",
 ): EventImportParseResult {
   const trimmed = text.trim();

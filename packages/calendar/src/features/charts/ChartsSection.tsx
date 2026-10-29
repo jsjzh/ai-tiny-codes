@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { useCalendarData } from "@/features/calendar/data/CalendarDataProvider";
 
+import { resolveCaseRange } from "./lib/caseRange";
 import { CaseEditor } from "./CaseEditor";
 import { ChartTemplateModal } from "./ChartTemplateModal";
 import { CaseCanvas } from "./components/CaseCanvas";
@@ -54,6 +55,7 @@ function createCase(
     name: `新案例 ${existingCases.length + 1}`,
     startDate: now.startOf("month").format("YYYY-MM-DD"),
     endDate: now.format("YYYY-MM-DD"),
+    rangeMode: "custom",
     eventCodes: [],
     rows: [{ slots: [null, null] }],
     createdAt: timestamp,
@@ -274,6 +276,9 @@ export function ChartsSection() {
   const activeWidgets = activeCase
     ? countCaseWidgets(activeCase)
     : { charts: 0, blocks: 0 };
+  const activeRange = activeCase
+    ? resolveCaseRange(activeCase, calendarData)
+    : null;
   const activeEvents = activeCase
     ? activeCase.eventCodes
         .map((code) =>
@@ -400,7 +405,8 @@ export function ChartsSection() {
                 </h2>
                 <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
                   <span className="font-mono">
-                    {activeCase.startDate} ~ {activeCase.endDate}
+                    {activeRange?.isAll ? "全部历史 · " : ""}
+                    {activeRange?.startDate} ~ {activeRange?.endDate}
                   </span>
                   <span>·</span>
                   <span>
@@ -425,6 +431,10 @@ export function ChartsSection() {
               caseData={activeCase}
               calendarData={calendarData}
               chartTemplates={chartTemplates}
+              caseRange={{
+                startDate: activeRange?.startDate ?? activeCase.startDate,
+                endDate: activeRange?.endDate ?? activeCase.endDate,
+              }}
               editing={false}
               onChange={() => undefined}
               onEditBlock={() => undefined}

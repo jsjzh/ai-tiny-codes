@@ -7,13 +7,41 @@
       "eventCode": "tpl_j2eudg",
       "kind": "numeric",
       "chartType": "line",
-      "metrics": [
-        "daily",
-        "avg7",
-        "avg30"
-      ],
       "desc": "",
-      "sortOrder": 0
+      "sortOrder": 0,
+      "series": [
+        {
+          "fieldCode": "value",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "value",
+          "operation": "rolling",
+          "window": 7
+        },
+        {
+          "fieldCode": "value",
+          "operation": "rolling",
+          "window": 30
+        }
+      ],
+      "stacked": false
+    },
+    {
+      "code": "chart_zf6plg",
+      "title": "体重变化率",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "",
+      "sortOrder": 1,
+      "series": [
+        {
+          "fieldCode": "value",
+          "operation": "percentChange"
+        }
+      ],
+      "stacked": false
     }
   ],
   "cases": [
@@ -39,7 +67,8 @@
                   "type": "latest",
                   "range": {
                     "type": "all"
-                  }
+                  },
+                  "fieldCode": "value"
                 }
               },
               "height": 1
@@ -52,11 +81,11 @@
                 "info": "",
                 "eventCode": "tpl_j2eudg",
                 "rule": {
-                  "type": "bmi",
+                  "type": "latest",
+                  "fieldCode": "bmi_179",
                   "range": {
                     "type": "case"
-                  },
-                  "heightCm": 179
+                  }
                 }
               },
               "height": 1
@@ -72,7 +101,8 @@
                   "type": "max",
                   "range": {
                     "type": "all"
-                  }
+                  },
+                  "fieldCode": "value"
                 }
               },
               "height": 1
@@ -88,7 +118,8 @@
                   "type": "min",
                   "range": {
                     "type": "all"
-                  }
+                  },
+                  "fieldCode": "value"
                 }
               },
               "height": 1
@@ -106,7 +137,8 @@
         }
       ],
       "createdAt": "2026-10-28T09:19:10.563Z",
-      "updatedAt": "2026-10-28T09:29:07.520Z"
+      "updatedAt": "2026-10-28T09:29:07.520Z",
+      "rangeMode": "all"
     },
     {
       "id": "case_j5yfzb",
@@ -130,7 +162,8 @@
                   "type": "latest",
                   "range": {
                     "type": "case"
-                  }
+                  },
+                  "fieldCode": "value"
                 }
               },
               "height": 1
@@ -143,11 +176,11 @@
                 "info": "",
                 "eventCode": "tpl_j2eudg",
                 "rule": {
-                  "type": "bmi",
+                  "type": "latest",
+                  "fieldCode": "bmi_179",
                   "range": {
                     "type": "case"
-                  },
-                  "heightCm": 179
+                  }
                 }
               },
               "height": 1
@@ -160,7 +193,9 @@
                 "info": "",
                 "eventCode": "tpl_j2eudg",
                 "rule": {
-                  "type": "loss",
+                  "type": "delta",
+                  "direction": "first-last",
+                  "fieldCode": "value",
                   "range": {
                     "type": "case"
                   }
@@ -176,11 +211,11 @@
                 "info": "",
                 "eventCode": "tpl_j2eudg",
                 "rule": {
-                  "type": "distanceToTarget",
+                  "type": "latest",
+                  "fieldCode": "distance_75",
                   "range": {
                     "type": "case"
-                  },
-                  "target": 75
+                  }
                 }
               },
               "height": 1
@@ -197,7 +232,9 @@
                 "info": "",
                 "eventCode": "tpl_j2eudg",
                 "rule": {
-                  "type": "change",
+                  "type": "delta",
+                  "direction": "last-first",
+                  "fieldCode": "value",
                   "range": {
                     "type": "lastDays",
                     "days": 7
@@ -214,7 +251,9 @@
                 "info": "",
                 "eventCode": "tpl_j2eudg",
                 "rule": {
-                  "type": "change",
+                  "type": "delta",
+                  "direction": "last-first",
+                  "fieldCode": "value",
                   "range": {
                     "type": "lastDays",
                     "days": 30
@@ -231,12 +270,18 @@
               "kind": "chart",
               "chartTemplateCode": "chart_1oc5b6",
               "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_zf6plg",
+              "height": 2
             }
           ]
         }
       ],
       "createdAt": "2026-10-28T09:29:54.634Z",
-      "updatedAt": "2026-10-28T09:34:34.486Z"
+      "updatedAt": "2026-10-29T05:09:29.730Z",
+      "rangeMode": "custom"
     }
   ]
 }

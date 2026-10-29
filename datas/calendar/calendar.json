@@ -8,7 +8,79 @@
       "unit": "kg",
       "color": "#1d4ed8",
       "desc": "每日体重",
-      "sortOrder": 0
+      "sortOrder": 0,
+      "fields": [
+        {
+          "code": "value",
+          "label": "体重",
+          "unit": "kg",
+          "color": "#1d4ed8",
+          "kind": "input",
+          "showInCalendar": true
+        },
+        {
+          "code": "bmi_179",
+          "label": "BMI",
+          "unit": "",
+          "color": "#64748b",
+          "kind": "formula",
+          "formula": "value / (1.79 * 1.79)",
+          "showInCalendar": false
+        },
+        {
+          "code": "distance_75",
+          "label": "距目标",
+          "unit": "kg",
+          "color": "#64748b",
+          "kind": "formula",
+          "formula": "value - 75",
+          "showInCalendar": false
+        }
+      ]
+    },
+    {
+      "code": "tpl_e54um2",
+      "title": "饮食",
+      "kind": "number",
+      "unit": "kcal",
+      "color": "#f97316",
+      "desc": "",
+      "sortOrder": 1,
+      "fields": [
+        {
+          "code": "carbs",
+          "label": "碳水",
+          "unit": "g",
+          "color": "#0f766e",
+          "kind": "input",
+          "showInCalendar": true
+        },
+        {
+          "code": "protein",
+          "label": "蛋白质",
+          "unit": "g",
+          "color": "#b45309",
+          "kind": "input",
+          "showInCalendar": true
+        },
+        {
+          "code": "fat",
+          "label": "脂肪",
+          "unit": "g",
+          "color": "#7c3aed",
+          "kind": "input",
+          "showInCalendar": true
+        },
+        {
+          "code": "calories",
+          "label": "热量",
+          "unit": "kcal",
+          "color": "#c2410c",
+          "kind": "formula",
+          "formula": "carbs*4+protein*4+fat*9",
+          "showInCalendar": true
+        }
+      ]
     }
   ],
   "events": {

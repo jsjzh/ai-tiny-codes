@@ -26,50 +26,68 @@ datas/charts/charts.json
 - `datas/*.json` 是仓库内持久化数据，不要写入测试假数据后提交。
 - 日期一律本地 `YYYY-MM-DD`；不要用 UTC 的 `toISOString().slice(0, 10)`。
 
-## 2. 新增事项模板 / 导入事项
+## 2. 事项模板与字段
 
 事项模板在 UI 里创建：日历 header「模板」->「新建模板」。
 
-模板字段：
+数值模板字段：
 
 | 字段 | 含义 |
 | --- | --- |
-| `code` | 唯一键，自动生成，创建后只读 |
+| `code` | 唯一键，自动生成，创建后稳定 |
 | `title` | 日历与图表显示名 |
 | `kind` | `number` / `text` |
-| `unit` | 数值单位，文本为空 |
-| `color` | 日历色点 + 图表颜色 |
-| `desc` | 说明 |
-| `sortOrder` | 全局顺序，模板列表拖拽维护 |
+| `unit` | 兼容默认单位 |
+| `color` | 日历色点 + 默认字段色 |
+| `fields` | 数值字段数组；文本为空 |
+| `desc` / `sortOrder` | 说明 / 全局顺序 |
 
-事项数据导入：
-
-- 模板表单底部「导入数据」。
-- 支持 JSON / CSV。
-- JSON 支持：
-  - `{"logs":[{"dayStr":"20231019","value":87.8}]}`
-  - `[{"date":"2023-10-19","value":87.8}]`
-  - `{"2023-10-19":87.8}`
-  - `{"2023-10-19":{"weight":87.8}}`
-- CSV 支持 `date,value` 或 `日期,值` 表头；也支持制表符分隔。
-- 导入按日期覆盖当前模板的值，不删除其他模板；空值、无效数字、非法日期跳过。
-- 导入只改草稿，仍需点模板弹窗「完成」才写盘。
-- 如果模板已有记录，类型（数值/文本）会锁定，导入前先确认类型。
-
-## 3. 新增图表模板
-
-图表模板在图表区「图表模板」里创建。一个模板只绑定一个事项。
-
-字段：
+`NumericField`：
 
 ```ts
+{
+  code, label, unit, color,
+  kind: "input" | "formula",
+  formula?: string,
+  showInCalendar: boolean
+}
+```
+
+- 手动字段存事件值；公式字段由 `lib/formula.ts` 实时计算，支持 `+ - * / ( )` 和字段引用，不使用 `eval`。
+- 公式字段不写入事件数据；例如饮食热量 `carbs * 4 + protein * 4 + fat * 9`。
+- 单输入字段事件保持标量；多输入字段存 `{ fieldCode: number }`。旧单值数据继续兼容。
+- 新增字段时旧标量映射到第一个 input 字段；数据规范化在 `normalizeCalendarData`。
+- 日历显示用 `showInCalendar` 过滤；多字段事件会占用整行，避免两列截断。
+- 字段 code 不要手改；字段 label/unit/color 可改。
+
+事项导入/导出：
+
+- 模板表单「导入数据」/「导出数据」。
+- JSON 支持 `logs`、对象数组、日期映射、多字段对象；CSV 支持 `date,value` 或多字段列。
+- 导入按日期覆盖当前模板，保留同日其他事项；空值/无效值跳过；只改草稿，点「完成」写盘。
+- 公式字段不导入，读取时计算。
+- 完整备份见 `features/backup/backup.ts`，导入直接覆盖日历 + 图表。
+
+## 3. 图表模板
+
+图表模板在图表区「图表模板」里创建。一个模板只绑定一个事项；当前不做多事项同图。
+
+```ts
+type ChartSeriesSpec = {
+  fieldCode: string;
+  operation: "raw" | "rolling" | "cumulative" | "deltaFromStart" | "percentChange";
+  window?: number;
+};
+
 type ChartTemplate = {
   code: string;
   title: string;
   eventCode: string;
   kind: "numeric" | "text";
   chartType: "line" | "bar" | "area" | "table" | "distribution";
-  metrics: Array<"daily" | "avg7" | "avg30" | "changeRate">;
+  series?: ChartSeriesSpec[];
+  stacked?: boolean;
+  // 兼容旧数据：metrics?: NumericMetricCode[]
   desc: string;
   sortOrder: number;
 };
@@ -77,87 +95,58 @@ type ChartTemplate = {
 
 修改位置：
 
-1. `features/charts/data/types.ts`
-   - `ChartType` / `ChartTemplate` / `ChartTemplateKind`
-   - `NUMERIC_CHART_TYPES` / `TEXT_CHART_TYPES`
-   - `normalizeChartTemplate`
-   - `validateChartTemplateDraft`
-2. `features/charts/ChartTemplateModal.tsx`
-   - 表单字段、图表类型选项、指标选项
-   - 新建默认值、删除提示
-3. `features/charts/lib/widgetLayout.ts`
-   - `CHART_TYPE_LABELS` / `METRIC_LABELS`
-4. `features/charts/components/ChartCard.tsx`
-   - 现在承载真实图表渲染；数据构建在 `lib/chartData.ts`。
-5. `features/charts/data/types.test.ts`
-   - 如果改了使用计数、规范化或删除逻辑，补测试。
+1. `features/charts/data/types.ts`：`ChartSeriesSpec`、`getChartSeries`、规范化、校验。
+2. `features/charts/ChartTemplateModal.tsx`：系列行（字段/操作/窗口）、堆叠开关、文本类型。
+3. `features/charts/lib/chartData.ts`：按字段 + 操作生成数据。
+4. `features/charts/lib/echartsOption.ts`：图例、颜色、堆叠、tooltip、缩放。
+5. `features/charts/components/ChartCard.tsx`：字段单位、系列数、临时类型/堆叠切换、重置。
+6. 测试：`chartData.test.ts` / `echartsOption.test.ts`。
 
 规则：
 
-- 数值事项：`line` / `bar` / `area`。
-- 文本事项：`table` / `distribution`。
-- `changeRate` 必须单独使用，不能和 `daily` / `avg7` / `avg30` 混。
-- 图表模板删除时按案例去重计数，并清空所有案例中的对应图表。
-- 图表模板列表用 dnd-kit 排序，改写 `sortOrder`；排序只改草稿，点「完成」保存。
-- 事项模板删除后不要删图表模板；保留并显示「引用的事项已删除」。
-- 新增图表类型时，同时更新类型、标签、表单选项、渲染分支和测试。
+- 数值事项支持 `line|bar|area`；文本支持 `table|distribution`。
+- `raw` 只取当天值；`rolling` 用自定义窗口并允许回看案例前；`cumulative` 是案例内累计合计；`deltaFromStart` 是相对案例首个记录的变化；`percentChange` 只独立成图。
+- 同一张图只允许同单位字段；`g` 和 `kcal` 分图。
+- 多字段默认用字段颜色；同字段多操作使用主题色板 + 线型区分，图例名称带统计方式和窗口。
+- 图表模板删除按案例去重提示，并清空所有案例中的对应图表；草稿同步清理。
+- 事项模板删除后保留图表并显示「引用的事项已删除」。
+- 基础分析预设（累计、月/周变化、周内平均、分布、日历热力图、记录质量）尚未实现，后续基于这套通用系列扩展，不要写死体重/饮食。
 
-## 4. 新增块规则
+## 4. 块
 
 块在案例编辑器里创建，没有全局块模板库。
 
-字段：
+通用聚合：
 
 ```ts
 type BlockRule = {
   type:
     | "fixed"
     | "latest"
+    | "first"
+    | "sum"
+    | "average"
     | "max"
     | "min"
-    | "loss"
-    | "change"
-    | "bmi"
-    | "distanceToTarget";
+    | "count"
+    | "streak"
+    | "delta";
+  fieldCode?: string;
+  direction?: "last-first" | "first-last";
   value?: string;
   unit?: string;
   range?: { type: "case" } | { type: "all" } | { type: "lastDays"; days: number };
-  heightCm?: number;
-  target?: number;
 };
 ```
 
-修改位置：
+- `fieldCode` 选择字段（含公式字段）；文本事项支持 `latest`/`count`。
+- `delta` 方向：`last-first` 或 `first-last`。
+- 旧 `loss/change/bmi/distanceToTarget` 只作兼容读取；BMI/距离目标应改成公式字段 + `latest`。
+- 范围 `case` 使用案例有效范围；`all` 全部历史；`lastDays` 以案例结束日前最后记录为终点，允许回看案例开始前。
+- 计算在 `lib/blockRules.ts`，保持纯函数并配 `blockRules.test.ts`。
+- 旧数据迁移：BMI/距离目标块已转成公式字段 + `latest`；旧块仍能读取。
 
-1. `features/charts/data/types.ts`
-   - `BlockRuleType`
-   - `BLOCK_RULE_TYPES`
-   - `normalizeRule`
-2. `features/charts/BlockEditorDialog.tsx`
-   - `RULE_LABELS`
-   - `NUMERIC_RULES` / `availableRules`
-   - 规则专属字段、校验、预览
-3. `features/charts/lib/blockRules.ts`
-   - `resolveBlockResult` 的 switch
-   - `blockRangeDescription`
-4. `features/charts/lib/blockRules.test.ts`
-   - 至少覆盖正常值、空数据、范围回看、缺失参数、文本事项限制。
-
-规则语义：
-
-- `fixed`：不绑定事项；必须有值；单位可选。
-- `latest`：范围内最后一条记录；文本事项只支持这个数值规则。
-- `max` / `min`：范围内数值最大/最小。
-- `loss`：范围内 `第一条 - 最后一条`。
-- `change`：范围内 `最后一条 - 第一条`。
-- `bmi`：`最后一条体重 / 身高(m)^2`。
-- `distanceToTarget`：`最后一条 - 目标值`。
-- 范围 `case`：跟随案例起止日期。
-- 范围 `all`：全部历史，卡片显示「全部历史」和「含回看」。
-- 范围 `lastDays`：以案例结束日前最后一条记录为终点，向前 N 天；允许回看到案例开始前，不能超过案例结束日。
-- 所有计算实时读取日历数据，不把结果写进图表数据。
-
-## 5. 图表渲染（5b 已完成）
+## 5. 图表渲染
 
 入口：
 
@@ -169,37 +158,13 @@ ChartCard
     -> TextDistribution（distribution）
 ```
 
-文件：
-
-- `components/ChartCard.tsx`：标题、事项、类型切换、重置按钮、渲染容器。
-- `components/charts/ChartRenderer.tsx`：按 `kind` / `chartType` 分发；数值图表用 `React.lazy` 加载 ECharts。
-- `components/charts/EChart.tsx`：ECharts init / setOption / ResizeObserver / dispose；按需注册组件。
-- `components/charts/TextTable.tsx`：日期 × 值表格，内部滚动。
-- `components/charts/TextDistribution.tsx`：文本值计数横向条。
-- `lib/chartData.ts`：纯数据构建。
-- `lib/echartsOption.ts`：ECharts option、dataZoom、tooltip、坐标轴、柱状零基线。
-- 根依赖 `echarts`；不要引入 `echarts-for-react`。
-
-数据口径：
-
-- `daily`：只取当天值，空值不补 0。
-- `avg7` / `avg30`：每个案例日取向前 N 天平均，允许回看案例开始前；x 轴仍按案例区间。
-- `changeRate`：只在有记录的日期计算，使用上一条记录，单位 `%`。
-- 文本：只取案例区间内的字符串；表格按日期，分布按出现次数排序。
-- 空区间 / 无数据：显示「区间内暂无数据」。
-- `daily` 用事项颜色，其他指标用主题色板的不同颜色；实线/虚线/点线辅助区分，图例带颜色。
-- 柱状图以 0 为基线；折线/面积按数据范围缩放。
-- 横轴范围固定为案例起止日期；未来日期没有数据点但保留轴范围。
-- 交互：滚轮缩放、拖拽平移、底部 slider、重置缩放；折线/柱状/面积切换只临时生效。
-- ECharts 动画先关闭；主题阶段再统一定义图表主题和 token。
-
-新增一种数值图表类型时：
-
-1. `ChartType` / `NUMERIC_CHART_TYPES` / `validateChartTemplateDraft`。
-2. `ChartTemplateModal` 的类型选项。
-3. `CHART_TYPE_LABELS`。
-4. `ChartRenderer` 分发分支和实际渲染组件。
-5. `chartData.test.ts` 覆盖数据构建；`echartsOption.test.ts` 覆盖 series 类型、缩放、零基线。
+- `EChart.tsx`：ECharts init / setOption / ResizeObserver / dispose；按需注册。
+- `chartData.ts`：通用系列数据构建。
+- `echartsOption.ts`：option、dataZoom、tooltip、坐标轴、堆叠。
+- `caseRange.ts`：`rangeMode` 有效范围；图表、块、`lastDays` 共用。
+- 图表交互：滚轮缩放、拖拽平移、slider、重置、类型切换、堆叠切换。
+- ECharts 动画由 `useReducedMotion` 控制；主题通过 `getChartTheme` / `resolveThemeColor` 同步。
+- 文本图表继续用 React 表格/分布，不进 ECharts。
 
 ## 6. 主题系统
 
@@ -218,7 +183,7 @@ ChartCard
 - 新组件只使用 token：`paper`、`sheet`、`ink`、`rule`、`blueprint`、`blueprint-soft`、`signal`、`muted-foreground`、`destructive`。
 - 标题用 `--font-display`；控件圆角用 `--radius-control`；浮层阴影用 `--shadow-panel`。
 - 不要在新组件里写死十六进制色值。
-- ECharts canvas 不读 CSS 变量；`ChartCard` 用 `getChartTheme(theme)` 同步 option，Night 用 `resolveChartColor` 提亮事件色。
+- ECharts canvas 不读 CSS 变量；`ChartCard` 用 `getChartTheme(theme)` 同步 option，深色主题用 `resolveThemeColor` 提亮字段色。
 - 主题选择只存浏览器，不影响 `datas/*.json`。
 
 新增主题步骤：

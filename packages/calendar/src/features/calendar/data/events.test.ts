@@ -114,7 +114,26 @@ describe("calendar events", () => {
   });
 
   it("formats values with units", () => {
-    expect(formatEventValue({ kind: "number", unit: "kg" }, 75.2)).toBe("75.2 kg");
-    expect(formatEventValue({ kind: "text", unit: "" }, "平静")).toBe("平静");
+    expect(formatEventValue({ kind: "number", title: "体重", unit: "kg", color: "#000", fields: [] }, 75.2)).toBe("75.2 kg");
+    expect(formatEventValue({ kind: "text", title: "心情", unit: "", color: "#000", fields: [] }, "平静")).toBe("平静");
+  });
+
+  it("紧凑格式化多字段和公式字段", () => {
+    const template = {
+      kind: "number" as const,
+      title: "饮食",
+      unit: "kcal",
+      color: "#f97316",
+      fields: [
+        { code: "carbs", label: "碳水", unit: "g", color: "#0f766e", kind: "input" as const, showInCalendar: true },
+        { code: "protein", label: "蛋白质", unit: "g", color: "#b45309", kind: "input" as const, showInCalendar: true },
+        { code: "fat", label: "脂肪", unit: "g", color: "#7c3aed", kind: "input" as const, showInCalendar: true },
+        { code: "calories", label: "热量", unit: "kcal", color: "#c2410c", kind: "formula" as const, formula: "carbs*4+protein*4+fat*9", showInCalendar: true },
+      ],
+    };
+
+    expect(
+      formatEventValue(template, { carbs: 180, protein: 120, fat: 60 }),
+    ).toBe("180/120/60g·1740kcal");
   });
 });

@@ -2,13 +2,15 @@ import type { EChartsCoreOption } from "echarts/core";
 
 import {
   DEFAULT_CHART_THEME,
-  getMetricColor,
+  resolveThemeColor,
   type ChartTheme,
 } from "@/features/theme/theme";
 
-import type { NumericMetricCode } from "../data/types";
+import type {
+  NumericSeriesOperation,
+} from "../data/types";
 import type { NumericChartData } from "./chartData";
-import { METRIC_LABELS } from "./widgetLayout";
+
 
 export type NumericViewType = "line" | "bar" | "area";
 
@@ -18,6 +20,7 @@ type NumericChartOptionInput = {
   color: string;
   theme?: ChartTheme;
   animate?: boolean;
+  stacked?: boolean;
 };
 
 type TooltipItem = {
@@ -33,13 +36,14 @@ const FONT_MONO =
   '"IBM Plex Mono", "SFMono-Regular", "SF Mono", ui-monospace, monospace';
 
 const SERIES_STYLE: Record<
-  NumericMetricCode,
+  NumericSeriesOperation,
   { opacity: number; dash?: "solid" | "dashed" | "dotted" }
 > = {
-  daily: { opacity: 1 },
-  avg7: { opacity: 1, dash: "dashed" },
-  avg30: { opacity: 1, dash: "dotted" },
-  changeRate: { opacity: 1 },
+  raw: { opacity: 1 },
+  rolling: { opacity: 1, dash: "dashed" },
+  cumulative: { opacity: 1, dash: "dotted" },
+  deltaFromStart: { opacity: 1, dash: "dashed" },
+  percentChange: { opacity: 1 },
 };
 
 function formatAxisValue(value: number): string {
@@ -104,6 +108,7 @@ export function buildNumericChartOption({
   color,
   theme = DEFAULT_CHART_THEME,
   animate = true,
+  stacked = false,
 }: NumericChartOptionInput): EChartsCoreOption {
   const firstDate = data.dates[0] ?? "";
   const lastDate = data.dates[data.dates.length - 1] ?? "";
@@ -120,11 +125,32 @@ export function buildNumericChartOption({
   const min = isBar ? Math.min(0, data.min) : data.min;
   const max = isBar ? Math.max(0, data.max) : data.max;
 
+  const fieldCounts = new Map<string, number>();
+
+  for (const item of data.series) {
+    fieldCounts.set(
+      item.fieldCode,
+      (fieldCounts.get(item.fieldCode) ?? 0) + 1,
+    );
+  }
+
   const series = data.series.map((item) => {
-    const style = SERIES_STYLE[item.metric];
-    const seriesColor = getMetricColor(theme, item.metric, color);
+    const style = SERIES_STYLE[item.operation];
+    const multipleForField =
+      (fieldCounts.get(item.fieldCode) ?? 0) > 1;
+    const baseColor = resolveThemeColor(theme, item.color || color);
+    const seriesColor =
+      multipleForField && item.operation !== "raw"
+        ? item.operation === "rolling"
+          ? (item.window ?? 7) <= 7
+            ? theme.avg7
+            : theme.avg30
+          : item.operation === "percentChange"
+            ? theme.changeRate
+            : theme.avg30
+        : baseColor;
     const base = {
-      name: METRIC_LABELS[item.metric],
+      name: item.label,
       data: item.points.map((point) => point.value),
       color: seriesColor,
       itemStyle: {
@@ -142,6 +168,7 @@ export function buildNumericChartOption({
         type: "bar" as const,
         barMaxWidth: 10,
         barGap: "12%",
+        ...(stacked ? { stack: "total" } : {}),
         itemStyle: {
           color: seriesColor,
           opacity: style.opacity,
@@ -156,7 +183,8 @@ export function buildNumericChartOption({
       showSymbol: item.points.length <= 120,
       symbol: "circle",
       symbolSize: 3,
-      connectNulls: item.metric !== "changeRate",
+      connectNulls: item.operation !== "percentChange",
+      ...(stacked && chartType === "area" ? { stack: "total" } : {}),
       lineStyle: {
         color: seriesColor,
         width: 1.6,

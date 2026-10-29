@@ -150,7 +150,7 @@ describe("resolveBlockResult", () => {
       caseRange,
     );
 
-    expect(bmi).toMatchObject({ status: "ok", value: "24.2", unit: "" });
+    expect(bmi).toMatchObject({ status: "ok", value: "24.16", unit: "" });
     expect(distance).toMatchObject({ status: "ok", value: "4", unit: "kg" });
   });
 
@@ -213,5 +213,68 @@ describe("resolveBlockResult", () => {
     );
 
     expect(result.status).toBe("missing-params");
+  });
+});
+describe("generic block rules", () => {
+  function dietCalendar(): CalendarData {
+    const data = calendar();
+    data.templates.push({
+      code: "diet",
+      title: "饮食",
+      kind: "number",
+      unit: "kcal",
+      color: "#f97316",
+      desc: "",
+      sortOrder: 2,
+      fields: [
+        { code: "carbs", label: "碳水", unit: "g", color: "#0f766e", kind: "input", showInCalendar: true },
+        { code: "protein", label: "蛋白质", unit: "g", color: "#b45309", kind: "input", showInCalendar: true },
+        { code: "fat", label: "脂肪", unit: "g", color: "#7c3aed", kind: "input", showInCalendar: true },
+        {
+          code: "calories",
+          label: "热量",
+          unit: "kcal",
+          color: "#c2410c",
+          kind: "formula",
+          formula: "carbs * 4 + protein * 4 + fat * 9",
+          showInCalendar: true,
+        },
+      ],
+    });
+    data.events["2026-08-01"] = { diet: { carbs: 180, protein: 120, fat: 60 } };
+    data.events["2026-08-02"] = { diet: { carbs: 160, protein: 110, fat: 50 } };
+    data.events["2026-08-03"] = { diet: { carbs: 200, protein: 130, fat: 70 } };
+    return data;
+  }
+
+  it("按字段计算合计、平均和连续记录", () => {
+    const sum = resolveBlockResult(
+      block(
+        { type: "sum", fieldCode: "calories", range: { type: "case" } },
+        "diet",
+      ),
+      dietCalendar(),
+      caseRange,
+    );
+    const average = resolveBlockResult(
+      block(
+        { type: "average", fieldCode: "carbs", range: { type: "case" } },
+        "diet",
+      ),
+      dietCalendar(),
+      caseRange,
+    );
+    const streak = resolveBlockResult(
+      block(
+        { type: "streak", fieldCode: "carbs", range: { type: "case" } },
+        "diet",
+      ),
+      dietCalendar(),
+      caseRange,
+    );
+
+    expect(sum).toMatchObject({ status: "ok", value: "5220" });
+    expect(average).toMatchObject({ status: "ok", value: "180" });
+    expect(streak).toMatchObject({ status: "ok", value: "3", unit: "天" });
   });
 });

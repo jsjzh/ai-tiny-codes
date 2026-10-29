@@ -16,9 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type {
-  CalendarData,
-  CalendarTemplate,
+import {
+  getNumericFields,
+  type CalendarData,
+  type CalendarTemplate,
 } from "@/features/calendar/data/types";
 
 import {
@@ -48,17 +49,33 @@ const inputClass =
 const RULE_LABELS: Record<BlockRuleType, string> = {
   fixed: "固定值",
   latest: "最新值",
+  first: "最早值",
+  sum: "合计",
+  average: "平均值",
   max: "最大值",
   min: "最小值",
-  loss: "累计减重",
-  change: "区间变化",
-  bmi: "BMI",
-  distanceToTarget: "距离目标",
+  count: "记录数",
+  streak: "连续记录",
+  delta: "区间变化",
+  loss: "累计减重（旧）",
+  change: "区间变化（旧）",
+  bmi: "BMI（旧）",
+  distanceToTarget: "距离目标（旧）",
 };
 
-const NUMERIC_RULES: BlockRuleType[] = [
+const GENERIC_NUMERIC_RULES: BlockRuleType[] = [
+  "latest",
+  "first",
+  "sum",
+  "average",
   "max",
   "min",
+  "count",
+  "streak",
+  "delta",
+];
+
+const LEGACY_RULES: BlockRuleType[] = [
   "loss",
   "change",
   "bmi",
@@ -91,6 +108,18 @@ export function BlockEditorDialog({
     initialBlock?.rule.type ?? "latest",
   );
   const [eventCode, setEventCode] = useState(initialEventCode);
+  const initialEvent = templates.find(
+    (template) => template.code === initialEventCode,
+  );
+  const initialFields = initialEvent
+    ? getNumericFields(initialEvent)
+    : [];
+  const [fieldCode, setFieldCode] = useState(
+    initialBlock?.rule.fieldCode ?? initialFields[0]?.code ?? "",
+  );
+  const [deltaDirection, setDeltaDirection] = useState<
+    "last-first" | "first-last"
+  >(initialBlock?.rule.direction ?? "last-first");
   const [rangeType, setRangeType] = useState<
     BlockRange["type"]
   >(initialBlock?.rule.range?.type ?? "case");
@@ -98,16 +127,7 @@ export function BlockEditorDialog({
     initialBlock?.rule.range?.type === "lastDays"
       ? String(initialBlock.rule.range.days)
       : "30",
-  );
-  const [heightCm, setHeightCm] = useState(
-    initialBlock?.rule.heightCm ? String(initialBlock.rule.heightCm) : "175",
-  );
-  const [target, setTarget] = useState(
-    initialBlock?.rule.target !== undefined
-      ? String(initialBlock.rule.target)
-      : "70",
-  );
-  const [fixedValue, setFixedValue] = useState(
+  );  const [fixedValue, setFixedValue] = useState(
     initialBlock?.rule.type === "fixed"
       ? initialBlock.rule.value ?? ""
       : "",
@@ -127,22 +147,22 @@ export function BlockEditorDialog({
     setTitle(initialBlock?.title ?? "新块");
     setInfo(initialBlock?.info ?? "");
     setRuleType(initialBlock?.rule.type ?? "latest");
-    setEventCode(initialBlock?.eventCode ?? templates[0]?.code ?? "");
+    const nextEventCode =
+      initialBlock?.eventCode ?? templates[0]?.code ?? "";
+    const nextEvent = templates.find(
+      (template) => template.code === nextEventCode,
+    );
+    setEventCode(nextEventCode);
+    setFieldCode(
+      initialBlock?.rule.fieldCode ??
+        (nextEvent ? getNumericFields(nextEvent)[0]?.code ?? "" : ""),
+    );
+    setDeltaDirection(initialBlock?.rule.direction ?? "last-first");
     setRangeType(initialBlock?.rule.range?.type ?? "case");
     setDays(
       initialBlock?.rule.range?.type === "lastDays"
         ? String(initialBlock.rule.range.days)
         : "30",
-    );
-    setHeightCm(
-      initialBlock?.rule.heightCm
-        ? String(initialBlock.rule.heightCm)
-        : "175",
-    );
-    setTarget(
-      initialBlock?.rule.target !== undefined
-        ? String(initialBlock.rule.target)
-        : "70",
     );
     setFixedValue(
       initialBlock?.rule.type === "fixed"
@@ -158,19 +178,46 @@ export function BlockEditorDialog({
   }, [open, initialBlock, templates]);
 
   const selectedEvent = findEvent(templates, eventCode);
+  const selectedFields =
+    selectedEvent?.kind === "number"
+      ? getNumericFields(selectedEvent)
+      : [];
   const availableRules: BlockRuleType[] = useMemo(() => {
-    if (!selectedEvent || selectedEvent.kind === "text") {
-      return ["fixed", "latest"];
+    if (!selectedEvent) {
+      return ["fixed"];
     }
 
-    return ["fixed", "latest", ...NUMERIC_RULES];
-  }, [selectedEvent]);
+    if (selectedEvent.kind === "text") {
+      return ["fixed", "latest", "count"];
+    }
+
+    const legacy =
+      initialBlock && LEGACY_RULES.includes(initialBlock.rule.type)
+        ? [initialBlock.rule.type]
+        : [];
+
+    return ["fixed", ...GENERIC_NUMERIC_RULES, ...legacy];
+  }, [selectedEvent, initialBlock]);
 
   useEffect(() => {
     if (!availableRules.includes(ruleType)) {
       setRuleType(availableRules[0] ?? "fixed");
     }
   }, [availableRules, ruleType]);
+
+  useEffect(() => {
+    if (selectedFields.length === 0) {
+      setFieldCode("");
+      return;
+    }
+
+    if (!selectedFields.some((field) => field.code === fieldCode)) {
+      setFieldCode(
+        selectedFields.find((field) => field.kind === "input")?.code ??
+          selectedFields[0].code,
+      );
+    }
+  }, [selectedFields, fieldCode]);
 
   function buildRule(): BlockRule | null {
     if (ruleType === "fixed") {
@@ -193,25 +240,11 @@ export function BlockEditorDialog({
           }
         : { type: rangeType };
 
-    if (ruleType === "bmi") {
-      return {
-        type: "bmi",
-        range,
-        heightCm: Number(heightCm) || undefined,
-      };
-    }
-
-    if (ruleType === "distanceToTarget") {
-      return {
-        type: "distanceToTarget",
-        range,
-        target: target.trim() === "" ? undefined : Number(target),
-      };
-    }
-
     return {
       type: ruleType,
       range,
+      fieldCode: selectedEvent?.kind === "number" ? fieldCode : undefined,
+      direction: ruleType === "delta" ? deltaDirection : undefined,
     };
   }
 
@@ -255,16 +288,12 @@ export function BlockEditorDialog({
       return;
     }
 
-    if (ruleType === "bmi" && (!Number(heightCm) || Number(heightCm) <= 0)) {
-      setFormError("请填写有效身高");
-      return;
-    }
-
     if (
-      ruleType === "distanceToTarget" &&
-      (target.trim() === "" || !Number.isFinite(Number(target)))
+      ruleType !== "fixed" &&
+      selectedEvent?.kind === "number" &&
+      !fieldCode
     ) {
-      setFormError("请填写有效目标值");
+      setFormError("请选择数值字段");
       return;
     }
 
@@ -393,6 +422,63 @@ export function BlockEditorDialog({
               </label>
             </div>
 
+            {ruleType !== "fixed" && selectedEvent?.kind === "number" ? (
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    数值字段
+                  </span>
+                  <Select
+                    value={fieldCode}
+                    onValueChange={setFieldCode}
+                  >
+                    <SelectTrigger
+                      aria-label="选择块数值字段"
+                      className="h-9 w-full border border-rule bg-sheet px-2.5 text-sm"
+                    >
+                      <SelectValue placeholder="选择字段" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {selectedFields.map((field) => (
+                        <SelectItem key={field.code} value={field.code}>
+                          {field.label}
+                          {field.unit ? ` · ${field.unit}` : ""}
+                          {field.kind === "formula" ? " · 公式" : ""}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </label>
+
+                {ruleType === "delta" ? (
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      方向
+                    </span>
+                    <Select
+                      value={deltaDirection}
+                      onValueChange={(value) =>
+                        setDeltaDirection(
+                          value as "last-first" | "first-last",
+                        )
+                      }
+                    >
+                      <SelectTrigger
+                        aria-label="选择区间变化方向"
+                        className="h-9 w-full border border-rule bg-sheet px-2.5 text-sm"
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="last-first">末值 - 首值</SelectItem>
+                        <SelectItem value="first-last">首值 - 末值</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </label>
+                ) : null}
+              </div>
+            ) : null}
+
             {ruleType === "fixed" ? (
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <label className="flex flex-col gap-1.5">
@@ -454,36 +540,6 @@ export function BlockEditorDialog({
                       min={1}
                       value={days}
                       onChange={(event) => setDays(event.target.value)}
-                      className={inputClass}
-                    />
-                  </label>
-                ) : null}
-
-                {ruleType === "bmi" ? (
-                  <label className="flex flex-col gap-1.5">
-                    <span className="text-xs font-medium text-muted-foreground">
-                      身高 cm
-                    </span>
-                    <input
-                      type="number"
-                      step="any"
-                      value={heightCm}
-                      onChange={(event) => setHeightCm(event.target.value)}
-                      className={inputClass}
-                    />
-                  </label>
-                ) : null}
-
-                {ruleType === "distanceToTarget" ? (
-                  <label className="flex flex-col gap-1.5">
-                    <span className="text-xs font-medium text-muted-foreground">
-                      目标值
-                    </span>
-                    <input
-                      type="number"
-                      step="any"
-                      value={target}
-                      onChange={(event) => setTarget(event.target.value)}
                       className={inputClass}
                     />
                   </label>

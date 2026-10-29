@@ -14,6 +14,7 @@ import type {
   CalendarEventValue,
   CalendarTemplate,
 } from "@/features/calendar/data/types";
+import { formatEventValue } from "@/features/calendar/data/events";
 
 import {
   parseEventImport,
@@ -214,8 +215,7 @@ export function ImportEventsDialog({
                               {row.date}
                             </td>
                             <td className="px-3 py-2 font-mono">
-                              {String(row.value)}
-                              {template.unit ? ` ${template.unit}` : ""}
+                              {formatEventValue(template, row.value)}
                             </td>
                           </tr>
                         ))}

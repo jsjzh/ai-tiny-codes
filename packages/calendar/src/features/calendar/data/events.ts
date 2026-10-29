@@ -1,8 +1,13 @@
 import {
+  getInputFieldValues,
+  getNumericFields,
+  resolveNumericFieldValues,
   sortTemplates,
+  toStoredNumericValue,
   type CalendarData,
   type CalendarEventValue,
   type CalendarTemplate,
+  type NumericField,
   type TemplateKind,
 } from "./types";
 
@@ -13,6 +18,7 @@ export type CalendarEventDisplay = {
   unit: string;
   color: string;
   sortOrder: number;
+  fields: NumericField[];
   value: CalendarEventValue;
   date?: string;
 };
@@ -33,7 +39,8 @@ export function isEventValueValid(
   value: CalendarEventValue,
 ): boolean {
   if (template.kind === "number") {
-    return typeof value === "number" && Number.isFinite(value);
+    const values = getInputFieldValues(template, value);
+    return Object.keys(values).length > 0;
   }
 
   return typeof value === "string" && value.trim().length > 0;
@@ -58,18 +65,55 @@ export function parseEventInput(
 }
 
 export function formatEventInputValue(value: CalendarEventValue): string {
+  if (value && typeof value === "object") {
+    return Object.values(value).join(" / ");
+  }
+
   return String(value);
 }
 
 export function formatEventValue(
-  template: Pick<CalendarTemplate, "kind" | "unit">,
+  template: Pick<CalendarTemplate, "kind" | "title" | "unit" | "color" | "fields">,
   value: CalendarEventValue,
 ): string {
-  if (template.kind === "number") {
-    return `${value}${template.unit ? ` ${template.unit}` : ""}`;
+  if (template.kind === "text") {
+    return String(value);
   }
 
-  return String(value);
+  const fields = getNumericFields(template).filter(
+    (field) => field.showInCalendar,
+  );
+  const values = resolveNumericFieldValues(template, value);
+  const fallbackFields =
+    fields.length > 0
+      ? fields
+      : getNumericFields(template).slice(0, 1);
+  const groups: Array<{ unit: string; values: string[] }> = [];
+
+  for (const field of fallbackFields) {
+    const numeric = values[field.code];
+    const text =
+      typeof numeric === "number" && Number.isFinite(numeric)
+        ? String(Number(numeric.toFixed(2)))
+        : "--";
+    const last = groups[groups.length - 1];
+
+    if (last && last.unit === field.unit) {
+      last.values.push(text);
+    } else {
+      groups.push({ unit: field.unit, values: [text] });
+    }
+  }
+
+  const multipleFields = fallbackFields.length > 1;
+
+  return groups
+    .map((group) =>
+      multipleFields
+        ? `${group.values.join("/")}${group.unit}`
+        : `${group.values.join("/")}${group.unit ? ` ${group.unit}` : ""}`,
+    )
+    .join(multipleFields ? "·" : " · ");
 }
 
 export function getEventsForDate(
@@ -91,6 +135,7 @@ export function getEventsForDate(
       unit: template.unit,
       color: template.color,
       sortOrder: template.sortOrder,
+      fields: getNumericFields(template),
       value: day[template.code],
     }));
 }
@@ -133,9 +178,22 @@ export function upsertEvents(data: CalendarData, updates: EventUpdate[]): Calend
       throw new Error(`「${template.title}」的值类型不正确`);
     }
 
+    let stored = update.value;
+
+    if (template.kind === "number") {
+      const values = getInputFieldValues(template, update.value);
+      const numericValue = toStoredNumericValue(template, values);
+
+      if (numericValue === null) {
+        throw new Error(`「${template.title}」的值类型不正确`);
+      }
+
+      stored = numericValue;
+    }
+
     events[update.date] = {
       ...(events[update.date] ?? {}),
-      [update.code]: update.value,
+      [update.code]: stored,
     };
   }
 

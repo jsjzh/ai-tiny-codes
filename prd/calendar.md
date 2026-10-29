@@ -147,6 +147,14 @@
    6. 弹窗统一使用 session draft：打开时复制当前数据，所有编辑只改草稿；“完成”时写盘并统一刷新日历/图表；X 放弃草稿。
    7. 图表模板和事项模板分开存储，图表模板通过 `eventCode` 关联事项模板；案例通过 `eventCodes` 筛选图表模板。
 
+## 通用化补充
+
+- 数值模板支持 `fields`：手动字段和公式字段；公式只做安全四则运算/字段引用，不写回事件。
+- 单输入字段事件保持标量；多输入字段事件存字段对象。饮食热量用公式示例，BMI/距离目标也迁移成公式字段。
+- 图表模板用 `series: { fieldCode, operation, window? }[]`，不再固定每日/7 日均/30 日均；支持 raw、rolling、cumulative、deltaFromStart、percentChange。
+- 块用字段 + 通用聚合，不再新增 BMI/距离目标等专用规则；旧规则兼容读取。
+- 案例增加 `rangeMode: custom | all`；全部历史自动取所选事项的数据范围。
+
 ## 实现进度
 
 - [x] 阶段 1：日历框架（满屏月历、固定 6 行、前后相邻周、年月选择、上下月、回到今日、非本月淡化）
@@ -160,3 +168,8 @@
 - [x] 动画（section reveal、案例切换、卡片 stagger、ECharts、count-up、拖拽反馈、弹窗、reduced-motion）
 - [x] 数据备份（完整日历 + 图表 JSON 导出、覆盖导入、单事项导出）
 - [x] 图表模板拖拽排序（写回 sortOrder）
+- [x] 通用字段/公式字段、多值事件、字段级编辑与表达式
+- [x] 案例全部历史范围（rangeMode all 自动取数据范围）
+- [x] 通用图表系列（raw/rolling/cumulative/deltaFromStart/percentChange）与通用块聚合
+- [x] BMI/距离目标迁移为公式字段 + latest
+- [ ] 基础分析预设（累计、月/周变化、周内平均、分布、记录热力图、记录质量）

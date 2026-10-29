@@ -202,18 +202,18 @@ function parseHexColor(color: string): [number, number, number] | null {
   ];
 }
 
-export function resolveChartColor(
-  theme: ThemeId,
-  eventColor: string,
+export function resolveThemeColor(
+  theme: ChartTheme,
+  color: string,
 ): string {
-  if (!getChartTheme(theme).isDark) {
-    return eventColor;
+  if (!theme.isDark) {
+    return color;
   }
 
-  const rgb = parseHexColor(eventColor);
+  const rgb = parseHexColor(color);
 
   if (!rgb) {
-    return eventColor;
+    return color;
   }
 
   const mix = (value: number) =>
@@ -222,6 +222,13 @@ export function resolveChartColor(
       .padStart(2, "0");
 
   return `#${mix(rgb[0])}${mix(rgb[1])}${mix(rgb[2])}`;
+}
+
+export function resolveChartColor(
+  theme: ThemeId,
+  eventColor: string,
+): string {
+  return resolveThemeColor(getChartTheme(theme), eventColor);
 }
 
 export function getMetricColor(
