@@ -68,7 +68,7 @@ export function CalendarView() {
 
       if (
         target.closest(
-          '[role="grid"], [role="menu"], [role="dialog"], [data-slot="dialog-overlay"]',
+          '[role="grid"], [role="menu"], [role="dialog"], [data-slot="dialog-overlay"], [data-ignore-selection]',
         )
       ) {
         return;

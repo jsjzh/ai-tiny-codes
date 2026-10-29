@@ -7,6 +7,11 @@ import {
 } from "lucide-react";
 
 import type { CalendarData } from "@/features/calendar/data/types";
+import {
+  getChartTheme,
+  resolveChartColor,
+} from "@/features/theme/theme";
+import { useTheme } from "@/features/theme/ThemeProvider";
 import { cn } from "@/lib/utils";
 
 import type { ChartTemplate } from "../data/types";
@@ -48,6 +53,8 @@ export function ChartCard({
   calendarData,
   caseRange,
 }: ChartCardProps) {
+  const { theme } = useTheme();
+  const chartTheme = getChartTheme(theme);
   const template = chartTemplates.find(
     (item) => item.code === chartTemplateCode,
   );
@@ -84,12 +91,14 @@ export function ChartCard({
     );
   }
 
+  const eventColor = resolveChartColor(theme, event.color);
+
   return (
     <div className="flex h-full min-h-0 flex-col p-3">
       <div className="flex min-w-0 shrink-0 items-center gap-2">
         <span
           className="size-2 shrink-0 border border-black/10"
-          style={{ backgroundColor: event.color }}
+          style={{ backgroundColor: eventColor }}
         />
         <span className="truncate text-sm font-medium text-ink">
           {template.title}
@@ -161,7 +170,8 @@ export function ChartCard({
           template={template}
           calendarData={calendarData}
           caseRange={caseRange}
-          color={event.color}
+          color={eventColor}
+          chartTheme={chartTheme}
           chartType={viewType}
           resetKey={resetKey}
         />

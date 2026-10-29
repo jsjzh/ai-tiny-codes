@@ -156,3 +156,4 @@
 - [x] 阶段 5a：图表框架（独立数据/API、图表模板、案例、槽位布局、块规则、拖拽、软失效）
 - [x] 事项数据导入（模板级 JSON / CSV 导入、按日期覆盖、草稿提交）
 - [x] 阶段 5b：图表渲染（折线/柱状/面积、文本对照表/分布、坐标轴与空数据状态）
+- [x] 主题系统（Blueprint / Warm / Night / Botanical / Swiss，header 切换器、localStorage、图表同步）

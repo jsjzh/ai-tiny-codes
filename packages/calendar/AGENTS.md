@@ -1,9 +1,9 @@
 # 项目：日历（calendar）
 
-Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b：图表渲染**；下一步主题与动画。
+Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系统**；下一步动画。
 
 扩展手册：`docs/EXTENDING.md`（新增事项/图表模板、块规则、图表渲染、导入格式）。
-待办：`TODO.md`（主题、动画、导入增强）。
+待办：`TODO.md`（动画、导入增强）。
 ## 运行
 
 - `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar` 和 `/api/charts`。
@@ -120,9 +120,22 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b：图表渲�
 - 柱状图以 0 为基线；折线/面积按数据范围缩放。多指标共用事项颜色，用实线/虚线/透明度区分，并显示图例。
 - `ChartCard` 只负责标题、事项、类型、图例和渲染容器；不要在这里写死数据计算。
 
+## 主题系统
+
+- `features/theme/theme.ts`：`ThemeId`、5 套主题定义、图表色板、默认主题、localStorage key、深色事件色提亮。
+- `ThemeProvider` 挂在 `App` 最外层；`useTheme` 提供 `theme` / `setTheme`。
+- 主题通过 `<html data-theme="...">` 生效；`index.html` 的内联脚本在首屏前读取 localStorage，避免闪烁。
+- `ThemeSwitcher` 在日历 header 右侧；入口带 `data-ignore-selection`，点击不会清空日期选择。
+- 5 套主题：`blueprint` 制图台、`warm` 暖纸编辑部、`night` 夜航仪表盘、`botanical` 苔原笔记、`swiss` 瑞士信号。
+- 颜色、字体、控件圆角、浮层阴影都在 `index.css` 用 token 定义；新组件不要写死颜色，用 `paper/sheet/ink/rule/blueprint/signal/muted-foreground` 等 token。
+- 标题字使用 `--font-display`；控件圆角用 `--radius-control`；浮层阴影用 `--shadow-panel`。
+- ECharts canvas 不继承 CSS 变量：`ChartCard` 必须通过 `getChartTheme(theme)` 把主题传给 `buildNumericChartOption`；深色主题用 `resolveChartColor` 提亮事件颜色。
+- 新增主题时同步：`THEME_DEFINITIONS`、`index.css` 的 `[data-theme]` token、`index.html` 内联脚本允许列表、图表色板、`TODO`/README。
+- 主题选择只存 localStorage，不写入日历/图表 JSON。
+
 ## Header
 
-- 三列 grid：`‹ 年 月 ›` 和「回到今日」居中；左右切换分列年月两侧；模板按钮最右；图表不放 header。
+- 三列 grid：`‹ 年 月 ›` 和「回到今日」居中；左右切换分列年月两侧；右侧为主题 + 模板按钮；图表不放 header。
 - 「回到今日」按钮：非本月时实心/可用，本月时 ghost + disabled。
 - 手机端模板按钮图标化；320px 下用 `max-[359px]` 紧凑尺寸，避免和模板按钮重叠。
 
@@ -133,13 +146,15 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b：图表渲�
 3. **模板 + 数据层 + 持久化（已完成）**：模板弹窗、全局拖拽排序、颜色选择、`calendar.json`、Vite API、session draft。
 4. **编辑 + 日历事项展示 + 事件 CRUD（已完成）**：单条/多条、逐日输入、非连续日期、勾选删除、动态两列、今天浅色、清空事件。
 5a. **图表框架（已完成）**：独立图表数据/API、图表模板、案例、槽位布局、块规则、原生拖拽、软失效。
-5b. **图表渲染（已完成）**：折线/柱状/面积、文本对照表/分布、坐标轴与案例区间、空数据状态。
+5b. **图表渲染（已完成）**：ECharts 折线/柱状/面积、文本对照表/分布、坐标轴与案例区间、缩放/平移/重置。
+6. **主题（已完成）**：5 套 token 主题、header 切换器、localStorage、ECharts 同步。
+7. **动画（下一阶段）**：图表/卡片/切换/拖拽/弹窗动效，尊重 reduced-motion。
 
 ## 当前阶段
 
-- 5b 图表渲染已完成；下一步按 `TODO.md` 做主题系统，再做动画。
+- 5b 与主题系统已完成；下一步按 `TODO.md` 做动画。
 - 图表模板与事项模板分开管理，通过 `eventCode` 关联；案例通过 `eventCodes` 过滤可用模板。
 
 ## 视觉
 
-制图台 / Blueprint：冷白纸、靛蓝、信号橙（选中态）、语义红（危险操作）、IBM Plex Sans + Mono、无圆角无阴影、满屏细线网格。今天为浅靛蓝底 + 靛蓝日期徽章；事项色点用明亮预设色，桌面显示单位、移动端只显示值。
+默认 Blueprint：冷白纸、靛蓝、信号橙（选中态）、语义红（危险操作）、IBM Plex Sans + Mono、无圆角无阴影、满屏细线网格。另有 Warm / Night / Botanical / Swiss；所有主题共用同一套组件 token，不写死颜色。事项色点用明亮预设色，桌面显示单位、移动端只显示值。

@@ -2,6 +2,8 @@ import { lazy, Suspense, useMemo } from "react";
 
 import type { CalendarData } from "@/features/calendar/data/types";
 
+import type { ChartTheme } from "@/features/theme/theme";
+
 import type { ChartTemplate } from "../../data/types";
 import {
   buildNumericChartData,
@@ -19,6 +21,7 @@ type ChartRendererProps = {
   calendarData: CalendarData;
   caseRange: ChartRange;
   color: string;
+  chartTheme: ChartTheme;
   chartType: NumericViewType;
   resetKey: number;
 };
@@ -28,6 +31,7 @@ export function ChartRenderer({
   calendarData,
   caseRange,
   color,
+  chartTheme,
   chartType,
   resetKey,
 }: ChartRendererProps) {
@@ -52,9 +56,10 @@ export function ChartRenderer({
             data: numericData,
             chartType,
             color,
+            theme: chartTheme,
           })
         : null,
-    [numericData, chartType, color],
+    [numericData, chartType, color, chartTheme],
   );
 
   if (template.kind === "text" && textData) {

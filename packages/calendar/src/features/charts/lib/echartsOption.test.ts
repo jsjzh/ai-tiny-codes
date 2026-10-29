@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { getChartTheme } from "@/features/theme/theme";
+
 import type { NumericChartData } from "./chartData";
 import { buildNumericChartOption } from "./echartsOption";
 
@@ -87,5 +89,21 @@ describe("buildNumericChartOption", () => {
     expect(option.series[0].areaStyle).toMatchObject({
       color: "#1d4ed8",
     });
+  });
+
+  it("使用主题色板", () => {
+    const option = buildNumericChartOption({
+      data: data(),
+      chartType: "line",
+      color: "#1d4ed8",
+      theme: getChartTheme("night"),
+    }) as {
+      tooltip: { backgroundColor: string; borderColor: string };
+      yAxis: { axisLabel: { color: string } };
+    };
+
+    expect(option.tooltip.backgroundColor).toBe("#161b22");
+    expect(option.tooltip.borderColor).toBe("#30363d");
+    expect(option.yAxis.axisLabel.color).toBe("#8b949e");
   });
 });

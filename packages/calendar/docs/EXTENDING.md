@@ -200,9 +200,37 @@ ChartCard
 4. `ChartRenderer` 分发分支和实际渲染组件。
 5. `chartData.test.ts` 覆盖数据构建；`echartsOption.test.ts` 覆盖 series 类型、缩放、零基线。
 
-## 6. 新增主题 / 动画
+## 6. 主题系统
 
-见 `TODO.md`。主题和动画排在图表渲染之后，不要现在改现有 Blueprint 视觉。
+主题入口在日历 header 右侧。切换后写入 `<html data-theme>` 和 localStorage；首屏内联脚本在 React 前恢复，避免闪白。
+
+文件：
+
+- `features/theme/theme.ts`：主题 ID、名称、色板、图表色板、默认值、localStorage、深色事件色提亮。
+- `features/theme/ThemeProvider.tsx`：`data-theme`、`color-scheme`、meta theme-color、持久化。
+- `features/theme/ThemeSwitcher.tsx`：header 菜单；入口带 `data-ignore-selection`，不触发日期选择清空。
+- `index.css`：`@theme` 默认 token + `[data-theme]` 覆盖。
+- `index.html`：首屏主题恢复脚本。
+
+约定：
+
+- 新组件只使用 token：`paper`、`sheet`、`ink`、`rule`、`blueprint`、`blueprint-soft`、`signal`、`muted-foreground`、`destructive`。
+- 标题用 `--font-display`；控件圆角用 `--radius-control`；浮层阴影用 `--shadow-panel`。
+- 不要在新组件里写死十六进制色值。
+- ECharts canvas 不读 CSS 变量；`ChartCard` 用 `getChartTheme(theme)` 同步 option，Night 用 `resolveChartColor` 提亮事件色。
+- 主题选择只存浏览器，不影响 `datas/*.json`。
+
+新增主题步骤：
+
+1. `THEME_IDS` / `THEME_DEFINITIONS` 加主题和 chart 色板。
+2. `index.css` 加 `[data-theme="..."]` token（颜色、字体、圆角、阴影、color-scheme）。
+3. `index.html` 内联允许列表加 ID。
+4. ThemeSwitcher 自动读取定义，无需再写列表。
+5. 视觉检查日历、图表、弹窗、移动端 320/390。
+
+## 7. 动画
+
+见 `TODO.md`。动画在主题之后做，优先轻量、尊重 `prefers-reduced-motion`。
 
 ## 7. 提交前检查
 

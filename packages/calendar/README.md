@@ -1,9 +1,9 @@
 # @ai-tiny-codes/calendar
 
-满屏月历与事项记录。当前完成**阶段 5b：图表渲染**；下一步主题与动画。
+满屏月历与事项记录。当前完成**阶段 5b + 主题系统**；下一步动画。
 
 - 扩展手册：[`docs/EXTENDING.md`](docs/EXTENDING.md)
-- 主题 / 动画待办：[`TODO.md`](TODO.md)
+- 动画待办：[`TODO.md`](TODO.md)
 ## 使用
 
 ```bash
@@ -35,9 +35,22 @@ pnpm calendar:test
 - 导入只改模板弹窗草稿，点「完成」才写盘；已有记录时类型会锁定。
 - 文件带单位而模板单位为空时，导入弹窗会提示补单位。
 
+## 主题
+
+- 日历 header 右侧「主题」入口，5 套主题：
+  - `blueprint` 制图台：冷白纸 / 靛蓝 / 信号橙（默认）
+  - `warm` 暖纸编辑部：燕麦纸 / 陶土 / 苔藓绿
+  - `night` 夜航仪表盘：近黑 / 石墨 / 电光蓝
+  - `botanical` 苔原笔记：鼠尾草 / 奶油白 / 黏土
+  - `swiss` 瑞士信号：纯白 / 黑 / 红
+- 主题用 `<html data-theme>` + CSS token 切换，存 localStorage；首屏内联脚本避免闪烁。
+- 标题字体、控件圆角、浮层阴影、颜色全部来自 token；新增组件不要写死颜色。
+- ECharts canvas 不继承 CSS 变量，图表配色由 `getChartTheme` 同步；Night 主题会自动提亮事项颜色。
+- 主题只影响显示，不写入日历/图表 JSON。
+
 ## 阶段 4 范围
 
-- Header：`‹ 年 月 ›` 和「回到今日」居中，模板按钮最右，图表不放在 header。
+- Header：`‹ 年 月 ›` 和「回到今日」居中，右侧为主题 + 模板按钮，图表不放在 header。
 - 「回到今日」：非本月时高亮可点，本月时弱化/禁用。
 - 日历事项展示：
   - 日期单独一行，`+N` 在左上角，日期固定在右上角；日期与事项之间保留平衡间距。
@@ -117,6 +130,10 @@ src/
       chartData.ts                # 图表数据构建（纯函数）
       echartsOption.ts            # ECharts option、缩放、tooltip
       widgetLayout.ts             # 高度与拖拽 MIME
+  features/theme/
+    theme.ts                      # 主题定义、图表色板、localStorage
+    ThemeProvider.tsx             # data-theme、持久化
+    ThemeSwitcher.tsx             # header 主题菜单
 server/
   dataPlugins.ts                  # GET/PUT /api/calendar + /api/charts
 datas/calendar/calendar.json      # 日历持久化数据
@@ -252,7 +269,7 @@ datas/charts/charts.json          # 图表持久化数据
 
 ## 设计
 
-制图台 / Blueprint：
+默认 Blueprint：
 
 - 主色：纸白 `#F7F8FA`、单元格 `#FFFFFF`、墨黑 `#101828`、分隔线 `#D5DAE3`、靛蓝 `#1D3A8A`、信号橙 `#FF5A1F`。
 - 字体：IBM Plex Sans（界面，中文回退 PingFang SC / 微软雅黑）+ IBM Plex Mono（年份与日期数字）。
@@ -260,6 +277,8 @@ datas/charts/charts.json          # 图表持久化数据
 - 选中态用 1px 橙色描边 + 淡橙底。
 - 今天浅靛蓝底 + 靛蓝日期徽章。
 - 事项色点使用明亮预设色；模板色同时用于图表。
+
+其他主题共用组件与 token，只替换颜色、标题字体、控件圆角、浮层阴影和图表配色。
 
 ## 数据持久化
 

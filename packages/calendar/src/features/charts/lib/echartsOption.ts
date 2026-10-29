@@ -1,5 +1,7 @@
 import type { EChartsCoreOption } from "echarts/core";
 
+import { DEFAULT_CHART_THEME, type ChartTheme } from "@/features/theme/theme";
+
 import type { NumericMetricCode } from "../data/types";
 import type { NumericChartData } from "./chartData";
 import { METRIC_LABELS } from "./widgetLayout";
@@ -10,6 +12,7 @@ type NumericChartOptionInput = {
   data: NumericChartData;
   chartType: NumericViewType;
   color: string;
+  theme?: ChartTheme;
 };
 
 type TooltipItem = {
@@ -23,10 +26,6 @@ const FONT_SANS =
   '"IBM Plex Sans Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif';
 const FONT_MONO =
   '"IBM Plex Mono", "SFMono-Regular", "SF Mono", ui-monospace, monospace';
-const INK = "#101828";
-const MUTED = "#667085";
-const RULE = "#d5dae3";
-const BLUEPRINT = "#1d3a8a";
 
 const SERIES_STYLE: Record<
   NumericMetricCode,
@@ -67,6 +66,7 @@ function formatTooltipValue(value: unknown, unit: string): string {
 function formatTooltip(
   params: TooltipItem | TooltipItem[],
   unit: string,
+  theme: ChartTheme,
 ): string {
   const items = Array.isArray(params) ? params : [params];
   const date = items[0]?.axisValueLabel ?? "";
@@ -79,8 +79,8 @@ function formatTooltip(
     )
     .join("");
 
-  return `<div style="min-width:148px;padding:8px 10px;font-family:${FONT_SANS};font-size:12px;color:${INK}">
-    <div style="margin-bottom:6px;color:${MUTED};font-family:${FONT_MONO};font-size:11px">${date}</div>
+  return `<div style="min-width:148px;padding:8px 10px;font-family:${FONT_SANS};font-size:12px;color:${theme.ink}">
+    <div style="margin-bottom:6px;color:${theme.muted};font-family:${FONT_MONO};font-size:11px">${date}</div>
     ${rows}
   </div>`;
 }
@@ -97,6 +97,7 @@ export function buildNumericChartOption({
   data,
   chartType,
   color,
+  theme = DEFAULT_CHART_THEME,
 }: NumericChartOptionInput): EChartsCoreOption {
   const firstDate = data.dates[0] ?? "";
   const lastDate = data.dates[data.dates.length - 1] ?? "";
@@ -169,7 +170,7 @@ export function buildNumericChartOption({
     animation: false,
     textStyle: {
       fontFamily: FONT_SANS,
-      color: INK,
+      color: theme.ink,
     },
     grid: {
       left: 42,
@@ -186,7 +187,7 @@ export function buildNumericChartOption({
       itemGap: 12,
       icon: "roundRect",
       textStyle: {
-        color: MUTED,
+        color: theme.muted,
         fontSize: 10,
         fontFamily: FONT_SANS,
       },
@@ -197,29 +198,34 @@ export function buildNumericChartOption({
       axisPointer: {
         type: "cross",
         lineStyle: {
-          color: RULE,
+          color: theme.rule,
           width: 1,
         },
         crossStyle: {
-          color: RULE,
+          color: theme.rule,
           width: 1,
         },
         label: {
           show: false,
         },
       },
-      backgroundColor: "#ffffff",
-      borderColor: RULE,
+      backgroundColor: theme.sheet,
+      borderColor: theme.rule,
       borderWidth: 1,
       padding: 0,
       textStyle: {
-        color: INK,
+        color: theme.ink,
         fontFamily: FONT_SANS,
         fontSize: 12,
       },
-      extraCssText: "border-radius:0;box-shadow:none;",
+      extraCssText:
+        "border-radius:var(--radius-control);box-shadow:var(--shadow-panel);",
       formatter: (params: unknown) =>
-        formatTooltip(params as TooltipItem | TooltipItem[], data.unit),
+        formatTooltip(
+          params as TooltipItem | TooltipItem[],
+          data.unit,
+          theme,
+        ),
     },
     xAxis: {
       type: "category",
@@ -227,14 +233,14 @@ export function buildNumericChartOption({
       boundaryGap: isBar,
       axisLine: {
         lineStyle: {
-          color: RULE,
+          color: theme.rule,
         },
       },
       axisTick: {
         show: false,
       },
       axisLabel: {
-        color: MUTED,
+        color: theme.muted,
         fontFamily: FONT_MONO,
         fontSize: 10,
         hideOverlap: true,
@@ -248,7 +254,7 @@ export function buildNumericChartOption({
       nameLocation: "end",
       nameGap: 8,
       nameTextStyle: {
-        color: MUTED,
+        color: theme.muted,
         fontFamily: FONT_MONO,
         fontSize: 10,
         align: "left",
@@ -263,14 +269,14 @@ export function buildNumericChartOption({
         show: false,
       },
       axisLabel: {
-        color: MUTED,
+        color: theme.muted,
         fontFamily: FONT_MONO,
         fontSize: 10,
         formatter: (value: number) => formatAxisValue(value),
       },
       splitLine: {
         lineStyle: {
-          color: RULE,
+          color: theme.rule,
           width: 1,
         },
       },
@@ -289,18 +295,18 @@ export function buildNumericChartOption({
         xAxisIndex: 0,
         height: 14,
         bottom: 4,
-        borderColor: RULE,
-        backgroundColor: "#f7f8fa",
-        fillerColor: "rgba(29, 58, 138, 0.12)",
+        borderColor: theme.rule,
+        backgroundColor: theme.paper,
+        fillerColor: theme.primarySoft,
         handleStyle: {
-          color: BLUEPRINT,
+          color: theme.primary,
         },
         moveHandleStyle: {
-          color: BLUEPRINT,
+          color: theme.primary,
           opacity: 0.7,
         },
         textStyle: {
-          color: MUTED,
+          color: theme.muted,
           fontFamily: FONT_MONO,
           fontSize: 9,
         },
@@ -308,11 +314,11 @@ export function buildNumericChartOption({
         brushSelect: false,
         dataBackground: {
           lineStyle: {
-            color: RULE,
+            color: theme.rule,
             width: 1,
           },
           areaStyle: {
-            color: "#eef1f9",
+            color: theme.primarySoft,
           },
         },
         selectedDataBackground: {

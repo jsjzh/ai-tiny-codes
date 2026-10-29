@@ -11,6 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { ThemeSwitcher } from "@/features/theme/ThemeSwitcher";
+
 import { getYearOptions, MONTH_LABELS } from "../lib/date";
 
 type CalendarHeaderProps = {
@@ -123,7 +125,8 @@ export function CalendarHeader({
         </Button>
       </div>
 
-      <div className="justify-self-end">
+      <div className="flex items-center justify-self-end gap-1">
+        <ThemeSwitcher />
         <Button
           type="button"
           variant="outline"
