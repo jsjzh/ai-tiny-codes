@@ -18,6 +18,9 @@ export type ChartTheme = {
   primarySoft: string;
   paper: string;
   sheet: string;
+  avg7: string;
+  avg30: string;
+  changeRate: string;
   isDark: boolean;
 };
 
@@ -45,6 +48,9 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       primarySoft: "#eef1f9",
       paper: "#f7f8fa",
       sheet: "#ffffff",
+      avg7: "#0f766e",
+      avg30: "#b45309",
+      changeRate: "#c2410c",
       isDark: false,
     },
   },
@@ -62,6 +68,9 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       primarySoft: "#f2e4dc",
       paper: "#f3eee5",
       sheet: "#fffaf2",
+      avg7: "#5b7048",
+      avg30: "#b07d2b",
+      changeRate: "#7c3f5d",
       isDark: false,
     },
   },
@@ -79,6 +88,9 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       primarySoft: "#1e2a3a",
       paper: "#0e1116",
       sheet: "#161b22",
+      avg7: "#2dd4bf",
+      avg30: "#f0b429",
+      changeRate: "#c084fc",
       isDark: true,
     },
   },
@@ -96,6 +108,9 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       primarySoft: "#e0eade",
       paper: "#eef2e8",
       sheet: "#fbfcf7",
+      avg7: "#2f6f5e",
+      avg30: "#a16207",
+      changeRate: "#7c5cbf",
       isDark: false,
     },
   },
@@ -113,6 +128,9 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       primarySoft: "#fbe7e9",
       paper: "#ffffff",
       sheet: "#ffffff",
+      avg7: "#0f766e",
+      avg30: "#d97706",
+      changeRate: "#7c3aed",
       isDark: false,
     },
   },
@@ -204,4 +222,24 @@ export function resolveChartColor(
       .padStart(2, "0");
 
   return `#${mix(rgb[0])}${mix(rgb[1])}${mix(rgb[2])}`;
+}
+
+export function getMetricColor(
+  theme: ChartTheme,
+  metric: "daily" | "avg7" | "avg30" | "changeRate",
+  eventColor: string,
+): string {
+  if (metric === "avg7") {
+    return theme.avg7;
+  }
+
+  if (metric === "avg30") {
+    return theme.avg30;
+  }
+
+  if (metric === "changeRate") {
+    return theme.changeRate;
+  }
+
+  return eventColor;
 }

@@ -49,6 +49,8 @@ describe("buildNumericChartOption", () => {
     expect(option.xAxis.data).toHaveLength(3);
     expect(option.series[0].type).toBe("line");
     expect(option.series[0].connectNulls).toBe(true);
+    expect(option.series[0].color).toBe("#1d4ed8");
+    expect(option.series[1].color).toBe("#0f766e");
     expect(option.series[1].lineStyle).toMatchObject({
       type: "dashed",
     });

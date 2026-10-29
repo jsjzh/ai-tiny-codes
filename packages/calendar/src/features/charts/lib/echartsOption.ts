@@ -1,6 +1,10 @@
 import type { EChartsCoreOption } from "echarts/core";
 
-import { DEFAULT_CHART_THEME, type ChartTheme } from "@/features/theme/theme";
+import {
+  DEFAULT_CHART_THEME,
+  getMetricColor,
+  type ChartTheme,
+} from "@/features/theme/theme";
 
 import type { NumericMetricCode } from "../data/types";
 import type { NumericChartData } from "./chartData";
@@ -32,8 +36,8 @@ const SERIES_STYLE: Record<
   { opacity: number; dash?: "solid" | "dashed" | "dotted" }
 > = {
   daily: { opacity: 1 },
-  avg7: { opacity: 0.72, dash: "dashed" },
-  avg30: { opacity: 0.5, dash: "dotted" },
+  avg7: { opacity: 1, dash: "dashed" },
+  avg30: { opacity: 1, dash: "dotted" },
   changeRate: { opacity: 1 },
 };
 
@@ -116,12 +120,13 @@ export function buildNumericChartOption({
 
   const series = data.series.map((item) => {
     const style = SERIES_STYLE[item.metric];
+    const seriesColor = getMetricColor(theme, item.metric, color);
     const base = {
       name: METRIC_LABELS[item.metric],
       data: item.points.map((point) => point.value),
-      color,
+      color: seriesColor,
       itemStyle: {
-        color,
+        color: seriesColor,
         opacity: style.opacity,
       },
       emphasis: {
@@ -136,7 +141,7 @@ export function buildNumericChartOption({
         barMaxWidth: 10,
         barGap: "12%",
         itemStyle: {
-          color,
+          color: seriesColor,
           opacity: style.opacity,
         },
       };
@@ -151,7 +156,7 @@ export function buildNumericChartOption({
       symbolSize: 3,
       connectNulls: item.metric !== "changeRate",
       lineStyle: {
-        color,
+        color: seriesColor,
         width: 1.6,
         type: style.dash ?? "solid",
         opacity: style.opacity,
@@ -159,7 +164,7 @@ export function buildNumericChartOption({
       areaStyle:
         chartType === "area"
           ? {
-              color,
+              color: seriesColor,
               opacity: 0.1,
             }
           : undefined,

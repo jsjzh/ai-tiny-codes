@@ -117,7 +117,7 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
   - `changeRate` 只在有记录的日期计算，使用上一条记录；单位显示 `%`。
   - 文本只读案例区间内的值；分布按出现次数排序。
 - 图表尺寸由 ECharts wrapper 内的 `ResizeObserver` 调 `chart.resize()`；移动端单列时仍可读。
-- 柱状图以 0 为基线；折线/面积按数据范围缩放。多指标共用事项颜色，用实线/虚线/透明度区分，并显示图例。
+- 柱状图以 0 为基线；折线/面积按数据范围缩放。`daily` 用事项颜色，`avg7` / `avg30` / `changeRate` 用主题色板的不同颜色，并用实线/虚线/点线区分；图例显示每种颜色。
 - `ChartCard` 只负责标题、事项、类型、图例和渲染容器；不要在这里写死数据计算。
 
 ## 主题系统
@@ -129,7 +129,7 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
 - 5 套主题：`blueprint` 制图台、`warm` 暖纸编辑部、`night` 夜航仪表盘、`botanical` 苔原笔记、`swiss` 瑞士信号。
 - 颜色、字体、控件圆角、浮层阴影都在 `index.css` 用 token 定义；新组件不要写死颜色，用 `paper/sheet/ink/rule/blueprint/signal/muted-foreground` 等 token。
 - 标题字使用 `--font-display`；控件圆角用 `--radius-control`；浮层阴影用 `--shadow-panel`。
-- ECharts canvas 不继承 CSS 变量：`ChartCard` 必须通过 `getChartTheme(theme)` 把主题传给 `buildNumericChartOption`；深色主题用 `resolveChartColor` 提亮事件颜色。
+- ECharts canvas 不继承 CSS 变量：`ChartCard` 必须通过 `getChartTheme(theme)` 把主题传给 `buildNumericChartOption`；深色主题用 `resolveChartColor` 提亮事件颜色；多指标用 `getMetricColor` 从主题色板取不同颜色。
 - 新增主题时同步：`THEME_DEFINITIONS`、`index.css` 的 `[data-theme]` token、`index.html` 内联脚本允许列表、图表色板、`TODO`/README。
 - 主题选择只存 localStorage，不写入日历/图表 JSON。
 

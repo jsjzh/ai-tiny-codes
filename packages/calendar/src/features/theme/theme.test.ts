@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   DEFAULT_THEME,
   getChartTheme,
+  getMetricColor,
   isThemeId,
   resolveChartColor,
   THEME_DEFINITIONS,
@@ -29,5 +30,14 @@ describe("theme", () => {
     expect(resolveChartColor("blueprint", original)).toBe(original);
     expect(resolveChartColor("night", original)).not.toBe(original);
     expect(resolveChartColor("night", original)).toMatch(/^#[0-9a-f]{6}$/);
+  });
+
+  it("多指标使用不同主题色", () => {
+    const theme = getChartTheme("blueprint");
+    const daily = getMetricColor(theme, "daily", "#1d4ed8");
+    const avg7 = getMetricColor(theme, "avg7", "#1d4ed8");
+    const avg30 = getMetricColor(theme, "avg30", "#1d4ed8");
+
+    expect(new Set([daily, avg7, avg30]).size).toBe(3);
   });
 });
