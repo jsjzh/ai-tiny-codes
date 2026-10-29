@@ -343,7 +343,7 @@ export function TemplateModal({ open, onOpenChange }: TemplateModalProps) {
 
           <footer className="shrink-0 border-t border-rule px-6 py-3">
             {confirmDiscard ? (
-              <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="motion-fade-in flex flex-wrap items-center justify-between gap-3">
                 <span className="text-sm text-ink">有未提交修改，确定放弃？</span>
                 <div className="flex gap-2">
                   <Button

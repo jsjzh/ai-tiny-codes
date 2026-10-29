@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import dayjs from "dayjs";
 
 import { Button } from "@/components/ui/button";
@@ -77,6 +77,8 @@ export function ChartsSection() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [chartTemplateModalOpen, setChartTemplateModalOpen] =
     useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [sectionVisible, setSectionVisible] = useState(false);
 
   const chartTemplates = useMemo(
     () => sortChartTemplates(chartsData.templates),
@@ -85,6 +87,32 @@ export function ChartsSection() {
   const activeCase =
     chartsData.cases.find((chartCase) => chartCase.id === activeId) ??
     null;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+
+    if (!section) {
+      return;
+    }
+
+    if (typeof IntersectionObserver === "undefined") {
+      setSectionVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setSectionVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.06 },
+    );
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (isEditing) {
@@ -258,9 +286,12 @@ export function ChartsSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="charts"
       aria-label="图表"
-      className="border-t border-rule bg-paper px-4 py-8 sm:px-6 lg:px-8"
+      className={`border-t border-rule bg-paper px-4 py-8 sm:px-6 lg:px-8 ${
+        sectionVisible ? "motion-section-in" : ""
+      }`}
     >
       <div className="mx-auto max-w-[1600px]">
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -358,7 +389,10 @@ export function ChartsSection() {
             />
           </div>
         ) : activeCase ? (
-          <div className="mt-6 flex flex-col gap-5">
+          <div
+            key={activeCase.id}
+            className="motion-case-in mt-6 flex flex-col gap-5"
+          >
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-rule pb-4">
               <div>
                 <h2 className="text-xl font-medium text-ink">

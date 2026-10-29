@@ -67,7 +67,7 @@ export function ThemeSwitcher() {
         <div
           role="menu"
           aria-label="选择主题"
-          className="absolute right-0 top-full z-50 mt-2 max-h-[min(70dvh,360px)] w-64 overflow-y-auto border border-rule bg-sheet p-1"
+          className="motion-popover-in absolute right-0 top-full z-50 mt-2 max-h-[min(70dvh,360px)] w-64 overflow-y-auto border border-rule bg-sheet p-1"
           style={{
             borderRadius: "var(--radius-control)",
             boxShadow: "var(--shadow-panel)",

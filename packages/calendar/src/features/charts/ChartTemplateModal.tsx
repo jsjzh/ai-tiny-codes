@@ -579,7 +579,7 @@ export function ChartTemplateModal({
 
                   <div className="border-t border-rule pt-4">
                     {deleteConfirm ? (
-                      <div className="border border-destructive/30 bg-destructive/5 p-3">
+                      <div className="motion-fade-in border border-destructive/30 bg-destructive/5 p-3">
                         <p className="text-sm text-destructive">
                           {usage > 0
                             ? `该图表模板被 ${usage} 个案例使用，删除后会从这些案例中移除。`
@@ -627,7 +627,7 @@ export function ChartTemplateModal({
 
           <footer className="shrink-0 border-t border-rule px-6 py-3">
             {confirmDiscard ? (
-              <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="motion-fade-in flex flex-wrap items-center justify-between gap-3">
                 <span className="text-sm text-ink">
                   有未提交修改，确定放弃？
                 </span>

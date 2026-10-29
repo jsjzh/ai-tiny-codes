@@ -497,7 +497,7 @@ export function CaseEditor({
         </div>
         {!isNew && onDelete ? (
           deleteConfirm ? (
-            <div className="flex items-center gap-2">
+            <div className="motion-fade-in flex items-center gap-2">
               <span className="text-xs text-destructive">确认删除这个案例？</span>
               <Button
                 type="button"

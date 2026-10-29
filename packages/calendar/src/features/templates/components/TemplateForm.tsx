@@ -199,7 +199,7 @@ export function TemplateForm({
 
       <div className="border-t border-rule pt-4">
         {deleteConfirm ? (
-          <div className="border border-destructive/30 bg-destructive/5 p-3">
+          <div className="motion-fade-in border border-destructive/30 bg-destructive/5 p-3">
             <p className="text-sm text-destructive">
               {usage > 0
                 ? `该模板已被 ${usage} 条记录使用，删除会一并删除这些记录。`

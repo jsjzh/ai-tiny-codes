@@ -8,6 +8,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, DragEvent } from "react";
 import type { CalendarData } from "@/features/calendar/data/types";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,9 @@ type WidgetFrameProps = {
   calendarData: CalendarData;
   chartTemplates: ChartTemplate[];
   editing: boolean;
+  dragging: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
   onRemove: () => void;
   onHeightChange: (height: number) => void;
   onEditBlock: () => void;
@@ -49,6 +53,9 @@ function WidgetFrame({
   calendarData,
   chartTemplates,
   editing,
+  dragging,
+  onDragStart,
+  onDragEnd,
   onRemove,
   onHeightChange,
   onEditBlock,
@@ -58,7 +65,10 @@ function WidgetFrame({
 
   return (
     <div
-      className="flex min-h-0 flex-col overflow-hidden border border-rule bg-sheet"
+      className={cn(
+        "flex min-h-0 flex-col overflow-hidden border border-rule bg-sheet transition-opacity",
+        dragging && "opacity-40",
+      )}
       style={{ height: widgetHeightPx(widget), alignSelf: "start" }}
     >
       {editing ? (
@@ -74,7 +84,9 @@ function WidgetFrame({
                 WIDGET_DRAG_TYPE,
                 JSON.stringify(address),
               );
+              onDragStart();
             }}
+            onDragEnd={onDragEnd}
           >
             <GripVertical aria-hidden="true" className="size-3.5" />
           </button>
@@ -169,6 +181,42 @@ export function CaseCanvas({
   onChange,
   onEditBlock,
 }: CaseCanvasProps) {
+  const [draggingFrom, setDraggingFrom] = useState<SlotAddress | null>(null);
+  const [dragOver, setDragOver] = useState<SlotAddress | null>(null);
+  const [droppedSlot, setDroppedSlot] = useState<SlotAddress | null>(null);
+  const dropTimerRef = useRef<number | null>(null);
+
+  function markDropped(target: SlotAddress) {
+    if (dropTimerRef.current !== null) {
+      window.clearTimeout(dropTimerRef.current);
+    }
+
+    setDroppedSlot(target);
+    dropTimerRef.current = window.setTimeout(() => {
+      setDroppedSlot(null);
+      dropTimerRef.current = null;
+    }, 280);
+  }
+
+  useEffect(() => {
+    const clear = () => {
+      setDraggingFrom(null);
+      setDragOver(null);
+    };
+
+    document.addEventListener("dragend", clear);
+    document.addEventListener("drop", clear);
+
+    return () => {
+      document.removeEventListener("dragend", clear);
+      document.removeEventListener("drop", clear);
+
+      if (dropTimerRef.current !== null) {
+        window.clearTimeout(dropTimerRef.current);
+      }
+    };
+  }, []);
+
   function updateRows(rows: ChartCaseRow[]) {
     onChange({ ...caseData, rows });
   }
@@ -237,6 +285,9 @@ export function CaseCanvas({
 
   function handleDrop(event: DragEvent<HTMLDivElement>, target: SlotAddress) {
     event.preventDefault();
+    setDragOver(null);
+    setDraggingFrom(null);
+    markDropped(target);
 
     const widgetData = event.dataTransfer.getData(WIDGET_DRAG_TYPE);
 
@@ -415,15 +466,34 @@ export function CaseCanvas({
             {row.slots.map((widget, slotIndex) => (
               <div
                 key={slotIndex}
-                onDragOver={(event) => event.preventDefault()}
+                onDragOver={(event) => {
+                  event.preventDefault();
+
+                  if (
+                    dragOver?.rowIndex !== rowIndex ||
+                    dragOver.slotIndex !== slotIndex
+                  ) {
+                    setDragOver({ rowIndex, slotIndex });
+                  }
+                }}
                 onDrop={(event) =>
                   handleDrop(event, { rowIndex, slotIndex })
                 }
                 className={cn(
-                  "min-h-0",
+                  "min-h-0 transition-colors",
                   !widget && editing &&
                     "flex min-h-32 items-center justify-center border border-dashed border-rule bg-sheet/60 text-center text-[11px] text-muted-foreground",
                   !widget && !editing && "min-h-6",
+                  editing &&
+                    dragOver?.rowIndex === rowIndex &&
+                    dragOver.slotIndex === slotIndex &&
+                    (widget
+                      ? "bg-signal-soft/25 outline outline-1 outline-signal"
+                      : "border-signal bg-signal-soft/60"),
+                  editing &&
+                    droppedSlot?.rowIndex === rowIndex &&
+                    droppedSlot.slotIndex === slotIndex &&
+                    "motion-drop-in",
                 )}
               >
                 {widget ? (
@@ -435,6 +505,14 @@ export function CaseCanvas({
                       calendarData={calendarData}
                       chartTemplates={chartTemplates}
                       editing={editing}
+                      dragging={
+                        draggingFrom?.rowIndex === rowIndex &&
+                        draggingFrom.slotIndex === slotIndex
+                      }
+                      onDragStart={() =>
+                        setDraggingFrom({ rowIndex, slotIndex })
+                      }
+                      onDragEnd={() => setDraggingFrom(null)}
                       onRemove={() => removeWidget(rowIndex, slotIndex)}
                       onHeightChange={(height) =>
                         changeHeight(rowIndex, slotIndex, height)

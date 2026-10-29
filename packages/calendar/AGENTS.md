@@ -1,9 +1,9 @@
 # 项目：日历（calendar）
 
-Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系统**；下一步动画。
+Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系统 + 动画**；接下来看其他待办。
 
 扩展手册：`docs/EXTENDING.md`（新增事项/图表模板、块规则、图表渲染、导入格式）。
-待办：`TODO.md`（动画、导入增强）。
+待办：`TODO.md`（导入增强、主题增强）。
 ## 运行
 
 - `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar` 和 `/api/charts`。
@@ -133,6 +133,17 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
 - 新增主题时同步：`THEME_DEFINITIONS`、`index.css` 的 `[data-theme]` token、`index.html` 内联脚本允许列表、图表色板、`TODO`/README。
 - 主题选择只存 localStorage，不写入日历/图表 JSON。
 
+## 动画
+
+- CSS 动效类在 `index.css`：`motion-section-in`、`motion-case-in`、`motion-card-in`、`motion-drop-in`、`motion-popover-in`、`motion-fade-in`，以及 Dialog 的 `data-state` 过渡。
+- 图表 section 用 `IntersectionObserver` 在进入视口时加 `motion-section-in`；不要一加载就播放。
+- 切换案例时给案例内容 `key={activeCase.id}` + `motion-case-in`，槽位卡片用 CSS nth-child 做 30ms stagger。
+- 图表动画由 ECharts option 控制；`useReducedMotion` 时传 `animate: false`。
+- Block 数值用 `AnimatedValue` count-up；同样尊重 reduced-motion。
+- 拖拽：`CaseCanvas` 维护 `draggingFrom` / `dragOver` / `droppedSlot`，源卡片 `opacity-40`，目标槽位高亮，放下 `motion-drop-in`。
+- 只动画 opacity / transform；不要动画 height，避免日历和槽位网格抖动。
+- 全局 `prefers-reduced-motion` 已强制缩短 CSS 动画；JS 动画（ECharts、count-up）必须额外用 hook 关闭。
+
 ## Header
 
 - 三列 grid：`‹ 年 月 ›` 和「回到今日」居中；左右切换分列年月两侧；右侧为主题 + 模板按钮；图表不放 header。
@@ -148,11 +159,11 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
 5a. **图表框架（已完成）**：独立图表数据/API、图表模板、案例、槽位布局、块规则、原生拖拽、软失效。
 5b. **图表渲染（已完成）**：ECharts 折线/柱状/面积、文本对照表/分布、坐标轴与案例区间、缩放/平移/重置。
 6. **主题（已完成）**：5 套 token 主题、header 切换器、localStorage、ECharts 同步。
-7. **动画（下一阶段）**：图表/卡片/切换/拖拽/弹窗动效，尊重 reduced-motion。
+7. **动画（已完成）**：section reveal、案例切换、卡片 stagger、ECharts 动效、count-up、拖拽反馈、弹窗过渡、reduced-motion。
 
 ## 当前阶段
 
-- 5b 与主题系统已完成；下一步按 `TODO.md` 做动画。
+- 5b、主题系统与动画已完成；后续按 `TODO.md` 处理导入增强、主题增强等。
 - 图表模板与事项模板分开管理，通过 `eventCode` 关联；案例通过 `eventCodes` 过滤可用模板。
 
 ## 视觉

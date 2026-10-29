@@ -230,7 +230,20 @@ ChartCard
 
 ## 7. 动画
 
-见 `TODO.md`。动画在主题之后做，优先轻量、尊重 `prefers-reduced-motion`。
+已实现：
+
+- `index.css`：`motion-section-in`、`motion-case-in`、`motion-card-in`、`motion-drop-in`、`motion-popover-in`、`motion-fade-in`，Dialog 的 `data-state` 过渡。
+- `ChartsSection`：IntersectionObserver 进入视口后加 `motion-section-in`；案例内容 key + `motion-case-in`。
+- `CaseCanvas`：拖拽状态 `draggingFrom` / `dragOver` / `droppedSlot`，源卡片降透明度、目标高亮、放下回弹。
+- `BlockCard`：`AnimatedValue` count-up，420ms。
+- ECharts：option 的 `animation` 由 `useReducedMotion` 控制。
+- 所有 CSS 动画受全局 `prefers-reduced-motion` 缩短；JS 动画单独检查。
+
+约束：
+
+- 只动画 opacity / transform，不动 height。
+- 不要给日历网格加布局动画。
+- 新增动画必须能在 reduced-motion 下关闭。
 
 ## 7. 提交前检查
 

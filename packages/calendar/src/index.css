@@ -267,3 +267,151 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+@keyframes motion-section-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-case-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes motion-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes motion-dialog-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.985);
+  }
+}
+
+@keyframes motion-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.motion-section-in {
+  animation: motion-section-in 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.motion-case-in {
+  animation: motion-case-in 220ms ease-out both;
+}
+
+.motion-case-in .chart-slot-grid > div {
+  animation: motion-card-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.motion-case-in .chart-slot-grid > div:nth-child(2) {
+  animation-delay: 30ms;
+}
+
+.motion-case-in .chart-slot-grid > div:nth-child(3) {
+  animation-delay: 60ms;
+}
+
+.motion-case-in .chart-slot-grid > div:nth-child(4) {
+  animation-delay: 90ms;
+}
+
+.motion-popover-in {
+  animation: motion-popover-in 120ms ease-out both;
+}
+
+.motion-fade-in {
+  animation: motion-fade-in 140ms ease-out both;
+}
+
+[data-slot="dialog-overlay"][data-state="open"] {
+  animation: motion-overlay-in 140ms ease-out both;
+}
+
+[data-slot="dialog-content"][data-state="open"] {
+  animation: motion-dialog-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+[data-slot="dialog-content"][data-state="closed"] {
+  animation: motion-dialog-out 120ms ease-in both;
+}
+
+[data-slot="select-content"][data-state="open"] {
+  animation: motion-fade-in 100ms ease-out both;
+}
+
+@keyframes motion-drop-in {
+  from {
+    transform: scale(0.985);
+  }
+  60% {
+    transform: scale(1.006);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.motion-drop-in {
+  animation: motion-drop-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}

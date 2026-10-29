@@ -1,5 +1,7 @@
 import { lazy, Suspense, useMemo } from "react";
 
+import { useReducedMotion } from "@/lib/useReducedMotion";
+
 import type { CalendarData } from "@/features/calendar/data/types";
 
 import type { ChartTheme } from "@/features/theme/theme";
@@ -35,6 +37,7 @@ export function ChartRenderer({
   chartType,
   resetKey,
 }: ChartRendererProps) {
+  const reducedMotion = useReducedMotion();
   const numericData = useMemo(
     () =>
       template.kind === "numeric"
@@ -57,9 +60,10 @@ export function ChartRenderer({
             chartType,
             color,
             theme: chartTheme,
+            animate: !reducedMotion,
           })
         : null,
-    [numericData, chartType, color, chartTheme],
+    [numericData, chartType, color, chartTheme, reducedMotion],
   );
 
   if (template.kind === "text" && textData) {

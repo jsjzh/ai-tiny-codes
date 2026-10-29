@@ -17,6 +17,7 @@ type NumericChartOptionInput = {
   chartType: NumericViewType;
   color: string;
   theme?: ChartTheme;
+  animate?: boolean;
 };
 
 type TooltipItem = {
@@ -102,6 +103,7 @@ export function buildNumericChartOption({
   chartType,
   color,
   theme = DEFAULT_CHART_THEME,
+  animate = true,
 }: NumericChartOptionInput): EChartsCoreOption {
   const firstDate = data.dates[0] ?? "";
   const lastDate = data.dates[data.dates.length - 1] ?? "";
@@ -172,7 +174,11 @@ export function buildNumericChartOption({
   });
 
   return {
-    animation: false,
+    animation: animate,
+    animationDuration: 500,
+    animationDurationUpdate: 220,
+    animationEasing: "cubicOut",
+    animationEasingUpdate: "cubicOut",
     textStyle: {
       fontFamily: FONT_SANS,
       color: theme.ink,

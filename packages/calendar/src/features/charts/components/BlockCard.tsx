@@ -1,5 +1,8 @@
+import { useEffect, useRef, useState } from "react";
+
 import { cn } from "@/lib/utils";
 import type { CalendarData } from "@/features/calendar/data/types";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 import type { CalendarBlock } from "../data/types";
 import { resolveBlockResult } from "../lib/blockRules";
@@ -9,6 +12,63 @@ type BlockCardProps = {
   calendarData: CalendarData;
   caseRange: { startDate: string; endDate: string };
 };
+
+function parseNumericValue(value: string): number | null {
+  const numeric = Number(value);
+  return value.trim() && Number.isFinite(numeric) ? numeric : null;
+}
+
+function formatAnimatedValue(value: number, original: string): string {
+  const decimals = original.includes(".")
+    ? original.split(".")[1]?.length ?? 0
+    : 0;
+
+  return value.toFixed(decimals);
+}
+
+function AnimatedValue({ value }: { value: string }) {
+  const reducedMotion = useReducedMotion();
+  const target = parseNumericValue(value);
+  const previousRef = useRef(0);
+  const [display, setDisplay] = useState(() =>
+    target === null || reducedMotion
+      ? value
+      : formatAnimatedValue(0, value),
+  );
+
+  useEffect(() => {
+    if (target === null || reducedMotion) {
+      setDisplay(value);
+      return;
+    }
+
+    const from = previousRef.current;
+    const duration = 420;
+    const startedAt = performance.now();
+    let frame = 0;
+
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const next = from + (target - from) * eased;
+
+      if (progress < 1) {
+        setDisplay(formatAnimatedValue(next, value));
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+
+      previousRef.current = target;
+      setDisplay(value);
+    };
+
+    frame = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frame);
+  }, [target, value, reducedMotion]);
+
+  return <>{display}</>;
+}
 
 export function BlockCard({
   block,
@@ -51,7 +111,7 @@ export function BlockCard({
               result.status !== "ok" && "text-muted-foreground",
             )}
           >
-            {result.value}
+            <AnimatedValue value={result.value} />
           </span>
           {result.unit ? (
             <span className="shrink-0 text-sm text-muted-foreground">

@@ -1,9 +1,9 @@
 # @ai-tiny-codes/calendar
 
-满屏月历与事项记录。当前完成**阶段 5b + 主题系统**；下一步动画。
+满屏月历与事项记录。当前完成**阶段 5b + 主题系统 + 动画**。
 
 - 扩展手册：[`docs/EXTENDING.md`](docs/EXTENDING.md)
-- 动画待办：[`TODO.md`](TODO.md)
+- 其他待办：[`TODO.md`](TODO.md)
 ## 使用
 
 ```bash
@@ -47,6 +47,15 @@ pnpm calendar:test
 - 标题字体、控件圆角、浮层阴影、颜色全部来自 token；新增组件不要写死颜色。
 - ECharts canvas 不继承 CSS 变量，图表配色由 `getChartTheme` 同步；Night 主题会自动提亮事项颜色。
 - 主题只影响显示，不写入日历/图表 JSON。
+
+## 动画
+
+- 图表 section 进入视口时轻微淡入 / 上移；不阻塞首屏。
+- 切换案例内容淡入，槽位卡片 30ms stagger。
+- ECharts 折线/柱子入场动画；Block 数值 count-up。
+- 拖拽时源卡片降透明度、目标槽位高亮、放下回弹。
+- Dialog / 行内确认 120–180ms 过渡；主题菜单淡入。
+- 只动画 opacity / transform，不改变高度；`prefers-reduced-motion` 下关闭位移、count-up 和图表动画。
 
 ## 阶段 4 范围
 

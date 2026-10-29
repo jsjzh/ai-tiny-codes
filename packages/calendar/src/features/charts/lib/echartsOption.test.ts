@@ -108,4 +108,15 @@ describe("buildNumericChartOption", () => {
     expect(option.tooltip.borderColor).toBe("#30363d");
     expect(option.yAxis.axisLabel.color).toBe("#8b949e");
   });
+
+  it("可关闭动画以尊重 reduced-motion", () => {
+    const option = buildNumericChartOption({
+      data: data(),
+      chartType: "line",
+      color: "#1d4ed8",
+      animate: false,
+    }) as { animation: boolean };
+
+    expect(option.animation).toBe(false);
+  });
 });

@@ -11,7 +11,7 @@ packages/
   money/      @ai-tiny-codes/money      攒钱计划计算器
   keepstrong/ @ai-tiny-codes/keepstrong 练练健身（KeepStrong）AI API 轻量客户端
   commute/    @ai-tiny-codes/commute    通勤方式（地铁/开车/摩托）年花费对比
-  calendar/   @ai-tiny-codes/calendar   满屏月历与事项记录（Vite + React，阶段 1–5b + 主题：框架 + 选择 + 模板/数据 + 编辑 + 图表 + 主题）
+  calendar/   @ai-tiny-codes/calendar   满屏月历与事项记录（Vite + React，阶段 1–5b + 主题 + 动画：框架 + 选择 + 模板/数据 + 编辑 + 图表 + 主题）
 datas/      # 随项目保存的数据（fitness 计划/同步数据、生成的大盘、日历/图表数据），方便上传与手改
 .opencode/  # opencode 项目配置（skills：frontend-design 等）
 ```
