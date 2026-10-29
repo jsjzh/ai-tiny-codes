@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileUp, Trash2 } from "lucide-react";
+import { Download, FileUp, Trash2 } from "lucide-react";
 
 import type {
   CalendarEventValue,
@@ -8,6 +8,7 @@ import type {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+import { downloadTemplateEvents } from "../lib/exportEvents";
 import type { EventImportRow } from "../lib/importEvents";
 import { ImportEventsDialog } from "./ImportEventsDialog";
 import { TemplateColorPicker } from "./TemplateColorPicker";
@@ -185,15 +186,27 @@ export function TemplateForm({
               已有 {usage} 条记录；支持 JSON / CSV，按日期覆盖当前模板。
             </p>
           </div>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => setImportOpen(true)}
-          >
-            <FileUp aria-hidden="true" className="size-3.5" />
-            导入数据
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={usage === 0}
+              onClick={() => downloadTemplateEvents(template, existingValues)}
+            >
+              <Download aria-hidden="true" className="size-3.5" />
+              导出数据
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setImportOpen(true)}
+            >
+              <FileUp aria-hidden="true" className="size-3.5" />
+              导入数据
+            </Button>
+          </div>
         </div>
       </div>
 

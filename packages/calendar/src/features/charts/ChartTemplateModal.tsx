@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { arrayMove } from "@dnd-kit/sortable";
 import { Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,8 @@ import {
   type NumericMetricCode,
 } from "@/features/charts/data/types";
 import { cn } from "@/lib/utils";
+
+import { ChartTemplateList } from "./components/ChartTemplateList";
 
 type ChartTemplateModalProps = {
   open: boolean;
@@ -244,6 +247,32 @@ export function ChartTemplateModal({
     handleUpdate({ metrics: next });
   }
 
+  function handleReorder(activeCode: string, overCode: string) {
+    if (!draft) {
+      return;
+    }
+
+    const sorted = sortChartTemplates(draft.templates);
+    const oldIndex = sorted.findIndex(
+      (template) => template.code === activeCode,
+    );
+    const newIndex = sorted.findIndex(
+      (template) => template.code === overCode,
+    );
+
+    if (oldIndex < 0 || newIndex < 0 || oldIndex === newIndex) {
+      return;
+    }
+
+    const templates = arrayMove(sorted, oldIndex, newIndex).map(
+      (template, index) => ({ ...template, sortOrder: index }),
+    );
+
+    setDraft({ ...draft, templates });
+    setDirty(true);
+    setSaveError(null);
+  }
+
   function handleDelete() {
     if (!draft || !selectedCode) {
       return;
@@ -345,59 +374,17 @@ export function ChartTemplateModal({
           <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto md:grid-cols-[280px_1fr] md:overflow-hidden">
             <aside className="border-b border-rule md:flex md:min-h-0 md:flex-col md:border-b-0 md:border-r">
               <div className="max-h-64 overflow-y-auto md:max-h-none md:min-h-0 md:flex-1">
-                {sortedTemplates.length === 0 ? (
-                  <div className="px-4 py-8 text-center text-xs leading-5 text-muted-foreground">
-                    还没有图表模板
-                    <br />
-                    点下方“新建图表模板”
-                  </div>
-                ) : (
-                  sortedTemplates.map((template) => {
-                    const event = calendarTemplates.find(
-                      (item) => item.code === template.eventCode,
-                    );
-
-                    return (
-                      <button
-                        key={template.code}
-                        type="button"
-                        onClick={() => {
-                          setSelectedCode(template.code);
-                          setDeleteConfirm(false);
-                        }}
-                        className={cn(
-                          "flex w-full items-center gap-2 border-b border-rule/60 px-3 py-2 text-left",
-                          selectedCode === template.code &&
-                            "bg-blueprint-soft",
-                        )}
-                      >
-                        <span
-                          className="size-2 shrink-0 border border-black/10"
-                          style={{ backgroundColor: event?.color ?? "#94a3b8" }}
-                        />
-                        <span className="min-w-0 flex-1">
-                          <span className="flex items-center gap-1.5">
-                            <span className="truncate text-sm font-medium">
-                              {template.title || "未命名图表"}
-                            </span>
-                            {!event ? (
-                              <span className="shrink-0 text-[10px] text-destructive">
-                                事项已失效
-                              </span>
-                            ) : null}
-                          </span>
-                          <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">
-                            {event?.title ?? "未知事项"} ·{" "}
-                            {CHART_TYPE_LABELS[template.chartType]}
-                          </span>
-                        </span>
-                        <span className="shrink-0 text-[10px] text-muted-foreground">
-                          {usageByCode.get(template.code) ?? 0} 个案例
-                        </span>
-                      </button>
-                    );
-                  })
-                )}
+                <ChartTemplateList
+                  templates={sortedTemplates}
+                  calendarTemplates={calendarTemplates}
+                  selectedCode={selectedCode}
+                  usageByCode={usageByCode}
+                  onSelect={(code) => {
+                    setSelectedCode(code);
+                    setDeleteConfirm(false);
+                  }}
+                  onReorder={handleReorder}
+                />
               </div>
               <div className="shrink-0 border-t border-rule p-2">
                 <Button

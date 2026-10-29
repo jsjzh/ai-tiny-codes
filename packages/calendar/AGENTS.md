@@ -1,6 +1,6 @@
 # 项目：日历（calendar）
 
-Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系统 + 动画**；接下来看其他待办。
+Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系统 + 动画 + 数据备份**。
 
 扩展手册：`docs/EXTENDING.md`（新增事项/图表模板、块规则、图表渲染、导入格式）。
 待办：`TODO.md`（导入增强、主题增强）。
@@ -57,6 +57,7 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
 - session draft：打开时 clone 数据，内部所有修改只改 draft；“完成”才 `commitData` 并关闭；X 放弃（有改动先确认）；点遮罩不关闭；Escape 等同 X。
 - 模板弹窗的 `DialogContent` 使用 `scrollable={false}`，内部列各自滚动。
 - 模板表单底部「导入数据」支持 JSON / CSV；导入按日期覆盖当前模板，不删除其他事项，只改草稿，点「完成」才写盘。
+- 模板表单「导出数据」导出当前事项的日期→值 JSON；导入导出都直接覆盖，不询问冲突策略。
 - 导入解析在 `features/templates/lib/importEvents.ts`，JSON 支持 `logs`、数组、日期映射；CSV 支持 `date,value` / `日期,值`。
 
 ## 编辑弹窗（阶段 4）
@@ -104,6 +105,7 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
   - 数值事项支持 `line|bar|area`，文本事项支持 `table|distribution`。
   - 数值指标：`daily|avg7|avg30|changeRate`；同单位指标可合并，`changeRate` 必须单独使用。
   - 图表模板删除时按**案例数去重**提示，并清空所有案例中的对应图表；草稿中的对应图表也要清理。
+- 图表模板列表支持 dnd-kit 拖拽排序，写回 `sortOrder`；排序只改草稿，点「完成」保存。
   - 事项模板删除时图表模板/块不删除，显示“引用的事项已删除”软失效。
 - 案例编辑器打开时可以继续打开「图表模板」弹窗；创建模板后草稿保留，删除模板会同步清理草稿中失效的图表。
 - 数值图表用 **ECharts 6**，不引入 `echarts-for-react`；`components/charts/EChart.tsx` 负责 init/dispose/resize，`lib/echartsOption.ts` 负责 option。
@@ -144,9 +146,18 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
 - 只动画 opacity / transform；不要动画 height，避免日历和槽位网格抖动。
 - 全局 `prefers-reduced-motion` 已强制缩短 CSS 动画；JS 动画（ECharts、count-up）必须额外用 hook 关闭。
 
+## 数据备份
+
+- header「数据」按钮打开 `features/backup/DataBackupButton.tsx`。
+- 导出整个 `CalendarData + ChartsData` JSON；文件带 `app/version/exportedAt`。
+- 导入先用 `parseBackup` 规范化并预览条数，确认后直接覆盖当前数据；不再提供逐项冲突选项。
+- 先后 `commitCalendar` / `commitCharts`；失败时尝试恢复导入前数据。
+- 备份只存 localStorage/文件，不上传；主题和多设备同步不在当前范围。
+- 单模板导出在模板表单「导出数据」，格式可被现有 `parseEventImport` 读取。
+
 ## Header
 
-- 三列 grid：`‹ 年 月 ›` 和「回到今日」居中；左右切换分列年月两侧；右侧为主题 + 模板按钮；图表不放 header。
+- 三列 grid：`‹ 年 月 ›` 和「回到今日」居中；左右切换分列年月两侧；右侧为主题 + 数据 + 模板按钮；图表不放 header。
 - 「回到今日」按钮：非本月时实心/可用，本月时 ghost + disabled。
 - 手机端模板按钮图标化；320px 下用 `max-[359px]` 紧凑尺寸，避免和模板按钮重叠。
 
@@ -160,10 +171,11 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**阶段 5b + 主题系�
 5b. **图表渲染（已完成）**：ECharts 折线/柱状/面积、文本对照表/分布、坐标轴与案例区间、缩放/平移/重置。
 6. **主题（已完成）**：5 套 token 主题、header 切换器、localStorage、ECharts 同步。
 7. **动画（已完成）**：section reveal、案例切换、卡片 stagger、ECharts 动效、count-up、拖拽反馈、弹窗过渡、reduced-motion。
+8. **数据备份与排序（已完成）**：完整 JSON 导出/覆盖导入、单事项导出、图表模板拖拽排序。
 
 ## 当前阶段
 
-- 5b、主题系统与动画已完成；后续按 `TODO.md` 处理导入增强、主题增强等。
+- 5b、主题系统、动画、数据备份与图表模板排序已完成；`TODO.md` 只剩暂不计划项。
 - 图表模板与事项模板分开管理，通过 `eventCode` 关联；案例通过 `eventCodes` 过滤可用模板。
 
 ## 视觉

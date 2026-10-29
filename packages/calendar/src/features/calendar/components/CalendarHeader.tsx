@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { DataBackupButton } from "@/features/backup/DataBackupButton";
 import { ThemeSwitcher } from "@/features/theme/ThemeSwitcher";
 
 import { getYearOptions, MONTH_LABELS } from "../lib/date";
@@ -127,6 +128,7 @@ export function CalendarHeader({
 
       <div className="flex items-center justify-self-end gap-1">
         <ThemeSwitcher />
+        <DataBackupButton />
         <Button
           type="button"
           variant="outline"

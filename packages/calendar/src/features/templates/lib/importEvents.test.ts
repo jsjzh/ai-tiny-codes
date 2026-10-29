@@ -84,6 +84,27 @@ describe("parseEventImport", () => {
     expect(result.invalidCount).toBe(1);
   });
 
+  it("读取单事项导出文件", () => {
+    const result = parseEventImport(
+      JSON.stringify({
+        app: "ai-tiny-codes/calendar-events",
+        version: 1,
+        template: { code: "weight", title: "体重", kind: "number", unit: "kg" },
+        events: {
+          "2026-10-27": 73.5,
+          "2026-10-28": 73.1,
+        },
+      }),
+      weightTemplate,
+      "体重.json",
+    );
+
+    expect(result.rows).toEqual([
+      { date: "2026-10-27", value: 73.5 },
+      { date: "2026-10-28", value: 73.1 },
+    ]);
+  });
+
   it("文本模板保留文本值", () => {
     const result = parseEventImport(
       JSON.stringify([

@@ -1,6 +1,6 @@
 # @ai-tiny-codes/calendar
 
-满屏月历与事项记录。当前完成**阶段 5b + 主题系统 + 动画**。
+满屏月历与事项记录。当前完成**阶段 5b + 主题系统 + 动画 + 数据备份**。
 
 - 扩展手册：[`docs/EXTENDING.md`](docs/EXTENDING.md)
 - 其他待办：[`TODO.md`](TODO.md)
@@ -59,7 +59,7 @@ pnpm calendar:test
 
 ## 阶段 4 范围
 
-- Header：`‹ 年 月 ›` 和「回到今日」居中，右侧为主题 + 模板按钮，图表不放在 header。
+- Header：`‹ 年 月 ›` 和「回到今日」居中，右侧为主题 + 数据 + 模板按钮，图表不放在 header。
 - 「回到今日」：非本月时高亮可点，本月时弱化/禁用。
 - 日历事项展示：
   - 日期单独一行，`+N` 在左上角，日期固定在右上角；日期与事项之间保留平衡间距。
@@ -124,6 +124,7 @@ src/
       CaseCanvas.tsx              # 行/槽位、原生拖拽、高度
       BlockCard.tsx               # 块取值展示
       ChartCard.tsx               # 图表元信息、类型切换、重置
+      ChartTemplateList.tsx       # dnd-kit 图表模板排序
       charts/
         ChartRenderer.tsx         # 按模板类型分发
         EChart.tsx                # ECharts init/dispose/resize
@@ -143,6 +144,9 @@ src/
     theme.ts                      # 主题定义、图表色板、localStorage
     ThemeProvider.tsx             # data-theme、持久化
     ThemeSwitcher.tsx             # header 主题菜单
+  features/backup/
+    backup.ts                     # 完整备份创建 / 解析 / 下载
+    DataBackupButton.tsx          # header 数据入口与备份弹窗
 server/
   dataPlugins.ts                  # GET/PUT /api/calendar + /api/charts
 datas/calendar/calendar.json      # 日历持久化数据

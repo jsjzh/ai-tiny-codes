@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "满屏月历与事项记录（阶段 5b + 主题 + 动画：日历 + 编辑 + 图表）",
+  "description": "满屏月历与事项记录（阶段 5b + 主题 + 动画 + 备份：日历 + 编辑 + 图表）",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

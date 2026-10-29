@@ -98,6 +98,7 @@ type ChartTemplate = {
 - 文本事项：`table` / `distribution`。
 - `changeRate` 必须单独使用，不能和 `daily` / `avg7` / `avg30` 混。
 - 图表模板删除时按案例去重计数，并清空所有案例中的对应图表。
+- 图表模板列表用 dnd-kit 排序，改写 `sortOrder`；排序只改草稿，点「完成」保存。
 - 事项模板删除后不要删图表模板；保留并显示「引用的事项已删除」。
 - 新增图表类型时，同时更新类型、标签、表单选项、渲染分支和测试。
 
@@ -245,7 +246,27 @@ ChartCard
 - 不要给日历网格加布局动画。
 - 新增动画必须能在 reduced-motion 下关闭。
 
-## 7. 提交前检查
+## 8. 数据备份
+
+- header「数据」按钮：`features/backup/DataBackupButton.tsx`。
+- 完整备份结构：
+
+```json
+{
+  "app": "ai-tiny-codes/calendar-backup",
+  "version": 1,
+  "exportedAt": "2026-10-29T...",
+  "calendar": {},
+  "charts": {}
+}
+```
+
+- `backup.ts` 负责创建、下载和解析；解析后走 `normalizeCalendarData` / `normalizeChartsData`。
+- 导入前显示覆盖预览，确认后直接覆盖；不提供逐项冲突策略。
+- 先写日历再写图表；失败时尝试恢复导入前数据。
+- 完整备份不包含主题偏好（主题仍在 localStorage）。
+
+## 9. 提交前检查
 
 ```bash
 pnpm calendar:test
