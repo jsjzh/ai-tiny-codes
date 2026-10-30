@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "createdAt": "2026-10-27T03:18:14.723Z",
+  "createdAt": "2026-10-30T09:56:21.217Z",
   "_note": "体重数据由练练健身同步到 datas/fitness/synced/weights.json（pnpm fitness:sync）；周/月节点的实际值自动派生，无需手填。",
   "input": {
     "gender": "male",
