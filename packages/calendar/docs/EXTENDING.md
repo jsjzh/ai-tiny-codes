@@ -194,7 +194,7 @@ ChartCard
 
 文件：
 
-- `features/theme/theme.ts`：主题 ID、名称、色板、图表色板、默认值、localStorage、深色事件色提亮。
+- `features/theme/theme.ts`：主题 ID、名称、色板、`chart.palette` 图表系列色板、默认值、localStorage、深色事件色提亮。
 - `features/theme/ThemeProvider.tsx`：`data-theme`、`color-scheme`、meta theme-color、持久化。
 - `features/theme/ThemeSwitcher.tsx`：header 菜单；入口带 `data-ignore-selection`，不触发日期选择清空。
 - `index.css`：`@theme` 默认 token + `[data-theme]` 覆盖。
@@ -205,7 +205,7 @@ ChartCard
 - 新组件只使用 token：`paper`、`sheet`、`ink`、`rule`、`blueprint`、`blueprint-soft`、`signal`、`muted-foreground`、`destructive`。
 - 标题用 `--font-display`；控件圆角用 `--radius-control`；浮层阴影用 `--shadow-panel`。
 - 不要在新组件里写死十六进制色值。
-- ECharts canvas 不读 CSS 变量；`ChartCard` 用 `getChartTheme(theme)` 同步 option，深色主题用 `resolveThemeColor` 提亮字段色。
+- ECharts canvas 不读 CSS 变量；`ChartCard` 用 `getChartTheme(theme)` 同步 option。系列/图例颜色取 `theme.palette`，滚动平均/变化率取 `theme.avg7/avg30/changeRate`；日历事项色点用 `resolveThemeColor` 提亮。
 - 主题选择只存浏览器，不影响 `datas/*.json`。
 
 新增主题步骤：

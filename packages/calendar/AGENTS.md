@@ -129,15 +129,16 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
 
 ## 主题系统
 
-- `features/theme/theme.ts`：`ThemeId`、5 套主题定义、图表色板、默认主题、localStorage key、深色事件色提亮。
+- `features/theme/theme.ts`：`ThemeId`、5 套主题定义、图表 `palette`、默认主题、localStorage key、深色事件色提亮。
 - `ThemeProvider` 挂在 `App` 最外层；`useTheme` 提供 `theme` / `setTheme`。
 - 主题通过 `<html data-theme="...">` 生效；`index.html` 的内联脚本在首屏前读取 localStorage，避免闪烁。
 - `ThemeSwitcher` 在日历 header 右侧；入口带 `data-ignore-selection`，点击不会清空日期选择。
 - 5 套主题：`blueprint` 制图台、`warm` 暖纸编辑部、`night` 夜航仪表盘、`botanical` 苔原笔记、`swiss` 瑞士信号。
 - 颜色、字体、控件圆角、浮层阴影都在 `index.css` 用 token 定义；新组件不要写死颜色，用 `paper/sheet/ink/rule/blueprint/signal/muted-foreground` 等 token。
 - 标题字使用 `--font-display`；控件圆角用 `--radius-control`；浮层阴影用 `--shadow-panel`。
-- ECharts canvas 不继承 CSS 变量：`ChartCard` 必须通过 `getChartTheme(theme)` 把主题传给 `buildNumericChartOption`；深色主题用 `resolveThemeColor` 提亮字段色。
-- 新增主题时同步：`THEME_DEFINITIONS`、`index.css` 的 `[data-theme]` token、`index.html` 内联脚本允许列表、图表色板、`TODO`/README。
+- ECharts canvas 不继承 CSS 变量：`ChartCard` 必须通过 `getChartTheme(theme)` 把主题传给 `buildNumericChartOption`。图表系列/图例颜色取 `ChartTheme.palette`，滚动平均/变化率取主题指标色；日历事项色点仍用 `resolveChartColor`（深色主题提亮）。
+- 不启用 ECharts `useDirtyRect`，并显式设置柱/线强调色等于系列色；否则鼠标移动时 canvas 局部重绘可能让柱子短暂消失/闪白。
+- 新增主题时同步：`THEME_DEFINITIONS`、`index.css` 的 `[data-theme]` token、`index.html` 内联脚本允许列表、`chart.palette`、`TODO`/README。
 - 主题选择只存 localStorage，不写入日历/图表 JSON。
 
 ## 动画

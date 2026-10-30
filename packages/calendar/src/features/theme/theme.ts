@@ -21,6 +21,7 @@ export type ChartTheme = {
   avg7: string;
   avg30: string;
   changeRate: string;
+  palette: string[];
   isDark: boolean;
 };
 
@@ -51,6 +52,7 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       avg7: "#0f766e",
       avg30: "#b45309",
       changeRate: "#c2410c",
+      palette: ["#1d3a8a", "#0f766e", "#b45309", "#c2410c", "#7c3aed", "#0891b2"],
       isDark: false,
     },
   },
@@ -71,6 +73,7 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       avg7: "#5b7048",
       avg30: "#b07d2b",
       changeRate: "#7c3f5d",
+      palette: ["#8a3f2a", "#5b7048", "#b07d2b", "#7c3f5d", "#3f6f78", "#6d5a8a"],
       isDark: false,
     },
   },
@@ -91,6 +94,7 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       avg7: "#2dd4bf",
       avg30: "#f0b429",
       changeRate: "#c084fc",
+      palette: ["#60a5fa", "#2dd4bf", "#f0b429", "#c084fc", "#f472b6", "#22d3ee"],
       isDark: true,
     },
   },
@@ -111,6 +115,7 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       avg7: "#2f6f5e",
       avg30: "#a16207",
       changeRate: "#7c5cbf",
+      palette: ["#3f6247", "#2f6f5e", "#a16207", "#7c5cbf", "#4d7c0f", "#b45309"],
       isDark: false,
     },
   },
@@ -131,6 +136,7 @@ export const THEME_DEFINITIONS: ThemeDefinition[] = [
       avg7: "#0f766e",
       avg30: "#d97706",
       changeRate: "#7c3aed",
+      palette: ["#d7192d", "#1d4ed8", "#0f766e", "#d97706", "#7c3aed", "#525252"],
       isDark: false,
     },
   },

@@ -52,7 +52,7 @@ pnpm calendar:test
   - `swiss` 瑞士信号：纯白 / 黑 / 红
 - 主题用 `<html data-theme>` + CSS token 切换，存 localStorage；首屏内联脚本避免闪烁。
 - 标题字体、控件圆角、浮层阴影、颜色全部来自 token；新增组件不要写死颜色。
-- ECharts canvas 不继承 CSS 变量，图表配色由 `getChartTheme` 同步；Night 主题会自动提亮字段颜色。
+- ECharts canvas 不继承 CSS 变量，图表配色由 `getChartTheme` 同步；每个主题有独立 `chart.palette`，系列和图例颜色随主题切换，日历事项色点保留原颜色（Night 会提亮）。
 - 主题只影响显示，不写入日历/图表 JSON。
 
 ## 动画

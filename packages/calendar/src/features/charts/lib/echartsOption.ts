@@ -125,30 +125,28 @@ export function buildNumericChartOption({
   const min = isBar ? Math.min(0, data.min) : data.min;
   const max = isBar ? Math.max(0, data.max) : data.max;
 
-  const fieldCounts = new Map<string, number>();
-
-  for (const item of data.series) {
-    fieldCounts.set(
-      item.fieldCode,
-      (fieldCounts.get(item.fieldCode) ?? 0) + 1,
-    );
-  }
+  const fieldCodes = Array.from(
+    new Set(data.series.map((item) => item.fieldCode)),
+  );
+  const palette =
+    theme.palette.length > 0
+      ? theme.palette
+      : [resolveThemeColor(theme, color)];
 
   const series = data.series.map((item) => {
     const style = SERIES_STYLE[item.operation];
-    const multipleForField =
-      (fieldCounts.get(item.fieldCode) ?? 0) > 1;
-    const baseColor = resolveThemeColor(theme, item.color || color);
+    const fieldIndex = Math.max(0, fieldCodes.indexOf(item.fieldCode));
+    const paletteColor =
+      palette[fieldIndex % palette.length] ??
+      resolveThemeColor(theme, item.color || color);
     const seriesColor =
-      multipleForField && item.operation !== "raw"
-        ? item.operation === "rolling"
-          ? (item.window ?? 7) <= 7
-            ? theme.avg7
-            : theme.avg30
-          : item.operation === "percentChange"
-            ? theme.changeRate
-            : theme.avg30
-        : baseColor;
+      item.operation === "rolling"
+        ? (item.window ?? 7) <= 7
+          ? theme.avg7
+          : theme.avg30
+        : item.operation === "percentChange"
+          ? theme.changeRate
+          : paletteColor;
     const base = {
       name: item.label,
       data: item.points.map((point) => point.value),
@@ -158,7 +156,10 @@ export function buildNumericChartOption({
         opacity: style.opacity,
       },
       emphasis: {
-        focus: "series" as const,
+        itemStyle: {
+          color: seriesColor,
+          opacity: style.opacity,
+        },
       },
     };
 
@@ -365,11 +366,11 @@ export function buildNumericChartOption({
         },
         selectedDataBackground: {
           lineStyle: {
-            color,
+            color: theme.primary,
             width: 1,
           },
           areaStyle: {
-            color,
+            color: theme.primary,
             opacity: 0.12,
           },
         },

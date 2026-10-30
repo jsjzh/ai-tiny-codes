@@ -32,6 +32,21 @@ describe("theme", () => {
     expect(resolveChartColor("night", original)).toMatch(/^#[0-9a-f]{6}$/);
   });
 
+  it("每套主题都有独立的图表色板", () => {
+    const firstColors = new Set(
+      THEME_DEFINITIONS.map((theme) => theme.chart.palette[0]),
+    );
+
+    expect(firstColors.size).toBe(THEME_DEFINITIONS.length);
+
+    for (const theme of THEME_DEFINITIONS) {
+      expect(theme.chart.palette.length).toBeGreaterThanOrEqual(4);
+      expect(new Set(theme.chart.palette).size).toBe(
+        theme.chart.palette.length,
+      );
+    }
+  });
+
   it("多指标使用不同主题色", () => {
     const theme = getChartTheme("blueprint");
     const daily = getMetricColor(theme, "daily", "#1d4ed8");

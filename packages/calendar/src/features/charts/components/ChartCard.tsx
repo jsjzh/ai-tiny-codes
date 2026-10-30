@@ -125,6 +125,7 @@ export function ChartCard({
   }
 
   const eventColor = resolveChartColor(theme, event.color);
+  const chartColor = chartTheme.palette[0] ?? eventColor;
   const eventFieldUnits = (() => {
     if (event.kind !== "number") {
       return [];
@@ -167,7 +168,7 @@ export function ChartCard({
       <div className="flex min-w-0 shrink-0 items-center gap-2">
         <span
           className="size-2 shrink-0 border border-black/10"
-          style={{ backgroundColor: eventColor }}
+          style={{ backgroundColor: chartColor }}
         />
         <span className="truncate text-sm font-medium text-ink">
           {template.title}
@@ -265,7 +266,7 @@ export function ChartCard({
           template={template}
           calendarData={calendarData}
           caseRange={caseRange}
-          color={eventColor}
+          color={chartColor}
           chartTheme={chartTheme}
           chartType={effectiveViewType}
           stacked={stacked}

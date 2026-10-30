@@ -57,8 +57,14 @@ describe("buildNumericChartOption", () => {
     expect(option.xAxis.data).toHaveLength(3);
     expect(option.series[0].type).toBe("line");
     expect(option.series[0].connectNulls).toBe(true);
-    expect(option.series[0].color).toBe("#1d4ed8");
+    expect(option.series[0].color).toBe(
+      getChartTheme("blueprint").palette[0],
+    );
     expect(option.series[1].color).toBe("#0f766e");
+    expect(
+      (option.series[0].emphasis as { itemStyle: { color: string } })
+        .itemStyle.color,
+    ).toBe(option.series[0].color);
     expect(option.series[1].lineStyle).toMatchObject({
       type: "dashed",
     });
@@ -97,24 +103,48 @@ describe("buildNumericChartOption", () => {
     };
 
     expect(option.series[0].areaStyle).toMatchObject({
-      color: "#1d4ed8",
+      color: getChartTheme("blueprint").palette[0],
     });
   });
 
-  it("使用主题色板", () => {
+  it("使用主题色板和系列颜色", () => {
+    const night = getChartTheme("night");
     const option = buildNumericChartOption({
       data: data(),
       chartType: "line",
       color: "#1d4ed8",
-      theme: getChartTheme("night"),
+      theme: night,
     }) as {
       tooltip: { backgroundColor: string; borderColor: string };
       yAxis: { axisLabel: { color: string } };
+      series: Array<{ color: string }>;
     };
 
     expect(option.tooltip.backgroundColor).toBe("#161b22");
     expect(option.tooltip.borderColor).toBe("#30363d");
     expect(option.yAxis.axisLabel.color).toBe("#8b949e");
+    expect(option.series[0].color).toBe(night.palette[0]);
+  });
+
+  it("主题切换后系列颜色同步变化", () => {
+    const blueprint = buildNumericChartOption({
+      data: data(),
+      chartType: "bar",
+      color: "#1d4ed8",
+      theme: getChartTheme("blueprint"),
+    }) as { series: Array<{ color: string }> };
+    const warm = buildNumericChartOption({
+      data: data(),
+      chartType: "bar",
+      color: "#1d4ed8",
+      theme: getChartTheme("warm"),
+    }) as { series: Array<{ color: string }> };
+
+    expect(blueprint.series[0].color).toBe(
+      getChartTheme("blueprint").palette[0],
+    );
+    expect(warm.series[0].color).toBe(getChartTheme("warm").palette[0]);
+    expect(blueprint.series[0].color).not.toBe(warm.series[0].color);
   });
 
   it("可关闭动画以尊重 reduced-motion", () => {

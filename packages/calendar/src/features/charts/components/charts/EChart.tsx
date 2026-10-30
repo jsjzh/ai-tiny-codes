@@ -43,7 +43,6 @@ export default function EChart({
 
     const chart = echarts.init(container, undefined, {
       renderer: "canvas",
-      useDirtyRect: true,
     });
     chartRef.current = chart;
 
@@ -60,7 +59,6 @@ export default function EChart({
   useEffect(() => {
     chartRef.current?.setOption(option, {
       notMerge: true,
-      lazyUpdate: true,
     });
   }, [option]);
 
