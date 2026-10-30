@@ -6,14 +6,19 @@ import type { CalendarData } from "@/features/calendar/data/types";
 
 import type { ChartTheme } from "@/features/theme/theme";
 
-import type { ChartTemplate } from "../../data/types";
+import {
+  getChartAnalysis,
+  type ChartTemplate,
+} from "../../data/types";
 import {
   buildNumericChartData,
+  buildRecordCalendarData,
   buildTextChartData,
   type ChartRange,
 } from "../../lib/chartData";
 import { buildNumericChartOption, type NumericViewType } from "../../lib/echartsOption";
 import { TextDistribution } from "./TextDistribution";
+import { RecordHeatmap } from "./RecordHeatmap";
 import { TextTable } from "./TextTable";
 
 const EChart = lazy(() => import("./EChart"));
@@ -40,12 +45,24 @@ export function ChartRenderer({
   resetKey,
 }: ChartRendererProps) {
   const reducedMotion = useReducedMotion();
+  const analysis = getChartAnalysis(template);
   const numericData = useMemo(
     () =>
-      template.kind === "numeric"
+      template.kind === "numeric" && analysis !== "calendar"
         ? buildNumericChartData(template, calendarData, caseRange)
         : null,
-    [template, calendarData, caseRange],
+    [analysis, template, calendarData, caseRange],
+  );
+  const calendarDataForAnalysis = useMemo(
+    () =>
+      template.kind === "numeric" && analysis === "calendar"
+        ? buildRecordCalendarData(
+            calendarData,
+            template.eventCode,
+            caseRange,
+          )
+        : null,
+    [analysis, template, calendarData, caseRange],
   );
   const textData = useMemo(
     () =>
@@ -68,6 +85,15 @@ export function ChartRenderer({
         : null,
     [numericData, chartType, color, chartTheme, reducedMotion, stacked],
   );
+
+  if (calendarDataForAnalysis) {
+    return (
+      <RecordHeatmap
+        data={calendarDataForAnalysis}
+        color={color}
+      />
+    );
+  }
 
   if (template.kind === "text" && textData) {
     if (template.chartType === "distribution") {

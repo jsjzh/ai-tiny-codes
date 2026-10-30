@@ -1,9 +1,9 @@
 # 项目：日历（calendar）
 
-Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + 多值事项 + 全部历史案例 + 通用图表/块 + 主题/动画/备份**；基础分析预设待接。
+Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + 多值事项 + 全部历史案例 + 通用图表/块 + 基础分析 + 主题/动画/备份**。
 
 扩展手册：`docs/EXTENDING.md`（字段/公式、图表系列、块规则、渲染、导入格式）。
-待办：`TODO.md`（基础分析预设、其余增强）。
+待办：`TODO.md`（后续增强）。
 ## 运行
 
 - `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar` 和 `/api/charts`。
@@ -106,6 +106,11 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
   - 同一模板可添加多个系列；字段来自事项模板，公式字段也可选；`stacked` 控制柱/面积堆叠，卡片可临时切换堆叠。
   - 图表类型：数值 `line|bar|area`，文本 `table|distribution`。
   - 图表数据构建在 `lib/chartData.ts`：原始值、滚动窗口、累计合计、累计变化、百分比变化；滚动允许回看案例开始前，累计/变化在案例内计算。
+  - `analysis` 预设：`series` / `cumulative` / `monthlyDelta` / `weeklyDelta` / `weekdayAverage` / `distribution` / `recordQuality` / `calendar`；`analysisFields` 选择字段，缺省回退到系列字段。
+  - 累计变化以区间首条记录为 0 点；月度/周净变化按自然桶取最后值减首值，周桶裁到案例区间；周内平均按周一至周日分组；分布等宽分桶；记录质量按事项是否有记录计数。
+  - 非趋势分析固定柱状；累计变化可切折线/柱状/面积。多字段分析必须同单位；分布只允许单字段；记录质量/记录日历不要求字段。
+  - `ChartRenderer` 对记录日历直接渲染 `RecordHeatmap`，不构建 ECharts option；其余文本/数值分析仍走 ECharts。
+  - 文本轴用 `NumericChartData.xMode: "text"`，避免把月份/分布区间当日期格式化。
   - 图表模板删除按案例数去重提示，并清空案例中的对应图表；草稿中的对应图表同步清理。
 - 块：
   - 案例内联创建/编辑，没有全局块模板库。
@@ -114,7 +119,7 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
   - `delta` 有方向 `last-first` / `first-last`；文本事项支持 `latest` / `count`。
   - 范围：`case`、`all`、`lastDays`；`lastDays` 以案例结束日前最后一条记录为终点，允许回看案例开始前，不能超过案例结束日。
   - BMI/距离目标等旧规则只作兼容；新数据应使用公式字段 + `latest`。
-- 基础分析预设（累计、月/周变化、周内平均、分布、记录热力图、记录质量）是下一批，不要把领域预设写进引擎。
+- 基础分析预设已完成；新增分析应在 `ChartAnalysis` 与 `buildAnalysisChartData` 中扩展，保持字段驱动，不要写死体重/饮食。记录日历用自定义 `RecordHeatmap`，不要塞回 ECharts。
 
 ## Header
 
@@ -167,11 +172,11 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
 7. **动画（已完成）**：section reveal、案例切换、卡片 stagger、ECharts 动效、count-up、拖拽反馈、弹窗过渡、reduced-motion。
 8. **数据备份与排序（已完成）**：完整 JSON 导出/覆盖导入、单事项导出、图表模板拖拽排序。
 9. **通用化重构（已完成）**：多字段/公式字段、通用图表系列、通用块聚合、全部历史、BMI/距离迁移。
-10. **基础分析预设（下一批）**：累计、月/周变化、周内平均、分布、记录热力图、记录质量。
+10. **基础分析预设（已完成）**：累计、月/周变化、周内平均、分布、记录热力图、记录质量。
 
 ## 当前阶段
 
-- 通用字段/公式、多值日历、全部历史、通用图表系列、通用块聚合已完成；基础分析预设下一批。
+- 通用字段/公式、多值日历、全部历史、通用图表系列、通用块聚合、基础分析预设均已完成。
 - 图表模板与事项模板分开管理，通过 `eventCode` 关联；案例通过 `eventCodes` 过滤可用模板。
 - 所有 BMI/距离目标等旧块已迁移成公式字段 + 通用 `latest`；旧格式仍能读取。
 

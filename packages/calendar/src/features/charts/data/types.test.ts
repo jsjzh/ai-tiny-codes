@@ -4,6 +4,7 @@ import {
   countChartTemplateUsage,
   normalizeChartsData,
   removeChartTemplateFromData,
+  validateChartTemplateDraft,
   type ChartCase,
   type ChartsData,
 } from "./types";
@@ -89,6 +90,19 @@ describe("normalizeChartsData", () => {
       { fieldCode: "", operation: "rolling", window: 7 },
     ]);
     expect(data.cases[0].rangeMode).toBe("custom");
+  });
+});
+
+describe("validateChartTemplateDraft", () => {
+  it("记录日历分析不需要选择字段", () => {
+    const draft = data();
+    draft.templates[0] = {
+      ...draft.templates[0],
+      analysis: "calendar",
+      analysisFields: [],
+    };
+
+    expect(validateChartTemplateDraft(draft).size).toBe(0);
   });
 });
 

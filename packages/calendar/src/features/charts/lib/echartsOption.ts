@@ -284,7 +284,10 @@ export function buildNumericChartOption({
         fontSize: 10,
         hideOverlap: true,
         interval: axisInterval,
-        formatter: (value: string) => formatDateLabel(value, longRange),
+        formatter: (value: string) =>
+          data.xMode === "text"
+            ? value
+            : formatDateLabel(value, longRange),
       },
     },
     yAxis: {

@@ -85,6 +85,16 @@ type ChartTemplate = {
   eventCode: string;
   kind: "numeric" | "text";
   chartType: "line" | "bar" | "area" | "table" | "distribution";
+  analysis?:
+    | "series"
+    | "cumulative"
+    | "monthlyDelta"
+    | "weeklyDelta"
+    | "weekdayAverage"
+    | "distribution"
+    | "recordQuality"
+    | "calendar";
+  analysisFields?: string[];
   series?: ChartSeriesSpec[];
   stacked?: boolean;
   // 兼容旧数据：metrics?: NumericMetricCode[]
@@ -110,7 +120,19 @@ type ChartTemplate = {
 - 多字段默认用字段颜色；同字段多操作使用主题色板 + 线型区分，图例名称带统计方式和窗口。
 - 图表模板删除按案例去重提示，并清空所有案例中的对应图表；草稿同步清理。
 - 事项模板删除后保留图表并显示「引用的事项已删除」。
-- 基础分析预设（累计、月/周变化、周内平均、分布、日历热力图、记录质量）尚未实现，后续基于这套通用系列扩展，不要写死体重/饮食。
+### 基础分析预设
+
+- `analysis` 缺省为 `series`；`analysisFields` 缺省回退到系列字段。
+- 累计变化：`cumulative`，以区间首条记录为 0 点。
+- 月度/周净变化：`monthlyDelta` / `weeklyDelta`，按自然桶取最后值减首值；周桶首尾裁到案例区间。
+- 周内平均：`weekdayAverage`，按周一至周日分组求均值。
+- 数值分布：`distribution`，单字段等宽分桶，统计记录条数。
+- 每月记录天数：`recordQuality`，按事项是否有记录计数，不要求字段。
+- 记录日历：`calendar`，由 `RecordHeatmap` 直接渲染，不构建 ECharts option，不要求字段。
+- 非趋势分析固定柱状；累计变化可切折线/柱状/面积；多字段分析必须同单位。
+- 文本轴数据设 `NumericChartData.xMode = "text"`，`echartsOption.ts` 不再按日期格式化。
+- 修改位置：`ChartAnalysis`/`getChartAnalysis`/`getAnalysisFieldCodes`、`buildAnalysisChartData`、`ChartTemplateModal` 分析选择与字段 chips、`ChartCard` 分析控件、`ChartRenderer` 分发、`RecordHeatmap`。
+- 新增分析时要补 `chartData.test.ts` 的桶边界/空数据测试，并更新 `CHART_ANALYSIS_LABELS`、README、TODO。
 
 ## 4. 块
 

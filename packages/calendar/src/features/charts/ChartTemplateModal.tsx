@@ -28,6 +28,10 @@ import {
   cloneChartsData,
   countChartTemplateUsage,
   generateChartTemplateCode,
+  CHART_ANALYSES,
+  CHART_ANALYSIS_LABELS,
+  getAnalysisFieldCodes,
+  getChartAnalysis,
   getChartSeries,
   NUMERIC_CHART_TYPES,
   NUMERIC_SERIES_OPERATIONS,
@@ -36,6 +40,7 @@ import {
   sortChartTemplates,
   TEXT_CHART_TYPES,
   validateChartTemplateDraft,
+  type ChartAnalysis,
   type ChartSeriesSpec,
   type ChartTemplate,
   type ChartsData,
@@ -114,57 +119,110 @@ export function ChartTemplateModal({
     : null;
   const selectedEventFields =
     selectedEvent?.kind === "number" ? getNumericFields(selectedEvent) : [];
+  const selectedAnalysis = selectedTemplate
+    ? getChartAnalysis(selectedTemplate)
+    : "series";
+  const analysisFields = selectedTemplate
+    ? getAnalysisFieldCodes(selectedTemplate)
+    : [];
+  const analysisNeedsFields =
+    selectedAnalysis !== "recordQuality" && selectedAnalysis !== "calendar";
+  const analysisCanStack =
+    analysisFields.length > 1 &&
+    (selectedAnalysis === "cumulative" ||
+      selectedAnalysis === "monthlyDelta" ||
+      selectedAnalysis === "weeklyDelta");
+  const analysisHint =
+    selectedAnalysis === "cumulative"
+      ? "累计变化以区间内首条记录为 0 点；同图只允许同单位字段。"
+      : selectedAnalysis === "weekdayAverage"
+        ? "按周一至周日分别平均；同图只允许同单位字段。"
+        : selectedAnalysis === "distribution"
+          ? "按区间内数值分桶统计记录条数。"
+          : "月度/周净变化使用区间内最后值减首值；同图只允许同单位字段。";
   const seriesErrors = useMemo(() => {
     if (!selectedTemplate || selectedTemplate.kind !== "numeric") {
       return [];
     }
 
-    const series = getChartSeries(selectedTemplate);
     const messages: string[] = [];
-
-    if (series.length === 0) {
-      messages.push("至少需要一个图表系列");
-    }
-
-    const fields = selectedEvent
-      ? getNumericFields(selectedEvent)
-      : [];
+    const analysis = getChartAnalysis(selectedTemplate);
+    const series = getChartSeries(selectedTemplate);
+    const fields = selectedEvent ? getNumericFields(selectedEvent) : [];
     const fieldByCode = new Map(fields.map((field) => [field.code, field]));
 
-    for (const spec of series) {
-      const field =
-        fieldByCode.get(spec.fieldCode || "") ??
-        fields.find((item) => item.kind === "input") ??
-        fields[0];
-
-      if (!field) {
-        messages.push("绑定事项没有数值字段");
+    if (analysis === "series") {
+      if (series.length === 0) {
+        messages.push("至少需要一个图表系列");
       }
 
-      if (spec.operation === "rolling" && (!spec.window || spec.window < 2)) {
-        messages.push("滚动平均窗口至少为 2");
+      for (const spec of series) {
+        const field =
+          fieldByCode.get(spec.fieldCode || "") ??
+          fields.find((item) => item.kind === "input") ??
+          fields[0];
+
+        if (!field) {
+          messages.push("绑定事项没有数值字段");
+        }
+
+        if (
+          spec.operation === "rolling" &&
+          (!spec.window || spec.window < 2)
+        ) {
+          messages.push("滚动平均窗口至少为 2");
+        }
       }
-    }
 
-    const units = new Set(
-      series
-        .map(
-          (spec) =>
-            fieldByCode.get(spec.fieldCode || "") ??
-            fields.find((item) => item.kind === "input") ??
-            fields[0],
-        )
-        .filter(Boolean)
-        .map((field) => field!.unit),
-    );
-    const hasPercent = series.some(
-      (spec) => spec.operation === "percentChange",
-    );
+      const units = new Set(
+        series
+          .map(
+            (spec) =>
+              fieldByCode.get(spec.fieldCode || "") ??
+              fields.find((item) => item.kind === "input") ??
+              fields[0],
+          )
+          .filter(Boolean)
+          .map((field) => field!.unit),
+      );
+      const hasPercent = series.some(
+        (spec) => spec.operation === "percentChange",
+      );
 
-    if (hasPercent && series.length > 1) {
-      messages.push("百分比变化不能和其他系列混在同一张图");
-    } else if (units.size > 1) {
-      messages.push("同一张图只能使用同单位字段");
+      if (hasPercent && series.length > 1) {
+        messages.push("百分比变化不能和其他系列混在同一张图");
+      } else if (units.size > 1) {
+        messages.push("同一张图只能使用同单位字段");
+      }
+    } else {
+      const codes = getAnalysisFieldCodes(selectedTemplate);
+      const selectedFields = codes
+        .map((code) => fieldByCode.get(code))
+        .filter((field): field is NonNullable<typeof field> => Boolean(field));
+
+      if (
+        analysis !== "recordQuality" &&
+        analysis !== "calendar" &&
+        selectedFields.length === 0
+      ) {
+        messages.push("至少选择一个分析字段");
+      }
+
+      if (analysis === "distribution" && selectedFields.length > 1) {
+        messages.push("数值分布只能选择一个字段");
+      }
+
+      if (
+        analysis !== "recordQuality" &&
+        analysis !== "distribution" &&
+        analysis !== "calendar"
+      ) {
+        const units = new Set(selectedFields.map((field) => field.unit));
+
+        if (units.size > 1) {
+          messages.push("同一张图只能使用同单位字段");
+        }
+      }
     }
 
     return Array.from(new Set(messages));
@@ -239,6 +297,8 @@ export function ChartTemplateModal({
       eventCode: event?.code ?? "",
       kind,
       chartType: defaultChartType(kind),
+      analysis: "series",
+      analysisFields: [],
       series: defaultSeries(event),
       stacked: false,
       desc: "",
@@ -292,6 +352,8 @@ export function ChartTemplateModal({
         eventCode,
         kind,
         chartType: defaultChartType(kind),
+        analysis: "series",
+        analysisFields: [],
         series: defaultSeries(event),
         stacked: false,
       },
@@ -343,6 +405,48 @@ export function ChartTemplateModal({
       (_, itemIndex) => itemIndex !== index,
     );
     handleUpdate({ series });
+  }
+
+  function handleAnalysisChange(analysis: ChartAnalysis) {
+    if (!selectedTemplate) {
+      return;
+    }
+
+    const currentFields = getAnalysisFieldCodes(selectedTemplate);
+    const fallbackField = selectedEventFields[0];
+    const nextFields =
+      analysis === "recordQuality" || analysis === "calendar"
+        ? []
+        : currentFields.length > 0
+          ? currentFields
+          : fallbackField
+            ? [fallbackField.code]
+            : [];
+
+    handleUpdate({
+      analysis,
+      analysisFields: nextFields,
+      chartType:
+        analysis === "series" || analysis === "cumulative"
+          ? selectedTemplate.chartType
+          : "bar",
+    });
+  }
+
+  function toggleAnalysisField(code: string) {
+    if (!selectedTemplate) {
+      return;
+    }
+
+    const current = getAnalysisFieldCodes(selectedTemplate);
+    const next =
+      selectedAnalysis === "distribution"
+        ? [code]
+        : current.includes(code)
+          ? current.filter((item) => item !== code)
+          : [...current, code];
+
+    handleUpdate({ analysisFields: next });
   }
 
   function handleReorder(activeCode: string, overCode: string) {
@@ -591,7 +695,10 @@ export function ChartTemplateModal({
                         </SelectTrigger>
                         <SelectContent>
                           {(selectedTemplate.kind === "numeric"
-                            ? NUMERIC_CHART_TYPES
+                            ? selectedAnalysis === "series" ||
+                              selectedAnalysis === "cumulative"
+                              ? NUMERIC_CHART_TYPES
+                              : (["bar"] as ChartType[])
                             : TEXT_CHART_TYPES
                           ).map((type) => (
                             <SelectItem key={type} value={type}>
@@ -604,6 +711,107 @@ export function ChartTemplateModal({
                   </div>
 
                   {selectedTemplate.kind === "numeric" ? (
+                    <label className="flex flex-col gap-1.5">
+                      <span className="text-xs font-medium text-muted-foreground">
+                        分析
+                      </span>
+                      <Select
+                        value={selectedAnalysis}
+                        onValueChange={(value) =>
+                          handleAnalysisChange(value as ChartAnalysis)
+                        }
+                      >
+                        <SelectTrigger
+                          aria-label="选择图表分析"
+                          className="h-9 w-full border border-rule bg-sheet px-2.5 text-sm"
+                        >
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {CHART_ANALYSES.map((analysis) => (
+                            <SelectItem key={analysis} value={analysis}>
+                              {CHART_ANALYSIS_LABELS[analysis]}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
+                  ) : null}
+
+                  {selectedTemplate.kind === "numeric" &&
+                  selectedAnalysis !== "series" ? (
+                    <div className="flex flex-col gap-3">
+                      <span className="text-xs font-medium text-muted-foreground">
+                        字段
+                      </span>
+                      {!analysisNeedsFields ? (
+                        <div className="border border-rule bg-paper px-3 py-2 text-xs text-muted-foreground">
+                          {selectedAnalysis === "recordQuality"
+                            ? "按事项记录日期统计每月记录天数，不需要选择字段。"
+                            : "按事项记录日期显示每日是否有记录，不需要选择字段。"}
+                        </div>
+                      ) : (
+                        <div className="flex flex-wrap gap-2">
+                          {selectedEventFields.map((field) => {
+                            const active = analysisFields.includes(
+                              field.code,
+                            );
+
+                            return (
+                              <button
+                                key={field.code}
+                                type="button"
+                                onClick={() =>
+                                  toggleAnalysisField(field.code)
+                                }
+                                className={cn(
+                                  "border px-2.5 py-1.5 text-xs font-medium transition-colors",
+                                  active
+                                    ? "border-blueprint bg-blueprint text-white"
+                                    : "border-rule bg-sheet text-ink hover:bg-blueprint-soft",
+                                )}
+                              >
+                                {field.label}
+                                {field.unit ? ` · ${field.unit}` : ""}
+                                {field.kind === "formula" ? " · 公式" : ""}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {analysisCanStack &&
+                      (selectedTemplate.chartType === "bar" ||
+                        selectedTemplate.chartType === "area") ? (
+                        <label className="flex items-center gap-2 text-xs text-ink">
+                          <input
+                            type="checkbox"
+                            checked={selectedTemplate.stacked === true}
+                            onChange={(event) =>
+                              handleUpdate({ stacked: event.target.checked })
+                            }
+                            className="size-3.5 accent-[var(--color-blueprint)]"
+                          />
+                          堆叠系列
+                        </label>
+                      ) : null}
+
+                      {seriesErrors.length > 0 ? (
+                        <div className="text-[11px] leading-4 text-destructive">
+                          {seriesErrors.map((error) => (
+                            <p key={error}>{error}</p>
+                          ))}
+                        </div>
+                      ) : analysisNeedsFields ? (
+                        <span className="text-[11px] leading-4 text-muted-foreground">
+                          {analysisHint}
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {selectedTemplate.kind === "numeric" &&
+                  selectedAnalysis === "series" ? (
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-xs font-medium text-muted-foreground">
@@ -734,8 +942,9 @@ export function ChartTemplateModal({
                         )}
                       </div>
 
-                      {selectedTemplate.chartType === "bar" ||
-                      selectedTemplate.chartType === "area" ? (
+                      {analysisCanStack &&
+                      (selectedTemplate.chartType === "bar" ||
+                        selectedTemplate.chartType === "area") ? (
                         <label className="flex items-center gap-2 text-xs text-ink">
                           <input
                             type="checkbox"
@@ -761,11 +970,13 @@ export function ChartTemplateModal({
                         </span>
                       )}
                     </div>
-                  ) : (
+                  ) : null}
+
+                  {selectedTemplate.kind === "text" ? (
                     <div className="border border-rule bg-paper px-3 py-2 text-xs text-muted-foreground">
                       文本事项使用对照表或分布视图，不计算数值指标。
                     </div>
-                  )}
+                  ) : null}
 
                   <label className="flex flex-col gap-1.5">
                     <span className="text-xs font-medium text-muted-foreground">

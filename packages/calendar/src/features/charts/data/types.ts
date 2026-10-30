@@ -7,6 +7,15 @@ export type NumericSeriesOperation =
   | "percentChange";
 export type ChartTemplateKind = "numeric" | "text";
 export type ChartType = "line" | "bar" | "area" | "table" | "distribution";
+export type ChartAnalysis =
+  | "series"
+  | "cumulative"
+  | "monthlyDelta"
+  | "weeklyDelta"
+  | "weekdayAverage"
+  | "distribution"
+  | "recordQuality"
+  | "calendar";
 
 export type ChartSeriesSpec = {
   fieldCode: string;
@@ -20,6 +29,8 @@ export type ChartTemplate = {
   eventCode: string;
   kind: ChartTemplateKind;
   chartType: ChartType;
+  analysis?: ChartAnalysis;
+  analysisFields?: string[];
   metrics?: NumericMetricCode[];
   series?: ChartSeriesSpec[];
   stacked?: boolean;
@@ -157,6 +168,44 @@ export function getChartSeries(template: ChartTemplate): ChartSeriesSpec[] {
 }
 
 export const NUMERIC_CHART_TYPES: ChartType[] = ["line", "bar", "area"];
+
+export const CHART_ANALYSES: ChartAnalysis[] = [
+  "series",
+  "cumulative",
+  "monthlyDelta",
+  "weeklyDelta",
+  "weekdayAverage",
+  "distribution",
+  "recordQuality",
+  "calendar",
+];
+
+export const CHART_ANALYSIS_LABELS: Record<ChartAnalysis, string> = {
+  series: "趋势",
+  cumulative: "累计变化",
+  monthlyDelta: "月度净变化",
+  weeklyDelta: "周净变化",
+  weekdayAverage: "周内平均",
+  distribution: "数值分布",
+  recordQuality: "每月记录天数",
+  calendar: "记录日历",
+};
+
+export function getChartAnalysis(template: ChartTemplate): ChartAnalysis {
+  return template.analysis ?? "series";
+}
+
+export function getAnalysisFieldCodes(template: ChartTemplate): string[] {
+  if (template.analysisFields && template.analysisFields.length > 0) {
+    return template.analysisFields;
+  }
+
+  const codes = getChartSeries(template)
+    .map((series) => series.fieldCode)
+    .filter(Boolean);
+
+  return Array.from(new Set(codes));
+}
 export const TEXT_CHART_TYPES: ChartType[] = ["table", "distribution"];
 
 export function createDefaultChartsData(): ChartsData {
@@ -258,6 +307,20 @@ function normalizeChartTemplate(
     eventCode,
     kind,
     chartType,
+    analysis:
+      kind === "numeric" && CHART_ANALYSES.includes(raw.analysis as ChartAnalysis)
+        ? (raw.analysis as ChartAnalysis)
+        : "series",
+    analysisFields:
+      kind === "numeric" && Array.isArray(raw.analysisFields)
+        ? Array.from(
+            new Set(
+              raw.analysisFields.filter(
+                (code): code is string => typeof code === "string",
+              ),
+            ),
+          )
+        : [],
     metrics: normalizeMetrics(raw.metrics, kind),
     series:
       kind === "numeric"
@@ -650,8 +713,24 @@ export function validateChartTemplateDraft(
     }
 
     if (template.kind === "numeric") {
-      if (getChartSeries(template).length === 0) {
+      const analysis = getChartAnalysis(template);
+      const analysisFields = getAnalysisFieldCodes(template);
+
+      if (analysis === "series" && getChartSeries(template).length === 0) {
         messages.push("至少需要一个图表系列");
+      }
+
+      if (
+        analysis !== "series" &&
+        analysis !== "recordQuality" &&
+        analysis !== "calendar" &&
+        analysisFields.length === 0
+      ) {
+        messages.push("至少选择一个分析字段");
+      }
+
+      if (analysis === "distribution" && analysisFields.length > 1) {
+        messages.push("数值分布只能选择一个字段");
       }
     }
 

@@ -5,6 +5,7 @@ import type { CalendarData } from "@/features/calendar/data/types";
 import type { ChartTemplate } from "../data/types";
 import {
   buildNumericChartData,
+  buildRecordCalendarData,
   buildTextChartData,
   type ChartRange,
 } from "./chartData";
@@ -187,6 +188,98 @@ describe("buildNumericChartData", () => {
     expect(data.series[0].color).toBe("#0f766e");
   });
 
+  it("支持月度净变化、周内平均、分布和记录质量", () => {
+    const base = {
+      code: "analysis",
+      title: "分析",
+      eventCode: "weight",
+      kind: "numeric" as const,
+      chartType: "bar" as const,
+      analysisFields: ["value"],
+      desc: "",
+      sortOrder: 0,
+    };
+    const monthly = buildNumericChartData(
+      { ...base, analysis: "monthlyDelta" },
+      calendar(),
+      range,
+    );
+    const weekday = buildNumericChartData(
+      { ...base, analysis: "weekdayAverage" },
+      calendar(),
+      range,
+    );
+    const distribution = buildNumericChartData(
+      { ...base, analysis: "distribution" },
+      calendar(),
+      range,
+    );
+    const quality = buildNumericChartData(
+      { ...base, analysis: "recordQuality" },
+      calendar(),
+      range,
+    );
+
+    expect(monthly.dates).toEqual(["2026-08"]);
+    expect(monthly.series[0].points[0].value).toBe(-1);
+    expect(weekday.dates).toEqual([
+      "周日",
+      "周一",
+      "周二",
+      "周三",
+      "周四",
+      "周五",
+      "周六",
+    ]);
+    expect(distribution.dates.length).toBeGreaterThan(0);
+    expect(distribution.valueCount).toBe(3);
+    expect(quality.dates).toEqual(["2026-08"]);
+    expect(quality.series[0].points[0].value).toBe(3);
+  });
+
+  it("月净变化只统计案例区间内的记录", () => {
+    const data = buildNumericChartData(
+      {
+        code: "monthly",
+        title: "月度净变化",
+        eventCode: "weight",
+        kind: "numeric",
+        chartType: "bar",
+        analysis: "monthlyDelta",
+        analysisFields: ["value"],
+        desc: "",
+        sortOrder: 0,
+      },
+      calendar(),
+      { startDate: "2026-08-02", endDate: "2026-08-05" },
+    );
+
+    expect(data.series[0].points[0].value).toBe(1);
+  });
+
+  it("周净变化只统计案例区间内的记录", () => {
+    const calendarData = calendar();
+    calendarData.events["2026-08-08"] = { weight: 90 };
+
+    const data = buildNumericChartData(
+      {
+        code: "weekly",
+        title: "周净变化",
+        eventCode: "weight",
+        kind: "numeric",
+        chartType: "bar",
+        analysis: "weeklyDelta",
+        analysisFields: ["value"],
+        desc: "",
+        sortOrder: 0,
+      },
+      calendarData,
+      range,
+    );
+
+    expect(data.series[0].points.at(-1)?.value).toBe(1);
+  });
+
   it("空区间返回空值", () => {
     const data = buildNumericChartData(
       numericTemplate(["daily"]),
@@ -195,6 +288,24 @@ describe("buildNumericChartData", () => {
     );
 
     expect(data.valueCount).toBe(0);
+  });
+});
+
+describe("buildRecordCalendarData", () => {
+  it("按月生成记录日历并统计有记录天数", () => {
+    const data = buildRecordCalendarData(
+      calendar(),
+      "weight",
+      { startDate: "2026-07-30", endDate: "2026-08-02" },
+    );
+
+    expect(data.months.map((month) => month.label)).toEqual([
+      "2026年7月",
+      "2026年8月",
+    ]);
+    expect(data.recordedDays).toBe(3);
+    expect(data.totalDays).toBe(4);
+    expect(data.months[1].days[1].hasRecord).toBe(true);
   });
 });
 

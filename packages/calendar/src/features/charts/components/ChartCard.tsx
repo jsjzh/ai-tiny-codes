@@ -18,7 +18,13 @@ import {
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { cn } from "@/lib/utils";
 
-import { getChartSeries, type ChartTemplate } from "../data/types";
+import {
+  CHART_ANALYSIS_LABELS,
+  getAnalysisFieldCodes,
+  getChartAnalysis,
+  getChartSeries,
+  type ChartTemplate,
+} from "../data/types";
 import type { ChartRange } from "../lib/chartData";
 import type { NumericViewType } from "../lib/echartsOption";
 import { CHART_TYPE_LABELS } from "../lib/widgetLayout";
@@ -66,7 +72,29 @@ export function ChartCard({
   const defaultViewType = template ? templateViewType(template) : "line";
   const viewType = viewTypeOverride ?? defaultViewType;
   const series = template ? getChartSeries(template) : [];
+  const analysis = template ? getChartAnalysis(template) : "series";
+  const analysisFields = template ? getAnalysisFieldCodes(template) : [];
+  const seriesCount =
+    analysis === "series"
+      ? series.length
+      : analysis === "recordQuality" || analysis === "calendar"
+        ? 1
+        : analysisFields.length;
+  const fixedBarAnalysis =
+    analysis === "monthlyDelta" ||
+    analysis === "weeklyDelta" ||
+    analysis === "weekdayAverage" ||
+    analysis === "distribution" ||
+    analysis === "recordQuality" ||
+    analysis === "calendar";
+  const effectiveViewType = fixedBarAnalysis ? "bar" : viewType;
   const stacked = stackedOverride ?? template?.stacked ?? false;
+  const canChangeType =
+    analysis === "series" || analysis === "cumulative";
+  const canStack =
+    seriesCount > 1 &&
+    (effectiveViewType === "bar" || effectiveViewType === "area") &&
+    analysis !== "weekdayAverage";
 
   useEffect(() => {
     setViewTypeOverride(null);
@@ -102,23 +130,37 @@ export function ChartCard({
       return [];
     }
 
+    if (analysis === "recordQuality") {
+      return ["天"];
+    }
+
+    if (analysis === "calendar") {
+      return [];
+    }
+
     const fields = getNumericFields(event);
     const fieldByCode = new Map(fields.map((field) => [field.code, field]));
     const fallback = fields.find((field) => field.kind === "input") ?? fields[0];
+    const codes =
+      analysis === "series"
+        ? series.map((spec) => spec.fieldCode)
+        : analysisFields;
 
     return Array.from(
       new Set(
-        series
-          .map(
-            (spec) =>
-              fieldByCode.get(spec.fieldCode || "") ?? fallback,
-          )
+        codes
+          .map((code) => fieldByCode.get(code || "") ?? fallback)
           .filter(Boolean)
           .map((field) => field!.unit),
       ),
     );
   })();
-  const eventUnit = eventFieldUnits.length === 1 ? eventFieldUnits[0] : "";
+  const eventUnit =
+    analysis === "distribution"
+      ? "条"
+      : eventFieldUnits.length === 1
+        ? eventFieldUnits[0]
+        : "";
 
   return (
     <div className="flex h-full min-h-0 flex-col p-3">
@@ -137,14 +179,15 @@ export function ChartCard({
 
         {template.kind === "numeric" ? (
           <div className="ml-auto flex shrink-0 items-center gap-1">
-            <div
-              className="flex border border-rule bg-sheet"
-              role="group"
-              aria-label="切换图表类型"
-            >
+            {canChangeType ? (
+              <div
+                className="flex border border-rule bg-sheet"
+                role="group"
+                aria-label="切换图表类型"
+              >
               {VIEW_OPTIONS.map((option) => {
                 const Icon = option.icon;
-                const active = viewType === option.value;
+                const active = effectiveViewType === option.value;
 
                 return (
                   <button
@@ -167,18 +210,20 @@ export function ChartCard({
                   </button>
                 );
               })}
-            </div>
-            <button
-              type="button"
-              aria-label="重置缩放"
-              title="重置缩放"
-              onClick={() => setResetKey((value) => value + 1)}
-              className="flex size-7 items-center justify-center border border-rule bg-sheet text-muted-foreground transition-colors hover:bg-blueprint-soft hover:text-ink"
-            >
-              <RotateCcw aria-hidden="true" className="size-3.5" />
-            </button>
-            {series.length > 1 &&
-            (viewType === "bar" || viewType === "area") ? (
+              </div>
+            ) : null}
+            {analysis !== "calendar" ? (
+              <button
+                type="button"
+                aria-label="重置缩放"
+                title="重置缩放"
+                onClick={() => setResetKey((value) => value + 1)}
+                className="flex size-7 items-center justify-center border border-rule bg-sheet text-muted-foreground transition-colors hover:bg-blueprint-soft hover:text-ink"
+              >
+                <RotateCcw aria-hidden="true" className="size-3.5" />
+              </button>
+            ) : null}
+            {canStack ? (
               <button
                 type="button"
                 aria-label={stacked ? "取消堆叠" : "堆叠系列"}
@@ -198,13 +243,20 @@ export function ChartCard({
       </div>
 
       <div className="mt-1 flex shrink-0 flex-wrap gap-x-2 gap-y-1 text-[10px] text-muted-foreground">
-        <span>
-          {CHART_TYPE_LABELS[
-            template.kind === "numeric" ? viewType : template.chartType
-          ]}
-        </span>
-        {template.kind === "numeric" && series.length > 0 ? (
-          <span>{series.length} 个系列</span>
+        {analysis !== "calendar" ? (
+          <span>
+            {CHART_TYPE_LABELS[
+              template.kind === "numeric" ? effectiveViewType : template.chartType
+            ]}
+          </span>
+        ) : null}
+        {analysis !== "series" ? (
+          <span>{CHART_ANALYSIS_LABELS[analysis]}</span>
+        ) : null}
+        {template.kind === "numeric" &&
+        seriesCount > 0 &&
+        analysis !== "calendar" ? (
+          <span>{seriesCount} 个系列</span>
         ) : null}
       </div>
 
@@ -215,7 +267,7 @@ export function ChartCard({
           caseRange={caseRange}
           color={eventColor}
           chartTheme={chartTheme}
-          chartType={viewType}
+          chartType={effectiveViewType}
           stacked={stacked}
           resetKey={resetKey}
         />
