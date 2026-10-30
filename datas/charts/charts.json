@@ -42,6 +42,219 @@
         }
       ],
       "stacked": false
+    },
+    {
+      "code": "chart_weight_cumulative",
+      "title": "体重累计变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "以区间首条记录为 0 点",
+      "sortOrder": 2,
+      "series": [],
+      "stacked": false,
+      "analysis": "cumulative",
+      "analysisFields": [
+        "value"
+      ]
+    },
+    {
+      "code": "chart_weight_monthly",
+      "title": "体重月度净变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月最后值减首值",
+      "sortOrder": 3,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlyDelta",
+      "analysisFields": [
+        "value"
+      ]
+    },
+    {
+      "code": "chart_weight_weekly",
+      "title": "体重周净变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每周最后值减首值",
+      "sortOrder": 4,
+      "series": [],
+      "stacked": false,
+      "analysis": "weeklyDelta",
+      "analysisFields": [
+        "value"
+      ]
+    },
+    {
+      "code": "chart_weight_weekday",
+      "title": "体重周内平均",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "按周一至周日平均",
+      "sortOrder": 5,
+      "series": [],
+      "stacked": false,
+      "analysis": "weekdayAverage",
+      "analysisFields": [
+        "value"
+      ]
+    },
+    {
+      "code": "chart_weight_distribution",
+      "title": "体重分布",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "区间内数值分桶",
+      "sortOrder": 6,
+      "series": [],
+      "stacked": false,
+      "analysis": "distribution",
+      "analysisFields": [
+        "value"
+      ]
+    },
+    {
+      "code": "chart_weight_record_quality",
+      "title": "体重记录质量",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月有记录天数",
+      "sortOrder": 7,
+      "series": [],
+      "stacked": false,
+      "analysis": "recordQuality",
+      "analysisFields": []
+    },
+    {
+      "code": "chart_weight_calendar",
+      "title": "体重记录日历",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每日记录热力图",
+      "sortOrder": 8,
+      "series": [],
+      "stacked": false,
+      "analysis": "calendar",
+      "analysisFields": []
+    },
+    {
+      "code": "chart_bmi_trend",
+      "title": "BMI 变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "BMI 原始、7/30 日均",
+      "sortOrder": 9,
+      "series": [
+        {
+          "fieldCode": "bmi_179",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "bmi_179",
+          "operation": "rolling",
+          "window": 7
+        },
+        {
+          "fieldCode": "bmi_179",
+          "operation": "rolling",
+          "window": 30
+        }
+      ],
+      "stacked": false
+    },
+    {
+      "code": "chart_bmi_monthly",
+      "title": "BMI 月度净变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月最后值减首值",
+      "sortOrder": 10,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlyDelta",
+      "analysisFields": [
+        "bmi_179"
+      ]
+    },
+    {
+      "code": "chart_bmi_distribution",
+      "title": "BMI 分布",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "区间内 BMI 分桶",
+      "sortOrder": 11,
+      "series": [],
+      "stacked": false,
+      "analysis": "distribution",
+      "analysisFields": [
+        "bmi_179"
+      ]
+    },
+    {
+      "code": "chart_target_trend",
+      "title": "距目标变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "距目标原始、7/30 日均",
+      "sortOrder": 12,
+      "series": [
+        {
+          "fieldCode": "distance_75",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "distance_75",
+          "operation": "rolling",
+          "window": 7
+        },
+        {
+          "fieldCode": "distance_75",
+          "operation": "rolling",
+          "window": 30
+        }
+      ],
+      "stacked": false
+    },
+    {
+      "code": "chart_target_cumulative",
+      "title": "距目标累计变化",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "以区间首条记录为 0 点",
+      "sortOrder": 13,
+      "series": [],
+      "stacked": false,
+      "analysis": "cumulative",
+      "analysisFields": [
+        "distance_75"
+      ]
+    },
+    {
+      "code": "chart_target_distribution",
+      "title": "距目标分布",
+      "eventCode": "tpl_j2eudg",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "区间内剩余目标分桶",
+      "sortOrder": 14,
+      "series": [],
+      "stacked": false,
+      "analysis": "distribution",
+      "analysisFields": [
+        "distance_75"
+      ]
     }
   ],
   "cases": [
@@ -134,10 +347,176 @@
               "height": 4
             }
           ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_avg_all",
+                "title": "平均体重",
+                "info": "全部历史平均",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_count_all",
+                "title": "记录天数",
+                "info": "全部历史记录天数",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "count",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_streak_all",
+                "title": "连续记录",
+                "info": "截至最新记录",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "streak",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_avg30_all",
+                "title": "近 30 天平均",
+                "info": "以最新记录为终点",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_zf6plg",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_cumulative",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_monthly",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_weekly",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_weekday",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_distribution",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_record_quality",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_bmi_trend",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_bmi_monthly",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_bmi_distribution",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_target_trend",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_target_cumulative",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_calendar",
+              "height": 3
+            }
+          ]
         }
       ],
       "createdAt": "2026-10-28T09:19:10.563Z",
-      "updatedAt": "2026-10-28T09:29:07.520Z",
+      "updatedAt": "2026-10-30T02:31:02.178591Z",
       "rangeMode": "all"
     },
     {
@@ -277,10 +656,251 @@
               "height": 2
             }
           ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_avg_case",
+                "title": "平均体重",
+                "info": "案例内平均",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_min_case",
+                "title": "本次最低",
+                "info": "案例内最低",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "min",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_count_case",
+                "title": "记录天数",
+                "info": "案例内记录天数",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "count",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_streak_case",
+                "title": "连续记录",
+                "info": "截至最新记录",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "streak",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_avg7_case",
+                "title": "近 7 天平均",
+                "info": "以最新记录为终点",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 7
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_avg30_case",
+                "title": "近 30 天平均",
+                "info": "以最新记录为终点",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_delta90_case",
+                "title": "近 90 天变化",
+                "info": "以最新记录为终点",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "delta",
+                  "fieldCode": "value",
+                  "direction": "last-first",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 90
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_max_case",
+                "title": "本次最高",
+                "info": "案例内最高",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "max",
+                  "fieldCode": "value",
+                  "range": {
+                    "type": "case"
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_cumulative",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_monthly",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_weekly",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_weekday",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_distribution",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_record_quality",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_bmi_trend",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_bmi_monthly",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_bmi_distribution",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_target_trend",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_target_cumulative",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_target_distribution",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_weight_calendar",
+              "height": 3
+            }
+          ]
         }
       ],
       "createdAt": "2026-10-28T09:29:54.634Z",
-      "updatedAt": "2026-10-29T05:09:29.730Z",
+      "updatedAt": "2026-10-30T02:31:02.178825Z",
       "rangeMode": "custom"
     }
   ]
