@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "满屏月历与事项记录（通用日历：字段/公式 + 多值事项 + 通用图表/块）",
+  "description": "满屏月历与事项记录（通用日历：字段/公式 + 多值事项 + 通用图表/块 + 练练同步）",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sync": "tsx server/syncKeepStrong.ts"
   }
 }

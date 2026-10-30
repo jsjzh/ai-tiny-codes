@@ -1,6 +1,6 @@
 # @ai-tiny-codes/calendar
 
-满屏月历与事项记录。当前完成**通用字段/公式 + 多值事项 + 全部历史案例 + 通用图表/块 + 基础分析 + 主题/动画/备份**。
+满屏月历与事项记录。当前完成**通用字段/公式 + 多值事项 + 全部历史案例 + 通用图表/块 + 基础分析 + 主题/动画/备份 + 练练同步**。
 
 - 扩展手册：[`docs/EXTENDING.md`](docs/EXTENDING.md)
 - 其他待办：[`TODO.md`](TODO.md)
@@ -12,6 +12,8 @@ pnpm calendar:build
 pnpm calendar:preview
 pnpm calendar:test
 ```
+
+根命令 `pnpm calendar:sync`：全量拉取练练体重/训练并发布到日历。
 
 ## 通用图表范围
 
@@ -33,6 +35,15 @@ pnpm calendar:test
 - 周内平均按周一至周日分组；数值分布按区间内数值等宽分桶并统计条数。
 - 每月记录天数按事项是否有记录计数；记录日历按月渲染每日是否有记录，不经过 ECharts。
 - 非趋势分析固定为柱状；累计变化仍可切换折线/柱状/面积。多字段分析要求同单位，分布只允许单字段，记录质量/记录日历不需要字段。
+
+## 练练健身同步
+
+- `pnpm calendar:sync` = `pnpm fitness:sync --only all --all` + 日历发布；`pnpm calendar:sync:dry` 预演。需要根 `.env.local` 的 `KEEPSTRONG_API_KEY`。
+- 原始训练记录存 `datas/fitness/synced/trainings.json`（324 条，含动作/组/次数/重量/容量/有氧统计）；体重存 `weights.json`。
+- 日历发布只写固定模板 `训练` / `训练内容`，不动用户自建模板；同步窗口内以练练为准，窗口外保留。
+- `训练` 字段：训练次数、时长、消耗、容量、总组数、总次数、距离；同日多条训练聚合，日历默认只显示时长。
+- `训练内容` 存当天的训练名称，如 `腿臀 / 散步`。
+- 图表区新增「训练概览」案例：时长/容量/消耗/次数/组数/距离趋势、周内平均、分布、每月训练天数、记录日历和训练内容表。
 
 ## 事项数据导入
 
@@ -160,8 +171,11 @@ src/
     DataBackupButton.tsx          # header 数据入口与备份弹窗
 server/
   dataPlugins.ts                  # GET/PUT /api/calendar + /api/charts
+  syncKeepStrong.ts               # 练练同步数据 → 日历事件/模板
 datas/calendar/calendar.json      # 日历持久化数据
 datas/charts/charts.json          # 图表持久化数据
+datas/fitness/synced/weights.json # 练练体重原始日志
+datas/fitness/synced/trainings.json # 练练训练原始记录
 ```
 
 ## 数据模型

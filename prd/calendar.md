@@ -174,3 +174,4 @@
 - [x] 通用图表系列（raw/rolling/cumulative/deltaFromStart/percentChange）与通用块聚合
 - [x] BMI/距离目标迁移为公式字段 + latest
 - [x] 基础分析预设（累计、月/周变化、周内平均、分布、记录热力图、记录质量）
+- [x] 练练健身同步（体重 + 训练原始明细 + 训练日汇总 + 训练图表案例）

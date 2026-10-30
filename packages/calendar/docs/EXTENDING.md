@@ -253,7 +253,17 @@ ChartCard
 - 先写日历再写图表；失败时尝试恢复导入前数据。
 - 完整备份不包含主题偏好（主题仍在 localStorage）。
 
-## 9. 提交前检查
+## 9. 练练同步
+
+- 源数据由 `pnpm fitness:sync --only all --all` 拉到 `datas/fitness/synced/weights.json` 和 `trainings.json`；日历侧不直接请求练练。
+- `server/syncKeepStrong.ts` 读取两个文件，发布到 `datas/calendar/calendar.json`。
+- 固定模板：`tpl_training`（sessions/minutes/calories/volume/sets/reps/distance）与 `tpl_training_content`（训练名称）；只在缺失时创建，已有字段只补缺失项。
+- 同日多条训练按 `dayStr` 聚合；原始动作明细留在 `trainings.json`，日历只存日汇总。
+- 同步窗口内以练练为准：删除范围内已失效的训练事件；窗口外保留。体重只 upsert，不删除日历中的额外记录。
+- 发布函数 `publishKeepStrongData` 是纯变换 + 可选写盘；测试在 `server/syncKeepStrong.test.ts`。
+- `pnpm calendar:sync` = 全量拉取 + 发布；`calendar:sync:dry` 预演。
+
+## 10. 提交前检查
 
 ```bash
 pnpm calendar:test

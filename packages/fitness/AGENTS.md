@@ -6,9 +6,10 @@
 - `npm run calculate`：减脂周期计算（BMR → 热量 → 宏量档位 → 周/月目标 → 达成日期），并**自动落盘计划 JSON 到仓库内 `datas/fitness/plans/`**（`--no-save` 跳过；`--force` 覆盖已填 daily 的同名计划）
 - `npm run checkin`：读取计划 JSON → 校验每日体重 → 输出减脂复盘（`--plan <名字>` 指定；`--json` 输出 JSON）
 - `npm run dashboard`：读取 `datas/fitness/synced/weights.json`（+ 可选计划）生成网页大盘 `datas/fitness/dashboard/index.html`（含 ECharts，自包含页面）
-- `npm run sync`：从练练健身（KeepStrong）拉取数据写入仓库内 `datas/fitness/synced/<kind>.json`（默认体重、近 1 年；`--days/--from/--to/--only/--dry-run/--json`），与计划**解耦**
+- `npm run sync`：从练练健身（KeepStrong）拉取数据写入仓库内 `datas/fitness/synced/<kind>.json`（默认体重、近 1 年；`--only weight|training|all`、`--days/--from/--to/--all/--dry-run/--json`），与计划**解耦**
 - calculate 支持免交互：`--input '<JSON>'` 直传数据；`--json` 输出 JSON，否则输出 cli-table3 表格
 - `npm run typecheck`：tsc --noEmit
+- `npm run test`：vitest run（同步/数据层纯函数）
 - 饮食配比（food）**已下线入口**，待后续优化（`src/food/` 源码暂保留，不接命令）
 
 ## 目录结构与架构约定
@@ -20,7 +21,7 @@ src/calculate/      # 域名 calculate：types/input/cli · output/json|table ·
 src/plan/           # 计划归档（calculate 写 / checkin 读）：types · store(datas/fitness/plans/<name>.json) · save-output(输出装饰器)。计划不再承载体重（dailyWeights 仅供旧计划兜底，可选）
 src/dataset/        # 数据层：读写 datas/fitness/synced/<kind>.json（store / weights：加载、按日期合并、weightsByDate）
 src/checkin/        # 域名 checkin：types · analyze · validate · view-model(网页 VM) · input/cli · output/json|table · style(颜色) · sections/*(输出插槽注册表)
-src/sync/           # 域名 sync：从 @ai-tiny-codes/keepstrong 拉数据 → 写 datas/fitness/synced（不碰计划）
+src/sync/           # 域名 sync：从 @ai-tiny-codes/keepstrong 拉体重/训练 → 写 datas/fitness/synced（不碰计划）
 src/dashboard/      # 域名 dashboard：ui.ts(共享样式/helper) · build.ts(单页两 Tab 拼装：大盘 + 复盘，ECharts CDN)
 src/food/           # 域名 food：已下线入口，源码暂留待优化
 src/utils/project.ts # findProjectRoot() / datasDir()：从 cwd 上溯 pnpm-workspace.yaml 定位仓库根，计划存到仓库内
@@ -72,11 +73,13 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 
 ## sync / dataset 领域口径
 - **职责分离**：`fitness:sync` 只获取数据并写入 `datas/fitness/synced/<kind>.json`，**不碰计划**；`checkin` 消费数据（synced 优先，plan 兜底）
-- 数据文件结构（`SyncedWeightFile`）：`{ kind, source, syncedAt, range:{from,to}, logs }`；`logs` 就是练练接口返回的 `list` **原样**
-- 数据源：`@ai-tiny-codes/keepstrong` 的 `getKeepStrongBodyLogs({ metric:"weight", startDate, endDate, page, pageSize:100 })`，分页拉全
+- 数据文件结构（`SyncedWeightFile` / `SyncedTrainingFile`）：`{ kind, source, syncedAt, range:{from,to}, logs|records }`；内容就是练练接口返回的 `list` **原样**
+- 数据源：`getKeepStrongBodyLogs`（体重，pageSize<=100）与 `getKeepStrongTrainingRecords`（训练，pageSize<=50），分页拉全
 - 日期口径：文件/接口用 `yyyyMMdd`；对外/计划用 `YYYY-MM-DD`（`toDashed`/`toCompact`）；`weightsByDate()` 输出 `YYYY-MM-DD -> kg`
 - **合并策略（按范围对齐源端）**：拉取窗口 `[from,to]` 内以接口为准（新增/更新/**删除**都跟随），窗口外保留本地；重复运行幂等。`SyncWeightsReport` 含 `removed`；默认只拉近 1 年，更早的删除需 `--all`（近 3 年）覆盖到才会清理
 - 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
+- `trainings.json` 保留原始训练记录（含 actions/groups/dropSets/容量/有氧统计）；日历侧只消费日汇总，动作级分析后续再做
+- 训练按 id 去重、按范围对齐源端；同日多条训练在日历发布时聚合，不改原始文件
 - API key：`entry/sync.ts` 启动时 `loadEnvFile(findProjectRoot()/.env.local)`（keepstrong 导出的 `loadEnvFile`）读 `KEEPSTRONG_API_KEY`
 - 计划**不再生成** `dailyWeights`（类型可选，仅老计划兜底）；`calculate` 直接覆盖计划，无覆盖保护
 

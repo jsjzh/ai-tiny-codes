@@ -81,6 +81,82 @@
           "showInCalendar": true
         }
       ]
+    },
+    {
+      "code": "tpl_training",
+      "title": "训练",
+      "kind": "number",
+      "unit": "min",
+      "color": "#0f766e",
+      "desc": "练练健身同步",
+      "sortOrder": 2,
+      "fields": [
+        {
+          "code": "sessions",
+          "label": "训练次数",
+          "unit": "次",
+          "color": "#0f766e",
+          "kind": "input",
+          "showInCalendar": false
+        },
+        {
+          "code": "minutes",
+          "label": "时长",
+          "unit": "min",
+          "color": "#0f766e",
+          "kind": "input",
+          "showInCalendar": true
+        },
+        {
+          "code": "calories",
+          "label": "消耗",
+          "unit": "kcal",
+          "color": "#b45309",
+          "kind": "input",
+          "showInCalendar": false
+        },
+        {
+          "code": "volume",
+          "label": "容量",
+          "unit": "kg",
+          "color": "#7c3aed",
+          "kind": "input",
+          "showInCalendar": false
+        },
+        {
+          "code": "sets",
+          "label": "总组数",
+          "unit": "组",
+          "color": "#0891b2",
+          "kind": "input",
+          "showInCalendar": false
+        },
+        {
+          "code": "reps",
+          "label": "总次数",
+          "unit": "次",
+          "color": "#c2410c",
+          "kind": "input",
+          "showInCalendar": false
+        },
+        {
+          "code": "distance",
+          "label": "距离",
+          "unit": "km",
+          "color": "#2563eb",
+          "kind": "input",
+          "showInCalendar": false
+        }
+      ]
+    },
+    {
+      "code": "tpl_training_content",
+      "title": "训练内容",
+      "kind": "text",
+      "unit": "",
+      "color": "#b45309",
+      "desc": "练练健身同步",
+      "sortOrder": 3
     }
   ],
   "events": {
@@ -547,118 +623,488 @@
       "tpl_j2eudg": 83.4
     },
     "2025-05-13": {
-      "tpl_j2eudg": 83.7
+      "tpl_j2eudg": 83.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 56,
+        "calories": 334,
+        "volume": 26484,
+        "sets": 23,
+        "reps": 316,
+        "distance": 0
+      },
+      "tpl_training_content": "强臀腿"
     },
     "2025-05-17": {
-      "tpl_j2eudg": 83.35
+      "tpl_j2eudg": 83.35,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 98.4,
+        "calories": 585,
+        "volume": 15740,
+        "sets": 40,
+        "reps": 600,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强肩"
     },
     "2025-05-24": {
-      "tpl_j2eudg": 84.4
+      "tpl_j2eudg": 84.4,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 59.9,
+        "calories": 355,
+        "volume": 17903,
+        "sets": 40,
+        "reps": 636,
+        "distance": 0
+      },
+      "tpl_training_content": "强手臂"
     },
     "2025-05-31": {
       "tpl_j2eudg": 84.3
     },
     "2025-06-10": {
-      "tpl_j2eudg": 84.2
+      "tpl_j2eudg": 84.2,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 89.2,
+        "calories": 529,
+        "volume": 9911,
+        "sets": 33,
+        "reps": 441,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强背"
     },
     "2025-06-18": {
-      "tpl_j2eudg": 85.5
+      "tpl_j2eudg": 85.5,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 102.2,
+        "calories": 606,
+        "volume": 11275,
+        "sets": 33,
+        "reps": 464,
+        "distance": 0
+      },
+      "tpl_training_content": "强背 / 强心肺"
     },
     "2025-06-21": {
-      "tpl_j2eudg": 83.8
+      "tpl_j2eudg": 83.8,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 82.8,
+        "calories": 491,
+        "volume": 2429,
+        "sets": 26,
+        "reps": 399,
+        "distance": 0
+      },
+      "tpl_training_content": "强二头 / 强心肺"
     },
     "2025-06-25": {
-      "tpl_j2eudg": 83.5
+      "tpl_j2eudg": 83.5,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 106.4,
+        "calories": 631,
+        "volume": 12264,
+        "sets": 34,
+        "reps": 496,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强背"
     },
     "2025-06-29": {
-      "tpl_j2eudg": 83.7
+      "tpl_j2eudg": 83.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.8,
+        "calories": 266,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-07-02": {
-      "tpl_j2eudg": 82.6
+      "tpl_j2eudg": 82.6,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 91.7,
+        "calories": 543,
+        "volume": 4703,
+        "sets": 30,
+        "reps": 421,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩 / 强心肺"
     },
     "2025-07-05": {
-      "tpl_j2eudg": 83.3
+      "tpl_j2eudg": 83.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.9,
+        "calories": 278,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-07-10": {
-      "tpl_j2eudg": 81.9
+      "tpl_j2eudg": 81.9,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 52.5,
+        "calories": 312,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-07-13": {
-      "tpl_j2eudg": 81.8
+      "tpl_j2eudg": 81.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.2,
+        "calories": 269,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-07-16": {
-      "tpl_j2eudg": 81.5
+      "tpl_j2eudg": 81.5,
+      "tpl_training": {
+        "sessions": 3,
+        "minutes": 105.1,
+        "calories": 611,
+        "volume": 4509,
+        "sets": 37,
+        "reps": 603,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强腹 / 强肩"
     },
     "2025-07-20": {
-      "tpl_j2eudg": 81.7
+      "tpl_j2eudg": 81.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.1,
+        "calories": 263,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-07-23": {
-      "tpl_j2eudg": 80.2
+      "tpl_j2eudg": 80.2,
+      "tpl_training": {
+        "sessions": 3,
+        "minutes": 104.8,
+        "calories": 604,
+        "volume": 5215,
+        "sets": 37,
+        "reps": 651,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强肩 / 强心肺"
     },
     "2025-07-27": {
-      "tpl_j2eudg": 80.5
+      "tpl_j2eudg": 80.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.7,
+        "calories": 272,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-07-30": {
-      "tpl_j2eudg": 80
+      "tpl_j2eudg": 80,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 43.4,
+        "calories": 247,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-08-02": {
-      "tpl_j2eudg": 79.2
+      "tpl_j2eudg": 79.2,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 67.9,
+        "calories": 388,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-08-18": {
-      "tpl_j2eudg": 81.1
+      "tpl_j2eudg": 81.1,
+      "tpl_training": {
+        "sessions": 3,
+        "minutes": 96.7,
+        "calories": 552,
+        "volume": 4170,
+        "sets": 28,
+        "reps": 526,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强胸 / 强心肺"
     },
     "2025-08-21": {
-      "tpl_j2eudg": 81.2
+      "tpl_j2eudg": 81.2,
+      "tpl_training": {
+        "sessions": 3,
+        "minutes": 111.5,
+        "calories": 636,
+        "volume": 7556,
+        "sets": 37,
+        "reps": 690,
+        "distance": 0
+      },
+      "tpl_training_content": "二头肩 / 强心肺 / 强腹"
     },
     "2025-08-27": {
-      "tpl_j2eudg": 80.5
+      "tpl_j2eudg": 80.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 56.4,
+        "calories": 322,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-08-31": {
-      "tpl_j2eudg": 78.1
+      "tpl_j2eudg": 78.1,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.1,
+        "calories": 315,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-09-03": {
-      "tpl_j2eudg": 78
+      "tpl_j2eudg": 78,
+      "tpl_training": {
+        "sessions": 3,
+        "minutes": 130.9,
+        "calories": 747,
+        "volume": 3902,
+        "sets": 34,
+        "reps": 732,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强腹 / 强二三头"
     },
     "2025-09-07": {
-      "tpl_j2eudg": 78.8
+      "tpl_j2eudg": 78.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 57,
+        "calories": 326,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-09-14": {
-      "tpl_j2eudg": 82.3
+      "tpl_j2eudg": 82.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 74.2,
+        "calories": 424,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-09-16": {
-      "tpl_j2eudg": 80.3
+      "tpl_j2eudg": 80.3,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 87.8,
+        "calories": 501,
+        "volume": 9826,
+        "sets": 25,
+        "reps": 358,
+        "distance": 0
+      },
+      "tpl_training_content": "强背 / 强心肺"
     },
     "2025-09-18": {
-      "tpl_j2eudg": 80
+      "tpl_j2eudg": 80,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 90.6,
+        "calories": 517,
+        "volume": 10573,
+        "sets": 26,
+        "reps": 455,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强三头"
     },
     "2025-09-21": {
-      "tpl_j2eudg": 79.1
+      "tpl_j2eudg": 79.1,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.4,
+        "calories": 270,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
     },
     "2025-09-24": {
-      "tpl_j2eudg": 78.7
+      "tpl_j2eudg": 78.7,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 68.8,
+        "calories": 392,
+        "volume": 0,
+        "sets": 20,
+        "reps": 438,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强心肺"
     },
     "2025-09-26": {
-      "tpl_j2eudg": 77.2
+      "tpl_j2eudg": 77.2,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 72.8,
+        "calories": 415,
+        "volume": 0,
+        "sets": 20,
+        "reps": 468,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强心肺"
     },
     "2025-09-30": {
-      "tpl_j2eudg": 82
+      "tpl_j2eudg": 82,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 72.9,
+        "calories": 400,
+        "volume": 0,
+        "sets": 20,
+        "reps": 468,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强腹"
     },
     "2025-10-01": {
-      "tpl_j2eudg": 78.8
+      "tpl_j2eudg": 78.8,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 81.5,
+        "calories": 448,
+        "volume": 0,
+        "sets": 21,
+        "reps": 510,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强腹"
     },
     "2025-10-02": {
-      "tpl_j2eudg": 77.9
+      "tpl_j2eudg": 77.9,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 85.7,
+        "calories": 471,
+        "volume": 0,
+        "sets": 20,
+        "reps": 496,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强心肺"
     },
     "2025-10-06": {
-      "tpl_j2eudg": 77.8
+      "tpl_j2eudg": 77.8,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 82.7,
+        "calories": 455,
+        "volume": 0,
+        "sets": 20,
+        "reps": 498,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强心肺"
     },
     "2025-10-08": {
-      "tpl_j2eudg": 77.1
+      "tpl_j2eudg": 77.1,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 84.5,
+        "calories": 465,
+        "volume": 0,
+        "sets": 20,
+        "reps": 498,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼 / 核心"
     },
     "2025-10-11": {
-      "tpl_j2eudg": 78.1
+      "tpl_j2eudg": 78.1,
+      "tpl_training": {
+        "sessions": 3,
+        "minutes": 127.9,
+        "calories": 702,
+        "volume": 10304,
+        "sets": 44,
+        "reps": 882,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼 / 核心 / 手臂"
     },
     "2025-10-25": {
-      "tpl_j2eudg": 79.3
+      "tpl_j2eudg": 79.3,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 76.2,
+        "calories": 418,
+        "volume": 0,
+        "sets": 20,
+        "reps": 513,
+        "distance": 0
+      },
+      "tpl_training_content": "核心 / 爬楼"
     },
     "2025-12-11": {
       "tpl_j2eudg": 90.75
@@ -667,10 +1113,30 @@
       "tpl_j2eudg": 90.8
     },
     "2025-12-13": {
-      "tpl_j2eudg": 86.2
+      "tpl_j2eudg": 86.2,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.7,
+        "calories": 308,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼"
     },
     "2025-12-25": {
-      "tpl_j2eudg": 84.5
+      "tpl_j2eudg": 84.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.5,
+        "calories": 314,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼"
     },
     "2026-03-14": {
       "tpl_j2eudg": 90.9
@@ -679,25 +1145,75 @@
       "tpl_j2eudg": 90.85
     },
     "2026-03-20": {
-      "tpl_j2eudg": 90.95
+      "tpl_j2eudg": 90.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 67.3,
+        "calories": 436,
+        "volume": 10290,
+        "sets": 24,
+        "reps": 328,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-03-21": {
-      "tpl_j2eudg": 90.7
+      "tpl_j2eudg": 90.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 276,
+        "calories": 1785,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 12.26
+      },
+      "tpl_training_content": "徒步"
     },
     "2026-03-22": {
       "tpl_j2eudg": 91.85
     },
     "2026-03-24": {
-      "tpl_j2eudg": 91.4
+      "tpl_j2eudg": 91.4,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 88.2,
+        "calories": 574,
+        "volume": 11985,
+        "sets": 24,
+        "reps": 257.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 / 爬楼机"
     },
     "2026-03-25": {
-      "tpl_j2eudg": 90.65
+      "tpl_j2eudg": 90.65,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 75.1,
+        "calories": 484,
+        "volume": 7667,
+        "sets": 25,
+        "reps": 374,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 手臂"
     },
     "2026-03-26": {
       "tpl_j2eudg": 90.2
     },
     "2026-03-27": {
-      "tpl_j2eudg": 89.95
+      "tpl_j2eudg": 89.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 79.9,
+        "calories": 512,
+        "volume": 11675,
+        "sets": 24,
+        "reps": 384,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-03-28": {
       "tpl_j2eudg": 89.95
@@ -706,109 +1222,359 @@
       "tpl_j2eudg": 90.9
     },
     "2026-03-30": {
-      "tpl_j2eudg": 91.05
+      "tpl_j2eudg": 91.05,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 85.7,
+        "calories": 556,
+        "volume": 4950,
+        "sets": 15,
+        "reps": 120,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
     },
     "2026-03-31": {
-      "tpl_j2eudg": 91.05
+      "tpl_j2eudg": 91.05,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 97,
+        "calories": 629,
+        "volume": 11366,
+        "sets": 24,
+        "reps": 265.5,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 背阔"
     },
     "2026-04-01": {
       "tpl_j2eudg": 89.95
     },
     "2026-04-02": {
-      "tpl_j2eudg": 89.85
+      "tpl_j2eudg": 89.85,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 80.7,
+        "calories": 516,
+        "volume": 8760,
+        "sets": 13,
+        "reps": 180,
+        "distance": 0
+      },
+      "tpl_training_content": "手臂 / 爬楼机"
     },
     "2026-04-03": {
-      "tpl_j2eudg": 90.5
+      "tpl_j2eudg": 90.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 75.8,
+        "calories": 489,
+        "volume": 12660,
+        "sets": 24,
+        "reps": 389,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-04-04": {
-      "tpl_j2eudg": 89.3
+      "tpl_j2eudg": 89.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 226.1,
+        "calories": 1439,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 11.5
+      },
+      "tpl_training_content": "徒步"
     },
     "2026-04-07": {
       "tpl_j2eudg": 90.8
     },
     "2026-04-08": {
-      "tpl_j2eudg": 91.75
+      "tpl_j2eudg": 91.75,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 84.1,
+        "calories": 550,
+        "volume": 3977,
+        "sets": 15,
+        "reps": 121,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
     },
     "2026-04-09": {
-      "tpl_j2eudg": 90.2
+      "tpl_j2eudg": 90.2,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 86.1,
+        "calories": 552,
+        "volume": 12090,
+        "sets": 23,
+        "reps": 268.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 / 爬楼机"
     },
     "2026-04-10": {
-      "tpl_j2eudg": 89.25
+      "tpl_j2eudg": 89.25,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 77.1,
+        "calories": 490,
+        "volume": 13205,
+        "sets": 24,
+        "reps": 363,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-04-11": {
       "tpl_j2eudg": 90.55
     },
     "2026-04-12": {
-      "tpl_j2eudg": 88.95
+      "tpl_j2eudg": 88.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 59.5,
+        "calories": 384,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼"
     },
     "2026-04-13": {
       "tpl_j2eudg": 91
     },
     "2026-04-15": {
-      "tpl_j2eudg": 91.25
+      "tpl_j2eudg": 91.25,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 88.9,
+        "calories": 578,
+        "volume": 5540,
+        "sets": 15,
+        "reps": 111,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
     },
     "2026-04-16": {
-      "tpl_j2eudg": 90.05
+      "tpl_j2eudg": 90.05,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 79.5,
+        "calories": 510,
+        "volume": 12201,
+        "sets": 23,
+        "reps": 270,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 / 爬楼机"
     },
     "2026-04-17": {
-      "tpl_j2eudg": 90.7
+      "tpl_j2eudg": 90.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 72.9,
+        "calories": 471,
+        "volume": 18155,
+        "sets": 24,
+        "reps": 319,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-04-18": {
-      "tpl_j2eudg": 89.6
+      "tpl_j2eudg": 89.6,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 418.3,
+        "calories": 2671,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 22.47
+      },
+      "tpl_training_content": "徒步"
     },
     "2026-04-19": {
       "tpl_j2eudg": 88.75
     },
     "2026-04-20": {
-      "tpl_j2eudg": 90.65
+      "tpl_j2eudg": 90.65,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 41.3,
+        "calories": 267,
+        "volume": 3460,
+        "sets": 12,
+        "reps": 99,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌"
     },
     "2026-04-21": {
       "tpl_j2eudg": 91.15
     },
     "2026-04-22": {
-      "tpl_j2eudg": 92.25
+      "tpl_j2eudg": 92.25,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 84,
+        "calories": 551,
+        "volume": 10225,
+        "sets": 24,
+        "reps": 266,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 / 爬楼机"
     },
     "2026-04-23": {
-      "tpl_j2eudg": 90.25
+      "tpl_j2eudg": 90.25,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 70.8,
+        "calories": 455,
+        "volume": 8745,
+        "sets": 25,
+        "reps": 344,
+        "distance": 0
+      },
+      "tpl_training_content": "二头胸三头 / 爬楼机"
     },
     "2026-04-24": {
-      "tpl_j2eudg": 90.65
+      "tpl_j2eudg": 90.65,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 73.7,
+        "calories": 476,
+        "volume": 20285,
+        "sets": 24,
+        "reps": 353,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-04-25": {
       "tpl_j2eudg": 89.65
     },
     "2026-04-26": {
-      "tpl_j2eudg": 91.5
+      "tpl_j2eudg": 91.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51.3,
+        "calories": 327,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-04-28": {
       "tpl_j2eudg": 90.25
     },
     "2026-04-29": {
-      "tpl_j2eudg": 89.7
+      "tpl_j2eudg": 89.7,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 83.3,
+        "calories": 532,
+        "volume": 10347,
+        "sets": 24,
+        "reps": 242,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 背阔"
     },
     "2026-04-30": {
-      "tpl_j2eudg": 89.15
+      "tpl_j2eudg": 89.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 77,
+        "calories": 489,
+        "volume": 21240,
+        "sets": 24,
+        "reps": 365,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-05-16": {
       "tpl_j2eudg": 90.6
     },
     "2026-05-19": {
-      "tpl_j2eudg": 90.8
+      "tpl_j2eudg": 90.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51.9,
+        "calories": 336,
+        "volume": 11975,
+        "sets": 28,
+        "reps": 399,
+        "distance": 0
+      },
+      "tpl_training_content": "手肩"
     },
     "2026-05-20": {
-      "tpl_j2eudg": 90.05
+      "tpl_j2eudg": 90.05,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 39.1,
+        "calories": 251,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "有氧"
     },
     "2026-05-21": {
-      "tpl_j2eudg": 89.1
+      "tpl_j2eudg": 89.1,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 32.4,
+        "calories": 210,
+        "volume": 9116,
+        "sets": 17,
+        "reps": 155,
+        "distance": 0
+      },
+      "tpl_training_content": "背"
     },
     "2026-05-22": {
-      "tpl_j2eudg": 89.35
+      "tpl_j2eudg": 89.35,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 58.7,
+        "calories": 414,
+        "volume": 21585,
+        "sets": 18,
+        "reps": 323,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-05-23": {
       "tpl_j2eudg": 89.5
     },
     "2026-05-24": {
-      "tpl_j2eudg": 89.65
+      "tpl_j2eudg": 89.65,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 39,
+        "calories": 507,
+        "volume": 0,
+        "sets": 3,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-05-25": {
       "tpl_j2eudg": 89.65
@@ -934,7 +1700,17 @@
       "tpl_j2eudg": 93.7
     },
     "2026-07-13": {
-      "tpl_j2eudg": 97.6
+      "tpl_j2eudg": 97.6,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 38.9,
+        "calories": 270,
+        "volume": 0,
+        "sets": 3,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-07-14": {
       "tpl_j2eudg": 95.65
@@ -946,13 +1722,43 @@
       "tpl_j2eudg": 96.75
     },
     "2026-07-17": {
-      "tpl_j2eudg": 95.15
+      "tpl_j2eudg": 95.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 40.6,
+        "calories": 535,
+        "volume": 0,
+        "sets": 3,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-07-18": {
-      "tpl_j2eudg": 94.7
+      "tpl_j2eudg": 94.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.3,
+        "calories": 306,
+        "volume": 0,
+        "sets": 4,
+        "reps": 2570,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-07-19": {
-      "tpl_j2eudg": 96.45
+      "tpl_j2eudg": 96.45,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51.5,
+        "calories": 354,
+        "volume": 0,
+        "sets": 4,
+        "reps": 2974,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-07-20": {
       "tpl_j2eudg": 95.85
@@ -970,13 +1776,43 @@
       "tpl_j2eudg": 96.25
     },
     "2026-07-25": {
-      "tpl_j2eudg": 96.15
+      "tpl_j2eudg": 96.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.8,
+        "calories": 307,
+        "volume": 0,
+        "sets": 4,
+        "reps": 2638,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-07-26": {
-      "tpl_j2eudg": 94.4
+      "tpl_j2eudg": 94.4,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 57.1,
+        "calories": 383,
+        "volume": 7384,
+        "sets": 27,
+        "reps": 1438,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 背阔"
     },
     "2026-07-27": {
-      "tpl_j2eudg": 93.75
+      "tpl_j2eudg": 93.75,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 52.1,
+        "calories": 348,
+        "volume": 4870,
+        "sets": 22,
+        "reps": 1281,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
     },
     "2026-07-28": {
       "tpl_j2eudg": 95.25
@@ -991,277 +1827,2061 @@
       "tpl_j2eudg": 96.65
     },
     "2026-08-01": {
-      "tpl_j2eudg": 96.75
+      "tpl_j2eudg": 96.75,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51.7,
+        "calories": 356,
+        "volume": 0,
+        "sets": 4,
+        "reps": 3000,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-02": {
-      "tpl_j2eudg": 96.65
+      "tpl_j2eudg": 96.65,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51,
+        "calories": 351,
+        "volume": 0,
+        "sets": 4,
+        "reps": 3000,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-03": {
       "tpl_j2eudg": 95.2
     },
     "2026-08-04": {
-      "tpl_j2eudg": 95.05
+      "tpl_j2eudg": 95.05,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.5,
+        "calories": 322,
+        "volume": 0,
+        "sets": 3,
+        "reps": 3035,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-05": {
-      "tpl_j2eudg": 93.55
+      "tpl_j2eudg": 93.55,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 42.3,
+        "calories": 286,
+        "volume": 0,
+        "sets": 3,
+        "reps": 2648,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-06": {
-      "tpl_j2eudg": 93.15
+      "tpl_j2eudg": 93.15,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 49.3,
+        "calories": 327,
+        "volume": 5660,
+        "sets": 26,
+        "reps": 1579,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
     },
     "2026-08-07": {
-      "tpl_j2eudg": 93.45
+      "tpl_j2eudg": 93.45,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46,
+        "calories": 305,
+        "volume": 11018,
+        "sets": 32,
+        "reps": 316,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
     },
     "2026-08-08": {
-      "tpl_j2eudg": 93
+      "tpl_j2eudg": 93,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 43.2,
+        "calories": 287,
+        "volume": 0,
+        "sets": 3,
+        "reps": 2693,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-09": {
-      "tpl_j2eudg": 93
+      "tpl_j2eudg": 93,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 44.3,
+        "calories": 293,
+        "volume": 6350,
+        "sets": 33,
+        "reps": 1086,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
     },
     "2026-08-10": {
-      "tpl_j2eudg": 94.05
+      "tpl_j2eudg": 94.05,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50,
+        "calories": 331,
+        "volume": 0,
+        "sets": 3,
+        "reps": 3027,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-11": {
-      "tpl_j2eudg": 92.85
+      "tpl_j2eudg": 92.85,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.2,
+        "calories": 303,
+        "volume": 10040,
+        "sets": 32,
+        "reps": 317,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
     },
     "2026-08-12": {
-      "tpl_j2eudg": 92.8
+      "tpl_j2eudg": 92.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.9,
+        "calories": 323,
+        "volume": 0,
+        "sets": 4,
+        "reps": 3028,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-13": {
-      "tpl_j2eudg": 94.15
+      "tpl_j2eudg": 94.15,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 54.2,
+        "calories": 358,
+        "volume": 6380,
+        "sets": 35,
+        "reps": 4659,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
     },
     "2026-08-14": {
-      "tpl_j2eudg": 93.35
+      "tpl_j2eudg": 93.35,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.3,
+        "calories": 324,
+        "volume": 18890,
+        "sets": 24,
+        "reps": 348,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-08-15": {
-      "tpl_j2eudg": 94.3
+      "tpl_j2eudg": 94.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 57.2,
+        "calories": 380,
+        "volume": 0,
+        "sets": 7,
+        "reps": 4714,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-16": {
-      "tpl_j2eudg": 94.7
+      "tpl_j2eudg": 94.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51.9,
+        "calories": 348,
+        "volume": 10153,
+        "sets": 37,
+        "reps": 375,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
     },
     "2026-08-17": {
-      "tpl_j2eudg": 94.3
+      "tpl_j2eudg": 94.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.7,
+        "calories": 342,
+        "volume": 0,
+        "sets": 7,
+        "reps": 4375,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-18": {
       "tpl_j2eudg": 93.6
     },
     "2026-08-19": {
-      "tpl_j2eudg": 93.15
+      "tpl_j2eudg": 93.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.1,
+        "calories": 294,
+        "volume": 6720,
+        "sets": 31,
+        "reps": 276,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌"
     },
     "2026-08-20": {
-      "tpl_j2eudg": 92.35
+      "tpl_j2eudg": 92.35,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.4,
+        "calories": 301,
+        "volume": 11178,
+        "sets": 42,
+        "reps": 430,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
     },
     "2026-08-21": {
-      "tpl_j2eudg": 92.15
+      "tpl_j2eudg": 92.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 66.3,
+        "calories": 436,
+        "volume": 21140,
+        "sets": 26,
+        "reps": 376,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-08-22": {
-      "tpl_j2eudg": 90.6
+      "tpl_j2eudg": 90.6,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 52.3,
+        "calories": 343,
+        "volume": 0,
+        "sets": 7,
+        "reps": 4367,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-23": {
-      "tpl_j2eudg": 91.65
+      "tpl_j2eudg": 91.65,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 42.6,
+        "calories": 275,
+        "volume": 3552,
+        "sets": 26,
+        "reps": 310,
+        "distance": 0
+      },
+      "tpl_training_content": "手臂"
     },
     "2026-08-24": {
-      "tpl_j2eudg": 90.95
+      "tpl_j2eudg": 90.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 35,
+        "calories": 229,
+        "volume": 0,
+        "sets": 7,
+        "reps": 3693,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-25": {
       "tpl_j2eudg": 91.9
     },
     "2026-08-26": {
-      "tpl_j2eudg": 91.95
+      "tpl_j2eudg": 91.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.5,
+        "calories": 318,
+        "volume": 6900,
+        "sets": 40,
+        "reps": 368,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌"
     },
     "2026-08-27": {
-      "tpl_j2eudg": 91.55
+      "tpl_j2eudg": 91.55,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.6,
+        "calories": 318,
+        "volume": 10331,
+        "sets": 44,
+        "reps": 458,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
     },
     "2026-08-28": {
-      "tpl_j2eudg": 91.55
+      "tpl_j2eudg": 91.55,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 65.6,
+        "calories": 427,
+        "volume": 21790,
+        "sets": 26,
+        "reps": 403,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-08-29": {
-      "tpl_j2eudg": 90.2
+      "tpl_j2eudg": 90.2,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 76.5,
+        "calories": 499,
+        "volume": 5165,
+        "sets": 47,
+        "reps": 3704,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
     },
     "2026-08-30": {
-      "tpl_j2eudg": 89.6
+      "tpl_j2eudg": 89.6,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51,
+        "calories": 328,
+        "volume": 0,
+        "sets": 8,
+        "reps": 4035,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-08-31": {
       "tpl_j2eudg": 91.85
     },
     "2026-09-01": {
-      "tpl_j2eudg": 91.5
+      "tpl_j2eudg": 91.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 53,
+        "calories": 347,
+        "volume": 11867,
+        "sets": 44,
+        "reps": 458,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
     },
     "2026-09-02": {
-      "tpl_j2eudg": 91.4
+      "tpl_j2eudg": 91.4,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.8,
+        "calories": 318,
+        "volume": 7200,
+        "sets": 50,
+        "reps": 473,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌"
     },
     "2026-09-03": {
-      "tpl_j2eudg": 90.2
+      "tpl_j2eudg": 90.2,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.8,
+        "calories": 291,
+        "volume": 0,
+        "sets": 8,
+        "reps": 4028,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-09-04": {
-      "tpl_j2eudg": 90.1
+      "tpl_j2eudg": 90.1,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 75.7,
+        "calories": 486,
+        "volume": 23005,
+        "sets": 26,
+        "reps": 416,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-09-05": {
-      "tpl_j2eudg": 88.9
+      "tpl_j2eudg": 88.9,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 49.2,
+        "calories": 315,
+        "volume": 0,
+        "sets": 8,
+        "reps": 4374,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-09-06": {
-      "tpl_j2eudg": 89.75
+      "tpl_j2eudg": 89.75,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 59,
+        "calories": 374,
+        "volume": 10512,
+        "sets": 48,
+        "reps": 526.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 肩中束"
     },
     "2026-09-07": {
       "tpl_j2eudg": 90.75
     },
     "2026-09-08": {
-      "tpl_j2eudg": 90.6
+      "tpl_j2eudg": 90.6,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 53.6,
+        "calories": 346,
+        "volume": 6885,
+        "sets": 37,
+        "reps": 385,
+        "distance": 0
+      },
+      "tpl_training_content": "胸 三头 肩后束"
     },
     "2026-09-09": {
-      "tpl_j2eudg": 90.3
+      "tpl_j2eudg": 90.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 54,
+        "calories": 349,
+        "volume": 10760,
+        "sets": 53,
+        "reps": 623,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 二头 肩中束"
     },
     "2026-09-10": {
-      "tpl_j2eudg": 89.75
+      "tpl_j2eudg": 89.75,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.6,
+        "calories": 300,
+        "volume": 0,
+        "sets": 8,
+        "reps": 5729,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-09-11": {
-      "tpl_j2eudg": 90.3
+      "tpl_j2eudg": 90.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 69.6,
+        "calories": 445,
+        "volume": 22225,
+        "sets": 26,
+        "reps": 377,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-09-12": {
-      "tpl_j2eudg": 89
+      "tpl_j2eudg": 89,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.1,
+        "calories": 354,
+        "volume": 0,
+        "sets": 8,
+        "reps": 5729,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-09-13": {
-      "tpl_j2eudg": 89.4
+      "tpl_j2eudg": 89.4,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 81.1,
+        "calories": 514,
+        "volume": 5352,
+        "sets": 46,
+        "reps": 525.5,
+        "distance": 0
+      },
+      "tpl_training_content": "胸 三头 肩后束"
     },
     "2026-09-14": {
       "tpl_j2eudg": 89.8
     },
     "2026-09-15": {
-      "tpl_j2eudg": 89.3
+      "tpl_j2eudg": 89.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 59,
+        "calories": 377,
+        "volume": 10542,
+        "sets": 53,
+        "reps": 598,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 二头 肩中束"
     },
     "2026-09-16": {
-      "tpl_j2eudg": 89.7
+      "tpl_j2eudg": 89.7,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 49.9,
+        "calories": 317,
+        "volume": 5755,
+        "sets": 57,
+        "reps": 671,
+        "distance": 0
+      },
+      "tpl_training_content": "胸 三头 肩后束"
     },
     "2026-09-17": {
-      "tpl_j2eudg": 89.4
+      "tpl_j2eudg": 89.4,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 30,
+        "calories": 192,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "拉伸"
     },
     "2026-09-18": {
-      "tpl_j2eudg": 88.9
+      "tpl_j2eudg": 88.9,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 75.4,
+        "calories": 480,
+        "volume": 23207,
+        "sets": 26,
+        "reps": 404.5,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
     },
     "2026-09-19": {
-      "tpl_j2eudg": 89.15
+      "tpl_j2eudg": 89.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 36.7,
+        "calories": 232,
+        "volume": 0,
+        "sets": 8,
+        "reps": 5449,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-09-20": {
       "tpl_j2eudg": 89.4
     },
     "2026-09-21": {
-      "tpl_j2eudg": 88.8
+      "tpl_j2eudg": 88.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.1,
+        "calories": 319,
+        "volume": 8284,
+        "sets": 53,
+        "reps": 587.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 二头 肩中束"
     },
     "2026-09-22": {
-      "tpl_j2eudg": 88.6
+      "tpl_j2eudg": 88.6,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 55.8,
+        "calories": 352,
+        "volume": 4315,
+        "sets": 55,
+        "reps": 568.5,
+        "distance": 0
+      },
+      "tpl_training_content": "胸 三头 肩后束 / 悬挂"
     },
     "2026-09-23": {
-      "tpl_j2eudg": 88.15
+      "tpl_j2eudg": 88.15,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 59.1,
+        "calories": 372,
+        "volume": 6404,
+        "sets": 43,
+        "reps": 491,
+        "distance": 0
+      },
+      "tpl_training_content": "悬挂 / 肩"
     },
     "2026-09-24": {
-      "tpl_j2eudg": 88.2
+      "tpl_j2eudg": 88.2,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 14.4,
+        "calories": 90,
+        "volume": 0,
+        "sets": 4,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "悬挂"
     },
     "2026-09-25": {
-      "tpl_j2eudg": 87.8
+      "tpl_j2eudg": 87.8,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 84.4,
+        "calories": 529,
+        "volume": 23172,
+        "sets": 33,
+        "reps": 459,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀 / 悬挂"
     },
     "2026-09-26": {
-      "tpl_j2eudg": 86.45
+      "tpl_j2eudg": 86.45,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 40,
+        "calories": 250,
+        "volume": 0,
+        "sets": 8,
+        "reps": 5021,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-09-27": {
-      "tpl_j2eudg": 88.25
+      "tpl_j2eudg": 88.25,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 37.1,
+        "calories": 233,
+        "volume": 0,
+        "sets": 8,
+        "reps": 150,
+        "distance": 0
+      },
+      "tpl_training_content": "悬挂"
     },
     "2026-09-28": {
-      "tpl_j2eudg": 87.6
+      "tpl_j2eudg": 87.6,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 74.9,
+        "calories": 469,
+        "volume": 8429,
+        "sets": 61,
+        "reps": 726.5,
+        "distance": 0
+      },
+      "tpl_training_content": "悬挂 / 背阔 二头 肩中束"
     },
     "2026-09-29": {
-      "tpl_j2eudg": 87.05
+      "tpl_j2eudg": 87.05,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 61.3,
+        "calories": 382,
+        "volume": 4240,
+        "sets": 60,
+        "reps": 723,
+        "distance": 0
+      },
+      "tpl_training_content": "悬挂 / 胸 三头 肩后束"
     },
     "2026-09-30": {
-      "tpl_j2eudg": 87.3
+      "tpl_j2eudg": 87.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.2,
+        "calories": 280,
+        "volume": 8292,
+        "sets": 55,
+        "reps": 727,
+        "distance": 0
+      },
+      "tpl_training_content": "肩 二头 三头"
     },
     "2026-10-01": {
-      "tpl_j2eudg": 87.45
+      "tpl_j2eudg": 87.45,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 96.3,
+        "calories": 600,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 5.39
+      },
+      "tpl_training_content": "有氧"
     },
     "2026-10-02": {
-      "tpl_j2eudg": 87.2
+      "tpl_j2eudg": 87.2,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 89.2,
+        "calories": 554,
+        "volume": 14010,
+        "sets": 29,
+        "reps": 462,
+        "distance": 3.53
+      },
+      "tpl_training_content": "有氧 / 腿臀"
     },
     "2026-10-03": {
-      "tpl_j2eudg": 86.95
+      "tpl_j2eudg": 86.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 43.2,
+        "calories": 268,
+        "volume": 0,
+        "sets": 8,
+        "reps": 5115,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-10-04": {
       "tpl_j2eudg": 87.6
     },
     "2026-10-05": {
-      "tpl_j2eudg": 87.1
+      "tpl_j2eudg": 87.1,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.9,
+        "calories": 286,
+        "volume": 5960,
+        "sets": 52,
+        "reps": 626,
+        "distance": 0
+      },
+      "tpl_training_content": "胸 三头 肩后束"
     },
     "2026-10-06": {
-      "tpl_j2eudg": 87
+      "tpl_j2eudg": 87,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 81.3,
+        "calories": 504,
+        "volume": 6254,
+        "sets": 23,
+        "reps": 209.5,
+        "distance": 3.28
+      },
+      "tpl_training_content": "散步 / 背"
     },
     "2026-10-07": {
-      "tpl_j2eudg": 86.8
+      "tpl_j2eudg": 86.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 49.1,
+        "calories": 304,
+        "volume": 8395,
+        "sets": 51,
+        "reps": 695,
+        "distance": 0
+      },
+      "tpl_training_content": "肩 二头 三头"
     },
     "2026-10-08": {
       "tpl_j2eudg": 87.05
     },
     "2026-10-09": {
-      "tpl_j2eudg": 86.15
+      "tpl_j2eudg": 86.15,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 60.4,
+        "calories": 375,
+        "volume": 21580,
+        "sets": 28,
+        "reps": 442,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀"
     },
     "2026-10-10": {
-      "tpl_j2eudg": 85
+      "tpl_j2eudg": 85,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 40.6,
+        "calories": 249,
+        "volume": 0,
+        "sets": 8,
+        "reps": 5147,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-10-11": {
-      "tpl_j2eudg": 85.25
+      "tpl_j2eudg": 85.25,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.1,
+        "calories": 280,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 3.56
+      },
+      "tpl_training_content": "散步"
     },
     "2026-10-12": {
-      "tpl_j2eudg": 84.95
+      "tpl_j2eudg": 84.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.5,
+        "calories": 337,
+        "volume": 9169,
+        "sets": 53,
+        "reps": 592.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 二头 肩中束"
     },
     "2026-10-13": {
-      "tpl_j2eudg": 84.75
+      "tpl_j2eudg": 84.75,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.1,
+        "calories": 279,
+        "volume": 4375,
+        "sets": 19,
+        "reps": 164.5,
+        "distance": 0
+      },
+      "tpl_training_content": "胸"
     },
     "2026-10-14": {
-      "tpl_j2eudg": 84.5
+      "tpl_j2eudg": 84.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.6,
+        "calories": 292,
+        "volume": 8572,
+        "sets": 50,
+        "reps": 731,
+        "distance": 0
+      },
+      "tpl_training_content": "肩 二头 三头"
     },
     "2026-10-15": {
-      "tpl_j2eudg": 84.85
+      "tpl_j2eudg": 84.85,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 34.4,
+        "calories": 208,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 2.93
+      },
+      "tpl_training_content": "散步"
     },
     "2026-10-16": {
-      "tpl_j2eudg": 84.5
+      "tpl_j2eudg": 84.5,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 61.9,
+        "calories": 374,
+        "volume": 21090,
+        "sets": 28,
+        "reps": 470,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀"
     },
     "2026-10-17": {
-      "tpl_j2eudg": 82.95
+      "tpl_j2eudg": 82.95,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 40.2,
+        "calories": 242,
+        "volume": 0,
+        "sets": 4,
+        "reps": 2738,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-10-18": {
       "tpl_j2eudg": 84.3
     },
     "2026-10-19": {
-      "tpl_j2eudg": 84.85
+      "tpl_j2eudg": 84.85,
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 41.2,
+        "calories": 245,
+        "volume": 4475,
+        "sets": 22,
+        "reps": 225.5,
+        "distance": 0
+      },
+      "tpl_training_content": "胸 / 腹部"
     },
     "2026-10-20": {
-      "tpl_j2eudg": 84.2
+      "tpl_j2eudg": 84.2,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.5,
+        "calories": 287,
+        "volume": 8737,
+        "sets": 26,
+        "reps": 278,
+        "distance": 0
+      },
+      "tpl_training_content": "背"
     },
     "2026-10-21": {
-      "tpl_j2eudg": 84.25
+      "tpl_j2eudg": 84.25,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.6,
+        "calories": 303,
+        "volume": 7785,
+        "sets": 54,
+        "reps": 778,
+        "distance": 0
+      },
+      "tpl_training_content": "肩 二头 三头"
     },
     "2026-10-22": {
-      "tpl_j2eudg": 83.8
+      "tpl_j2eudg": 83.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.8,
+        "calories": 267,
+        "volume": 0,
+        "sets": 7,
+        "reps": 67,
+        "distance": 3.08
+      },
+      "tpl_training_content": "散步"
     },
     "2026-10-23": {
-      "tpl_j2eudg": 83.35
+      "tpl_j2eudg": 83.35,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 65,
+        "calories": 388,
+        "volume": 18675,
+        "sets": 33,
+        "reps": 518,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀"
     },
     "2026-10-24": {
-      "tpl_j2eudg": 82.25
+      "tpl_j2eudg": 82.25,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 57.8,
+        "calories": 343,
+        "volume": 0,
+        "sets": 10,
+        "reps": 2752,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-10-25": {
       "tpl_j2eudg": 83.95
     },
     "2026-10-26": {
-      "tpl_j2eudg": 83.65
+      "tpl_j2eudg": 83.65,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 41.9,
+        "calories": 250,
+        "volume": 8977,
+        "sets": 27,
+        "reps": 321,
+        "distance": 0
+      },
+      "tpl_training_content": "背"
     },
     "2026-10-27": {
-      "tpl_j2eudg": 83.3
+      "tpl_j2eudg": 83.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 41.2,
+        "calories": 245,
+        "volume": 6365,
+        "sets": 30,
+        "reps": 340,
+        "distance": 0
+      },
+      "tpl_training_content": "胸"
     },
     "2026-10-28": {
-      "tpl_j2eudg": 82.85
+      "tpl_j2eudg": 82.85,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.3,
+        "calories": 286,
+        "volume": 8612,
+        "sets": 54,
+        "reps": 770,
+        "distance": 0
+      },
+      "tpl_training_content": "肩 二头 三头"
     },
     "2026-10-29": {
-      "tpl_j2eudg": 82.3
+      "tpl_j2eudg": 82.3,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.1,
+        "calories": 264,
+        "volume": 0,
+        "sets": 7,
+        "reps": 72,
+        "distance": 2.74
+      },
+      "tpl_training_content": "散步"
     },
     "2026-10-30": {
-      "tpl_j2eudg": 82
+      "tpl_j2eudg": 82,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 62.5,
+        "calories": 366,
+        "volume": 17585,
+        "sets": 34,
+        "reps": 497,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀"
+    },
+    "2025-05-14": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.3,
+        "calories": 288,
+        "volume": 13696,
+        "sets": 24,
+        "reps": 308,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-05-16": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 95.2,
+        "calories": 556,
+        "volume": 15763,
+        "sets": 32,
+        "reps": 448,
+        "distance": 0
+      },
+      "tpl_training_content": "强背 / 强心肺"
+    },
+    "2025-05-18": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 101.1,
+        "calories": 599,
+        "volume": 13530,
+        "sets": 48,
+        "reps": 739,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺 / 强手臂"
+    },
+    "2025-05-21": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.4,
+        "calories": 270,
+        "volume": 12150,
+        "sets": 21,
+        "reps": 277,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-05-22": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.6,
+        "calories": 265,
+        "volume": 21953,
+        "sets": 24,
+        "reps": 259.5,
+        "distance": 0
+      },
+      "tpl_training_content": "强背"
+    },
+    "2025-05-23": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.2,
+        "calories": 286,
+        "volume": 17546,
+        "sets": 39,
+        "reps": 590,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩"
+    },
+    "2025-05-26": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 62.5,
+        "calories": 371,
+        "volume": 11632,
+        "sets": 26,
+        "reps": 268,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-05-27": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.8,
+        "calories": 266,
+        "volume": 23271,
+        "sets": 24,
+        "reps": 276,
+        "distance": 0
+      },
+      "tpl_training_content": "强背"
+    },
+    "2025-05-28": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.6,
+        "calories": 282,
+        "volume": 18660,
+        "sets": 40,
+        "reps": 587,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩"
+    },
+    "2025-05-29": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.7,
+        "calories": 301,
+        "volume": 15904,
+        "sets": 33,
+        "reps": 485,
+        "distance": 0
+      },
+      "tpl_training_content": "强手臂"
+    },
+    "2025-05-30": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 39.2,
+        "calories": 233,
+        "volume": 3497,
+        "sets": 16,
+        "reps": 225,
+        "distance": 0
+      },
+      "tpl_training_content": "强二头"
+    },
+    "2025-06-04": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 83,
+        "calories": 492,
+        "volume": 9414,
+        "sets": 34,
+        "reps": 457.5,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸 / 强心肺"
+    },
+    "2025-06-05": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.7,
+        "calories": 301,
+        "volume": 9803,
+        "sets": 23,
+        "reps": 266,
+        "distance": 0
+      },
+      "tpl_training_content": "强背"
+    },
+    "2025-06-06": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 52.3,
+        "calories": 310,
+        "volume": 8685,
+        "sets": 41,
+        "reps": 531.5,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩"
+    },
+    "2025-06-09": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 53.4,
+        "calories": 317,
+        "volume": 9525,
+        "sets": 25,
+        "reps": 260,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-06-11": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 57.5,
+        "calories": 341,
+        "volume": 8763,
+        "sets": 41,
+        "reps": 501,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩"
+    },
+    "2025-06-12": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.3,
+        "calories": 281,
+        "volume": 5783,
+        "sets": 35,
+        "reps": 426,
+        "distance": 0
+      },
+      "tpl_training_content": "强二三头"
+    },
+    "2025-06-13": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.7,
+        "calories": 330,
+        "volume": 2432,
+        "sets": 16,
+        "reps": 202,
+        "distance": 0
+      },
+      "tpl_training_content": "强二头"
+    },
+    "2025-06-17": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 53.9,
+        "calories": 320,
+        "volume": 8060,
+        "sets": 21,
+        "reps": 179,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-06-19": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 56.9,
+        "calories": 337,
+        "volume": 9183,
+        "sets": 41,
+        "reps": 530,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩"
+    },
+    "2025-06-20": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 62.5,
+        "calories": 371,
+        "volume": 3473,
+        "sets": 35,
+        "reps": 491,
+        "distance": 0
+      },
+      "tpl_training_content": "强二三头"
+    },
+    "2025-06-24": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 54.3,
+        "calories": 322,
+        "volume": 9080,
+        "sets": 21,
+        "reps": 182,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-06-26": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.4,
+        "calories": 281,
+        "volume": 7005,
+        "sets": 36,
+        "reps": 481,
+        "distance": 0
+      },
+      "tpl_training_content": "强肩"
+    },
+    "2025-06-27": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 49.6,
+        "calories": 294,
+        "volume": 2513,
+        "sets": 23,
+        "reps": 281,
+        "distance": 0
+      },
+      "tpl_training_content": "强二三头"
+    },
+    "2025-06-30": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 42.5,
+        "calories": 252,
+        "volume": 9910,
+        "sets": 19,
+        "reps": 218,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-07-01": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47,
+        "calories": 279,
+        "volume": 10085,
+        "sets": 21,
+        "reps": 223,
+        "distance": 0
+      },
+      "tpl_training_content": "强背"
+    },
+    "2025-07-03": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50,
+        "calories": 297,
+        "volume": 2373,
+        "sets": 23,
+        "reps": 271,
+        "distance": 0
+      },
+      "tpl_training_content": "强二三头"
+    },
+    "2025-07-04": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.7,
+        "calories": 283,
+        "volume": 6020,
+        "sets": 18,
+        "reps": 234,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀部"
+    },
+    "2025-07-14": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 41.9,
+        "calories": 244,
+        "volume": 7853,
+        "sets": 18,
+        "reps": 185,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-07-15": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.8,
+        "calories": 325,
+        "volume": 11864,
+        "sets": 25,
+        "reps": 250,
+        "distance": 0
+      },
+      "tpl_training_content": "强背"
+    },
+    "2025-07-21": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 58.1,
+        "calories": 338,
+        "volume": 7595,
+        "sets": 24,
+        "reps": 342,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸 / 强腹"
+    },
+    "2025-07-22": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 52.4,
+        "calories": 305,
+        "volume": 12972,
+        "sets": 30,
+        "reps": 434,
+        "distance": 0
+      },
+      "tpl_training_content": "强背 / 强腹"
+    },
+    "2025-07-24": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 58,
+        "calories": 331,
+        "volume": 5416,
+        "sets": 33,
+        "reps": 543,
+        "distance": 0
+      },
+      "tpl_training_content": "强二三头 / 强腹"
+    },
+    "2025-07-25": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.8,
+        "calories": 267,
+        "volume": 12196,
+        "sets": 16,
+        "reps": 192,
+        "distance": 0
+      },
+      "tpl_training_content": "强臀腿"
+    },
+    "2025-07-26": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50,
+        "calories": 286,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "有氧"
+    },
+    "2025-07-28": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 56.4,
+        "calories": 322,
+        "volume": 7190,
+        "sets": 26,
+        "reps": 405,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强胸"
+    },
+    "2025-07-29": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 57.4,
+        "calories": 327,
+        "volume": 12046,
+        "sets": 28,
+        "reps": 456,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强背"
+    },
+    "2025-08-10": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 59.3,
+        "calories": 339,
+        "volume": 0,
+        "sets": 10,
+        "reps": 229,
+        "distance": 0
+      },
+      "tpl_training_content": "强心肺"
+    },
+    "2025-08-19": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 59.5,
+        "calories": 339,
+        "volume": 12486,
+        "sets": 27,
+        "reps": 408,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强背"
+    },
+    "2025-08-20": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 60,
+        "calories": 342,
+        "volume": 5806,
+        "sets": 29,
+        "reps": 496,
+        "distance": 0
+      },
+      "tpl_training_content": "强腹 / 强二三头"
+    },
+    "2025-08-23": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 51,
+        "calories": 291,
+        "volume": 8485,
+        "sets": 16,
+        "reps": 184,
+        "distance": 0
+      },
+      "tpl_training_content": "背"
+    },
+    "2025-08-26": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 45.6,
+        "calories": 260,
+        "volume": 4590,
+        "sets": 19,
+        "reps": 342,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸 / 强腹"
+    },
+    "2025-08-28": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 60.5,
+        "calories": 345,
+        "volume": 11902,
+        "sets": 26,
+        "reps": 411.5,
+        "distance": 0
+      },
+      "tpl_training_content": "强背 / 强腹"
+    },
+    "2025-09-01": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 61,
+        "calories": 347,
+        "volume": 6160,
+        "sets": 20,
+        "reps": 370,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸 / 强腹"
+    },
+    "2025-09-02": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 63.3,
+        "calories": 360,
+        "volume": 10826,
+        "sets": 24,
+        "reps": 455,
+        "distance": 0
+      },
+      "tpl_training_content": "强背 / 强腹"
+    },
+    "2025-09-04": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 46.9,
+        "calories": 268,
+        "volume": 6270,
+        "sets": 20,
+        "reps": 415,
+        "distance": 0
+      },
+      "tpl_training_content": "胸二头 / 强腹"
+    },
+    "2025-09-15": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 35.7,
+        "calories": 204,
+        "volume": 6560,
+        "sets": 13,
+        "reps": 133,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-09-19": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 37.7,
+        "calories": 215,
+        "volume": 4870,
+        "sets": 18,
+        "reps": 262,
+        "distance": 0
+      },
+      "tpl_training_content": "强二头"
+    },
+    "2025-09-20": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 81.4,
+        "calories": 464,
+        "volume": 8760,
+        "sets": 18,
+        "reps": 210,
+        "distance": 0
+      },
+      "tpl_training_content": "有氧 / 腿臀部"
+    },
+    "2025-09-22": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.4,
+        "calories": 271,
+        "volume": 6720,
+        "sets": 14,
+        "reps": 166,
+        "distance": 0
+      },
+      "tpl_training_content": "强胸"
+    },
+    "2025-09-23": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 42.6,
+        "calories": 243,
+        "volume": 12608,
+        "sets": 18,
+        "reps": 188,
+        "distance": 0
+      },
+      "tpl_training_content": "强背"
+    },
+    "2025-09-25": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 58.9,
+        "calories": 336,
+        "volume": 10332,
+        "sets": 25,
+        "reps": 359,
+        "distance": 0
+      },
+      "tpl_training_content": "强二三头"
+    },
+    "2025-10-03": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 63.7,
+        "calories": 349,
+        "volume": 3750,
+        "sets": 16,
+        "reps": 171,
+        "distance": 1.4
+      },
+      "tpl_training_content": "游泳 / 强胸"
+    },
+    "2025-10-07": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 81.5,
+        "calories": 448,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 1.7
+      },
+      "tpl_training_content": "游泳"
+    },
+    "2025-10-09": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 59.6,
+        "calories": 327,
+        "volume": 8490,
+        "sets": 26,
+        "reps": 479,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 核心"
+    },
+    "2025-10-10": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 47.1,
+        "calories": 259,
+        "volume": 12226,
+        "sets": 17,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
+    },
+    "2025-10-12": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 70,
+        "calories": 385,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 2.5
+      },
+      "tpl_training_content": "游泳"
+    },
+    "2025-12-23": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 53.3,
+        "calories": 344,
+        "volume": 0,
+        "sets": 8,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼"
+    },
+    "2026-02-27": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 40,
+        "calories": 258,
+        "volume": 3570,
+        "sets": 15,
+        "reps": 159,
+        "distance": 0
+      },
+      "tpl_training_content": "爬坡 / 胸肌"
+    },
+    "2026-02-28": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 67.6,
+        "calories": 436,
+        "volume": 7863,
+        "sets": 19,
+        "reps": 232,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 背阔"
+    },
+    "2026-03-02": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 59.5,
+        "calories": 385,
+        "volume": 4415,
+        "sets": 25,
+        "reps": 371,
+        "distance": 0
+      },
+      "tpl_training_content": "手臂 / 爬楼机"
+    },
+    "2026-03-03": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 42.3,
+        "calories": 273,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
+    },
+    "2026-03-04": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 66.7,
+        "calories": 431,
+        "volume": 4045,
+        "sets": 15,
+        "reps": 141.5,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
+    },
+    "2026-03-05": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.3,
+        "calories": 325,
+        "volume": 10098,
+        "sets": 22,
+        "reps": 244.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
+    },
+    "2026-03-06": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 81.3,
+        "calories": 525,
+        "volume": 5555,
+        "sets": 25,
+        "reps": 341,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 手臂"
+    },
+    "2026-03-08": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.5,
+        "calories": 294,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
+    },
+    "2026-03-09": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 66.4,
+        "calories": 429,
+        "volume": 4610,
+        "sets": 15,
+        "reps": 165,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
+    },
+    "2026-03-10": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 71.1,
+        "calories": 459,
+        "volume": 11095,
+        "sets": 24,
+        "reps": 272,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 / 爬楼机"
+    },
+    "2026-03-11": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.6,
+        "calories": 288,
+        "volume": 6377,
+        "sets": 24,
+        "reps": 344,
+        "distance": 0
+      },
+      "tpl_training_content": "手臂"
+    },
+    "2026-03-12": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 48.3,
+        "calories": 312,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
+    },
+    "2026-03-13": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 59.1,
+        "calories": 382,
+        "volume": 4865,
+        "sets": 17,
+        "reps": 152,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
+    },
+    "2026-03-16": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 71.6,
+        "calories": 463,
+        "volume": 4720,
+        "sets": 14,
+        "reps": 118,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
+    },
+    "2026-03-17": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 81.8,
+        "calories": 529,
+        "volume": 11670,
+        "sets": 24,
+        "reps": 276,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔 / 爬楼机"
+    },
+    "2026-03-18": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 66.8,
+        "calories": 432,
+        "volume": 5902,
+        "sets": 25,
+        "reps": 345,
+        "distance": 0
+      },
+      "tpl_training_content": "手臂 / 爬楼机"
+    },
+    "2026-03-23": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 74.2,
+        "calories": 485,
+        "volume": 5520,
+        "sets": 15,
+        "reps": 147,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
+    },
+    "2026-04-27": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 81.8,
+        "calories": 533,
+        "volume": 6875,
+        "sets": 20,
+        "reps": 217,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机 / 胸肌"
+    },
+    "2026-05-01": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 0,
+        "calories": 0,
+        "volume": 7373,
+        "sets": 13,
+        "reps": 156,
+        "distance": 0
+      },
+      "tpl_training_content": "腿臀部"
+    },
+    "2026-05-04": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 50.1,
+        "calories": 318,
+        "volume": 0,
+        "sets": 1,
+        "reps": 0,
+        "distance": 0
+      },
+      "tpl_training_content": "爬楼机"
+    },
+    "2026-05-13": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 70.5,
+        "calories": 447,
+        "volume": 5900,
+        "sets": 21,
+        "reps": 183,
+        "distance": 0
+      },
+      "tpl_training_content": "胸肌 / 爬楼机"
+    },
+    "2026-05-14": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 38.2,
+        "calories": 243,
+        "volume": 9566,
+        "sets": 23,
+        "reps": 226.5,
+        "distance": 0
+      },
+      "tpl_training_content": "背阔"
+    },
+    "2026-05-15": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 71.3,
+        "calories": 453,
+        "volume": 22595,
+        "sets": 24,
+        "reps": 338,
+        "distance": 0
+      },
+      "tpl_training_content": "臀腿"
+    },
+    "2026-05-18": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.6,
+        "calories": 359,
+        "volume": 12454,
+        "sets": 29,
+        "reps": 262.5,
+        "distance": 0
+      },
+      "tpl_training_content": "胸背"
     }
   },
   "chartTemplates": []

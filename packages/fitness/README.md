@@ -5,7 +5,7 @@
 | 命令 | 说明 |
 | --- | --- |
 | `pnpm fitness:calculate` | 输入身体数据/目标/节奏，算热量与宏量档位、周/月目标，并生成计划 JSON（`--no-save` 可跳过；`--json` 输出 JSON） |
-| `pnpm fitness:sync` | 从**练练健身**拉取数据写入仓库内 `datas/fitness/synced/`（默认体重、近 1 年；`--days/--from/--to`、`--only weight`、`--dry-run`、`--json`） |
+| `pnpm fitness:sync` | 从**练练健身**拉取体重/训练写入仓库内 `datas/fitness/synced/`（默认体重、近 1 年；`--only weight|training|all`、`--days/--from/--to`、`--all`、`--dry-run`、`--json`） |
 | `pnpm fitness:checkin` | 读取**同步数据**（缺失时回退计划内的 `dailyWeights`），校验并输出减脂复盘（`--plan <名字>`、`--json`） |
 | `pnpm fitness:dashboard` | 生成网页**体重大盘** `datas/fitness/dashboard/index.html`（`--plan <名字>` / `--no-plan`） |
 
@@ -13,25 +13,28 @@
 
 ### 数据分层
 
-- `fitness:sync` **只负责获取数据**，统一写入仓库内 `datas/fitness/synced/<kind>.json`（如 `weights.json`，存接口返回原样 + 元信息），任何调用方都能读
+- `fitness:sync` **只负责获取数据**，统一写入仓库内 `datas/fitness/synced/<kind>.json`（`weights.json` / `trainings.json`，存接口返回原样 + 元信息），任何调用方都能读
 - `fitness:checkin` **只负责消费数据**：取体重时**同步数据优先**，缺失日期再回退到计划 JSON 里的 `dailyWeights`
 - 两者通过 `datas` 解耦，不再互相依赖
+- 训练记录原始明细存 `trainings.json`；日历发布由 `pnpm calendar:sync` 负责，不反向依赖 fitness
 
-### 同步体重（推荐）
+### 同步练练数据（推荐）
 
-直接在练练健身里称重，然后：
+直接在练练健身里称重/训练，然后：
 
 ```bash
-pnpm fitness:sync                 # 拉最近 1 年（默认 --days 365）
-pnpm fitness:sync --all           # 拉满（接口上限：近 3 年）
-pnpm fitness:sync --dry-run       # 只预演不写
+pnpm fitness:sync --only training --all   # 全量训练原始记录
+pnpm fitness:sync --only all --all        # 体重 + 训练全量
+pnpm fitness:sync --only weight --all     # 只全量体重
+pnpm fitness:sync --only training --dry-run
 pnpm fitness:sync --from 2026-08-01 --to 2026-09-23
 ```
 
 - 需要仓库根 `.env.local` 里有 `KEEPSTRONG_API_KEY`（见 `packages/keepstrong/README.md`）
 - **按范围对齐源端**：拉取窗口内以接口为准（新增/更新/**删除**都跟随），窗口外保留本地；重复运行幂等
-- 默认只拉近 1 年，**更早的删除要用 `--all`（近 3 年）** 才会被清理
-- 同步后跑 `pnpm fitness:checkin` 出复盘
+- 默认只拉近 1 年；训练/体重要全量时用 `--all`（体重接口近 3 年上限）
+- `trainings.json` 保留 324 条原始训练记录（动作、组、次数、重量、容量、有氧统计），供后续动作级分析
+- 同步后跑 `pnpm fitness:checkin` 出复盘；发布到日历用 `pnpm calendar:sync`
 
 ### 体重大盘（dashboard）
 

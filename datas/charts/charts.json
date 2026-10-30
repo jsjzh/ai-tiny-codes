@@ -255,6 +255,188 @@
       "analysisFields": [
         "distance_75"
       ]
+    },
+    {
+      "code": "chart_training_minutes",
+      "title": "训练时长",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "原始时长与 7 日均",
+      "sortOrder": 15,
+      "stacked": false,
+      "series": [
+        {
+          "fieldCode": "minutes",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "minutes",
+          "operation": "rolling",
+          "window": 7
+        }
+      ]
+    },
+    {
+      "code": "chart_training_volume",
+      "title": "训练容量",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "原始容量与 7 日均",
+      "sortOrder": 16,
+      "stacked": false,
+      "series": [
+        {
+          "fieldCode": "volume",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "volume",
+          "operation": "rolling",
+          "window": 7
+        }
+      ]
+    },
+    {
+      "code": "chart_training_calories",
+      "title": "训练消耗",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "原始消耗与 7 日均",
+      "sortOrder": 17,
+      "stacked": false,
+      "series": [
+        {
+          "fieldCode": "calories",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "calories",
+          "operation": "rolling",
+          "window": 7
+        }
+      ]
+    },
+    {
+      "code": "chart_training_sessions",
+      "title": "训练次数",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每日训练次数",
+      "sortOrder": 18,
+      "stacked": false,
+      "series": [
+        {
+          "fieldCode": "sessions",
+          "operation": "raw"
+        }
+      ]
+    },
+    {
+      "code": "chart_training_sets",
+      "title": "训练组数",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "line",
+      "desc": "原始组数与 7 日均",
+      "sortOrder": 19,
+      "stacked": false,
+      "series": [
+        {
+          "fieldCode": "sets",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "sets",
+          "operation": "rolling",
+          "window": 7
+        }
+      ]
+    },
+    {
+      "code": "chart_training_distance",
+      "title": "有氧距离",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每日有氧距离",
+      "sortOrder": 20,
+      "stacked": false,
+      "series": [
+        {
+          "fieldCode": "distance",
+          "operation": "raw"
+        }
+      ]
+    },
+    {
+      "code": "chart_training_weekday",
+      "title": "周内训练时长",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "按周一至周日平均",
+      "sortOrder": 21,
+      "stacked": false,
+      "series": [],
+      "analysis": "weekdayAverage",
+      "analysisFields": [
+        "minutes"
+      ]
+    },
+    {
+      "code": "chart_training_distribution",
+      "title": "训练时长分布",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "区间内训练时长分桶",
+      "sortOrder": 22,
+      "stacked": false,
+      "series": [],
+      "analysis": "distribution",
+      "analysisFields": [
+        "minutes"
+      ]
+    },
+    {
+      "code": "chart_training_record_quality",
+      "title": "每月训练天数",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月有训练记录天数",
+      "sortOrder": 23,
+      "stacked": false,
+      "series": [],
+      "analysis": "recordQuality",
+      "analysisFields": []
+    },
+    {
+      "code": "chart_training_calendar",
+      "title": "训练记录日历",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每日训练热力图",
+      "sortOrder": 24,
+      "stacked": false,
+      "series": [],
+      "analysis": "calendar",
+      "analysisFields": []
+    },
+    {
+      "code": "chart_training_content",
+      "title": "训练内容",
+      "eventCode": "tpl_training_content",
+      "kind": "text",
+      "chartType": "table",
+      "desc": "每日训练名称",
+      "sortOrder": 25,
+      "stacked": false
     }
   ],
   "cases": [
@@ -902,6 +1084,249 @@
       "createdAt": "2026-10-28T09:29:54.634Z",
       "updatedAt": "2026-10-30T02:31:02.178825Z",
       "rangeMode": "custom"
+    },
+    {
+      "id": "case_training",
+      "name": "训练概览",
+      "startDate": "2025-05-13",
+      "endDate": "2026-10-30",
+      "rangeMode": "all",
+      "eventCodes": [
+        "tpl_training",
+        "tpl_training_content"
+      ],
+      "rows": [
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_7",
+                "title": "近 7 天训练次数",
+                "info": "以最新训练为终点",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "sum",
+                  "fieldCode": "sessions",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 7
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_30",
+                "title": "近 30 天训练次数",
+                "info": "以最新训练为终点",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "sum",
+                  "fieldCode": "sessions",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_streak",
+                "title": "连续训练",
+                "info": "截至最新训练",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "streak",
+                  "fieldCode": "sessions",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_count",
+                "title": "总训练天数",
+                "info": "全部训练日",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "count",
+                  "fieldCode": "sessions",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_min30",
+                "title": "近 30 天时长",
+                "info": "以最新训练为终点",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "sum",
+                  "fieldCode": "minutes",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_vol30",
+                "title": "近 30 天容量",
+                "info": "以最新训练为终点",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "sum",
+                  "fieldCode": "volume",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_cal30",
+                "title": "近 30 天消耗",
+                "info": "以最新训练为终点",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "sum",
+                  "fieldCode": "calories",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_train_avg",
+                "title": "日均训练时长",
+                "info": "全部训练日平均",
+                "eventCode": "tpl_training",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "minutes",
+                  "range": {
+                    "type": "all"
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_minutes",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_volume",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_calories",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_sessions",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_sets",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_distance",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_weekday",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_distribution",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_record_quality",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_content",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_calendar",
+              "height": 3
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-10-30T03:10:56.731005Z",
+      "updatedAt": "2026-10-30T03:10:56.731005Z"
     }
   ]
 }

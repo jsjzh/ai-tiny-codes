@@ -80,3 +80,5 @@ export async function syncWeights(options: SyncWeightsOptions): Promise<SyncWeig
     dryRun: Boolean(options.dryRun),
   };
 }
+
+export * from "./trainings";

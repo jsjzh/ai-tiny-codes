@@ -1,6 +1,6 @@
 # 项目：日历（calendar）
 
-Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + 多值事项 + 全部历史案例 + 通用图表/块 + 基础分析 + 主题/动画/备份**。
+Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + 多值事项 + 全部历史案例 + 通用图表/块 + 基础分析 + 主题/动画/备份 + 练练同步**。
 
 扩展手册：`docs/EXTENDING.md`（字段/公式、图表系列、块规则、渲染、导入格式）。
 待办：`TODO.md`（后续增强）。
@@ -8,7 +8,8 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
 
 - `pnpm calendar:dev`：开发服务器，端口 5174，同时挂载 `/api/calendar` 和 `/api/charts`。
 - `pnpm calendar:build`：`tsc --noEmit` + Vite 构建。
-- `pnpm calendar:test`：Vitest，跑日期网格、日期区间、事件 CRUD、布局计算、数据规范化、块规则、图表数据工具。
+- `pnpm calendar:test`：Vitest，跑日期网格、日期区间、事件 CRUD、布局计算、数据规范化、块规则、图表数据工具、练练发布。
+- `pnpm calendar:sync`：全量拉练练体重/训练后发布到日历；`calendar:sync:dry` 预演。
 - 根 `pnpm typecheck` 会递归执行本包 `tsc --noEmit`。
 
 ## 约束
@@ -37,6 +38,9 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
 - `server/dataPlugins.ts`：通用 Vite dev/preview JSON 中间件，两个路由共用，原子写临时文件后 rename。
 - `normalizeCalendarData`：排序 `sortOrder`、去重 code、剔除无效模板和事件；提交前会跑一遍。
 - 图表数据同样在提交前规范化；图表模块只读取日历数据，不向 `calendar.json` 写入。
+- 练练同步：`fitness:sync` 拉原始数据到 `datas/fitness/synced/{weights,trainings}.json`；`server/syncKeepStrong.ts` 再发布到日历。来源获取与日历转换分离，不要重复请求接口。
+- 固定模板 `tpl_training` / `tpl_training_content` 由同步维护；同日多条训练先聚合，原始动作明细只留 `trainings.json`。
+- 训练模板字段：`sessions/minutes/calories/volume/sets/reps/distance`；日历只默认显示 `minutes`。
 - 每天每模板一条：`events[date][code] = value`；全局顺序由模板 `sortOrder` 决定，不存每日 order。
 - 数值模板有 `fields: NumericField[]`：`input` 或 `formula`；字段 code 稳定、label/unit/color 可改、`showInCalendar` 控制日历显示。
 - 单输入字段的事件值保持标量；多输入字段使用 `{ [fieldCode]: number }` 对象。旧单值数据继续兼容，新增字段时旧值映射到第一个输入字段。
@@ -174,10 +178,11 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
 8. **数据备份与排序（已完成）**：完整 JSON 导出/覆盖导入、单事项导出、图表模板拖拽排序。
 9. **通用化重构（已完成）**：多字段/公式字段、通用图表系列、通用块聚合、全部历史、BMI/距离迁移。
 10. **基础分析预设（已完成）**：累计、月/周变化、周内平均、分布、记录热力图、记录质量。
+11. **练练同步（已完成）**：体重/训练全量拉取、原始训练明细、日汇总发布、训练模板与「训练概览」案例。
 
 ## 当前阶段
 
-- 通用字段/公式、多值日历、全部历史、通用图表系列、通用块聚合、基础分析预设均已完成。
+- 通用字段/公式、多值日历、全部历史、通用图表系列、通用块聚合、基础分析预设、练练同步均已完成。
 - 图表模板与事项模板分开管理，通过 `eventCode` 关联；案例通过 `eventCodes` 过滤可用模板。
 - 所有 BMI/距离目标等旧块已迁移成公式字段 + 通用 `latest`；旧格式仍能读取。
 
