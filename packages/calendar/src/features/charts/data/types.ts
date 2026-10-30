@@ -10,6 +10,8 @@ export type ChartType = "line" | "bar" | "area" | "table" | "distribution";
 export type ChartAnalysis =
   | "series"
   | "cumulative"
+  | "monthlySum"
+  | "weeklySum"
   | "monthlyDelta"
   | "weeklyDelta"
   | "weekdayAverage"
@@ -172,6 +174,8 @@ export const NUMERIC_CHART_TYPES: ChartType[] = ["line", "bar", "area"];
 export const CHART_ANALYSES: ChartAnalysis[] = [
   "series",
   "cumulative",
+  "monthlySum",
+  "weeklySum",
   "monthlyDelta",
   "weeklyDelta",
   "weekdayAverage",
@@ -183,6 +187,8 @@ export const CHART_ANALYSES: ChartAnalysis[] = [
 export const CHART_ANALYSIS_LABELS: Record<ChartAnalysis, string> = {
   series: "趋势",
   cumulative: "累计变化",
+  monthlySum: "月度合计",
+  weeklySum: "周合计",
   monthlyDelta: "月度净变化",
   weeklyDelta: "周净变化",
   weekdayAverage: "周内平均",

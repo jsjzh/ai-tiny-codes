@@ -40,7 +40,8 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
 - 图表数据同样在提交前规范化；图表模块只读取日历数据，不向 `calendar.json` 写入。
 - 练练同步：`fitness:sync` 拉原始数据到 `datas/fitness/synced/{weights,trainings}.json`；`server/syncKeepStrong.ts` 再发布到日历。来源获取与日历转换分离，不要重复请求接口。
 - 固定模板 `tpl_training` / `tpl_training_content` 由同步维护；同日多条训练先聚合，原始动作明细只留 `trainings.json`。
-- 训练模板字段：`sessions/minutes/calories/volume/sets/reps/distance`；日历只默认显示 `minutes`。
+- 分部位按动作名关键词归类：胸/背/臀腿/肩/手臂/核心/有氧；核心自重动作容量为 0，用组数图表。
+- 训练模板字段：`sessions/minutes/calories/volume/sets/reps/distance` + 五部位容量（`chest/back/legs/shoulder/armsVolume`）+ 六部位组数；日历只默认显示 `minutes`。
 - 每天每模板一条：`events[date][code] = value`；全局顺序由模板 `sortOrder` 决定，不存每日 order。
 - 数值模板有 `fields: NumericField[]`：`input` 或 `formula`；字段 code 稳定、label/unit/color 可改、`showInCalendar` 控制日历显示。
 - 单输入字段的事件值保持标量；多输入字段使用 `{ [fieldCode]: number }` 对象。旧单值数据继续兼容，新增字段时旧值映射到第一个输入字段。
@@ -110,8 +111,8 @@ Vite + React + TS + Tailwind v4 + shadcn。当前完成**通用字段/公式 + �
   - 同一模板可添加多个系列；字段来自事项模板，公式字段也可选；`stacked` 控制柱/面积堆叠，卡片可临时切换堆叠。
   - 图表类型：数值 `line|bar|area`，文本 `table|distribution`。
   - 图表数据构建在 `lib/chartData.ts`：原始值、滚动窗口、累计合计、累计变化、百分比变化；滚动允许回看案例开始前，累计/变化在案例内计算。
-  - `analysis` 预设：`series` / `cumulative` / `monthlyDelta` / `weeklyDelta` / `weekdayAverage` / `distribution` / `recordQuality` / `calendar`；`analysisFields` 选择字段，缺省回退到系列字段。
-  - 累计变化以区间首条记录为 0 点；月度/周净变化按自然桶取最后值减首值，周桶裁到案例区间；周内平均按周一至周日分组；分布等宽分桶；记录质量按事项是否有记录计数。
+  - `analysis` 预设：`series` / `cumulative` / `monthlySum` / `weeklySum` / `monthlyDelta` / `weeklyDelta` / `weekdayAverage` / `distribution` / `recordQuality` / `calendar`；`analysisFields` 选择字段，缺省回退到系列字段。
+  - 累计变化以区间首条记录为 0 点；月度/周合计按自然桶求和；月度/周净变化取最后值减首值，周桶裁到案例区间；周内平均按周一至周日分组；分布等宽分桶；记录质量按事项是否有记录计数。
   - 非趋势分析固定柱状；累计变化可切折线/柱状/面积。多字段分析必须同单位；分布只允许单字段；记录质量/记录日历不要求字段。
   - `ChartRenderer` 对记录日历直接渲染 `RecordHeatmap`，不构建 ECharts option；其余文本/数值分析仍走 ECharts。
   - 文本轴用 `NumericChartData.xMode: "text"`，避免把月份/分布区间当日期格式化。

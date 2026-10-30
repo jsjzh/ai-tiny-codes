@@ -135,11 +135,13 @@ export function ChartTemplateModal({
   const analysisHint =
     selectedAnalysis === "cumulative"
       ? "累计变化以区间内首条记录为 0 点；同图只允许同单位字段。"
-      : selectedAnalysis === "weekdayAverage"
-        ? "按周一至周日分别平均；同图只允许同单位字段。"
-        : selectedAnalysis === "distribution"
-          ? "按区间内数值分桶统计记录条数。"
-          : "月度/周净变化使用区间内最后值减首值；同图只允许同单位字段。";
+      : selectedAnalysis === "monthlySum" || selectedAnalysis === "weeklySum"
+        ? "按自然月/周对区间内数值求和。"
+        : selectedAnalysis === "weekdayAverage"
+          ? "按周一至周日分别平均；同图只允许同单位字段。"
+          : selectedAnalysis === "distribution"
+            ? "按区间内数值分桶统计记录条数。"
+            : "月度/周净变化使用区间内最后值减首值；同图只允许同单位字段。";
   const seriesErrors = useMemo(() => {
     if (!selectedTemplate || selectedTemplate.kind !== "numeric") {
       return [];

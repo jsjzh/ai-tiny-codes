@@ -437,6 +437,96 @@
       "desc": "每日训练名称",
       "sortOrder": 25,
       "stacked": false
+    },
+    {
+      "code": "chart_training_chest_volume",
+      "title": "胸部容量",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月胸部容量",
+      "sortOrder": 26,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlySum",
+      "analysisFields": [
+        "chestVolume"
+      ]
+    },
+    {
+      "code": "chart_training_back_volume",
+      "title": "背部容量",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月背部容量",
+      "sortOrder": 27,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlySum",
+      "analysisFields": [
+        "backVolume"
+      ]
+    },
+    {
+      "code": "chart_training_legs_volume",
+      "title": "臀腿容量",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月臀腿容量",
+      "sortOrder": 28,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlySum",
+      "analysisFields": [
+        "legsVolume"
+      ]
+    },
+    {
+      "code": "chart_training_shoulder_volume",
+      "title": "肩部容量",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月肩部容量",
+      "sortOrder": 29,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlySum",
+      "analysisFields": [
+        "shoulderVolume"
+      ]
+    },
+    {
+      "code": "chart_training_arms_volume",
+      "title": "手臂容量",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月手臂容量",
+      "sortOrder": 30,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlySum",
+      "analysisFields": [
+        "armsVolume"
+      ]
+    },
+    {
+      "code": "chart_training_core_sets",
+      "title": "核心组数",
+      "eventCode": "tpl_training",
+      "kind": "numeric",
+      "chartType": "bar",
+      "desc": "每月核心组数",
+      "sortOrder": 31,
+      "series": [],
+      "stacked": false,
+      "analysis": "monthlySum",
+      "analysisFields": [
+        "coreSets"
+      ]
     }
   ],
   "cases": [
@@ -1254,7 +1344,7 @@
             },
             {
               "kind": "chart",
-              "chartTemplateCode": "chart_training_volume",
+              "chartTemplateCode": "chart_training_calories",
               "height": 2
             }
           ]
@@ -1263,41 +1353,69 @@
           "slots": [
             {
               "kind": "chart",
-              "chartTemplateCode": "chart_training_calories",
+              "chartTemplateCode": "chart_training_chest_volume",
               "height": 2
             },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_back_volume",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_legs_volume",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_shoulder_volume",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_arms_volume",
+              "height": 2
+            },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_core_sets",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
             {
               "kind": "chart",
               "chartTemplateCode": "chart_training_sessions",
               "height": 2
-            }
-          ]
-        },
-        {
-          "slots": [
+            },
             {
               "kind": "chart",
               "chartTemplateCode": "chart_training_sets",
               "height": 2
-            },
+            }
+          ]
+        },
+        {
+          "slots": [
             {
               "kind": "chart",
               "chartTemplateCode": "chart_training_distance",
               "height": 2
-            }
-          ]
-        },
-        {
-          "slots": [
+            },
             {
               "kind": "chart",
               "chartTemplateCode": "chart_training_weekday",
               "height": 2
-            },
-            {
-              "kind": "chart",
-              "chartTemplateCode": "chart_training_distribution",
-              "height": 2
             }
           ]
         },
@@ -1305,9 +1423,18 @@
           "slots": [
             {
               "kind": "chart",
-              "chartTemplateCode": "chart_training_record_quality",
+              "chartTemplateCode": "chart_training_distribution",
               "height": 2
             },
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_training_record_quality",
+              "height": 2
+            }
+          ]
+        },
+        {
+          "slots": [
             {
               "kind": "chart",
               "chartTemplateCode": "chart_training_content",

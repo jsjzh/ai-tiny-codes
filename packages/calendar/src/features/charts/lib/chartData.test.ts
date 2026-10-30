@@ -204,6 +204,11 @@ describe("buildNumericChartData", () => {
       calendar(),
       range,
     );
+    const monthlySum = buildNumericChartData(
+      { ...base, analysis: "monthlySum" },
+      calendar(),
+      range,
+    );
     const weekday = buildNumericChartData(
       { ...base, analysis: "weekdayAverage" },
       calendar(),
@@ -222,6 +227,8 @@ describe("buildNumericChartData", () => {
 
     expect(monthly.dates).toEqual(["2026-08"]);
     expect(monthly.series[0].points[0].value).toBe(-1);
+    expect(monthlySum.dates).toEqual(["2026-08"]);
+    expect(monthlySum.series[0].points[0].value).toBe(231);
     expect(weekday.dates).toEqual([
       "周日",
       "周一",

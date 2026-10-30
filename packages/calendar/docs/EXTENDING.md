@@ -88,6 +88,8 @@ type ChartTemplate = {
   analysis?:
     | "series"
     | "cumulative"
+    | "monthlySum"
+    | "weeklySum"
     | "monthlyDelta"
     | "weeklyDelta"
     | "weekdayAverage"
@@ -124,6 +126,7 @@ type ChartTemplate = {
 
 - `analysis` 缺省为 `series`；`analysisFields` 缺省回退到系列字段。
 - 累计变化：`cumulative`，以区间首条记录为 0 点。
+- 月度/周合计：`monthlySum` / `weeklySum`，按自然桶求和；周桶首尾裁到案例区间。
 - 月度/周净变化：`monthlyDelta` / `weeklyDelta`，按自然桶取最后值减首值；周桶首尾裁到案例区间。
 - 周内平均：`weekdayAverage`，按周一至周日分组求均值。
 - 数值分布：`distribution`，单字段等宽分桶，统计记录条数。
@@ -257,8 +260,9 @@ ChartCard
 
 - 源数据由 `pnpm fitness:sync --only all --all` 拉到 `datas/fitness/synced/weights.json` 和 `trainings.json`；日历侧不直接请求练练。
 - `server/syncKeepStrong.ts` 读取两个文件，发布到 `datas/calendar/calendar.json`。
-- 固定模板：`tpl_training`（sessions/minutes/calories/volume/sets/reps/distance）与 `tpl_training_content`（训练名称）；只在缺失时创建，已有字段只补缺失项。
-- 同日多条训练按 `dayStr` 聚合；原始动作明细留在 `trainings.json`，日历只存日汇总。
+- 固定模板：`tpl_training`（sessions/minutes/calories/volume/sets/reps/distance + 五部位容量 + 六部位组数）与 `tpl_training_content`（训练名称）；只在缺失时创建，已有字段只补缺失项。
+- 同日多条训练按 `dayStr` 聚合；动作名关键词分为胸/背/臀腿/肩/手臂/核心/有氧，容量和组数按动作归入部位。
+- 原始动作明细留在 `trainings.json`，日历只存日汇总；核心多为自重动作，图表用组数而不是容量。
 - 同步窗口内以练练为准：删除范围内已失效的训练事件；窗口外保留。体重只 upsert，不删除日历中的额外记录。
 - 发布函数 `publishKeepStrongData` 是纯变换 + 可选写盘；测试在 `server/syncKeepStrong.test.ts`。
 - `pnpm calendar:sync` = 全量拉取 + 发布；`calendar:sync:dry` 预演。

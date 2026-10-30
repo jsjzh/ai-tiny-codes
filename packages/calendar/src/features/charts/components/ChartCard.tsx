@@ -81,6 +81,8 @@ export function ChartCard({
         ? 1
         : analysisFields.length;
   const fixedBarAnalysis =
+    analysis === "monthlySum" ||
+    analysis === "weeklySum" ||
     analysis === "monthlyDelta" ||
     analysis === "weeklyDelta" ||
     analysis === "weekdayAverage" ||

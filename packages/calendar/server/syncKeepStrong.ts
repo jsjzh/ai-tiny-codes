@@ -14,6 +14,7 @@ type RawGroup = {
 };
 
 type RawAction = {
+  name?: string;
   groups?: RawGroup[];
   capacity?: number;
   combActions?: Array<{ groups?: RawGroup[] }>;
@@ -44,6 +45,16 @@ type RawWeightFile = {
   logs: RawWeightLog[];
 };
 
+type TrainingPart =
+  | "chest"
+  | "back"
+  | "legs"
+  | "shoulder"
+  | "arms"
+  | "core"
+  | "cardio"
+  | "other";
+
 type DailyTraining = {
   dayStr: string;
   sessions: number;
@@ -54,6 +65,17 @@ type DailyTraining = {
   reps: number;
   distance: number;
   names: string[];
+  chestVolume: number;
+  backVolume: number;
+  legsVolume: number;
+  shoulderVolume: number;
+  armsVolume: number;
+  chestSets: number;
+  backSets: number;
+  legsSets: number;
+  shoulderSets: number;
+  armsSets: number;
+  coreSets: number;
 };
 
 const TRAINING_CODE = "tpl_training";
@@ -117,6 +139,17 @@ const TRAINING_FIELDS: NumericField[] = [
     kind: "input",
     showInCalendar: false,
   },
+  { code: "chestVolume", label: "胸部容量", unit: "kg", color: "#dc2626", kind: "input", showInCalendar: false },
+  { code: "backVolume", label: "背部容量", unit: "kg", color: "#2563eb", kind: "input", showInCalendar: false },
+  { code: "legsVolume", label: "臀腿容量", unit: "kg", color: "#7c3aed", kind: "input", showInCalendar: false },
+  { code: "shoulderVolume", label: "肩部容量", unit: "kg", color: "#d97706", kind: "input", showInCalendar: false },
+  { code: "armsVolume", label: "手臂容量", unit: "kg", color: "#0f766e", kind: "input", showInCalendar: false },
+  { code: "chestSets", label: "胸部组数", unit: "组", color: "#dc2626", kind: "input", showInCalendar: false },
+  { code: "backSets", label: "背部组数", unit: "组", color: "#2563eb", kind: "input", showInCalendar: false },
+  { code: "legsSets", label: "臀腿组数", unit: "组", color: "#7c3aed", kind: "input", showInCalendar: false },
+  { code: "shoulderSets", label: "肩部组数", unit: "组", color: "#d97706", kind: "input", showInCalendar: false },
+  { code: "armsSets", label: "手臂组数", unit: "组", color: "#0f766e", kind: "input", showInCalendar: false },
+  { code: "coreSets", label: "核心组数", unit: "组", color: "#65a30d", kind: "input", showInCalendar: false },
 ];
 
 function findProjectRoot(start = process.cwd()): string {
@@ -131,6 +164,21 @@ function findProjectRoot(start = process.cwd()): string {
 
 function dashed(dayStr: string): string {
   return `${dayStr.slice(0, 4)}-${dayStr.slice(4, 6)}-${dayStr.slice(6, 8)}`;
+}
+
+export function classifyTrainingPart(name: string): TrainingPart {
+  if (/爬楼|爬坡|散步|游泳|徒步|跑步机|有氧/.test(name)) return "cardio";
+  if (/抬腿|摸脚|平板支撑|健腹轮|核心|卷腹/.test(name)) return "core";
+  if (/深蹲|硬拉|腿举|腿屈伸|腿弯举|髋内收|髋外展|臀推|弓步|倒蹬/.test(name)) {
+    return "legs";
+  }
+  if (/下拉|划船|引体|单杠悬挂|直臂下压|大剪刀/.test(name)) return "back";
+  if (/推肩|推举|侧平举|反向飞鸟|俯身飞鸟|前平举/.test(name)) {
+    return "shoulder";
+  }
+  if (/弯举|臂屈伸|下压|窄距杠铃卧推|窄距卧推/.test(name)) return "arms";
+  if (/卧推|推胸|夹.*胸|俯卧撑/.test(name)) return "chest";
+  return "other";
 }
 
 function numberValue(value: unknown): number {
@@ -149,6 +197,38 @@ function actionGroups(action: RawAction): RawGroup[] {
   ];
 }
 
+function actionStats(action: RawAction): {
+  sets: number;
+  reps: number;
+  volume: number;
+} {
+  let sets = 0;
+  let reps = 0;
+  let volume = 0;
+
+  for (const group of actionGroups(action)) {
+    sets += 1;
+    const groupReps = numberValue(group.reps);
+    reps += groupReps;
+    const weight = numberValue(group.weight);
+    if (weight > 0) volume += weight * groupReps;
+
+    for (const dropSet of group.dropSets ?? []) {
+      sets += 1;
+      const dropReps = numberValue(dropSet.reps);
+      reps += dropReps;
+      const dropWeight = numberValue(dropSet.weight);
+      if (dropWeight > 0) volume += dropWeight * dropReps;
+    }
+  }
+
+  return {
+    sets,
+    reps,
+    volume: action.capacity && action.capacity > 0 ? action.capacity : volume,
+  };
+}
+
 function recordStats(record: RawRecord): {
   sets: number;
   reps: number;
@@ -159,27 +239,16 @@ function recordStats(record: RawRecord): {
   let calculatedVolume = 0;
 
   for (const action of record.actions ?? []) {
-    for (const group of actionGroups(action)) {
-      sets += 1;
-      const groupReps = numberValue(group.reps);
-      reps += groupReps;
-      const weight = numberValue(group.weight);
-      if (weight > 0) calculatedVolume += weight * groupReps;
-
-      for (const dropSet of group.dropSets ?? []) {
-        sets += 1;
-        const dropReps = numberValue(dropSet.reps);
-        reps += dropReps;
-        const dropWeight = numberValue(dropSet.weight);
-        if (dropWeight > 0) calculatedVolume += dropWeight * dropReps;
-      }
-    }
+    const stats = actionStats(action);
+    sets += stats.sets;
+    reps += stats.reps;
+    calculatedVolume += stats.volume;
   }
 
   return {
     sets,
     reps,
-    volume: record.capacity > 0 ? record.capacity : calculatedVolume,
+    volume: Math.max(record.capacity || 0, calculatedVolume),
   };
 }
 
@@ -203,8 +272,43 @@ export function summarizeTrainingRecords(
         reps: 0,
         distance: 0,
         names: [],
+        chestVolume: 0,
+        backVolume: 0,
+        legsVolume: 0,
+        shoulderVolume: 0,
+        armsVolume: 0,
+        chestSets: 0,
+        backSets: 0,
+        legsSets: 0,
+        shoulderSets: 0,
+        armsSets: 0,
+        coreSets: 0,
       };
     const stats = recordStats(record);
+
+    for (const action of record.actions ?? []) {
+      const part = classifyTrainingPart(action.name ?? "");
+      if (part === "cardio" || part === "other") continue;
+      const actionStat = actionStats(action);
+      if (part === "chest") {
+        current.chestVolume += actionStat.volume;
+        current.chestSets += actionStat.sets;
+      } else if (part === "back") {
+        current.backVolume += actionStat.volume;
+        current.backSets += actionStat.sets;
+      } else if (part === "legs") {
+        current.legsVolume += actionStat.volume;
+        current.legsSets += actionStat.sets;
+      } else if (part === "shoulder") {
+        current.shoulderVolume += actionStat.volume;
+        current.shoulderSets += actionStat.sets;
+      } else if (part === "arms") {
+        current.armsVolume += actionStat.volume;
+        current.armsSets += actionStat.sets;
+      } else if (part === "core") {
+        current.coreSets += actionStat.sets;
+      }
+    }
 
     current.sessions += 1;
     current.minutes += numberValue(record.durationSeconds) / 60;
@@ -227,6 +331,11 @@ export function summarizeTrainingRecords(
       calories: Math.round(day.calories),
       volume: Math.round(day.volume),
       distance: Number(day.distance.toFixed(2)),
+      chestVolume: Math.round(day.chestVolume),
+      backVolume: Math.round(day.backVolume),
+      legsVolume: Math.round(day.legsVolume),
+      shoulderVolume: Math.round(day.shoulderVolume),
+      armsVolume: Math.round(day.armsVolume),
     }))
     .sort((a, b) => a.dayStr.localeCompare(b.dayStr));
 }
@@ -293,6 +402,17 @@ function trainingValues(day: DailyTraining): Record<string, number> {
     sets: day.sets,
     reps: day.reps,
     distance: day.distance,
+    chestVolume: day.chestVolume,
+    backVolume: day.backVolume,
+    legsVolume: day.legsVolume,
+    shoulderVolume: day.shoulderVolume,
+    armsVolume: day.armsVolume,
+    chestSets: day.chestSets,
+    backSets: day.backSets,
+    legsSets: day.legsSets,
+    shoulderSets: day.shoulderSets,
+    armsSets: day.armsSets,
+    coreSets: day.coreSets,
   };
 }
 

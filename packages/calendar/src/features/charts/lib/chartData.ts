@@ -325,6 +325,16 @@ function weekBuckets(range: ChartRange): Array<{
   return buckets;
 }
 
+function bucketSum(
+  entries: NumericEntry[],
+  start: string,
+  end: string,
+): number {
+  return entries
+    .filter((entry) => entry.date >= start && entry.date <= end)
+    .reduce((sum, entry) => sum + entry.value, 0);
+}
+
 function bucketDelta(
   entries: NumericEntry[],
   start: string,
@@ -476,10 +486,16 @@ function buildAnalysisChartData(
     return summarizeChartData(labels, series, fields[0]?.unit ?? "", "text", analysis);
   }
 
-  if (analysis === "monthlyDelta" || analysis === "weeklyDelta") {
-    const buckets = analysis === "monthlyDelta"
-      ? monthBuckets(range)
-      : weekBuckets(range);
+  if (
+    analysis === "monthlySum" ||
+    analysis === "weeklySum" ||
+    analysis === "monthlyDelta" ||
+    analysis === "weeklyDelta"
+  ) {
+    const monthly =
+      analysis === "monthlySum" || analysis === "monthlyDelta";
+    const buckets = monthly ? monthBuckets(range) : weekBuckets(range);
+    const summing = analysis === "monthlySum" || analysis === "weeklySum";
     const series = fieldEntriesList.map(({ field, entries }) => ({
       key: `${analysis}:${field.code}`,
       label: `${field.label} · ${CHART_ANALYSIS_LABELS[analysis]}`,
@@ -488,7 +504,9 @@ function buildAnalysisChartData(
       color: field.color,
       points: buckets.map((bucket) => ({
         date: bucket.label,
-        value: bucketDelta(entries, bucket.start, bucket.end),
+        value: summing
+          ? bucketSum(entries, bucket.start, bucket.end)
+          : bucketDelta(entries, bucket.start, bucket.end),
       })),
     }));
 
@@ -496,7 +514,7 @@ function buildAnalysisChartData(
       buckets.map((bucket) => bucket.label),
       series,
       fields[0]?.unit ?? "",
-      analysis === "monthlyDelta" ? "text" : "date",
+      monthly ? "text" : "date",
       analysis,
     );
   }

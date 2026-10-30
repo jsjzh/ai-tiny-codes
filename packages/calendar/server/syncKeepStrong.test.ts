@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { CalendarData } from "../src/features/calendar/data/types";
 import {
+  classifyTrainingPart,
   publishKeepStrongData,
   summarizeTrainingRecords,
 } from "./syncKeepStrong";
@@ -39,6 +40,21 @@ function calendar(): CalendarData {
   };
 }
 
+describe("classifyTrainingPart", () => {
+  it("按动作名称识别部位并处理组合命名", () => {
+    expect(classifyTrainingPart("杠铃卧推")).toBe("chest");
+    expect(classifyTrainingPart("绳索夹下胸")).toBe("chest");
+    expect(classifyTrainingPart("宽距高位下拉")).toBe("back");
+    expect(classifyTrainingPart("直臂下压")).toBe("back");
+    expect(classifyTrainingPart("杠铃深蹲")).toBe("legs");
+    expect(classifyTrainingPart("蝴蝶机反向飞鸟")).toBe("shoulder");
+    expect(classifyTrainingPart("窄距杠铃卧推")).toBe("arms");
+    expect(classifyTrainingPart("绳索下压")).toBe("arms");
+    expect(classifyTrainingPart("悬吊抬腿")).toBe("core");
+    expect(classifyTrainingPart("爬楼机（时间）")).toBe("cardio");
+  });
+});
+
 describe("summarizeTrainingRecords", () => {
   it("合并同日多次训练并统计容量、组数、次数和有氧距离", () => {
     const days = summarizeTrainingRecords([
@@ -52,6 +68,7 @@ describe("summarizeTrainingRecords", () => {
         statsDistance: 0,
         actions: [
           {
+            name: "杠铃深蹲",
             groups: [
               { weight: "60", reps: "10" },
               { weight: "", reps: "5" },
@@ -71,19 +88,21 @@ describe("summarizeTrainingRecords", () => {
       },
     ]);
 
-    expect(days).toEqual([
-      {
-        dayStr: "20260513",
-        sessions: 2,
-        minutes: 30,
-        calories: 180,
-        volume: 1000,
-        sets: 2,
-        reps: 15,
-        distance: 2.5,
-        names: ["腿臀", "散步"],
-      },
-    ]);
+    expect(days[0]).toMatchObject({
+      dayStr: "20260513",
+      sessions: 2,
+      minutes: 30,
+      calories: 180,
+      volume: 1000,
+      sets: 2,
+      reps: 15,
+      distance: 2.5,
+      names: ["腿臀", "散步"],
+      legsVolume: 600,
+      legsSets: 2,
+      chestVolume: 0,
+      coreSets: 0,
+    });
   });
 });
 
@@ -103,7 +122,12 @@ describe("publishKeepStrongData", () => {
             calorie: 180,
             capacity: 2500,
             statsDistance: 0,
-            actions: [{ groups: [{ weight: "50", reps: "10" }] }],
+            actions: [
+              {
+                name: "杠铃深蹲",
+                groups: [{ weight: "50", reps: "10" }],
+              },
+            ],
           },
         ],
       },
@@ -142,6 +166,8 @@ describe("publishKeepStrongData", () => {
       volume: 2500,
       sets: 1,
       reps: 10,
+      legsVolume: 500,
+      legsSets: 1,
     });
     expect(data.events["2026-05-13"].tpl_training_content).toBe("腿臀");
     expect(data.events["2026-05-13"].tpl_j2eudg).toBe(82.1);
