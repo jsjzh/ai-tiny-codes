@@ -1,6 +1,5 @@
-import path from "node:path";
 import dayjs from "dayjs";
-import { loadEnvFile } from "@ai-tiny-codes/keepstrong";
+import { loadProjectEnv } from "@ai-tiny-codes/keepstrong";
 import { newTable, printSection } from "@ai-tiny-codes/utils";
 import {
   SyncTrainingsReport,
@@ -88,7 +87,7 @@ async function main(): Promise<void> {
       ? dayjs(to).subtract(3, "year").format("YYYY-MM-DD")
       : dayjs(to).subtract(days - 1, "day").format("YYYY-MM-DD"));
 
-  loadEnvFile(path.join(findProjectRoot(), ".env.local"));
+  loadProjectEnv();
 
   const dryRun = argv.includes("--dry-run");
   let weight: SyncWeightsReport | null = null;

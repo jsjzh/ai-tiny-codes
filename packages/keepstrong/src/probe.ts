@@ -1,21 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
 import * as api from "./api";
-import { loadEnvFile } from "./env";
-
-/** 从仓库根的 .env.local 读取环境变量（本地开发用） */
-function loadRootEnv(): void {
-  let dir = process.cwd();
-  for (;;) {
-    if (fs.existsSync(path.join(dir, "pnpm-workspace.yaml"))) {
-      loadEnvFile(path.join(dir, ".env.local"));
-      return;
-    }
-    const parent = path.dirname(dir);
-    if (parent === dir) return;
-    dir = parent;
-  }
-}
+import { loadProjectEnv } from "./env";
 
 function dayStr(offsetDays = 0): string {
   const d = new Date();
@@ -34,7 +18,7 @@ async function probe(label: string, run: () => Promise<unknown>): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  loadRootEnv();
+  loadProjectEnv();
 
   const today = dayStr();
   const from = dayStr(30);

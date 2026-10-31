@@ -80,7 +80,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
 - `trainings.json` 保留原始训练记录（含 actions/groups/dropSets/容量/有氧统计）；日历侧只消费日汇总，动作级分析后续再做
 - 训练按 id 去重、按范围对齐源端；同日多条训练在日历发布时聚合，不改原始文件
-- API key：`entry/sync.ts` 启动时 `loadEnvFile(findProjectRoot()/.env.local)`（keepstrong 导出的 `loadEnvFile`）读 `KEEPSTRONG_API_KEY`
+- API key：`entry/sync.ts` 启动时 `loadProjectEnv()`（keepstrong 导出）读取仓库根 `.env.local` / `.env` 的 `KEEPSTRONG_API_KEY`
 - 计划**不再生成** `dailyWeights`（类型可选，仅老计划兜底）；`calculate` 直接覆盖计划，无覆盖保护
 
 ## dashboard 领域口径

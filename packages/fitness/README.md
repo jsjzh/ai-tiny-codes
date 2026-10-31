@@ -30,7 +30,7 @@ pnpm fitness:sync --only training --dry-run
 pnpm fitness:sync --from 2026-08-01 --to 2026-09-23
 ```
 
-- 需要仓库根 `.env.local` 里有 `KEEPSTRONG_API_KEY`（见 `packages/keepstrong/README.md`）
+- 需要仓库根 `.env.local` 或 `.env` 里有 `KEEPSTRONG_API_KEY`（见 `packages/keepstrong/README.md`）
 - **按范围对齐源端**：拉取窗口内以接口为准（新增/更新/**删除**都跟随），窗口外保留本地；重复运行幂等
 - 默认只拉近 1 年；训练/体重要全量时用 `--all`（体重接口近 3 年上限）
 - `trainings.json` 保留 324 条原始训练记录（动作、组、次数、重量、容量、有氧统计），供后续动作级分析

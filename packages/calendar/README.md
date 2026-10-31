@@ -38,7 +38,7 @@ pnpm calendar:test
 
 ## 练练健身同步
 
-- `pnpm calendar:sync` = `pnpm fitness:sync --only all --all` + 日历发布；`pnpm calendar:sync:dry` 预演。需要根 `.env.local` 的 `KEEPSTRONG_API_KEY`。
+- `pnpm calendar:sync` = `pnpm fitness:sync --only all --all` + 日历发布；`pnpm calendar:sync:dry` 预演。需要根 `.env.local` 或 `.env` 的 `KEEPSTRONG_API_KEY`。
 - 原始训练记录存 `datas/fitness/synced/trainings.json`（324 条，含动作/组/次数/重量/容量/有氧统计）；体重存 `weights.json`。
 - 日历发布只写固定模板 `训练` / `训练内容`，不动用户自建模板；同步窗口内以练练为准，窗口外保留。
 - `训练` 字段：训练次数、时长、消耗、总容量、总组数、总次数、距离，以及胸/背/臀腿/肩/手臂容量和六部位组数；同日多条训练聚合，日历默认只显示时长。

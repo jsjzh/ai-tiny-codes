@@ -39,7 +39,7 @@ pnpm install
 | `pnpm fitness:update` | 一键刷新：`fitness:sync` + `fitness:dashboard` |
 | `pnpm money:calculate` | 攒钱计划计算器 |
 | `pnpm commute:compare` | 通勤方式年花费对比（改 `packages/commute/entry/commute.ts` 顶部配置） |
-| `pnpm keepstrong:probe` | 练练健身 API 连通性探测（读取根 `.env.local`） |
+| `pnpm keepstrong:probe` | 练练健身 API 连通性探测（读取根 `.env.local` / `.env`） |
 | `pnpm calendar:dev` | 启动日历开发服务器（http://localhost:5174） |
 | `pnpm calendar:build` | 构建日历静态产物 |
 | `pnpm calendar:preview` | 预览日历构建产物 |

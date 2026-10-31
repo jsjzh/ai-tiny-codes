@@ -12,7 +12,7 @@
 
 ## 配置
 
-API Key 走环境变量，仓库根放一份 `.env.local`（已被 git 忽略，参考 `.env.example`）：
+API Key 走环境变量，仓库根放一份 `.env.local` 或 `.env`（均已被 git 忽略，参考 `.env.example`）：
 
 ```
 KEEPSTRONG_API_KEY=ll_ai_xxx
@@ -27,7 +27,7 @@ import { createKeepStrong, setKeepStrongClient } from "@ai-tiny-codes/keepstrong
 setKeepStrongClient(createKeepStrong({ apiKey: "...", baseUrl: "..." }));
 ```
 
-Node 侧可用导出的 `loadEnvFile(path)` 读取 `.env.local` 到 `process.env`（已存在的变量不覆盖），例如 `loadEnvFile(path.join(repoRoot, ".env.local"))`。
+Node 侧可用导出的 `loadProjectEnv()` 自动读取仓库根的 `.env.local` 与 `.env`（`.env.local` 优先，已存在的变量不覆盖）；也可用 `loadEnvFile(path)` 读取指定文件。
 
 **每个请求自动带**：`Authorization: Bearer`、`X-KeepStrong-Skill-Version: 1.28.0`、`X-KeepStrong-Agent-Name: opencode`、`X-Timezone-Offset`（= `-getTimezoneOffset()`，中国 480）。
 **写请求额外**：`Content-Type: application/json`、`Idempotency-Key`（随机）、body 自动合并 `userConfirmed: true`。
@@ -73,4 +73,4 @@ await postKeepStrongBodyLog({ metric: "weight", value: 88.1, unit: "kg", dayStr:
 
 ## 本地探测
 
-`pnpm keepstrong:probe`（根）或 `pnpm --filter @ai-tiny-codes/keepstrong probe`：会读取根 `.env.local`，依次调用各 GET 并打印原始返回，用于核对返回结构，**不触碰写接口**。
+`pnpm keepstrong:probe`（根）或 `pnpm --filter @ai-tiny-codes/keepstrong probe`：会读取根 `.env.local` / `.env`，依次调用各 GET 并打印原始返回，用于核对返回结构，**不触碰写接口**。
