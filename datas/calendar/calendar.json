@@ -6588,6 +6588,30 @@
         "coreSets": 0
       },
       "tpl_training_content": "胸背"
+    },
+    "2026-10-31": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 41.7,
+        "calories": 243,
+        "volume": 0,
+        "sets": 9,
+        "reps": 2739,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 0,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 0,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "爬楼机",
+      "tpl_j2eudg": 81.15
     }
   },
   "chartTemplates": []

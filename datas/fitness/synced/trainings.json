@@ -1,10 +1,10 @@
 {
   "kind": "training",
   "source": "keepstrong",
-  "syncedAt": "2026-10-30T03:13:45.856Z",
+  "syncedAt": "2026-10-31T01:33:28.691Z",
   "range": {
     "from": "20231030",
-    "to": "20261030"
+    "to": "20261031"
   },
   "records": [
     {
@@ -57665,6 +57665,120 @@
           "capacity": 0,
           "name": "坐姿腿屈伸",
           "actionId": "act_31748d2ebc0797a3471fcb49",
+          "combActions": []
+        }
+      ]
+    },
+    {
+      "id": "template:NR3bhHuwFr",
+      "recordType": "strength",
+      "source": "lianlian",
+      "status": "completed",
+      "createdBy": null,
+      "trainingType": "template",
+      "dayStr": "20261031",
+      "name": "爬楼机",
+      "durationSeconds": 2502,
+      "capacity": 0,
+      "calorie": 243,
+      "avgHeartRate": 0,
+      "statsCount": 2691,
+      "statsDistance": 0,
+      "statsCostSeconds": 2100,
+      "planId": "",
+      "runningPlanId": "template:eDrSOB",
+      "templateId": "z16mq6",
+      "watchName": "",
+      "actions": [
+        {
+          "groups": [
+            {
+              "_id": "AuKpJ",
+              "weight": "",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "time": "20:00",
+              "reps": "",
+              "combGroups": []
+            },
+            {
+              "_id": "7S25l",
+              "weight": "",
+              "isDone": true,
+              "time": "15:00",
+              "reps": "",
+              "combGroups": []
+            },
+            {
+              "_id": "hWD6y",
+              "weight": "",
+              "time": "05:00",
+              "reps": "",
+              "combGroups": []
+            },
+            {
+              "_id": "toVeu",
+              "weight": "",
+              "realRestSeconds": 60,
+              "time": "10:00",
+              "reps": "",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 60,
+          "name": "爬楼机（时间）",
+          "actionId": "act_37eea6813ccfd9b48a9db81b",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "Xi95M",
+              "weight": "",
+              "isDone": true,
+              "realRestSeconds": 2,
+              "reps": "2691",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 60,
+          "name": "爬楼机（步数）",
+          "actionId": "act_10cbacf6a6d13bc7957fa5b7",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "zjcVo",
+              "weight": "",
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "W8zKl",
+              "weight": "",
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "1wQw8",
+              "weight": "",
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "GToi1",
+              "weight": "",
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 10,
+          "name": "悬吊抬腿",
+          "actionId": "act_0059b4404f500d1c3b54c7e5",
           "combActions": []
         }
       ]
