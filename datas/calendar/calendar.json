@@ -6612,6 +6612,9 @@
       },
       "tpl_training_content": "爬楼机",
       "tpl_j2eudg": 81.15
+    },
+    "2026-11-01": {
+      "tpl_j2eudg": 82.25
     }
   },
   "chartTemplates": []
