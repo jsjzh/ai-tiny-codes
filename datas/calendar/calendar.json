@@ -1148,12 +1148,12 @@
     "2025-08-18": {
       "tpl_j2eudg": 81.1,
       "tpl_training": {
-        "sessions": 3,
-        "minutes": 96.7,
-        "calories": 552,
+        "sessions": 2,
+        "minutes": 41,
+        "calories": 234,
         "volume": 4170,
-        "sets": 28,
-        "reps": 526,
+        "sets": 18,
+        "reps": 297,
         "distance": 0,
         "chestVolume": 4170,
         "backVolume": 0,
@@ -1167,7 +1167,7 @@
         "armsSets": 0,
         "coreSets": 6
       },
-      "tpl_training_content": "强腹 / 强胸 / 强心肺"
+      "tpl_training_content": "强腹 / 强胸"
     },
     "2025-08-21": {
       "tpl_j2eudg": 81.2,
@@ -6615,6 +6615,30 @@
     },
     "2026-11-01": {
       "tpl_j2eudg": 82.25
+    },
+    "2026-11-02": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 38.9,
+        "calories": 227,
+        "volume": 5615,
+        "sets": 19,
+        "reps": 226,
+        "distance": 0,
+        "chestVolume": 3795,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 470,
+        "armsVolume": 1350,
+        "chestSets": 9,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 3,
+        "coreSets": 4
+      },
+      "tpl_training_content": "胸 三头 肩中束 一",
+      "tpl_j2eudg": 82.3
     }
   },
   "chartTemplates": []

@@ -1,10 +1,10 @@
 {
   "kind": "training",
   "source": "keepstrong",
-  "syncedAt": "2026-11-01T02:45:45.503Z",
+  "syncedAt": "2026-11-02T01:28:06.764Z",
   "range": {
     "from": "20231030",
-    "to": "20261101"
+    "to": "20261102"
   },
   "records": [
     {
@@ -14940,122 +14940,6 @@
           "actionId": "act_2420899c788b090e296d920c",
           "alternativeActionIds": [
             "act_a79f62bb64562c682c80156c"
-          ],
-          "combActions": []
-        }
-      ]
-    },
-    {
-      "id": "template:wqfOGfXTqq",
-      "recordType": "strength",
-      "source": "lianlian",
-      "status": "completed",
-      "createdBy": null,
-      "trainingType": "template",
-      "dayStr": "20250818",
-      "name": "强心肺",
-      "durationSeconds": 3337,
-      "capacity": 0,
-      "calorie": 318,
-      "avgHeartRate": 0,
-      "statsCount": 229,
-      "statsDistance": 0,
-      "statsCostSeconds": 0,
-      "planId": "",
-      "runningPlanId": "template:tfCduv",
-      "templateId": "R6A08X",
-      "watchName": "",
-      "actions": [
-        {
-          "groups": [
-            {
-              "_id": "2m4hE",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 142,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "EPrTl",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 60,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "eBCwP",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 350,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "pJStU",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 365,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "BslAa",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 347,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "2noN5",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 342,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "cYZrL",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 358,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "7IUrj",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 393,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "vTIBn",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 390,
-              "reps": "23",
-              "combGroups": []
-            },
-            {
-              "_id": "daIpi",
-              "weight": "",
-              "isDone": true,
-              "realRestSeconds": 2,
-              "reps": "22",
-              "combGroups": []
-            }
-          ],
-          "weightUnit": "lbs",
-          "restSeconds": 60,
-          "capacity": 0,
-          "name": "爬楼",
-          "actionId": "act_7120259e2c9a0b0cb89a9ad2",
-          "alternativeActionIds": [
-            "act_72ec55187bdea1890754e649"
           ],
           "combActions": []
         }
@@ -57771,6 +57655,228 @@
             {
               "_id": "GToi1",
               "weight": "",
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 10,
+          "name": "悬吊抬腿",
+          "actionId": "act_0059b4404f500d1c3b54c7e5",
+          "combActions": []
+        }
+      ]
+    },
+    {
+      "id": "AzBEa4L1He",
+      "recordType": "strength",
+      "source": "lianlian",
+      "status": "completed",
+      "createdBy": null,
+      "trainingType": "normal",
+      "dayStr": "20261102",
+      "name": "胸 三头 肩中束 一",
+      "durationSeconds": 2332,
+      "capacity": 5615,
+      "calorie": 227,
+      "avgHeartRate": 0,
+      "statsCount": 48,
+      "statsDistance": 0,
+      "statsCostSeconds": 0,
+      "planId": "MAcztC",
+      "runningPlanId": "9EbWw3",
+      "templateId": "iUO7C4",
+      "watchName": "",
+      "actions": [
+        {
+          "groups": [
+            {
+              "_id": "ikV1w",
+              "weight": "60",
+              "isDone": true,
+              "realRestSeconds": 65,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "CrQHS",
+              "weight": "75",
+              "isDone": true,
+              "realRestSeconds": 65,
+              "reps": "8",
+              "combGroups": []
+            },
+            {
+              "_id": "SnQcL",
+              "weight": "75",
+              "isDone": true,
+              "realRestSeconds": 65,
+              "reps": "8",
+              "combGroups": []
+            },
+            {
+              "_id": "mPiGd",
+              "weight": "75",
+              "isDone": true,
+              "realRestSeconds": 65,
+              "reps": "7",
+              "combGroups": []
+            },
+            {
+              "_id": "5wS2H",
+              "weight": "75",
+              "isDone": true,
+              "realRestSeconds": 65,
+              "reps": "6",
+              "combGroups": []
+            },
+            {
+              "_id": "VdXX5",
+              "weight": "75",
+              "isDone": true,
+              "realRestSeconds": 65,
+              "reps": "6",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "tip": "循环：72.5% 8*5，80% 5*5，85% 3*3，87.5% 2*2",
+          "restSeconds": 65,
+          "capacity": 3345,
+          "name": "杠铃卧推",
+          "actionId": "act_7434921ccf4b8cbb4e58e33e",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "bgnjJ",
+              "weight": "15",
+              "isDone": true,
+              "realRestSeconds": 50,
+              "reps": "10",
+              "combGroups": []
+            },
+            {
+              "_id": "fUWIE",
+              "weight": "15",
+              "isDone": true,
+              "realRestSeconds": 50,
+              "reps": "10",
+              "combGroups": []
+            },
+            {
+              "_id": "52LX9",
+              "weight": "15",
+              "isDone": true,
+              "realRestSeconds": 50,
+              "reps": "10",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 50,
+          "capacity": 450,
+          "name": "上斜哑铃推胸",
+          "actionId": "act_5891765ab5ace67fef063246",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "5NAVY",
+              "weight": "25",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "20",
+              "combGroups": []
+            },
+            {
+              "_id": "t8ULu",
+              "weight": "25",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "18",
+              "combGroups": []
+            },
+            {
+              "_id": "2VgTD",
+              "weight": "25",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "16",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 60,
+          "capacity": 1350,
+          "name": "绳索下压",
+          "actionId": "act_8c8b4741f7637ba1463db063",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "OoLSE",
+              "weight": "10",
+              "isDone": true,
+              "realRestSeconds": 55,
+              "reps": "20",
+              "combGroups": []
+            },
+            {
+              "_id": "127g1",
+              "weight": "10",
+              "isDone": true,
+              "realRestSeconds": 55,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "fncUL",
+              "weight": "10",
+              "isDone": true,
+              "realRestSeconds": 17,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 55,
+          "capacity": 470,
+          "name": "哑铃侧平举",
+          "actionId": "act_e1a3e3f74161d74677e5ac9b",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "RUM8c",
+              "weight": "",
+              "isDone": true,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "u0Igo",
+              "weight": "",
+              "isDone": true,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "1zuWj",
+              "weight": "",
+              "isDone": true,
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "cJKz6",
+              "weight": "",
+              "isDone": true,
               "realRestSeconds": 10,
               "reps": "12",
               "combGroups": []
