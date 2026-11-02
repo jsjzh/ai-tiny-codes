@@ -9,7 +9,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "value",
@@ -38,7 +40,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "value",
@@ -59,8 +63,15 @@
       "analysisFields": [
         "value"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "以区间首条记录为 0 点",
       "sortOrder": 2
@@ -75,8 +86,15 @@
       "analysisFields": [
         "value"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月最后值减首值",
       "sortOrder": 3
@@ -91,8 +109,15 @@
       "analysisFields": [
         "value"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每周最后值减首值",
       "sortOrder": 4
@@ -107,8 +132,15 @@
       "analysisFields": [
         "value"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "按周一至周日平均",
       "sortOrder": 5
@@ -123,8 +155,15 @@
       "analysisFields": [
         "value"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "区间内数值分桶",
       "sortOrder": 6
@@ -137,8 +176,15 @@
       "chartType": "bar",
       "analysis": "recordQuality",
       "analysisFields": [],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月有记录天数",
       "sortOrder": 7
@@ -151,8 +197,15 @@
       "chartType": "bar",
       "analysis": "calendar",
       "analysisFields": [],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每日记录热力图",
       "sortOrder": 8
@@ -165,7 +218,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "bmi_179",
@@ -196,8 +251,15 @@
       "analysisFields": [
         "bmi_179"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月最后值减首值",
       "sortOrder": 10
@@ -212,8 +274,15 @@
       "analysisFields": [
         "bmi_179"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "区间内 BMI 分桶",
       "sortOrder": 11
@@ -226,7 +295,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "distance_75",
@@ -257,8 +328,15 @@
       "analysisFields": [
         "distance_75"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "以区间首条记录为 0 点",
       "sortOrder": 13
@@ -273,8 +351,15 @@
       "analysisFields": [
         "distance_75"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "区间内剩余目标分桶",
       "sortOrder": 14
@@ -287,7 +372,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "minutes",
@@ -311,7 +398,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "volume",
@@ -335,7 +424,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "calories",
@@ -359,7 +450,9 @@
       "chartType": "bar",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "sessions",
@@ -378,7 +471,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "sets",
@@ -402,7 +497,9 @@
       "chartType": "bar",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "distance",
@@ -423,8 +520,15 @@
       "analysisFields": [
         "minutes"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "按周一至周日平均",
       "sortOrder": 21
@@ -439,8 +543,15 @@
       "analysisFields": [
         "minutes"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "区间内训练时长分桶",
       "sortOrder": 22
@@ -453,8 +564,15 @@
       "chartType": "bar",
       "analysis": "recordQuality",
       "analysisFields": [],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月有训练记录天数",
       "sortOrder": 23
@@ -467,8 +585,15 @@
       "chartType": "bar",
       "analysis": "calendar",
       "analysisFields": [],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每日训练热力图",
       "sortOrder": 24
@@ -497,8 +622,15 @@
       "analysisFields": [
         "chestVolume"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月胸部容量",
       "sortOrder": 26
@@ -513,8 +645,15 @@
       "analysisFields": [
         "backVolume"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月背部容量",
       "sortOrder": 27
@@ -529,8 +668,15 @@
       "analysisFields": [
         "legsVolume"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月臀腿容量",
       "sortOrder": 28
@@ -545,8 +691,15 @@
       "analysisFields": [
         "shoulderVolume"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月肩部容量",
       "sortOrder": 29
@@ -561,8 +714,15 @@
       "analysisFields": [
         "armsVolume"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月手臂容量",
       "sortOrder": 30
@@ -577,11 +737,45 @@
       "analysisFields": [
         "coreSets"
       ],
-      "metrics": [],
-      "series": [],
+      "metrics": [
+        "daily"
+      ],
+      "series": [
+        {
+          "fieldCode": "",
+          "operation": "raw"
+        }
+      ],
       "stacked": false,
       "desc": "每月核心组数",
       "sortOrder": 31
+    },
+    {
+      "code": "chart_7ldym2",
+      "title": "饮食",
+      "eventCode": "tpl_e54um2",
+      "kind": "numeric",
+      "chartType": "line",
+      "analysis": "series",
+      "analysisFields": [],
+      "metrics": [],
+      "series": [
+        {
+          "fieldCode": "carbs",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "protein",
+          "operation": "raw"
+        },
+        {
+          "fieldCode": "fat",
+          "operation": "raw"
+        }
+      ],
+      "stacked": false,
+      "desc": "",
+      "sortOrder": 32
     }
   ],
   "cases": [
@@ -861,7 +1055,8 @@
       "endDate": "2027-01-01",
       "rangeMode": "custom",
       "eventCodes": [
-        "tpl_j2eudg"
+        "tpl_j2eudg",
+        "tpl_e54um2"
       ],
       "rows": [
         {
@@ -945,82 +1140,6 @@
             {
               "kind": "block",
               "block": {
-                "id": "block_avg_case",
-                "title": "平均体重",
-                "info": "案例内平均",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "average",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "case"
-                  }
-                }
-              },
-              "height": 1
-            },
-            {
-              "kind": "block",
-              "block": {
-                "id": "block_min_case",
-                "title": "本次最低",
-                "info": "案例内最低",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "min",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "case"
-                  }
-                }
-              },
-              "height": 1
-            },
-            {
-              "kind": "block",
-              "block": {
-                "id": "block_count_case",
-                "title": "记录天数",
-                "info": "案例内记录天数",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "count",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "case"
-                  }
-                }
-              },
-              "height": 1
-            },
-            {
-              "kind": "block",
-              "block": {
-                "id": "block_streak_case",
-                "title": "连续记录",
-                "info": "截至最新记录",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "streak",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "case"
-                  }
-                }
-              },
-              "height": 1
-            }
-          ]
-        },
-        {
-          "slots": [
-            {
-              "kind": "block",
-              "block": {
                 "id": "block_avg7_case",
                 "title": "近 7 天平均",
                 "info": "以最新记录为终点",
@@ -1037,66 +1156,6 @@
               },
               "height": 1
             },
-            {
-              "kind": "block",
-              "block": {
-                "id": "block_avg30_case",
-                "title": "近 30 天平均",
-                "info": "以最新记录为终点",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "average",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "lastDays",
-                    "days": 30
-                  }
-                }
-              },
-              "height": 1
-            },
-            {
-              "kind": "block",
-              "block": {
-                "id": "block_delta90_case",
-                "title": "近 90 天变化",
-                "info": "以最新记录为终点",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "delta",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "lastDays",
-                    "days": 90
-                  }
-                }
-              },
-              "height": 1
-            },
-            {
-              "kind": "block",
-              "block": {
-                "id": "block_max_case",
-                "title": "本次最高",
-                "info": "案例内最高",
-                "eventCode": "tpl_j2eudg",
-                "rule": {
-                  "type": "max",
-                  "fieldCode": "value",
-                  "direction": "last-first",
-                  "range": {
-                    "type": "case"
-                  }
-                }
-              },
-              "height": 1
-            }
-          ]
-        },
-        {
-          "slots": [
             {
               "kind": "block",
               "block": {
@@ -1134,6 +1193,34 @@
                 }
               },
               "height": 1
+            },
+            {
+              "kind": "block",
+              "block": {
+                "id": "block_avg30_case",
+                "title": "近 30 天平均",
+                "info": "以最新记录为终点",
+                "eventCode": "tpl_j2eudg",
+                "rule": {
+                  "type": "average",
+                  "fieldCode": "value",
+                  "direction": "last-first",
+                  "range": {
+                    "type": "lastDays",
+                    "days": 30
+                  }
+                }
+              },
+              "height": 1
+            }
+          ]
+        },
+        {
+          "slots": [
+            {
+              "kind": "chart",
+              "chartTemplateCode": "chart_7ldym2",
+              "height": 2
             }
           ]
         },
@@ -1246,7 +1333,7 @@
         }
       ],
       "createdAt": "2026-10-28T09:29:54.634Z",
-      "updatedAt": "2026-10-31T01:38:35.865Z"
+      "updatedAt": "2026-11-02T03:03:46.714Z"
     },
     {
       "id": "case_training",
