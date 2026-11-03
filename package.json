@@ -7,10 +7,10 @@
     "calendar:open": "pnpm --filter @ai-tiny-codes/calendar preview --open",
     "fitness:calculate": "pnpm --filter @ai-tiny-codes/fitness calculate",
     "fitness:checkin": "pnpm --filter @ai-tiny-codes/fitness checkin",
-    "fitness:update": "pnpm --filter @ai-tiny-codes/fitness sync && pnpm --filter @ai-tiny-codes/fitness dashboard && pnpm --filter @ai-tiny-codes/calendar sync",
     "money:calculate": "pnpm --filter @ai-tiny-codes/money calculate",
     "commute:compare": "pnpm --filter @ai-tiny-codes/commute compare",
     "keepstrong:probe": "pnpm --filter @ai-tiny-codes/keepstrong probe",
+    "update": "pnpm --filter @ai-tiny-codes/fitness sync && pnpm --filter @ai-tiny-codes/fitness dashboard && pnpm --filter @ai-tiny-codes/calendar sync",
     "typecheck": "pnpm -r typecheck"
   },
   "keywords": [
