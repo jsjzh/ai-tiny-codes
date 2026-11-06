@@ -6710,7 +6710,8 @@
         "carbs": 196.87,
         "protein": 155.69,
         "fat": 58.5
-      }
+      },
+      "tpl_j2eudg": 81.25
     }
   },
   "chartTemplates": []
