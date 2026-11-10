@@ -77,7 +77,7 @@ src/utils/store.ts  # ~/.ai-tiny-codes/fitness/<name>.json 通用读写（如 la
 - 数据源：`getKeepStrongBodyLogs`（体重，pageSize<=100）与 `getKeepStrongTrainingRecords`（训练，pageSize<=50），分页拉全
 - 日期口径：文件/接口用 `yyyyMMdd`；对外/计划用 `YYYY-MM-DD`（`toDashed`/`toCompact`）；`weightsByDate()` 输出 `YYYY-MM-DD -> kg`
 - **合并策略（按范围对齐源端）**：拉取窗口 `[from,to]` 内以接口为准（新增/更新/**删除**都跟随），窗口外保留本地；重复运行幂等。`SyncWeightsReport` 含 `removed`；默认只拉近 1 年，更早的删除需 `--all`（近 3 年）覆盖到才会清理
-- 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only` 预留多 kind（当前仅 `weight`）；`--dry-run` 只统计不写
+- 默认范围近 1 年（`--days 365`），`--all` 拉满近 3 年（接口上限；若不早于某天会报 `earliest allowed date (yyyyMMdd)`，entry 会自动夹到该日重试）；可 `--from/--to`；`--only weight|training|all`（默认 `weight`）；`--dry-run` 只统计不写
 - `trainings.json` 保留原始训练记录（含 actions/groups/dropSets/容量/有氧统计）；日历侧只消费日汇总，动作级分析后续再做
 - 训练按 id 去重、按范围对齐源端；同日多条训练在日历发布时聚合，不改原始文件
 - API key：`entry/sync.ts` 启动时 `loadProjectEnv()`（keepstrong 导出）读取仓库根 `.env.local` / `.env` 的 `KEEPSTRONG_API_KEY`
