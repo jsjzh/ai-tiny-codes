@@ -758,7 +758,9 @@
       "chartType": "line",
       "analysis": "series",
       "analysisFields": [],
-      "metrics": [],
+      "metrics": [
+        "daily"
+      ],
       "series": [
         {
           "fieldCode": "carbs",
@@ -1230,11 +1232,6 @@
               "kind": "chart",
               "chartTemplateCode": "chart_1oc5b6",
               "height": 2
-            },
-            {
-              "kind": "chart",
-              "chartTemplateCode": "chart_zf6plg",
-              "height": 2
             }
           ]
         },
@@ -1333,7 +1330,7 @@
         }
       ],
       "createdAt": "2026-10-28T09:29:54.634Z",
-      "updatedAt": "2026-11-02T03:03:46.714Z"
+      "updatedAt": "2026-11-10T02:13:14.829Z"
     },
     {
       "id": "case_training",
