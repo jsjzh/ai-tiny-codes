@@ -1149,12 +1149,12 @@
     "2025-08-18": {
       "tpl_j2eudg": 81.1,
       "tpl_training": {
-        "sessions": 2,
-        "minutes": 41,
-        "calories": 234,
+        "sessions": 3,
+        "minutes": 96.7,
+        "calories": 552,
         "volume": 4170,
-        "sets": 18,
-        "reps": 297,
+        "sets": 28,
+        "reps": 526,
         "distance": 0,
         "chestVolume": 4170,
         "backVolume": 0,
@@ -1168,7 +1168,7 @@
         "armsSets": 0,
         "coreSets": 6
       },
-      "tpl_training_content": "强腹 / 强胸"
+      "tpl_training_content": "强腹 / 强胸 / 强心肺"
     },
     "2025-08-21": {
       "tpl_j2eudg": 81.2,
@@ -6712,7 +6712,28 @@
         "protein": 155.69,
         "fat": 58.5
       },
-      "tpl_j2eudg": 81.8
+      "tpl_j2eudg": 81.8,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.1,
+        "calories": 258,
+        "volume": 10113,
+        "sets": 20,
+        "reps": 249,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 7413,
+        "legsVolume": 0,
+        "shoulderVolume": 2700,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 13,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "背 肩后束 一"
     },
     "2026-11-04": {
       "tpl_e54um2": {
@@ -6720,7 +6741,28 @@
         "protein": 155.69,
         "fat": 58.5
       },
-      "tpl_j2eudg": 81.35
+      "tpl_j2eudg": 81.35,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 55.8,
+        "calories": 325,
+        "volume": 13755,
+        "sets": 20,
+        "reps": 282,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 0,
+        "legsVolume": 13755,
+        "shoulderVolume": 0,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 0,
+        "legsSets": 16,
+        "shoulderSets": 0,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "腿臀 一"
     },
     "2026-11-05": {
       "tpl_e54um2": {
@@ -6728,7 +6770,28 @@
         "protein": 155.69,
         "fat": 58.5
       },
-      "tpl_j2eudg": 81.4
+      "tpl_j2eudg": 81.4,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 5,
+        "calories": 29,
+        "volume": 0,
+        "sets": 4,
+        "reps": 48,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 0,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 0,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "腹部"
     },
     "2026-11-06": {
       "tpl_e54um2": {
@@ -6736,7 +6799,28 @@
         "protein": 155.69,
         "fat": 58.5
       },
-      "tpl_j2eudg": 81.25
+      "tpl_j2eudg": 81.25,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 44.8,
+        "calories": 259,
+        "volume": 3445,
+        "sets": 18,
+        "reps": 186,
+        "distance": 0,
+        "chestVolume": 2455,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 480,
+        "armsVolume": 510,
+        "chestSets": 8,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 3,
+        "coreSets": 4
+      },
+      "tpl_training_content": "胸 二头 肩中束 二"
     },
     "2026-11-07": {
       "tpl_j2eudg": 80.85,
@@ -6744,7 +6828,28 @@
         "carbs": 249.85,
         "protein": 190.35,
         "fat": 37.74
-      }
+      },
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 45.9,
+        "calories": 265,
+        "volume": 8974,
+        "sets": 20,
+        "reps": 263,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 7414,
+        "legsVolume": 0,
+        "shoulderVolume": 1560,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 13,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "背 肩后束 二"
     },
     "2026-11-08": {
       "tpl_j2eudg": 81.2,
@@ -6752,7 +6857,28 @@
         "carbs": 229.66,
         "protein": 156.16,
         "fat": 54.35
-      }
+      },
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.7,
+        "calories": 269,
+        "volume": 0,
+        "sets": 7,
+        "reps": 2845,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 0,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 0,
+        "armsSets": 0,
+        "coreSets": 3
+      },
+      "tpl_training_content": "爬楼机"
     },
     "2026-11-09": {
       "tpl_j2eudg": 81.7,
@@ -6760,7 +6886,28 @@
         "carbs": 185.29,
         "protein": 156.28,
         "fat": 49.78
-      }
+      },
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 46.8,
+        "calories": 270,
+        "volume": 4125,
+        "sets": 20,
+        "reps": 227,
+        "distance": 0,
+        "chestVolume": 2205,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 550,
+        "armsVolume": 1370,
+        "chestSets": 10,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 3,
+        "coreSets": 4
+      },
+      "tpl_training_content": "胸 三头 肩中束 一"
     },
     "2026-11-10": {
       "tpl_e54um2": {
@@ -6768,7 +6915,28 @@
         "protein": 156.28,
         "fat": 49.78
       },
-      "tpl_j2eudg": 81.35
+      "tpl_j2eudg": 81.35,
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 43.8,
+        "calories": 254,
+        "volume": 10134,
+        "sets": 20,
+        "reps": 250,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 7479,
+        "legsVolume": 0,
+        "shoulderVolume": 2655,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 13,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "背 肩后束 一"
     },
     "2026-11-11": {
       "tpl_e54um2": {
