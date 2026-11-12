@@ -1,10 +1,10 @@
 {
   "kind": "training",
   "source": "keepstrong",
-  "syncedAt": "2026-11-10T02:09:36.012Z",
+  "syncedAt": "2026-11-12T01:38:25.631Z",
   "range": {
     "from": "20231030",
-    "to": "20261110"
+    "to": "20261112"
   },
   "records": [
     {
@@ -59540,6 +59540,243 @@
               "_id": "4euxz",
               "weight": "",
               "isDone": true,
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 10,
+          "weightTag": {},
+          "name": "悬吊抬腿",
+          "actionId": "act_0059b4404f500d1c3b54c7e5",
+          "combActions": []
+        }
+      ]
+    },
+    {
+      "id": "bEbVDHSoBo",
+      "recordType": "strength",
+      "source": "lianlian",
+      "status": "completed",
+      "createdBy": null,
+      "trainingType": "normal",
+      "dayStr": "20261111",
+      "name": "腿臀 一",
+      "durationSeconds": 2858,
+      "capacity": 13985,
+      "calorie": 415,
+      "avgHeartRate": 137,
+      "statsCount": 12,
+      "statsDistance": 0,
+      "statsCostSeconds": 0,
+      "planId": "MAcztC",
+      "runningPlanId": "9EbWw3",
+      "templateId": "Klwjrr",
+      "watchName": "Apple Watch S11",
+      "actions": [
+        {
+          "groups": [
+            {
+              "_id": "aNU56",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 80,
+              "reps": "5",
+              "combGroups": []
+            },
+            {
+              "_id": "uu52k",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 80,
+              "reps": "5",
+              "combGroups": []
+            },
+            {
+              "_id": "eXKAg",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 80,
+              "reps": "5",
+              "combGroups": []
+            },
+            {
+              "_id": "Ap3p8",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 80,
+              "reps": "5",
+              "combGroups": []
+            },
+            {
+              "_id": "4dDHl",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 80,
+              "reps": "5",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "tip": "循环：72.5% 8*5，80% 5*5，85% 3*3",
+          "restSeconds": 60,
+          "weightTag": {
+            "tag": "total"
+          },
+          "capacity": 2000,
+          "name": "杠铃深蹲",
+          "actionId": "act_724c6b8d74d34f66eaa64042",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "WPizC",
+              "weight": "60",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "8",
+              "combGroups": []
+            },
+            {
+              "_id": "CM2eV",
+              "weight": "60",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "8",
+              "combGroups": []
+            },
+            {
+              "_id": "3M8Gh",
+              "weight": "60",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "7",
+              "combGroups": []
+            },
+            {
+              "_id": "RCD8t",
+              "weight": "60",
+              "isDone": true,
+              "realRestSeconds": 60,
+              "reps": "8",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 60,
+          "weightTag": {},
+          "capacity": 1860,
+          "name": "罗马尼亚硬拉",
+          "actionId": "act_473d5ed1eb0867fb2ad1147a",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "HPNC7",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "25",
+              "combGroups": []
+            },
+            {
+              "_id": "omu7R",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "25",
+              "combGroups": []
+            },
+            {
+              "_id": "hjc9p",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "25",
+              "combGroups": []
+            },
+            {
+              "_id": "LKY2z",
+              "weight": "80",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "25",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "tip": "后两组靠着垫子做，刺激部位变了",
+          "restSeconds": 40,
+          "weightTag": {},
+          "capacity": 8000,
+          "name": "坐姿髋外展",
+          "actionId": "act_075ca48acf0f985121b07c72",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "w5jI5",
+              "weight": "40",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "25",
+              "combGroups": []
+            },
+            {
+              "_id": "AuVMY",
+              "weight": "40",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "3U9JD",
+              "weight": "35",
+              "isDone": true,
+              "realRestSeconds": 40,
+              "reps": "15",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 40,
+          "weightTag": {},
+          "capacity": 2125,
+          "name": "坐姿髋内收",
+          "actionId": "act_b92ac9968fc70f7f0e6226e8",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "Bjnuh",
+              "weight": "",
+              "isDone": true,
+              "realRestSeconds": 2,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "PUOs5",
+              "weight": "",
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "1Cbkl",
+              "weight": "",
+              "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "uumIz",
+              "weight": "",
               "realRestSeconds": 10,
               "reps": "12",
               "combGroups": []
