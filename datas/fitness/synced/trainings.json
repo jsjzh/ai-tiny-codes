@@ -1,10 +1,10 @@
 {
   "kind": "training",
   "source": "keepstrong",
-  "syncedAt": "2026-11-12T01:38:25.631Z",
+  "syncedAt": "2026-11-13T02:14:58.247Z",
   "range": {
     "from": "20231030",
-    "to": "20261112"
+    "to": "20261113"
   },
   "records": [
     {
@@ -59778,6 +59778,399 @@
               "_id": "uumIz",
               "weight": "",
               "realRestSeconds": 10,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 10,
+          "weightTag": {},
+          "name": "悬吊抬腿",
+          "actionId": "act_0059b4404f500d1c3b54c7e5",
+          "combActions": []
+        }
+      ]
+    },
+    {
+      "id": "ZEL7bAnWiV",
+      "recordType": "strength",
+      "source": "lianlian",
+      "status": "completed",
+      "createdBy": null,
+      "trainingType": "normal",
+      "dayStr": "20261113",
+      "name": "胸 二头 肩中束 二",
+      "durationSeconds": 2354,
+      "capacity": 2650,
+      "calorie": 326,
+      "avgHeartRate": 135,
+      "statsCount": 54,
+      "statsDistance": 0,
+      "statsCostSeconds": 0,
+      "planId": "MAcztC",
+      "runningPlanId": "9EbWw3",
+      "templateId": "ug4Jhc",
+      "watchName": "Apple Watch S11",
+      "actions": [
+        {
+          "groups": [
+            {
+              "_id": "v42ZlJB6",
+              "weight": "60",
+              "isDone": true,
+              "doneTs": 1794522282,
+              "flag": "hot",
+              "hr": {
+                "rst": {
+                  "mx": 135,
+                  "mi": 119
+                },
+                "urst": {
+                  "st": 1794521838,
+                  "mx": 146,
+                  "mi": 78,
+                  "lts": 1794521869,
+                  "hts": 1794522258
+                }
+              },
+              "realRestSeconds": 65,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "F2q37Qqz",
+              "weight": "90",
+              "isDone": true,
+              "doneTs": 1794522540,
+              "hr": {
+                "rst": {
+                  "mx": 134,
+                  "mi": 119
+                },
+                "urst": {
+                  "st": 1794522347,
+                  "mx": 151,
+                  "mi": 123,
+                  "lts": 1794522399,
+                  "hts": 1794522514
+                }
+              },
+              "realRestSeconds": 65,
+              "reps": "2",
+              "combGroups": []
+            },
+            {
+              "_id": "GSUFpUAG",
+              "weight": "90",
+              "isDone": true,
+              "doneTs": 1794522771,
+              "hr": {
+                "rst": {
+                  "mx": 143,
+                  "mi": 123
+                },
+                "urst": {
+                  "st": 1794522605,
+                  "mx": 152,
+                  "mi": 121,
+                  "lts": 1794522713,
+                  "hts": 1794522765,
+                  "tst": 1794522605,
+                  "tet": 1794522638
+                }
+              },
+              "realRestSeconds": 65,
+              "reps": "2",
+              "combGroups": []
+            },
+            {
+              "_id": "ymssntkQ",
+              "weight": "80",
+              "reps": "5",
+              "combGroups": []
+            },
+            {
+              "_id": "EnzLWQIr",
+              "weight": "80",
+              "reps": "5",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "tip": "循环：72.5% 8*5，80% 5*5，85% 3*3，87.5% 2*2",
+          "restSeconds": 65,
+          "weightTag": {},
+          "capacity": 1080,
+          "name": "杠铃卧推",
+          "actionId": "act_7434921ccf4b8cbb4e58e33e",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "40xZSLy2",
+              "weight": "20",
+              "isDone": true,
+              "doneTs": 1794523039,
+              "hr": {
+                "rst": {
+                  "mx": 148,
+                  "mi": 140
+                },
+                "urst": {
+                  "st": 1794522836,
+                  "mx": 157,
+                  "mi": 108,
+                  "lts": 1794522929,
+                  "hts": 1794523012
+                }
+              },
+              "realRestSeconds": 50,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "R5UJzlnG",
+              "weight": "25",
+              "isDone": true,
+              "doneTs": 1794523249,
+              "hr": {
+                "rst": {
+                  "mx": 153,
+                  "mi": 143
+                },
+                "urst": {
+                  "st": 1794523140,
+                  "mx": 165,
+                  "mi": 131,
+                  "lts": 1794523172,
+                  "hts": 1794523230
+                }
+              },
+              "realRestSeconds": 50,
+              "isNewRM1Record": true,
+              "rm1Weight": 32,
+              "reps": "8",
+              "combGroups": []
+            },
+            {
+              "_id": "19BkpFeR",
+              "weight": "25",
+              "isDone": true,
+              "doneTs": 1794523496,
+              "hr": {
+                "rst": {
+                  "mx": 154,
+                  "mi": 135
+                },
+                "urst": {
+                  "st": 1794523348,
+                  "mx": 163,
+                  "mi": 131,
+                  "lts": 1794523419,
+                  "hts": 1794523480
+                }
+              },
+              "realRestSeconds": 50,
+              "isNewRM1Record": true,
+              "rm1Weight": 32,
+              "reps": "8",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 50,
+          "weightTag": {},
+          "capacity": 640,
+          "name": "上斜哑铃推胸",
+          "actionId": "act_5891765ab5ace67fef063246",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "htwzdp97",
+              "weight": "15",
+              "isDone": true,
+              "doneTs": 1794523731,
+              "hr": {
+                "urst": {
+                  "st": 1794523546,
+                  "mx": 165,
+                  "mi": 137,
+                  "lts": 1794523548,
+                  "hts": 1794523639
+                }
+              },
+              "realRestSeconds": 2,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "f385YSqD",
+              "weight": "15",
+              "isDone": true,
+              "doneTs": 1794523917,
+              "hr": {
+                "urst": {
+                  "st": 1794523748,
+                  "mx": 164,
+                  "mi": 127,
+                  "lts": 1794523810,
+                  "hts": 1794523905
+                }
+              },
+              "realRestSeconds": 1,
+              "reps": "10",
+              "combGroups": []
+            },
+            {
+              "_id": "jyitIxAE",
+              "weight": "15",
+              "isDone": true,
+              "doneTs": 1794524131,
+              "hr": {
+                "urst": {
+                  "st": 1794523924,
+                  "mx": 162,
+                  "mi": 128,
+                  "lts": 1794524000,
+                  "hts": 1794524098
+                }
+              },
+              "realRestSeconds": 1,
+              "reps": "9",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 50,
+          "weightTag": {},
+          "capacity": 510,
+          "name": "垂式哑铃弯举",
+          "actionId": "act_0077eeabe6a61b488b747c95",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "Q8QmjP9B",
+              "weight": "10",
+              "isDone": true,
+              "doneTs": 1794523747,
+              "hr": {
+                "urst": {
+                  "st": 1794523733,
+                  "mx": 148,
+                  "mi": 147,
+                  "lts": 1794523742,
+                  "hts": 1794523739
+                }
+              },
+              "realRestSeconds": 1,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "cGj1MN6j",
+              "weight": "10",
+              "isDone": true,
+              "doneTs": 1794523923,
+              "hr": {
+                "urst": {
+                  "st": 1794523918,
+                  "mx": 154,
+                  "mi": 154,
+                  "lts": 1794523919,
+                  "hts": 1794523919
+                }
+              },
+              "realRestSeconds": 1,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "Cdwnj3xP",
+              "weight": "10",
+              "isDone": true,
+              "doneTs": 1794524139,
+              "hr": {
+                "urst": {
+                  "st": 1794524132,
+                  "mx": 152,
+                  "mi": 152,
+                  "lts": 1794524134,
+                  "hts": 1794524134
+                }
+              },
+              "realRestSeconds": 2,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 55,
+          "weightTag": {},
+          "capacity": 420,
+          "name": "哑铃侧平举",
+          "actionId": "act_e1a3e3f74161d74677e5ac9b",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "rX1XSCPq",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1794524145,
+              "hr": {
+                "rst": {
+                  "mx": 147,
+                  "mi": 147
+                },
+                "urst": {
+                  "st": 1794524143
+                }
+              },
+              "realRestSeconds": 6,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "8tG9vZsp",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1794524160,
+              "hr": {
+                "rst": {
+                  "mx": 137,
+                  "mi": 137
+                },
+                "urst": {
+                  "st": 1794524158
+                }
+              },
+              "realRestSeconds": 5,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "SuwTbyz0",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1794523134,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "8FNoZuAy",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1794524176,
+              "hr": {
+                "urst": {
+                  "st": 1794524174
+                }
+              },
               "reps": "12",
               "combGroups": []
             }
