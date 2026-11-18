@@ -1,10 +1,10 @@
 {
   "kind": "weight",
   "source": "keepstrong",
-  "syncedAt": "2026-11-16T01:32:57.932Z",
+  "syncedAt": "2026-11-18T01:08:44.395Z",
   "range": {
     "from": "20231016",
-    "to": "20261116"
+    "to": "20261118"
   },
   "logs": [
     {
@@ -75,7 +75,8 @@
       "dayTs": 1700409600,
       "value": 82.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231121",
@@ -85,7 +86,8 @@
       "dayTs": 1700496000,
       "value": 81.8,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231124",
@@ -95,7 +97,8 @@
       "dayTs": 1700755200,
       "value": 81.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231125",
@@ -105,7 +108,8 @@
       "dayTs": 1700841600,
       "value": 81,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231129",
@@ -115,7 +119,8 @@
       "dayTs": 1701187200,
       "value": 80,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231130",
@@ -125,7 +130,8 @@
       "dayTs": 1701273600,
       "value": 79.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231201",
@@ -135,7 +141,8 @@
       "dayTs": 1701360000,
       "value": 80,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231206",
@@ -145,7 +152,8 @@
       "dayTs": 1701792000,
       "value": 79.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231211",
@@ -155,7 +163,8 @@
       "dayTs": 1702224000,
       "value": 80.7,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231228",
@@ -165,7 +174,8 @@
       "dayTs": 1703692800,
       "value": 83.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231230",
@@ -175,7 +185,8 @@
       "dayTs": 1703865600,
       "value": 81.6,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20231231",
@@ -185,7 +196,8 @@
       "dayTs": 1703952000,
       "value": 82.7,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240103",
@@ -195,7 +207,8 @@
       "dayTs": 1704211200,
       "value": 82.7,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240104",
@@ -205,7 +218,8 @@
       "dayTs": 1704297600,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240105",
@@ -215,7 +229,8 @@
       "dayTs": 1704384000,
       "value": 81,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240106",
@@ -225,7 +240,8 @@
       "dayTs": 1704470400,
       "value": 81.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240107",
@@ -235,7 +251,8 @@
       "dayTs": 1704556800,
       "value": 80.8,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240111",
@@ -245,7 +262,8 @@
       "dayTs": 1704902400,
       "value": 79.9,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240112",
@@ -255,7 +273,8 @@
       "dayTs": 1704988800,
       "value": 81.1,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240117",
@@ -265,7 +284,8 @@
       "dayTs": 1705420800,
       "value": 80.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240121",
@@ -275,7 +295,8 @@
       "dayTs": 1705766400,
       "value": 79.7,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240127",
@@ -285,7 +306,8 @@
       "dayTs": 1706284800,
       "value": 79.8,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240128",
@@ -295,7 +317,8 @@
       "dayTs": 1706371200,
       "value": 78.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240131",
@@ -305,7 +328,8 @@
       "dayTs": 1706630400,
       "value": 79.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240220",
@@ -315,7 +339,8 @@
       "dayTs": 1708358400,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240221",
@@ -325,7 +350,8 @@
       "dayTs": 1708444800,
       "value": 81.1,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240222",
@@ -335,7 +361,8 @@
       "dayTs": 1708531200,
       "value": 80.6,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240301",
@@ -345,7 +372,8 @@
       "dayTs": 1709222400,
       "value": 81.1,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240307",
@@ -355,7 +383,8 @@
       "dayTs": 1709740800,
       "value": 81.7,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240313",
@@ -365,7 +394,8 @@
       "dayTs": 1710259200,
       "value": 79.7,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240314",
@@ -375,7 +405,8 @@
       "dayTs": 1710345600,
       "value": 79,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240322",
@@ -385,7 +416,8 @@
       "dayTs": 1711036800,
       "value": 78.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240405",
@@ -395,7 +427,8 @@
       "dayTs": 1712246400,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240414",
@@ -405,7 +438,8 @@
       "dayTs": 1713024000,
       "value": 82.1,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240502",
@@ -415,7 +449,8 @@
       "dayTs": 1714579200,
       "value": 81.9,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240508",
@@ -425,7 +460,8 @@
       "dayTs": 1715097600,
       "value": 83.3,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240512",
@@ -435,7 +471,8 @@
       "dayTs": 1715443200,
       "value": 81.8,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240515",
@@ -445,7 +482,8 @@
       "dayTs": 1715702400,
       "value": 82.4,
       "unit": "kg",
-      "time": 1765518407
+      "time": 1765518407,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240518",
@@ -455,7 +493,8 @@
       "dayTs": 1715961600,
       "value": 82,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240525",
@@ -465,7 +504,8 @@
       "dayTs": 1716566400,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240528",
@@ -475,7 +515,8 @@
       "dayTs": 1716825600,
       "value": 83.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240601",
@@ -485,7 +526,8 @@
       "dayTs": 1717171200,
       "value": 82.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240603",
@@ -495,7 +537,8 @@
       "dayTs": 1717344000,
       "value": 83,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240605",
@@ -505,7 +548,8 @@
       "dayTs": 1717516800,
       "value": 83.9,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240606",
@@ -515,7 +559,8 @@
       "dayTs": 1717603200,
       "value": 83.9,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240607",
@@ -525,7 +570,8 @@
       "dayTs": 1717689600,
       "value": 83.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240609",
@@ -535,7 +581,8 @@
       "dayTs": 1717862400,
       "value": 82.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240614",
@@ -545,7 +592,8 @@
       "dayTs": 1718294400,
       "value": 85.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240617",
@@ -555,7 +603,8 @@
       "dayTs": 1718553600,
       "value": 86,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240619",
@@ -565,7 +614,8 @@
       "dayTs": 1718726400,
       "value": 85.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240620",
@@ -575,7 +625,8 @@
       "dayTs": 1718812800,
       "value": 85.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240621",
@@ -585,7 +636,8 @@
       "dayTs": 1718899200,
       "value": 85.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240624",
@@ -595,7 +647,8 @@
       "dayTs": 1719158400,
       "value": 86.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240703",
@@ -605,7 +658,8 @@
       "dayTs": 1719936000,
       "value": 85.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240705",
@@ -615,7 +669,8 @@
       "dayTs": 1720108800,
       "value": 85.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240708",
@@ -625,7 +680,8 @@
       "dayTs": 1720368000,
       "value": 84.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240709",
@@ -635,7 +691,8 @@
       "dayTs": 1720454400,
       "value": 85,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240710",
@@ -645,7 +702,8 @@
       "dayTs": 1720540800,
       "value": 84.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240713",
@@ -655,7 +713,8 @@
       "dayTs": 1720800000,
       "value": 84.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240714",
@@ -665,7 +724,8 @@
       "dayTs": 1720886400,
       "value": 84.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240716",
@@ -675,7 +735,8 @@
       "dayTs": 1721059200,
       "value": 85.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240717",
@@ -685,7 +746,8 @@
       "dayTs": 1721145600,
       "value": 84.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240718",
@@ -695,7 +757,8 @@
       "dayTs": 1721232000,
       "value": 84,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240719",
@@ -705,7 +768,8 @@
       "dayTs": 1721318400,
       "value": 83.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240720",
@@ -715,7 +779,8 @@
       "dayTs": 1721404800,
       "value": 83.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240721",
@@ -725,7 +790,8 @@
       "dayTs": 1721491200,
       "value": 83.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240722",
@@ -735,7 +801,8 @@
       "dayTs": 1721577600,
       "value": 83,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240723",
@@ -745,7 +812,8 @@
       "dayTs": 1721664000,
       "value": 84.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240724",
@@ -755,7 +823,8 @@
       "dayTs": 1721750400,
       "value": 83.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240725",
@@ -765,7 +834,8 @@
       "dayTs": 1721836800,
       "value": 83.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240726",
@@ -775,7 +845,8 @@
       "dayTs": 1721923200,
       "value": 82.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240727",
@@ -785,7 +856,8 @@
       "dayTs": 1722009600,
       "value": 82.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240728",
@@ -795,7 +867,8 @@
       "dayTs": 1722096000,
       "value": 82.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240729",
@@ -805,7 +878,8 @@
       "dayTs": 1722182400,
       "value": 82,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240730",
@@ -815,7 +889,8 @@
       "dayTs": 1722268800,
       "value": 82,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240731",
@@ -825,7 +900,8 @@
       "dayTs": 1722355200,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240801",
@@ -835,7 +911,8 @@
       "dayTs": 1722441600,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240802",
@@ -845,7 +922,8 @@
       "dayTs": 1722528000,
       "value": 81.6,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240803",
@@ -855,7 +933,8 @@
       "dayTs": 1722614400,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240804",
@@ -865,7 +944,8 @@
       "dayTs": 1722700800,
       "value": 81.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240805",
@@ -875,7 +955,8 @@
       "dayTs": 1722787200,
       "value": 83,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240806",
@@ -885,7 +966,8 @@
       "dayTs": 1722873600,
       "value": 81.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240807",
@@ -895,7 +977,8 @@
       "dayTs": 1722960000,
       "value": 81.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240808",
@@ -905,7 +988,8 @@
       "dayTs": 1723046400,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240809",
@@ -915,7 +999,8 @@
       "dayTs": 1723132800,
       "value": 81.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240810",
@@ -925,7 +1010,8 @@
       "dayTs": 1723219200,
       "value": 80.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240811",
@@ -935,7 +1021,8 @@
       "dayTs": 1723305600,
       "value": 81,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240816",
@@ -945,7 +1032,8 @@
       "dayTs": 1723737600,
       "value": 81.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240817",
@@ -955,7 +1043,8 @@
       "dayTs": 1723824000,
       "value": 81.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240825",
@@ -965,7 +1054,8 @@
       "dayTs": 1724515200,
       "value": 81.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240827",
@@ -975,7 +1065,8 @@
       "dayTs": 1724688000,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240829",
@@ -985,7 +1076,8 @@
       "dayTs": 1724860800,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240830",
@@ -995,7 +1087,8 @@
       "dayTs": 1724947200,
       "value": 80.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240831",
@@ -1005,7 +1098,8 @@
       "dayTs": 1725033600,
       "value": 81,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240904",
@@ -1015,7 +1109,8 @@
       "dayTs": 1725379200,
       "value": 80.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240909",
@@ -1025,7 +1120,8 @@
       "dayTs": 1725811200,
       "value": 80.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20240911",
@@ -1035,7 +1131,8 @@
       "dayTs": 1725984000,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241011",
@@ -1045,7 +1142,8 @@
       "dayTs": 1728576000,
       "value": 83,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241017",
@@ -1055,7 +1153,8 @@
       "dayTs": 1729094400,
       "value": 82.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241025",
@@ -1065,7 +1164,8 @@
       "dayTs": 1729785600,
       "value": 84.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241030",
@@ -1075,7 +1175,8 @@
       "dayTs": 1730217600,
       "value": 83.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241031",
@@ -1085,7 +1186,8 @@
       "dayTs": 1730304000,
       "value": 82.6,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241101",
@@ -1095,7 +1197,8 @@
       "dayTs": 1730390400,
       "value": 81.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241102",
@@ -1105,7 +1208,8 @@
       "dayTs": 1730476800,
       "value": 80.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241103",
@@ -1115,7 +1219,8 @@
       "dayTs": 1730563200,
       "value": 83,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241104",
@@ -1125,7 +1230,8 @@
       "dayTs": 1730649600,
       "value": 84.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241105",
@@ -1135,7 +1241,8 @@
       "dayTs": 1730736000,
       "value": 82.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241106",
@@ -1145,7 +1252,8 @@
       "dayTs": 1730822400,
       "value": 82.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241108",
@@ -1155,7 +1263,8 @@
       "dayTs": 1730995200,
       "value": 81.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241109",
@@ -1165,7 +1274,8 @@
       "dayTs": 1731081600,
       "value": 81.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241111",
@@ -1175,7 +1285,8 @@
       "dayTs": 1731254400,
       "value": 82.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241112",
@@ -1185,7 +1296,8 @@
       "dayTs": 1731340800,
       "value": 81,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241113",
@@ -1195,7 +1307,8 @@
       "dayTs": 1731427200,
       "value": 80.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241114",
@@ -1205,7 +1318,8 @@
       "dayTs": 1731513600,
       "value": 80.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241115",
@@ -1215,7 +1329,8 @@
       "dayTs": 1731600000,
       "value": 80.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241119",
@@ -1225,7 +1340,8 @@
       "dayTs": 1731945600,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241120",
@@ -1235,7 +1351,8 @@
       "dayTs": 1732032000,
       "value": 80.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241121",
@@ -1245,7 +1362,8 @@
       "dayTs": 1732118400,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241122",
@@ -1255,7 +1373,8 @@
       "dayTs": 1732204800,
       "value": 80.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241123",
@@ -1265,7 +1384,8 @@
       "dayTs": 1732291200,
       "value": 79.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241124",
@@ -1275,7 +1395,8 @@
       "dayTs": 1732377600,
       "value": 80.9,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241125",
@@ -1285,7 +1406,8 @@
       "dayTs": 1732464000,
       "value": 81.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241126",
@@ -1295,7 +1417,8 @@
       "dayTs": 1732550400,
       "value": 81.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241127",
@@ -1305,7 +1428,8 @@
       "dayTs": 1732636800,
       "value": 82.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241128",
@@ -1315,7 +1439,8 @@
       "dayTs": 1732723200,
       "value": 82,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20241202",
@@ -1325,7 +1450,8 @@
       "dayTs": 1733068800,
       "value": 84.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250105",
@@ -1335,7 +1461,8 @@
       "dayTs": 1736006400,
       "value": 86.9,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250108",
@@ -1345,7 +1472,8 @@
       "dayTs": 1736265600,
       "value": 85,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250118",
@@ -1355,7 +1483,8 @@
       "dayTs": 1737129600,
       "value": 88.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250120",
@@ -1365,7 +1494,8 @@
       "dayTs": 1737302400,
       "value": 89.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250123",
@@ -1375,7 +1505,8 @@
       "dayTs": 1737561600,
       "value": 88,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250211",
@@ -1385,7 +1516,8 @@
       "dayTs": 1739203200,
       "value": 87.6,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250212",
@@ -1395,7 +1527,8 @@
       "dayTs": 1739289600,
       "value": 87.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250219",
@@ -1405,7 +1538,8 @@
       "dayTs": 1739894400,
       "value": 88.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250222",
@@ -1415,7 +1549,8 @@
       "dayTs": 1740153600,
       "value": 87.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250226",
@@ -1425,7 +1560,8 @@
       "dayTs": 1740499200,
       "value": 89.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250303",
@@ -1435,7 +1571,8 @@
       "dayTs": 1740931200,
       "value": 88.6,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250311",
@@ -1445,7 +1582,8 @@
       "dayTs": 1741622400,
       "value": 89.6,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250324",
@@ -1455,7 +1593,8 @@
       "dayTs": 1742745600,
       "value": 92,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250408",
@@ -1465,7 +1604,8 @@
       "dayTs": 1744041600,
       "value": 90.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250412",
@@ -1475,7 +1615,8 @@
       "dayTs": 1744387200,
       "value": 88,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250419",
@@ -1485,7 +1626,8 @@
       "dayTs": 1744992000,
       "value": 89.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250426",
@@ -1495,7 +1637,8 @@
       "dayTs": 1745596800,
       "value": 85.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250430",
@@ -1505,7 +1648,8 @@
       "dayTs": 1745942400,
       "value": 85.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250501",
@@ -1515,7 +1659,8 @@
       "dayTs": 1746028800,
       "value": 86.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250504",
@@ -1525,7 +1670,8 @@
       "dayTs": 1746288000,
       "value": 84.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250509",
@@ -1535,7 +1681,8 @@
       "dayTs": 1746720000,
       "value": 85,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250511",
@@ -1545,7 +1692,8 @@
       "dayTs": 1746892800,
       "value": 83.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250513",
@@ -1555,7 +1703,8 @@
       "dayTs": 1747065600,
       "value": 83.7,
       "unit": "kg",
-      "time": 1747125802
+      "time": 1747125802,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250517",
@@ -1565,7 +1714,8 @@
       "dayTs": 1747411200,
       "value": 83.35,
       "unit": "kg",
-      "time": 1747447375
+      "time": 1747447375,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250524",
@@ -1575,7 +1725,8 @@
       "dayTs": 1748016000,
       "value": 84.4,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250531",
@@ -1585,7 +1736,8 @@
       "dayTs": 1748620800,
       "value": 84.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250610",
@@ -1595,7 +1747,8 @@
       "dayTs": 1749484800,
       "value": 84.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250618",
@@ -1605,7 +1758,8 @@
       "dayTs": 1750176000,
       "value": 85.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250621",
@@ -1615,7 +1769,8 @@
       "dayTs": 1750435200,
       "value": 83.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250625",
@@ -1625,7 +1780,8 @@
       "dayTs": 1750780800,
       "value": 83.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250629",
@@ -1635,7 +1791,8 @@
       "dayTs": 1751126400,
       "value": 83.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250702",
@@ -1645,7 +1802,8 @@
       "dayTs": 1751385600,
       "value": 82.6,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250705",
@@ -1655,7 +1813,8 @@
       "dayTs": 1751644800,
       "value": 83.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250710",
@@ -1665,7 +1824,8 @@
       "dayTs": 1752076800,
       "value": 81.9,
       "unit": "kg",
-      "time": 1752188804
+      "time": 1752188804,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250713",
@@ -1675,7 +1835,8 @@
       "dayTs": 1752336000,
       "value": 81.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250716",
@@ -1685,7 +1846,8 @@
       "dayTs": 1752595200,
       "value": 81.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250720",
@@ -1695,7 +1857,8 @@
       "dayTs": 1752940800,
       "value": 81.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250723",
@@ -1705,7 +1868,8 @@
       "dayTs": 1753200000,
       "value": 80.2,
       "unit": "kg",
-      "time": 1753249241
+      "time": 1753249241,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250727",
@@ -1715,7 +1879,8 @@
       "dayTs": 1753545600,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250730",
@@ -1725,7 +1890,8 @@
       "dayTs": 1753804800,
       "value": 80,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250802",
@@ -1735,7 +1901,8 @@
       "dayTs": 1754064000,
       "value": 79.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250818",
@@ -1745,7 +1912,8 @@
       "dayTs": 1755446400,
       "value": 81.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250821",
@@ -1755,7 +1923,8 @@
       "dayTs": 1755705600,
       "value": 81.2,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250827",
@@ -1765,7 +1934,8 @@
       "dayTs": 1756224000,
       "value": 80.5,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250831",
@@ -1775,7 +1945,8 @@
       "dayTs": 1756569600,
       "value": 78.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250903",
@@ -1785,7 +1956,8 @@
       "dayTs": 1756828800,
       "value": 78,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250907",
@@ -1795,7 +1967,8 @@
       "dayTs": 1757174400,
       "value": 78.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250914",
@@ -1805,7 +1978,8 @@
       "dayTs": 1757779200,
       "value": 82.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250916",
@@ -1815,7 +1989,8 @@
       "dayTs": 1757952000,
       "value": 80.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250918",
@@ -1825,7 +2000,8 @@
       "dayTs": 1758124800,
       "value": 80,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250921",
@@ -1835,7 +2011,8 @@
       "dayTs": 1758384000,
       "value": 79.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250924",
@@ -1845,7 +2022,8 @@
       "dayTs": 1758643200,
       "value": 78.7,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250926",
@@ -1855,7 +2033,8 @@
       "dayTs": 1758816000,
       "value": 77.2,
       "unit": "kg",
-      "time": 1758852265
+      "time": 1758852265,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20250930",
@@ -1865,7 +2044,8 @@
       "dayTs": 1759161600,
       "value": 82,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251001",
@@ -1875,7 +2055,8 @@
       "dayTs": 1759248000,
       "value": 78.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251002",
@@ -1885,7 +2066,8 @@
       "dayTs": 1759334400,
       "value": 77.9,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251006",
@@ -1895,7 +2077,8 @@
       "dayTs": 1759680000,
       "value": 77.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251008",
@@ -1905,7 +2088,8 @@
       "dayTs": 1759852800,
       "value": 77.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251011",
@@ -1915,7 +2099,8 @@
       "dayTs": 1760112000,
       "value": 78.1,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251025",
@@ -1925,7 +2110,8 @@
       "dayTs": 1761321600,
       "value": 79.3,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251211",
@@ -1935,7 +2121,8 @@
       "dayTs": 1765382400,
       "value": 90.75,
       "unit": "kg",
-      "time": 1765508631
+      "time": 1765508631,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251212",
@@ -1945,7 +2132,8 @@
       "dayTs": 1765468800,
       "value": 90.8,
       "unit": "kg",
-      "time": 1765518408
+      "time": 1765518408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251213",
@@ -1955,7 +2143,8 @@
       "dayTs": 1765555200,
       "value": 86.2,
       "unit": "kg",
-      "time": 1773661713
+      "time": 1773661713,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20251225",
@@ -1965,7 +2154,8 @@
       "dayTs": 1766592000,
       "value": 84.5,
       "unit": "kg",
-      "time": 1773661713
+      "time": 1773661713,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260314",
@@ -1975,7 +2165,8 @@
       "dayTs": 1773417600,
       "value": 90.9,
       "unit": "kg",
-      "time": 1773661713
+      "time": 1773661713,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260319",
@@ -1985,7 +2176,8 @@
       "dayTs": 1773849600,
       "value": 90.85,
       "unit": "kg",
-      "time": 1773879282
+      "time": 1773879282,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260320",
@@ -1995,7 +2187,8 @@
       "dayTs": 1773936000,
       "value": 90.95,
       "unit": "kg",
-      "time": 1773965689
+      "time": 1773965689,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260321",
@@ -2005,7 +2198,8 @@
       "dayTs": 1774022400,
       "value": 90.7,
       "unit": "kg",
-      "time": 1774063087
+      "time": 1774063087,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260322",
@@ -2015,7 +2209,8 @@
       "dayTs": 1774108800,
       "value": 91.85,
       "unit": "kg",
-      "time": 1774151434
+      "time": 1774151434,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260324",
@@ -2025,7 +2220,8 @@
       "dayTs": 1774281600,
       "value": 91.4,
       "unit": "kg",
-      "time": 1774311533
+      "time": 1774311533,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260325",
@@ -2035,7 +2231,8 @@
       "dayTs": 1774368000,
       "value": 90.65,
       "unit": "kg",
-      "time": 1774396953
+      "time": 1774396953,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260326",
@@ -2045,7 +2242,8 @@
       "dayTs": 1774454400,
       "value": 90.2,
       "unit": "kg",
-      "time": 1774484210
+      "time": 1774484210,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260327",
@@ -2055,7 +2253,8 @@
       "dayTs": 1774540800,
       "value": 89.95,
       "unit": "kg",
-      "time": 1774570680
+      "time": 1774570680,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260328",
@@ -2065,7 +2264,8 @@
       "dayTs": 1774627200,
       "value": 89.95,
       "unit": "kg",
-      "time": 1774666658
+      "time": 1774666658,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260329",
@@ -2075,7 +2275,8 @@
       "dayTs": 1774713600,
       "value": 90.9,
       "unit": "kg",
-      "time": 1774754704
+      "time": 1774754704,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260330",
@@ -2085,7 +2286,8 @@
       "dayTs": 1774800000,
       "value": 91.05,
       "unit": "kg",
-      "time": 1774830656
+      "time": 1774830656,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260331",
@@ -2095,7 +2297,8 @@
       "dayTs": 1774886400,
       "value": 91.05,
       "unit": "kg",
-      "time": 1774917131
+      "time": 1774917131,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260401",
@@ -2105,7 +2308,8 @@
       "dayTs": 1774972800,
       "value": 89.95,
       "unit": "kg",
-      "time": 1775003535
+      "time": 1775003535,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260402",
@@ -2115,7 +2319,8 @@
       "dayTs": 1775059200,
       "value": 89.85,
       "unit": "kg",
-      "time": 1775089861
+      "time": 1775089861,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260403",
@@ -2125,7 +2330,8 @@
       "dayTs": 1775145600,
       "value": 90.5,
       "unit": "kg",
-      "time": 1775175837
+      "time": 1775175837,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260404",
@@ -2135,7 +2341,8 @@
       "dayTs": 1775232000,
       "value": 89.3,
       "unit": "kg",
-      "time": 1775264035
+      "time": 1775264035,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260407",
@@ -2145,7 +2352,8 @@
       "dayTs": 1775491200,
       "value": 90.8,
       "unit": "kg",
-      "time": 1775522281
+      "time": 1775522281,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260408",
@@ -2155,7 +2363,8 @@
       "dayTs": 1775577600,
       "value": 91.75,
       "unit": "kg",
-      "time": 1775607276
+      "time": 1775607276,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260409",
@@ -2165,7 +2374,8 @@
       "dayTs": 1775664000,
       "value": 90.2,
       "unit": "kg",
-      "time": 1775694313
+      "time": 1775694313,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260410",
@@ -2175,7 +2385,8 @@
       "dayTs": 1775750400,
       "value": 89.25,
       "unit": "kg",
-      "time": 1775785924
+      "time": 1775785924,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260411",
@@ -2185,7 +2396,8 @@
       "dayTs": 1775836800,
       "value": 90.55,
       "unit": "kg",
-      "time": 1775882741
+      "time": 1775882741,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260412",
@@ -2195,7 +2407,8 @@
       "dayTs": 1775923200,
       "value": 88.95,
       "unit": "kg",
-      "time": 1775968409
+      "time": 1775968409,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260413",
@@ -2205,7 +2418,8 @@
       "dayTs": 1776009600,
       "value": 91,
       "unit": "kg",
-      "time": 1776041292
+      "time": 1776041292,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260415",
@@ -2215,7 +2429,8 @@
       "dayTs": 1776182400,
       "value": 91.25,
       "unit": "kg",
-      "time": 1776244024
+      "time": 1776244024,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260416",
@@ -2225,7 +2440,8 @@
       "dayTs": 1776268800,
       "value": 90.05,
       "unit": "kg",
-      "time": 1776299391
+      "time": 1776299391,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260417",
@@ -2235,7 +2451,8 @@
       "dayTs": 1776355200,
       "value": 90.7,
       "unit": "kg",
-      "time": 1776384700
+      "time": 1776384700,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260418",
@@ -2245,7 +2462,8 @@
       "dayTs": 1776441600,
       "value": 89.6,
       "unit": "kg",
-      "time": 1776469495
+      "time": 1776469495,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260419",
@@ -2255,7 +2473,8 @@
       "dayTs": 1776528000,
       "value": 88.75,
       "unit": "kg",
-      "time": 1776563616
+      "time": 1776563616,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260420",
@@ -2265,7 +2484,8 @@
       "dayTs": 1776614400,
       "value": 90.65,
       "unit": "kg",
-      "time": 1776644474
+      "time": 1776644474,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260421",
@@ -2275,7 +2495,8 @@
       "dayTs": 1776700800,
       "value": 91.15,
       "unit": "kg",
-      "time": 1776731322
+      "time": 1776731322,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260422",
@@ -2285,7 +2506,8 @@
       "dayTs": 1776787200,
       "value": 92.25,
       "unit": "kg",
-      "time": 1776818266
+      "time": 1776818266,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260423",
@@ -2295,7 +2517,8 @@
       "dayTs": 1776873600,
       "value": 90.25,
       "unit": "kg",
-      "time": 1776904038
+      "time": 1776904038,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260424",
@@ -2305,7 +2528,8 @@
       "dayTs": 1776960000,
       "value": 90.65,
       "unit": "kg",
-      "time": 1776989838
+      "time": 1776989838,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260425",
@@ -2315,7 +2539,8 @@
       "dayTs": 1777046400,
       "value": 89.65,
       "unit": "kg",
-      "time": 1777075215
+      "time": 1777075215,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260426",
@@ -2325,7 +2550,8 @@
       "dayTs": 1777132800,
       "value": 91.5,
       "unit": "kg",
-      "time": 1777179786
+      "time": 1777179786,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260428",
@@ -2335,7 +2561,8 @@
       "dayTs": 1777305600,
       "value": 90.25,
       "unit": "kg",
-      "time": 1777335597
+      "time": 1777335597,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260429",
@@ -2345,7 +2572,8 @@
       "dayTs": 1777392000,
       "value": 89.7,
       "unit": "kg",
-      "time": 1777425333
+      "time": 1777425333,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260430",
@@ -2355,7 +2583,8 @@
       "dayTs": 1777478400,
       "value": 89.15,
       "unit": "kg",
-      "time": 1777508803
+      "time": 1777508803,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260516",
@@ -2365,7 +2594,8 @@
       "dayTs": 1778860800,
       "value": 90.6,
       "unit": "kg",
-      "time": 1778891195
+      "time": 1778891195,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260519",
@@ -2375,7 +2605,8 @@
       "dayTs": 1779120000,
       "value": 90.8,
       "unit": "kg",
-      "time": 1779147966
+      "time": 1779147966,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260520",
@@ -2385,7 +2616,8 @@
       "dayTs": 1779206400,
       "value": 90.05,
       "unit": "kg",
-      "time": 1779233940
+      "time": 1779233940,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260521",
@@ -2395,7 +2627,8 @@
       "dayTs": 1779292800,
       "value": 89.1,
       "unit": "kg",
-      "time": 1779320550
+      "time": 1779320550,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260522",
@@ -2405,7 +2638,8 @@
       "dayTs": 1779379200,
       "value": 89.35,
       "unit": "kg",
-      "time": 1779407268
+      "time": 1779407268,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260523",
@@ -2415,7 +2649,8 @@
       "dayTs": 1779465600,
       "value": 89.5,
       "unit": "kg",
-      "time": 1779492077
+      "time": 1779492077,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260524",
@@ -2425,7 +2660,8 @@
       "dayTs": 1779552000,
       "value": 89.65,
       "unit": "kg",
-      "time": 1779583204
+      "time": 1779583204,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260525",
@@ -2435,7 +2671,8 @@
       "dayTs": 1779638400,
       "value": 89.65,
       "unit": "kg",
-      "time": 1779666530
+      "time": 1779666530,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260526",
@@ -2445,7 +2682,8 @@
       "dayTs": 1779724800,
       "value": 89.6,
       "unit": "kg",
-      "time": 1779753106
+      "time": 1779753106,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260527",
@@ -2455,7 +2693,8 @@
       "dayTs": 1779811200,
       "value": 90.55,
       "unit": "kg",
-      "time": 1779839881
+      "time": 1779839881,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260528",
@@ -2465,7 +2704,8 @@
       "dayTs": 1779897600,
       "value": 91.8,
       "unit": "kg",
-      "time": 1779926847
+      "time": 1779926847,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260529",
@@ -2475,7 +2715,8 @@
       "dayTs": 1779984000,
       "value": 91.5,
       "unit": "kg",
-      "time": 1780012333
+      "time": 1780012333,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260530",
@@ -2485,7 +2726,8 @@
       "dayTs": 1780070400,
       "value": 92.25,
       "unit": "kg",
-      "time": 1780104772
+      "time": 1780104772,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260531",
@@ -2495,7 +2737,8 @@
       "dayTs": 1780156800,
       "value": 93.4,
       "unit": "kg",
-      "time": 1780191941
+      "time": 1780191941,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260601",
@@ -2505,7 +2748,8 @@
       "dayTs": 1780243200,
       "value": 93.1,
       "unit": "kg",
-      "time": 1780271794
+      "time": 1780271794,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260602",
@@ -2515,7 +2759,8 @@
       "dayTs": 1780329600,
       "value": 94.35,
       "unit": "kg",
-      "time": 1780357838
+      "time": 1780357838,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260603",
@@ -2525,7 +2770,8 @@
       "dayTs": 1780416000,
       "value": 93.45,
       "unit": "kg",
-      "time": 1780444027
+      "time": 1780444027,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260604",
@@ -2535,7 +2781,8 @@
       "dayTs": 1780502400,
       "value": 93.55,
       "unit": "kg",
-      "time": 1780530906
+      "time": 1780530906,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260605",
@@ -2545,7 +2792,8 @@
       "dayTs": 1780588800,
       "value": 93.23,
       "unit": "kg",
-      "time": 1780617276
+      "time": 1780617276,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260606",
@@ -2555,7 +2803,8 @@
       "dayTs": 1780675200,
       "value": 94.65,
       "unit": "kg",
-      "time": 1780704660
+      "time": 1780704660,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260608",
@@ -2565,7 +2814,8 @@
       "dayTs": 1780848000,
       "value": 97.15,
       "unit": "kg",
-      "time": 1780930247
+      "time": 1780930247,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260609",
@@ -2575,7 +2825,8 @@
       "dayTs": 1780934400,
       "value": 94.75,
       "unit": "kg",
-      "time": 1780962643
+      "time": 1780962643,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260610",
@@ -2585,7 +2836,8 @@
       "dayTs": 1781020800,
       "value": 94.4,
       "unit": "kg",
-      "time": 1781049138
+      "time": 1781049138,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260611",
@@ -2595,7 +2847,8 @@
       "dayTs": 1781107200,
       "value": 95.25,
       "unit": "kg",
-      "time": 1781135328
+      "time": 1781135328,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260612",
@@ -2605,7 +2858,8 @@
       "dayTs": 1781193600,
       "value": 94.35,
       "unit": "kg",
-      "time": 1781221617
+      "time": 1781221617,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260613",
@@ -2615,7 +2869,8 @@
       "dayTs": 1781280000,
       "value": 93.05,
       "unit": "kg",
-      "time": 1781313230
+      "time": 1781313230,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260614",
@@ -2625,7 +2880,8 @@
       "dayTs": 1781366400,
       "value": 92.95,
       "unit": "kg",
-      "time": 1781401529
+      "time": 1781401529,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260616",
@@ -2635,7 +2891,8 @@
       "dayTs": 1781539200,
       "value": 94.5,
       "unit": "kg",
-      "time": 1781567907
+      "time": 1781567907,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260617",
@@ -2645,7 +2902,8 @@
       "dayTs": 1781625600,
       "value": 94.5,
       "unit": "kg",
-      "time": 1781654295
+      "time": 1781654295,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260618",
@@ -2655,7 +2913,8 @@
       "dayTs": 1781712000,
       "value": 95.75,
       "unit": "kg",
-      "time": 1781741294
+      "time": 1781741294,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260620",
@@ -2665,7 +2924,8 @@
       "dayTs": 1781884800,
       "value": 94.85,
       "unit": "kg",
-      "time": 1781919913
+      "time": 1781919913,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260621",
@@ -2675,7 +2935,8 @@
       "dayTs": 1781971200,
       "value": 96.7,
       "unit": "kg",
-      "time": 1782013456
+      "time": 1782013456,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260622",
@@ -2685,7 +2946,8 @@
       "dayTs": 1782057600,
       "value": 97.25,
       "unit": "kg",
-      "time": 1782102802
+      "time": 1782102802,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260623",
@@ -2695,7 +2957,8 @@
       "dayTs": 1782144000,
       "value": 96.2,
       "unit": "kg",
-      "time": 1782172853
+      "time": 1782172853,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260624",
@@ -2705,7 +2968,8 @@
       "dayTs": 1782230400,
       "value": 98.9,
       "unit": "kg",
-      "time": 1782311880
+      "time": 1782311880,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260625",
@@ -2715,7 +2979,8 @@
       "dayTs": 1782316800,
       "value": 97.9,
       "unit": "kg",
-      "time": 1782345077
+      "time": 1782345077,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260626",
@@ -2725,7 +2990,8 @@
       "dayTs": 1782403200,
       "value": 96.95,
       "unit": "kg",
-      "time": 1782431888
+      "time": 1782431888,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260627",
@@ -2735,7 +3001,8 @@
       "dayTs": 1782489600,
       "value": 95.9,
       "unit": "kg",
-      "time": 1782526414
+      "time": 1782526414,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260630",
@@ -2745,7 +3012,8 @@
       "dayTs": 1782748800,
       "value": 96.9,
       "unit": "kg",
-      "time": 1782777954
+      "time": 1782777954,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260701",
@@ -2755,7 +3023,8 @@
       "dayTs": 1782835200,
       "value": 97.45,
       "unit": "kg",
-      "time": 1782863890
+      "time": 1782863890,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260702",
@@ -2765,7 +3034,8 @@
       "dayTs": 1782921600,
       "value": 98.05,
       "unit": "kg",
-      "time": 1782950782
+      "time": 1782950782,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260703",
@@ -2775,7 +3045,8 @@
       "dayTs": 1783008000,
       "value": 99.25,
       "unit": "kg",
-      "time": 1783036741
+      "time": 1783036741,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260704",
@@ -2785,7 +3056,8 @@
       "dayTs": 1783094400,
       "value": 97,
       "unit": "kg",
-      "time": 1783131102
+      "time": 1783131102,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260706",
@@ -2795,7 +3067,8 @@
       "dayTs": 1783267200,
       "value": 96.75,
       "unit": "kg",
-      "time": 1783296212
+      "time": 1783296212,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260707",
@@ -2805,7 +3078,8 @@
       "dayTs": 1783353600,
       "value": 96.6,
       "unit": "kg",
-      "time": 1783382968
+      "time": 1783382968,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260708",
@@ -2815,7 +3089,8 @@
       "dayTs": 1783440000,
       "value": 95.2,
       "unit": "kg",
-      "time": 1783467952
+      "time": 1783467952,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260709",
@@ -2825,7 +3100,8 @@
       "dayTs": 1783526400,
       "value": 94.65,
       "unit": "kg",
-      "time": 1783554721
+      "time": 1783554721,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260710",
@@ -2835,7 +3111,8 @@
       "dayTs": 1783612800,
       "value": 93.7,
       "unit": "kg",
-      "time": 1783647394
+      "time": 1783647394,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260713",
@@ -2845,7 +3122,8 @@
       "dayTs": 1783872000,
       "value": 97.6,
       "unit": "kg",
-      "time": 1783901878
+      "time": 1783901878,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260714",
@@ -2855,7 +3133,8 @@
       "dayTs": 1783958400,
       "value": 95.65,
       "unit": "kg",
-      "time": 1783987555
+      "time": 1783987555,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260715",
@@ -2865,7 +3144,8 @@
       "dayTs": 1784044800,
       "value": 95.85,
       "unit": "kg",
-      "time": 1784072630
+      "time": 1784072630,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260716",
@@ -2875,7 +3155,8 @@
       "dayTs": 1784131200,
       "value": 96.75,
       "unit": "kg",
-      "time": 1784159660
+      "time": 1784159660,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260717",
@@ -2885,7 +3166,8 @@
       "dayTs": 1784217600,
       "value": 95.15,
       "unit": "kg",
-      "time": 1784252900
+      "time": 1784252900,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260718",
@@ -2895,7 +3177,8 @@
       "dayTs": 1784304000,
       "value": 94.7,
       "unit": "kg",
-      "time": 1784341930
+      "time": 1784341930,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260719",
@@ -2905,7 +3188,8 @@
       "dayTs": 1784390400,
       "value": 96.45,
       "unit": "kg",
-      "time": 1784446659
+      "time": 1784446659,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260720",
@@ -2915,7 +3199,8 @@
       "dayTs": 1784476800,
       "value": 95.85,
       "unit": "kg",
-      "time": 1784505584
+      "time": 1784505584,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260721",
@@ -2925,7 +3210,8 @@
       "dayTs": 1784563200,
       "value": 96.4,
       "unit": "kg",
-      "time": 1784591935
+      "time": 1784591935,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260722",
@@ -2935,7 +3221,8 @@
       "dayTs": 1784649600,
       "value": 97.35,
       "unit": "kg",
-      "time": 1784678113
+      "time": 1784678113,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260723",
@@ -2945,7 +3232,8 @@
       "dayTs": 1784736000,
       "value": 96.2,
       "unit": "kg",
-      "time": 1784764839
+      "time": 1784764839,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260724",
@@ -2955,7 +3243,8 @@
       "dayTs": 1784822400,
       "value": 96.25,
       "unit": "kg",
-      "time": 1784850890
+      "time": 1784850890,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260725",
@@ -2965,7 +3254,8 @@
       "dayTs": 1784908800,
       "value": 96.15,
       "unit": "kg",
-      "time": 1784937686
+      "time": 1784937686,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260726",
@@ -2975,7 +3265,8 @@
       "dayTs": 1784995200,
       "value": 94.4,
       "unit": "kg",
-      "time": 1785026738
+      "time": 1785026738,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260727",
@@ -2985,7 +3276,8 @@
       "dayTs": 1785081600,
       "value": 93.75,
       "unit": "kg",
-      "time": 1785113146
+      "time": 1785113146,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260728",
@@ -2995,7 +3287,8 @@
       "dayTs": 1785168000,
       "value": 95.25,
       "unit": "kg",
-      "time": 1785197835
+      "time": 1785197835,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260729",
@@ -3005,7 +3298,8 @@
       "dayTs": 1785254400,
       "value": 97,
       "unit": "kg",
-      "time": 1785283233
+      "time": 1785283233,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260730",
@@ -3015,7 +3309,8 @@
       "dayTs": 1785340800,
       "value": 96.1,
       "unit": "kg",
-      "time": 1785369209
+      "time": 1785369209,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260731",
@@ -3025,7 +3320,8 @@
       "dayTs": 1785427200,
       "value": 96.65,
       "unit": "kg",
-      "time": 1785455645
+      "time": 1785455645,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260801",
@@ -3035,7 +3331,8 @@
       "dayTs": 1785513600,
       "value": 96.75,
       "unit": "kg",
-      "time": 1785548314
+      "time": 1785548314,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260802",
@@ -3045,7 +3342,8 @@
       "dayTs": 1785600000,
       "value": 96.65,
       "unit": "kg",
-      "time": 1785643543
+      "time": 1785643543,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260803",
@@ -3055,7 +3353,8 @@
       "dayTs": 1785686400,
       "value": 95.2,
       "unit": "kg",
-      "time": 1785715650
+      "time": 1785715650,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260804",
@@ -3065,7 +3364,8 @@
       "dayTs": 1785772800,
       "value": 95.05,
       "unit": "kg",
-      "time": 1785800629
+      "time": 1785800629,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260805",
@@ -3075,7 +3375,8 @@
       "dayTs": 1785859200,
       "value": 93.55,
       "unit": "kg",
-      "time": 1785888103
+      "time": 1785888103,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260806",
@@ -3085,7 +3386,8 @@
       "dayTs": 1785945600,
       "value": 93.15,
       "unit": "kg",
-      "time": 1785973757
+      "time": 1785973757,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260807",
@@ -3095,7 +3397,8 @@
       "dayTs": 1786032000,
       "value": 93.45,
       "unit": "kg",
-      "time": 1786059662
+      "time": 1786059662,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260808",
@@ -3105,7 +3408,8 @@
       "dayTs": 1786118400,
       "value": 93,
       "unit": "kg",
-      "time": 1786149531
+      "time": 1786149531,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260809",
@@ -3115,7 +3419,8 @@
       "dayTs": 1786204800,
       "value": 93,
       "unit": "kg",
-      "time": 1786241087
+      "time": 1786241087,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260810",
@@ -3125,7 +3430,8 @@
       "dayTs": 1786291200,
       "value": 94.05,
       "unit": "kg",
-      "time": 1786319833
+      "time": 1786319833,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260811",
@@ -3135,7 +3441,8 @@
       "dayTs": 1786377600,
       "value": 92.85,
       "unit": "kg",
-      "time": 1786405845
+      "time": 1786405845,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260812",
@@ -3145,7 +3452,8 @@
       "dayTs": 1786464000,
       "value": 92.8,
       "unit": "kg",
-      "time": 1786494798
+      "time": 1786494798,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260813",
@@ -3155,7 +3463,8 @@
       "dayTs": 1786550400,
       "value": 94.15,
       "unit": "kg",
-      "time": 1786580625
+      "time": 1786580625,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260814",
@@ -3165,7 +3474,8 @@
       "dayTs": 1786636800,
       "value": 93.35,
       "unit": "kg",
-      "time": 1786665157
+      "time": 1786665157,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260815",
@@ -3175,7 +3485,8 @@
       "dayTs": 1786723200,
       "value": 94.3,
       "unit": "kg",
-      "time": 1786774834
+      "time": 1786774834,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260816",
@@ -3185,7 +3496,8 @@
       "dayTs": 1786809600,
       "value": 94.7,
       "unit": "kg",
-      "time": 1786849769
+      "time": 1786849769,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260817",
@@ -3195,7 +3507,8 @@
       "dayTs": 1786896000,
       "value": 94.3,
       "unit": "kg",
-      "time": 1786943209
+      "time": 1786943209,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260818",
@@ -3205,7 +3518,8 @@
       "dayTs": 1786982400,
       "value": 93.6,
       "unit": "kg",
-      "time": 1787012568
+      "time": 1787012568,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260819",
@@ -3215,7 +3529,8 @@
       "dayTs": 1787068800,
       "value": 93.15,
       "unit": "kg",
-      "time": 1787097842
+      "time": 1787097842,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260820",
@@ -3225,7 +3540,8 @@
       "dayTs": 1787155200,
       "value": 92.35,
       "unit": "kg",
-      "time": 1787185812
+      "time": 1787185812,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260821",
@@ -3235,7 +3551,8 @@
       "dayTs": 1787241600,
       "value": 92.15,
       "unit": "kg",
-      "time": 1787270155
+      "time": 1787270155,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260822",
@@ -3245,7 +3562,8 @@
       "dayTs": 1787328000,
       "value": 90.6,
       "unit": "kg",
-      "time": 1787363556
+      "time": 1787363556,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260823",
@@ -3255,7 +3573,8 @@
       "dayTs": 1787414400,
       "value": 91.65,
       "unit": "kg",
-      "time": 1787459259
+      "time": 1787459259,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260824",
@@ -3265,7 +3584,8 @@
       "dayTs": 1787500800,
       "value": 90.95,
       "unit": "kg",
-      "time": 1787530056
+      "time": 1787530056,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260825",
@@ -3275,7 +3595,8 @@
       "dayTs": 1787587200,
       "value": 91.9,
       "unit": "kg",
-      "time": 1787616631
+      "time": 1787616631,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260826",
@@ -3285,7 +3606,8 @@
       "dayTs": 1787673600,
       "value": 91.95,
       "unit": "kg",
-      "time": 1787702179
+      "time": 1787702179,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260827",
@@ -3295,7 +3617,8 @@
       "dayTs": 1787760000,
       "value": 91.55,
       "unit": "kg",
-      "time": 1787788473
+      "time": 1787788473,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260828",
@@ -3305,7 +3628,8 @@
       "dayTs": 1787846400,
       "value": 91.55,
       "unit": "kg",
-      "time": 1787875471
+      "time": 1787875471,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260829",
@@ -3315,7 +3639,8 @@
       "dayTs": 1787932800,
       "value": 90.2,
       "unit": "kg",
-      "time": 1787970828
+      "time": 1787970828,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260830",
@@ -3325,7 +3650,8 @@
       "dayTs": 1788019200,
       "value": 89.6,
       "unit": "kg",
-      "time": 1788060303
+      "time": 1788060303,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260831",
@@ -3335,7 +3661,8 @@
       "dayTs": 1788105600,
       "value": 91.85,
       "unit": "kg",
-      "time": 1788135167
+      "time": 1788135167,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260901",
@@ -3345,7 +3672,8 @@
       "dayTs": 1788192000,
       "value": 91.5,
       "unit": "kg",
-      "time": 1788220764
+      "time": 1788220764,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260902",
@@ -3355,7 +3683,8 @@
       "dayTs": 1788278400,
       "value": 91.4,
       "unit": "kg",
-      "time": 1788308277
+      "time": 1788308277,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260903",
@@ -3365,7 +3694,8 @@
       "dayTs": 1788364800,
       "value": 90.2,
       "unit": "kg",
-      "time": 1788393648
+      "time": 1788393648,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260904",
@@ -3375,7 +3705,8 @@
       "dayTs": 1788451200,
       "value": 90.1,
       "unit": "kg",
-      "time": 1788480165
+      "time": 1788480165,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260905",
@@ -3385,7 +3716,8 @@
       "dayTs": 1788537600,
       "value": 88.9,
       "unit": "kg",
-      "time": 1788575784
+      "time": 1788575784,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260906",
@@ -3395,7 +3727,8 @@
       "dayTs": 1788624000,
       "value": 89.75,
       "unit": "kg",
-      "time": 1788667410
+      "time": 1788667410,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260907",
@@ -3405,7 +3738,8 @@
       "dayTs": 1788710400,
       "value": 90.75,
       "unit": "kg",
-      "time": 1788739012
+      "time": 1788739012,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260908",
@@ -3415,7 +3749,8 @@
       "dayTs": 1788796800,
       "value": 90.6,
       "unit": "kg",
-      "time": 1788825829
+      "time": 1788825829,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260909",
@@ -3425,7 +3760,8 @@
       "dayTs": 1788883200,
       "value": 90.3,
       "unit": "kg",
-      "time": 1788912408
+      "time": 1788912408,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260910",
@@ -3435,7 +3771,8 @@
       "dayTs": 1788969600,
       "value": 89.75,
       "unit": "kg",
-      "time": 1788998293
+      "time": 1788998293,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260911",
@@ -3445,7 +3782,8 @@
       "dayTs": 1789056000,
       "value": 90.3,
       "unit": "kg",
-      "time": 1789083949
+      "time": 1789083949,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260912",
@@ -3455,7 +3793,8 @@
       "dayTs": 1789142400,
       "value": 89,
       "unit": "kg",
-      "time": 1789175177
+      "time": 1789175177,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260913",
@@ -3465,7 +3804,8 @@
       "dayTs": 1789228800,
       "value": 89.4,
       "unit": "kg",
-      "time": 1789270331
+      "time": 1789270331,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260914",
@@ -3475,7 +3815,8 @@
       "dayTs": 1789315200,
       "value": 89.8,
       "unit": "kg",
-      "time": 1789343237
+      "time": 1789343237,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260915",
@@ -3485,7 +3826,8 @@
       "dayTs": 1789401600,
       "value": 89.3,
       "unit": "kg",
-      "time": 1789431852
+      "time": 1789431852,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260916",
@@ -3495,7 +3837,8 @@
       "dayTs": 1789488000,
       "value": 89.7,
       "unit": "kg",
-      "time": 1789516705
+      "time": 1789516705,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260917",
@@ -3505,7 +3848,8 @@
       "dayTs": 1789574400,
       "value": 89.4,
       "unit": "kg",
-      "time": 1789602919
+      "time": 1789602919,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260918",
@@ -3515,7 +3859,8 @@
       "dayTs": 1789660800,
       "value": 88.9,
       "unit": "kg",
-      "time": 1789690085
+      "time": 1789690085,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260919",
@@ -3525,7 +3870,8 @@
       "dayTs": 1789747200,
       "value": 89.15,
       "unit": "kg",
-      "time": 1789777192
+      "time": 1789777192,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260920",
@@ -3535,7 +3881,8 @@
       "dayTs": 1789833600,
       "value": 89.4,
       "unit": "kg",
-      "time": 1789863576
+      "time": 1789863576,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260921",
@@ -3545,7 +3892,8 @@
       "dayTs": 1789920000,
       "value": 88.8,
       "unit": "kg",
-      "time": 1789948358
+      "time": 1789948358,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260922",
@@ -3555,7 +3903,8 @@
       "dayTs": 1790006400,
       "value": 88.6,
       "unit": "kg",
-      "time": 1790034667
+      "time": 1790034667,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260923",
@@ -3565,7 +3914,8 @@
       "dayTs": 1790092800,
       "value": 88.15,
       "unit": "kg",
-      "time": 1790121713
+      "time": 1790121713,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260924",
@@ -3575,7 +3925,8 @@
       "dayTs": 1790179200,
       "value": 88.2,
       "unit": "kg",
-      "time": 1790207055
+      "time": 1790207055,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260925",
@@ -3585,7 +3936,8 @@
       "dayTs": 1790265600,
       "value": 87.8,
       "unit": "kg",
-      "time": 1790298173
+      "time": 1790298173,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260926",
@@ -3595,7 +3947,8 @@
       "dayTs": 1790352000,
       "value": 86.45,
       "unit": "kg",
-      "time": 1790385918
+      "time": 1790385918,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260927",
@@ -3605,7 +3958,8 @@
       "dayTs": 1790438400,
       "value": 88.25,
       "unit": "kg",
-      "time": 1790472479
+      "time": 1790472479,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260928",
@@ -3615,7 +3969,8 @@
       "dayTs": 1790524800,
       "value": 87.6,
       "unit": "kg",
-      "time": 1790553506
+      "time": 1790553506,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260929",
@@ -3625,7 +3980,8 @@
       "dayTs": 1790611200,
       "value": 87.05,
       "unit": "kg",
-      "time": 1790640258
+      "time": 1790640258,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20260930",
@@ -3635,7 +3991,8 @@
       "dayTs": 1790697600,
       "value": 87.3,
       "unit": "kg",
-      "time": 1790726819
+      "time": 1790726819,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261001",
@@ -3645,7 +4002,8 @@
       "dayTs": 1790784000,
       "value": 87.45,
       "unit": "kg",
-      "time": 1790809631
+      "time": 1790809631,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261002",
@@ -3655,7 +4013,8 @@
       "dayTs": 1790870400,
       "value": 87.2,
       "unit": "kg",
-      "time": 1790906069
+      "time": 1790906069,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261003",
@@ -3665,7 +4024,8 @@
       "dayTs": 1790956800,
       "value": 86.95,
       "unit": "kg",
-      "time": 1790993051
+      "time": 1790993051,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261004",
@@ -3675,7 +4035,8 @@
       "dayTs": 1791043200,
       "value": 87.6,
       "unit": "kg",
-      "time": 1791076985
+      "time": 1791076985,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261005",
@@ -3685,7 +4046,8 @@
       "dayTs": 1791129600,
       "value": 87.1,
       "unit": "kg",
-      "time": 1791170758
+      "time": 1791170758,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261006",
@@ -3695,7 +4057,8 @@
       "dayTs": 1791216000,
       "value": 87,
       "unit": "kg",
-      "time": 1791259113
+      "time": 1791259113,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261007",
@@ -3705,7 +4068,8 @@
       "dayTs": 1791302400,
       "value": 86.8,
       "unit": "kg",
-      "time": 1791349690
+      "time": 1791349690,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261008",
@@ -3715,7 +4079,8 @@
       "dayTs": 1791388800,
       "value": 87.05,
       "unit": "kg",
-      "time": 1791418168
+      "time": 1791418168,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261009",
@@ -3725,7 +4090,8 @@
       "dayTs": 1791475200,
       "value": 86.15,
       "unit": "kg",
-      "time": 1791503893
+      "time": 1791503893,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261010",
@@ -3735,7 +4101,8 @@
       "dayTs": 1791561600,
       "value": 85,
       "unit": "kg",
-      "time": 1791590411
+      "time": 1791590411,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261011",
@@ -3745,7 +4112,8 @@
       "dayTs": 1791648000,
       "value": 85.25,
       "unit": "kg",
-      "time": 1791673724
+      "time": 1791673724,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261012",
@@ -3755,7 +4123,8 @@
       "dayTs": 1791734400,
       "value": 84.95,
       "unit": "kg",
-      "time": 1791763643
+      "time": 1791763643,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261013",
@@ -3765,7 +4134,8 @@
       "dayTs": 1791820800,
       "value": 84.75,
       "unit": "kg",
-      "time": 1791850120
+      "time": 1791850120,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261014",
@@ -3775,7 +4145,8 @@
       "dayTs": 1791907200,
       "value": 84.5,
       "unit": "kg",
-      "time": 1791936189
+      "time": 1791936189,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261015",
@@ -3785,7 +4156,8 @@
       "dayTs": 1791993600,
       "value": 84.85,
       "unit": "kg",
-      "time": 1792020252
+      "time": 1792020252,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261016",
@@ -3795,7 +4167,8 @@
       "dayTs": 1792080000,
       "value": 84.5,
       "unit": "kg",
-      "time": 1792108902
+      "time": 1792108902,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261017",
@@ -3805,7 +4178,8 @@
       "dayTs": 1792166400,
       "value": 82.95,
       "unit": "kg",
-      "time": 1792202218
+      "time": 1792202218,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261018",
@@ -3815,7 +4189,8 @@
       "dayTs": 1792252800,
       "value": 84.3,
       "unit": "kg",
-      "time": 1792283564
+      "time": 1792283564,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261019",
@@ -3825,7 +4200,8 @@
       "dayTs": 1792339200,
       "value": 84.85,
       "unit": "kg",
-      "time": 1792368562
+      "time": 1792368562,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261020",
@@ -3835,7 +4211,8 @@
       "dayTs": 1792425600,
       "value": 84.2,
       "unit": "kg",
-      "time": 1792453757
+      "time": 1792453757,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261021",
@@ -3845,7 +4222,8 @@
       "dayTs": 1792512000,
       "value": 84.25,
       "unit": "kg",
-      "time": 1792540702
+      "time": 1792540702,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261022",
@@ -3855,7 +4233,8 @@
       "dayTs": 1792598400,
       "value": 83.8,
       "unit": "kg",
-      "time": 1792626091
+      "time": 1792626091,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261023",
@@ -3865,7 +4244,8 @@
       "dayTs": 1792684800,
       "value": 83.35,
       "unit": "kg",
-      "time": 1792713338
+      "time": 1792713338,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261024",
@@ -3875,7 +4255,8 @@
       "dayTs": 1792771200,
       "value": 82.25,
       "unit": "kg",
-      "time": 1792807093
+      "time": 1792807093,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261025",
@@ -3885,7 +4266,8 @@
       "dayTs": 1792857600,
       "value": 83.95,
       "unit": "kg",
-      "time": 1792884513
+      "time": 1792884513,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261026",
@@ -3895,7 +4277,8 @@
       "dayTs": 1792944000,
       "value": 83.65,
       "unit": "kg",
-      "time": 1792972656
+      "time": 1792972656,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261027",
@@ -3905,7 +4288,8 @@
       "dayTs": 1793030400,
       "value": 83.3,
       "unit": "kg",
-      "time": 1793058835
+      "time": 1793058835,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261028",
@@ -3915,7 +4299,8 @@
       "dayTs": 1793116800,
       "value": 82.85,
       "unit": "kg",
-      "time": 1793145403
+      "time": 1793145403,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261029",
@@ -3925,7 +4310,8 @@
       "dayTs": 1793203200,
       "value": 82.3,
       "unit": "kg",
-      "time": 1793231637
+      "time": 1793231637,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261030",
@@ -3935,7 +4321,8 @@
       "dayTs": 1793289600,
       "value": 82,
       "unit": "kg",
-      "time": 1793317423
+      "time": 1793317423,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261031",
@@ -3945,7 +4332,8 @@
       "dayTs": 1793376000,
       "value": 81.15,
       "unit": "kg",
-      "time": 1793409435
+      "time": 1793409435,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261101",
@@ -3955,7 +4343,8 @@
       "dayTs": 1793462400,
       "value": 82.25,
       "unit": "kg",
-      "time": 1793488552
+      "time": 1793488552,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261102",
@@ -3965,7 +4354,8 @@
       "dayTs": 1793548800,
       "value": 82.3,
       "unit": "kg",
-      "time": 1793577474
+      "time": 1793577474,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261103",
@@ -3975,7 +4365,8 @@
       "dayTs": 1793635200,
       "value": 81.8,
       "unit": "kg",
-      "time": 1793663395
+      "time": 1793663395,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261104",
@@ -3985,7 +4376,8 @@
       "dayTs": 1793721600,
       "value": 81.35,
       "unit": "kg",
-      "time": 1793750145
+      "time": 1793750145,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261105",
@@ -3995,7 +4387,8 @@
       "dayTs": 1793808000,
       "value": 81.4,
       "unit": "kg",
-      "time": 1793834932
+      "time": 1793834932,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261106",
@@ -4005,7 +4398,8 @@
       "dayTs": 1793894400,
       "value": 81.25,
       "unit": "kg",
-      "time": 1793922912
+      "time": 1793922912,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261107",
@@ -4015,7 +4409,8 @@
       "dayTs": 1793980800,
       "value": 80.85,
       "unit": "kg",
-      "time": 1794012841
+      "time": 1794012841,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261108",
@@ -4025,7 +4420,8 @@
       "dayTs": 1794067200,
       "value": 81.2,
       "unit": "kg",
-      "time": 1794099810
+      "time": 1794099810,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261109",
@@ -4035,7 +4431,8 @@
       "dayTs": 1794153600,
       "value": 81.7,
       "unit": "kg",
-      "time": 1794182757
+      "time": 1794182757,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261110",
@@ -4045,7 +4442,8 @@
       "dayTs": 1794240000,
       "value": 81.35,
       "unit": "kg",
-      "time": 1794267156
+      "time": 1794267156,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261111",
@@ -4055,7 +4453,8 @@
       "dayTs": 1794326400,
       "value": 80.3,
       "unit": "kg",
-      "time": 1794354436
+      "time": 1794354436,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261112",
@@ -4065,7 +4464,8 @@
       "dayTs": 1794412800,
       "value": 80.25,
       "unit": "kg",
-      "time": 1794442449
+      "time": 1794442449,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261113",
@@ -4075,7 +4475,8 @@
       "dayTs": 1794499200,
       "value": 79.85,
       "unit": "kg",
-      "time": 1794527263
+      "time": 1794527263,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261114",
@@ -4085,7 +4486,8 @@
       "dayTs": 1794585600,
       "value": 79.35,
       "unit": "kg",
-      "time": 1794620161
+      "time": 1794620161,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261115",
@@ -4095,7 +4497,8 @@
       "dayTs": 1794672000,
       "value": 80.25,
       "unit": "kg",
-      "time": 1794704103
+      "time": 1794704103,
+      "measuredTs": null
     },
     {
       "id": "weight-5600927-20261116",
@@ -4105,7 +4508,30 @@
       "dayTs": 1794758400,
       "value": 80.55,
       "unit": "kg",
-      "time": 1794787234
+      "time": 1794787234,
+      "measuredTs": null
+    },
+    {
+      "id": "weight-5600927-e32f2c47-bbbb-43d6-89f0-17ac2bd5c56a",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261117",
+      "dayTs": 1794844800,
+      "value": 79.95,
+      "unit": "kg",
+      "time": 1794872380,
+      "measuredTs": 1794872380
+    },
+    {
+      "id": "weight-5600927-ba9f01aa-24b0-4b10-8c91-70511e350612",
+      "metric": "weight",
+      "bodyType": "",
+      "dayStr": "20261118",
+      "dayTs": 1794931200,
+      "value": 79.45,
+      "unit": "kg",
+      "time": 1794958850,
+      "measuredTs": 1794958850
     }
   ]
 }
