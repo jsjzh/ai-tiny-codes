@@ -7187,7 +7187,12 @@
         "coreSets": 4
       },
       "tpl_training_content": "爬楼机 / 背 肩后束 二",
-      "tpl_j2eudg": 78.95
+      "tpl_j2eudg": 78.95,
+      "tpl_e54um2": {
+        "carbs": 211.78,
+        "protein": 155.03,
+        "fat": 61.03
+      }
     },
     "2026-11-23": {
       "tpl_training": {
@@ -7211,7 +7216,47 @@
         "coreSets": 5
       },
       "tpl_training_content": "胸 三头 肩中束 一",
-      "tpl_j2eudg": 79.95
+      "tpl_j2eudg": 79.95,
+      "tpl_e54um2": {
+        "carbs": 194.78,
+        "protein": 170.53,
+        "fat": 48.23
+      }
+    },
+    "2026-11-24": {
+      "tpl_e54um2": {
+        "carbs": 194.78,
+        "protein": 170.53,
+        "fat": 48.23
+      }
+    },
+    "2026-11-25": {
+      "tpl_e54um2": {
+        "carbs": 194.78,
+        "protein": 170.53,
+        "fat": 48.23
+      }
+    },
+    "2026-11-26": {
+      "tpl_e54um2": {
+        "carbs": 194.78,
+        "protein": 170.53,
+        "fat": 48.23
+      }
+    },
+    "2026-11-27": {
+      "tpl_e54um2": {
+        "carbs": 194.78,
+        "protein": 170.53,
+        "fat": 48.23
+      }
+    },
+    "2026-11-22": {
+      "tpl_e54um2": {
+        "carbs": 189.4,
+        "protein": 163,
+        "fat": 66.36
+      }
     }
   },
   "chartTemplates": []
