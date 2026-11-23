@@ -7188,6 +7188,30 @@
       },
       "tpl_training_content": "爬楼机 / 背 肩后束 二",
       "tpl_j2eudg": 78.95
+    },
+    "2026-11-23": {
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 43.5,
+        "calories": 330,
+        "volume": 4215,
+        "sets": 19,
+        "reps": 221,
+        "distance": 0,
+        "chestVolume": 2325,
+        "backVolume": 0,
+        "legsVolume": 0,
+        "shoulderVolume": 480,
+        "armsVolume": 1410,
+        "chestSets": 8,
+        "backSets": 0,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 3,
+        "coreSets": 5
+      },
+      "tpl_training_content": "胸 三头 肩中束 一",
+      "tpl_j2eudg": 79.95
     }
   },
   "chartTemplates": []
