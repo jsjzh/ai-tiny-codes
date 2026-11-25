@@ -7257,7 +7257,29 @@
         "carbs": 194.78,
         "protein": 170.53,
         "fat": 48.23
-      }
+      },
+      "tpl_training": {
+        "sessions": 1,
+        "minutes": 62.5,
+        "calories": 527,
+        "volume": 16580,
+        "sets": 21,
+        "reps": 304,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 0,
+        "legsVolume": 16580,
+        "shoulderVolume": 0,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 0,
+        "legsSets": 17,
+        "shoulderSets": 0,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "腿臀 一",
+      "tpl_j2eudg": 78.65
     },
     "2026-11-26": {
       "tpl_e54um2": {
