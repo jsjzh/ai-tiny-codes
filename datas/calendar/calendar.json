@@ -7324,6 +7324,30 @@
         "protein": 163,
         "fat": 66.36
       }
+    },
+    "2026-11-28": {
+      "tpl_training": {
+        "sessions": 2,
+        "minutes": 72.4,
+        "calories": 699,
+        "volume": 9087,
+        "sets": 22,
+        "reps": 2247,
+        "distance": 0,
+        "chestVolume": 0,
+        "backVolume": 6287,
+        "legsVolume": 0,
+        "shoulderVolume": 2800,
+        "armsVolume": 0,
+        "chestSets": 0,
+        "backSets": 13,
+        "legsSets": 0,
+        "shoulderSets": 3,
+        "armsSets": 0,
+        "coreSets": 4
+      },
+      "tpl_training_content": "爬楼机 / 背 肩后束 二",
+      "tpl_j2eudg": 77.4
     }
   },
   "chartTemplates": []

@@ -1,10 +1,10 @@
 {
   "kind": "training",
   "source": "keepstrong",
-  "syncedAt": "2026-11-27T13:25:30.711Z",
+  "syncedAt": "2026-11-28T04:04:11.556Z",
   "range": {
     "from": "20231030",
-    "to": "20261127"
+    "to": "20261128"
   },
   "records": [
     {
@@ -65210,6 +65210,566 @@
                 }
               },
               "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 10,
+          "weightTag": {},
+          "name": "悬吊抬腿",
+          "actionId": "act_0059b4404f500d1c3b54c7e5",
+          "combActions": []
+        }
+      ]
+    },
+    {
+      "id": "template:shtNY89r5z",
+      "recordType": "strength",
+      "source": "lianlian",
+      "status": "completed",
+      "createdBy": null,
+      "trainingType": "template",
+      "dayStr": "20261128",
+      "name": "爬楼机",
+      "durationSeconds": 1638,
+      "capacity": 0,
+      "calorie": 310,
+      "avgHeartRate": 165,
+      "statsCount": 2000,
+      "statsDistance": 0,
+      "statsCostSeconds": 1500,
+      "planId": "",
+      "runningPlanId": "template:1EQyQs",
+      "templateId": "z16mq6",
+      "watchName": "Apple Watch S11",
+      "actions": [
+        {
+          "groups": [
+            {
+              "_id": "R5Upw8Fr",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795830467,
+              "hr": {
+                "rst": {
+                  "mx": 180,
+                  "mi": 179
+                },
+                "urst": {
+                  "st": 1795828867,
+                  "mx": 180,
+                  "mi": 105,
+                  "lts": 1795828874,
+                  "hts": 1795830459
+                }
+              },
+              "realRestSeconds": 19,
+              "time": "25:00",
+              "reps": "",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 60,
+          "weightTag": {},
+          "name": "爬楼机（时间）",
+          "actionId": "act_37eea6813ccfd9b48a9db81b",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "agkLOUv2",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795830488,
+              "hr": {
+                "urst": {
+                  "st": 1795830486
+                }
+              },
+              "reps": "2000",
+              "combGroups": []
+            }
+          ],
+          "restSeconds": 60,
+          "weightTag": {},
+          "name": "爬楼机（步数）",
+          "actionId": "act_10cbacf6a6d13bc7957fa5b7",
+          "combActions": []
+        }
+      ]
+    },
+    {
+      "id": "y5MsQjAhH5",
+      "recordType": "strength",
+      "source": "lianlian",
+      "status": "completed",
+      "createdBy": null,
+      "trainingType": "normal",
+      "dayStr": "20261128",
+      "name": "背 肩后束 二",
+      "durationSeconds": 2707,
+      "capacity": 9087,
+      "calorie": 389,
+      "avgHeartRate": 140,
+      "statsCount": 54,
+      "statsDistance": 0,
+      "statsCostSeconds": 0,
+      "planId": "MAcztC",
+      "runningPlanId": "9EbWw3",
+      "templateId": "Y3rmxm",
+      "watchName": "Apple Watch S11",
+      "actions": [
+        {
+          "groups": [
+            {
+              "_id": "RxaEwfAy",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795825891,
+              "hr": {
+                "rst": {
+                  "mx": 140,
+                  "mi": 120
+                },
+                "urst": {
+                  "st": 1795825742,
+                  "mx": 115,
+                  "mi": 88,
+                  "lts": 1795825764,
+                  "hts": 1795825828
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "10",
+              "combGroups": []
+            },
+            {
+              "_id": "3QV5um9J",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795826017,
+              "hr": {
+                "rst": {
+                  "mx": 162,
+                  "mi": 131
+                },
+                "urst": {
+                  "st": 1795825951,
+                  "mx": 149,
+                  "mi": 110,
+                  "lts": 1795825984,
+                  "hts": 1795826010,
+                  "tst": 1795825984
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "10",
+              "combGroups": []
+            },
+            {
+              "_id": "weMcO6sM",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795826142,
+              "hr": {
+                "rst": {
+                  "mx": 163,
+                  "mi": 127
+                },
+                "urst": {
+                  "st": 1795826077,
+                  "mx": 156,
+                  "mi": 118,
+                  "lts": 1795826104,
+                  "hts": 1795826138,
+                  "tst": 1795826104
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "8",
+              "combGroups": []
+            },
+            {
+              "_id": "vo7fLG1Y",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795826281,
+              "hr": {
+                "rst": {
+                  "mx": 160,
+                  "mi": 131
+                },
+                "urst": {
+                  "st": 1795826202,
+                  "mx": 164,
+                  "mi": 118,
+                  "lts": 1795826239,
+                  "hts": 1795826278
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "6",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 60,
+          "weightTag": {
+            "tag": "weight"
+          },
+          "capacity": 2667.3,
+          "name": "自重引体向上",
+          "actionId": "act_8a79703fe2b188cb4e7a1dcd",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "STkmGnM9",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795826409,
+              "hr": {
+                "rst": {
+                  "mx": 163,
+                  "mi": 130
+                },
+                "urst": {
+                  "st": 1795826341,
+                  "mx": 163,
+                  "mi": 125,
+                  "lts": 1795826364,
+                  "hts": 1795826403,
+                  "tst": 1795826364
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "3zbI82C9",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795826632,
+              "hr": {
+                "rst": {
+                  "mx": 165,
+                  "mi": 139
+                },
+                "urst": {
+                  "st": 1795826469,
+                  "mx": 162,
+                  "mi": 130,
+                  "lts": 1795826479,
+                  "hts": 1795826523
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "13",
+              "combGroups": []
+            },
+            {
+              "_id": "UHVjDA7u",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795826766,
+              "hr": {
+                "rst": {
+                  "mx": 165,
+                  "mi": 134
+                },
+                "urst": {
+                  "st": 1795826692,
+                  "mx": 161,
+                  "mi": 127,
+                  "lts": 1795826710,
+                  "hts": 1795826763
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "11",
+              "combGroups": []
+            },
+            {
+              "_id": "nW3FYaVg",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795826944,
+              "hr": {
+                "rst": {
+                  "mx": 165,
+                  "mi": 128
+                },
+                "urst": {
+                  "st": 1795826826,
+                  "mx": 163,
+                  "mi": 137,
+                  "lts": 1795826899,
+                  "hts": 1795826838,
+                  "tst": 1795826899
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "10",
+              "combGroups": []
+            },
+            {
+              "_id": "et8VGVQz",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795827227,
+              "hr": {
+                "rst": {
+                  "mx": 166,
+                  "mi": 138
+                },
+                "urst": {
+                  "st": 1795827004,
+                  "mx": 165,
+                  "mi": 119,
+                  "lts": 1795827179,
+                  "hts": 1795827220
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 60,
+          "weightTag": {},
+          "capacity": 2900,
+          "name": "宽距高位下拉",
+          "actionId": "act_732d23d7be25a7913095a5b8",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "uCx2HtRb",
+              "weight": "20",
+              "isDone": true,
+              "doneTs": 1795827407,
+              "hr": {
+                "rst": {
+                  "mx": 143,
+                  "mi": 126
+                },
+                "urst": {
+                  "st": 1795827287,
+                  "mx": 161,
+                  "mi": 130,
+                  "lts": 1795827331,
+                  "hts": 1795827395
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "9",
+              "combGroups": []
+            },
+            {
+              "_id": "CiFam6K9",
+              "weight": "15",
+              "isDone": true,
+              "doneTs": 1795827611,
+              "hr": {
+                "rst": {
+                  "mx": 133,
+                  "mi": 127
+                },
+                "urst": {
+                  "st": 1795827609
+                }
+              },
+              "realRestSeconds": 27,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "H5wvcgdk",
+              "weight": "15",
+              "isDone": true,
+              "doneTs": 1795827738,
+              "hr": {
+                "rst": {
+                  "mx": 162,
+                  "mi": 139
+                },
+                "urst": {
+                  "st": 1795827638,
+                  "mx": 161,
+                  "mi": 125,
+                  "lts": 1795827679,
+                  "hts": 1795827737,
+                  "tst": 1795827679
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "9njxk5Q1",
+              "weight": "15",
+              "isDone": true,
+              "doneTs": 1795827890,
+              "hr": {
+                "rst": {
+                  "mx": 170,
+                  "mi": 156
+                },
+                "urst": {
+                  "st": 1795827798,
+                  "mx": 160,
+                  "mi": 126,
+                  "lts": 1795827818,
+                  "hts": 1795827884,
+                  "tst": 1795827818
+                }
+              },
+              "realRestSeconds": 60,
+              "reps": "12",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 60,
+          "weightTag": {},
+          "capacity": 720,
+          "name": "绳动单臂划船",
+          "actionId": "act_32f1f018cf6ee5fdb7e63338",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "MBWXfxPU",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795828053,
+              "hr": {
+                "rst": {
+                  "mx": 149,
+                  "mi": 149
+                },
+                "urst": {
+                  "st": 1795827950,
+                  "mx": 163,
+                  "mi": 134,
+                  "lts": 1795828008,
+                  "hts": 1795827951
+                }
+              },
+              "realRestSeconds": 7,
+              "reps": "20",
+              "combGroups": []
+            },
+            {
+              "_id": "rPIFuhYn",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795828193,
+              "hr": {
+                "rst": {
+                  "mx": 151,
+                  "mi": 137
+                },
+                "urst": {
+                  "st": 1795828070,
+                  "mx": 154,
+                  "mi": 125,
+                  "lts": 1795828126,
+                  "hts": 1795828189
+                }
+              },
+              "realRestSeconds": 40,
+              "reps": "20",
+              "combGroups": []
+            },
+            {
+              "_id": "kGA8ngKh",
+              "weight": "50",
+              "isDone": true,
+              "doneTs": 1795828376,
+              "hr": {
+                "urst": {
+                  "st": 1795828233,
+                  "mx": 154,
+                  "mi": 129,
+                  "lts": 1795828328,
+                  "hts": 1795828371
+                }
+              },
+              "reps": "16",
+              "combGroups": []
+            }
+          ],
+          "weightUnit": "kg",
+          "restSeconds": 40,
+          "weightTag": {},
+          "capacity": 2800,
+          "name": "蝴蝶机反向飞鸟",
+          "actionId": "act_eb39a59a234ce43d31fd36a1",
+          "combActions": []
+        },
+        {
+          "groups": [
+            {
+              "_id": "oF2UpKKn",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795827599,
+              "hr": {
+                "rst": {
+                  "mx": 141,
+                  "mi": 139
+                },
+                "urst": {
+                  "st": 1795827467,
+                  "mx": 160,
+                  "mi": 122,
+                  "lts": 1795827475,
+                  "hts": 1795827558
+                }
+              },
+              "realRestSeconds": 10,
+              "reps": "15",
+              "combGroups": []
+            },
+            {
+              "_id": "AJ9rORS6",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795827600,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "4WM6B1wq",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795827605,
+              "reps": "12",
+              "combGroups": []
+            },
+            {
+              "_id": "s2pcc0qF",
+              "weight": "",
+              "isDone": true,
+              "doneTs": 1795828069,
+              "hr": {
+                "urst": {
+                  "st": 1795828060,
+                  "mx": 147,
+                  "mi": 145,
+                  "lts": 1795828066,
+                  "hts": 1795828062
+                }
+              },
+              "realRestSeconds": 1,
+              "reps": "15",
               "combGroups": []
             }
           ],
